@@ -1,13 +1,13 @@
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, SwitchNavigator } from 'react-navigation'
 import LaunchScreen from 'Containers/LaunchScreen'
 import AuthenticatedScreens from './AuthenticatedNavigation'
+import AuthLoadingScreen from './AuthLoadingScreen'
 
 import styles from './Styles/NavigationStyles'
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
-  LaunchScreen: { screen: LaunchScreen },
-  AuthenticatedScreen: { screen: AuthenticatedScreens }
+  LaunchScreen: { screen: LaunchScreen }
 }, {
   // Default config for all screens
   headerMode: 'none',
@@ -17,4 +17,15 @@ const PrimaryNav = StackNavigator({
   }
 })
 
-export default PrimaryNav
+const SwitchNav = SwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AuthenticatedScreens,
+    Auth: PrimaryNav
+  },
+  {
+    initialRouteName: 'AuthLoading'
+  }
+)
+
+export default SwitchNav

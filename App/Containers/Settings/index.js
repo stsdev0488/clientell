@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { ScrollView, Text } from 'react-native'
+import { Text, View, AsyncStorage } from 'react-native'
 import { connect } from 'react-redux'
-import { Icon } from 'native-base'
+import { Content, Icon, Button } from 'native-base'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from 'Redux/YourRedux'
 
@@ -19,16 +19,28 @@ class Settings extends Component {
       />
     )
   }
+
   // constructor (props) {
   //   super(props)
   //   this.state = {}
   // }
 
+  _signOut = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  }
+
   render () {
     return (
-      <ScrollView style={styles.container}>
-        <Text>Settings Container</Text>
-      </ScrollView>
+      <Content style={styles.container}>
+        <Text style={{textAlign: 'center', fontSize: 25}}>Settings Container</Text>
+
+        <View style={{margin: 20}}>
+          <Button primary block bordered onPress={this._signOut}>
+            <Text>Logout</Text>
+          </Button>
+        </View>
+      </Content>
     )
   }
 }

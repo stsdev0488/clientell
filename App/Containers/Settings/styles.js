@@ -4,7 +4,7 @@ import { Colors, Metrics } from 'Themes/'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Metrics.navBarHeight,
+    paddingTop: 40,
     backgroundColor: Colors.background
   }
 })
