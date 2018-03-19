@@ -7,24 +7,35 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background
   },
+  header: {
+    height: 125
+  },
+  searchbar: {
+    borderRadius: 20,
+    height: 40,
+    marginTop: 15
+  },
   row: {
     flex: 1,
-    backgroundColor: Colors.fire,
-    marginVertical: Metrics.smallMargin,
+    // backgroundColor: Colors.fire,
+    // marginVertical: Metrics.smallMargin,
     justifyContent: 'center'
   },
   boldLabel: {
     fontWeight: 'bold',
     alignSelf: 'center',
-    color: Colors.snow,
     textAlign: 'center',
     marginBottom: Metrics.smallMargin
   },
   label: {
     textAlign: 'center',
-    color: Colors.snow
   },
   listContent: {
-    marginTop: Metrics.baseMargin
+    // marginTop: Metrics.baseMargin
+  },
+  listHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 })

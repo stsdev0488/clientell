@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import {Container, Header, Body, Title, Subtitle, Item, Input, ListItem, Text as NBText} from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
-
-// More info here: https://facebook.github.io/react-native/docs/flatlist.html
+import StarRating from 'react-native-star-rating'
 
 // Styles
 import styles from './styles'
@@ -26,14 +26,14 @@ class Clients extends React.PureComponent {
   *************************************************************/
   state = {
     dataObjects: [
-      {title: 'First Title', description: 'First Description'},
-      {title: 'Second Title', description: 'Second Description'},
-      {title: 'Third Title', description: 'Third Description'},
-      {title: 'Fourth Title', description: 'Fourth Description'},
-      {title: 'Fifth Title', description: 'Fifth Description'},
-      {title: 'Sixth Title', description: 'Sixth Description'},
-      {title: 'Seventh Title', description: 'Seventh Description'}
-    ]
+      {
+        name: 'John Doe',
+        address: '134 Toad Ave, Tampa, FL',
+        phone: '727-421-2555',
+        rating: 4
+      },
+    ],
+    searchKey: ''
   }
 
   /* ***********************************************************
@@ -46,10 +46,23 @@ class Clients extends React.PureComponent {
   *************************************************************/
   renderRow ({item}) {
     return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{item.title}</Text>
-        <Text style={styles.label}>{item.description}</Text>
-      </View>
+      <ListItem>
+        <Body>
+          <View style={styles.listHeader}>
+            <NBText style={styles.title}>{item.name}</NBText>
+            <StarRating
+              disabled
+              starSize={20}
+              maxStars={5}
+              rating={item.rating}
+              fullStarColor='#FFD700'
+              emptyStarColor='#D6D6D6'
+            />
+          </View>
+          <NBText note>{item.phone}</NBText>
+          <NBText note>{item.address}</NBText>
+        </Body>
+      </ListItem>
     )
   }
 
@@ -59,8 +72,9 @@ class Clients extends React.PureComponent {
   * to your liking!  Each with some friendly advice.
   *************************************************************/
   // Render a header?
-  renderHeader = () =>
-    <Text style={[styles.label, styles.sectionHeader]}> - Header - </Text>
+  renderHeader = () => {
+    return null
+  }
 
   // Render a footer?
   renderFooter = () =>
@@ -68,7 +82,7 @@ class Clients extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () =>
-    <Text style={styles.label}> - Nothing to See Here - </Text>
+    <NBText style={[styles.label, {marginTop: 20}]}>No clients added.</NBText>
 
   renderSeparator = () =>
     <Text style={styles.label}> - ~~~~~ - </Text>
@@ -95,19 +109,46 @@ class Clients extends React.PureComponent {
   //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
   // )}
 
+  handleSearchInput (searchKey) {
+    this.setState({searchKey})
+  }
+
+  renderCustomHeader () {
+    return (
+      <Header
+        hasSubtitle
+        searchBar
+        style={styles.header}
+      >
+        <Body>
+          <Title>Client List</Title>
+          <Subtitle>47 clients</Subtitle>
+          <Item style={styles.searchbar} regular>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" value={this.state.searchKey} onChangeText={this.handleSearchInput.bind(this)} />
+            {
+              this.state.searchKey !== '' &&
+              <TouchableOpacity onPress={() => this.setState({searchKey: ''})}>
+                <Icon name="md-close-circle" />
+              </TouchableOpacity>
+            }
+          </Item>
+        </Body>
+      </Header>
+    )
+  }
+
   render () {
     return (
       <View style={styles.container}>
+        {this.renderCustomHeader()}
         <FlatList
           contentContainerStyle={styles.listContent}
           data={this.state.dataObjects}
           renderItem={this.renderRow}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderEmpty}
-          ItemSeparatorComponent={this.renderSeparator}
         />
       </View>
     )
