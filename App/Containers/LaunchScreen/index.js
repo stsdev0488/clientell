@@ -23,7 +23,7 @@ export default class LaunchScreen extends Component {
               <Input placeholder="Password" secureTextEntry />
             </Item>
 
-            <Button block bordered success style={styles.loginButton}>
+            <Button block bordered success style={styles.loginButton} onPress={() => this.props.navigation.navigate('AuthenticatedScreen')}>
               <Text>Sign in</Text>
             </Button>
 
