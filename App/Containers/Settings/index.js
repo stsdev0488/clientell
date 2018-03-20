@@ -33,7 +33,7 @@ class Settings extends Component {
   render () {
     return (
       <Content style={styles.container}>
-        <Text style={{textAlign: 'center', fontSize: 25}}>Settings Container</Text>
+        <Text style={styles.titleText}>Settings</Text>
 
         <View style={{margin: 20}}>
           <Button primary block bordered onPress={this._signOut}>
