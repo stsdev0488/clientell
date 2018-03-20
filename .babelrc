@@ -16,7 +16,8 @@
           "Lib": "./App/Lib",
           "Images": "./App/Images",
           "Config": "./App/Config",
-          "Navigation": "./App/Navigation"
+          "Navigation": "./App/Navigation",
+          "Modals": "./App/Modals"
         },
         "extensions": [".js", ".ios.js", ".android.js"]
       }

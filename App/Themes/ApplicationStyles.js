@@ -36,7 +36,6 @@ const ApplicationStyles = {
     sectionText: {
       ...Fonts.style.normal,
       color: Colors.text,
-      marginVertical: Metrics.smallMargin,
       textAlign: 'center'
     },
     subtitle: {
@@ -54,6 +53,11 @@ const ApplicationStyles = {
       ...Fonts.style.h4,
       color: Colors.text,
       textAlign: 'center'
+    },
+    modalBack: {
+      position: 'absolute',
+      top: 30,
+      left: 20
     }
   },
   darkLabelContainer: {

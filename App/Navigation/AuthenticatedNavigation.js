@@ -9,6 +9,13 @@ import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
 
 /**
+ * Modals
+ */
+import {
+  UserProfileModal
+} from 'Modals/'
+
+/**
  * Search sub-screens
  */
 import SearchByPhone from 'Containers/Search/Screens/phoneSearch'
@@ -26,7 +33,7 @@ const SearchStack = StackNavigator({
   initialRouteName: 'Search'
 });
 
-export default TabNavigator({
+const TabNav = TabNavigator({
   Clients: { screen: Clients },
   AddClient: { screen: AddClient },
   Search: { screen: SearchStack },
@@ -34,3 +41,21 @@ export default TabNavigator({
 }, {
   animationEnabled: true
 });
+
+export default StackNavigator(
+  {
+    Main: {
+      screen: TabNav
+    },
+    ProfileModal: {
+      screen: UserProfileModal
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+    navigationOptions: {
+      gesturesEnabled: false
+    }
+  }
+);
