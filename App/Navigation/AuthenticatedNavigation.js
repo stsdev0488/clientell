@@ -9,6 +9,17 @@ import Clients from 'Containers/Clients'
 import AddClient from 'Containers/AddClient'
 import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
+import ClientProfile from 'Containers/ClientProfile'
+
+const ClientStack = StackNavigator(
+  {
+    Clients: { screen: Clients },
+    ClientProfile: { screen: ClientProfile },
+  },
+  {
+    headerMode: 'none',
+  }
+);
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -71,7 +82,7 @@ const SettingsStack = StackNavigator({
  * ---------------------------------------------------------------------------------------
  */
 const TabNav = TabNavigator({
-  Clients: { screen: Clients },
+  Clients: { screen: ClientStack },
   AddClient: { screen: AddClient },
   Search: { screen: SearchStack },
   Settings: { screen: SettingsStack }

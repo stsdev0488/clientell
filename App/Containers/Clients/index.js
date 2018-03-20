@@ -47,21 +47,23 @@ class Clients extends React.PureComponent {
   renderRow ({item}) {
     return (
       <ListItem>
-        <Body>
-          <View style={styles.listHeader}>
-            <NBText style={styles.title}>{item.name}</NBText>
-            <StarRating
-              disabled
-              starSize={20}
-              maxStars={5}
-              rating={item.rating}
-              fullStarColor='#FFD700'
-              emptyStarColor='#D6D6D6'
-            />
-          </View>
-          <NBText note>{item.phone}</NBText>
-          <NBText note>{item.address}</NBText>
-        </Body>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile')}>
+          <Body>
+            <View style={styles.listHeader}>
+              <NBText style={styles.title}>{item.name}</NBText>
+              <StarRating
+                disabled
+                starSize={20}
+                maxStars={5}
+                rating={item.rating}
+                fullStarColor='#FFD700'
+                emptyStarColor='#D6D6D6'
+              />
+            </View>
+            <NBText note>{item.phone}</NBText>
+            <NBText note>{item.address}</NBText>
+          </Body>
+        </TouchableOpacity>
       </ListItem>
     )
   }
@@ -145,7 +147,7 @@ class Clients extends React.PureComponent {
         <FlatList
           contentContainerStyle={styles.listContent}
           data={this.state.dataObjects}
-          renderItem={this.renderRow}
+          renderItem={this.renderRow.bind(this)}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
           ListEmptyComponent={this.renderEmpty}
