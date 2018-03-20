@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { TouchableOpacity, View } from 'react-native'
 import {Button, Text as NBText, Icon} from 'native-base'
 import styles from './styles'
 import StarRating from 'react-native-star-rating'
 import moment from 'moment'
+import { NavigationActions } from 'react-navigation'
 
-export default class Feedback extends Component {
+class Feedback extends Component {
   static propTypes = {
     data: PropTypes.object
   }
@@ -42,7 +44,7 @@ export default class Feedback extends Component {
       )
     } else {
       return (
-        <Button transparent small style={styles.authorBtn}>
+        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ProfileModal')}>
           <Icon name='ios-eye' style={styles.authorBtnIcon} />
         </Button>
       )
@@ -90,3 +92,11 @@ export default class Feedback extends Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    navigate: (route) => dispatch(NavigationActions.navigate({ routeName: route }))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Feedback)
