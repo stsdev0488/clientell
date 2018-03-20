@@ -40,7 +40,7 @@ class Search extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button primary block bordered onPress={() => {}}>
+          <Button primary block bordered onPress={() => this.props.navigation.navigate('SearchResults')}>
             <Text>Search</Text>
           </Button>
         </View>

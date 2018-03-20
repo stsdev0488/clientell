@@ -29,6 +29,7 @@ const ClientStack = StackNavigator(
 import SearchByPhone from 'Containers/Search/Screens/phoneSearch'
 import SearchByEmail from 'Containers/Search/Screens/emailSearch'
 import SearchByNameAddress from 'Containers/Search/Screens/nameAddressSearch'
+import SearchResults from 'Containers/Search/Screens/searchResults'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -55,7 +56,8 @@ const SearchStack = StackNavigator({
   Search: { screen: Search },
   PhoneSearch: { screen: SearchByPhone },
   EmailSearch: { screen: SearchByEmail },
-  NameAddressSearch: { screen: SearchByNameAddress }
+  NameAddressSearch: { screen: SearchByNameAddress },
+  SearchResults: { screen: SearchResults }
 }, {
   // Default config for all screens
   headerMode: 'none',

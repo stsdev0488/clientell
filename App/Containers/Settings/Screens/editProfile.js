@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Input, Text } from 'native-base'
+import PhoneInput from 'react-native-phone-input'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from 'Redux/YourRedux'
 
@@ -74,7 +75,7 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Main phone number</Text>
           <Item regular>
-            <Input placeholder='' />
+            <PhoneInput ref='phone' style={{paddingHorizontal: 8}} textStyle={{height: 50}} />
           </Item>
         </View>
 
