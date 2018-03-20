@@ -1,7 +1,9 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
 /**
- * Screens
+ * ---------------------------------------------------------------------------------------
+ * TAB SCREENS
+ * ---------------------------------------------------------------------------------------
  */
 import Clients from 'Containers/Clients'
 import AddClient from 'Containers/AddClient'
@@ -9,19 +11,35 @@ import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
 
 /**
- * Modals
+ * ---------------------------------------------------------------------------------------
+ * SEARCH SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+import SearchByPhone from 'Containers/Search/Screens/phoneSearch'
+import SearchByEmail from 'Containers/Search/Screens/emailSearch'
+import SearchByNameAddress from 'Containers/Search/Screens/nameAddressSearch'
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * SETTINGS SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+import EditProfile from 'Containers/Settings/Screens/editProfile'
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * MODALS
+ * ---------------------------------------------------------------------------------------
  */
 import {
   UserProfileModal
 } from 'Modals/'
 
 /**
- * Search sub-screens
+ * ---------------------------------------------------------------------------------------
+ * SEARCH STACK NAVIGATOR
+ * ---------------------------------------------------------------------------------------
  */
-import SearchByPhone from 'Containers/Search/Screens/phoneSearch'
-import SearchByEmail from 'Containers/Search/Screens/emailSearch'
-import SearchByNameAddress from 'Containers/Search/Screens/nameAddressSearch'
-
 const SearchStack = StackNavigator({
   Search: { screen: Search },
   PhoneSearch: { screen: SearchByPhone },
@@ -33,15 +51,39 @@ const SearchStack = StackNavigator({
   initialRouteName: 'Search'
 });
 
+/**
+ * ---------------------------------------------------------------------------------------
+ * SETTINGS STACK NAVIGATOR
+ * ---------------------------------------------------------------------------------------
+ */
+const SettingsStack = StackNavigator({
+  Settings: { screen: Settings },
+  EditProfile: { screen: EditProfile }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  initialRouteName: 'Settings'
+});
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * MAIN TAB NAVIGATOR
+ * ---------------------------------------------------------------------------------------
+ */
 const TabNav = TabNavigator({
   Clients: { screen: Clients },
   AddClient: { screen: AddClient },
   Search: { screen: SearchStack },
-  Settings: { screen: Settings }
+  Settings: { screen: SettingsStack }
 }, {
   animationEnabled: true
 });
 
+/**
+ * ---------------------------------------------------------------------------------------
+ * ROOT NAVIGATOR FOR TAB AND MODALS
+ * ---------------------------------------------------------------------------------------
+ */
 export default StackNavigator(
   {
     Main: {
