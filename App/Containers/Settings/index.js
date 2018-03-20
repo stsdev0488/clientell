@@ -119,6 +119,12 @@ class Settings extends Component {
             <Icon name='ios-power' style={{fontSize: 40}} />
           </TouchableOpacity>
         </View>
+
+        <View style={styles.editButton}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('EditProfile')}>
+            <Icon name='md-create' style={styles.editIcon} />
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }

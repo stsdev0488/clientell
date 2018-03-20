@@ -33,5 +33,23 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 30,
     right: 20
+  },
+
+  editButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 20,
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+    backgroundColor: Colors.banner,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 6
+  },
+
+  editIcon: {
+    fontSize: 30,
+    color: Colors.snow
   }
 })

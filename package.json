@@ -31,6 +31,7 @@
     "react": "16.2.0",
     "react-native": "0.52.2",
     "react-native-config": "^0.10.0",
+    "react-native-phone-input": "^0.2.1",
     "react-native-star-rating": "^1.0.9",
     "react-navigation": "^1.0.0-beta.29",
     "react-navigation-redux-helpers": "^1.0.0",
