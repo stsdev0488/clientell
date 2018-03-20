@@ -32,7 +32,7 @@ export default class LaunchScreen extends Component {
               <Text>Sign in</Text>
             </Button>
 
-            <Button block bordered primary style={styles.loginButton}>
+            <Button block bordered primary style={styles.loginButton} onPress={() => this.props.navigation.navigate('SignUpScreen')}>
               <Text>Sign up</Text>
             </Button>
           </Form>
