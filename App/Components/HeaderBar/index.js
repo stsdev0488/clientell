@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity, Text, View } from 'react-native'
 import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon} from 'native-base'
 import styles from './styles'
 
 export default class FullButton extends Component {
   static propTypes = {
     title: PropTypes.string,
+    topTitle: PropTypes.string,
     subTitle: PropTypes.string,
     leftBtnPress: PropTypes.func,
     leftBtnIcon: PropTypes.string,
@@ -18,11 +19,16 @@ export default class FullButton extends Component {
   }
 
   render () {
-    const {containerStyles, title, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
+    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
+
+    let height = 80
+    if (topTitle) height += 20
+    if (subTitle) height += 20
+
     return (
-      <Header style={[styles.headerContainer, containerStyles, scrolledStyles]}>
-        <Left>
+      <Header style={[styles.headerContainer, containerStyles, scrolledStyles, {height}]}>
+        <Left style={styles.headerBtn}>
           {
             leftBtnPress &&
             <Button
@@ -32,11 +38,16 @@ export default class FullButton extends Component {
               <Icon name={leftBtnIcon ? leftBtnIcon : 'ios-help-circle'} />
             </Button>
           }
+          {
+            !leftBtnPress && <View style={styles.btnFiller} />
+          }
         </Left>
         <Body>
-          <Title style={[styles.title, titleStyles]}>{title}</Title>
+          {topTitle && <NBText style={styles.secondaryTitle}>{topTitle}</NBText>}
+          <Title style={[styles.titleText, styles.title, titleStyles]}>{title}</Title>
+          {subTitle && <NBText style={styles.secondaryTitle}>{subTitle}</NBText>}
         </Body>
-        <Right>
+        <Right style={styles.headerBtn}>
           {
             rightBtnPress &&
             <Button
@@ -45,6 +56,9 @@ export default class FullButton extends Component {
             >
               <Icon name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'} />
             </Button>
+          }
+          {
+            !rightBtnPress && <View style={styles.btnFiller} />
           }
         </Right>
       </Header>
