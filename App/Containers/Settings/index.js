@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button } from 'native-base'
+import { Content, Icon, Button, Fab } from 'native-base'
 import StarRating from 'react-native-star-rating'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from 'Redux/YourRedux'
@@ -20,6 +20,10 @@ class Settings extends Component {
         style={{color: tintColor}}
       />
     )
+  }
+
+  state = {
+    menuActive: false
   }
 
   // constructor (props) {
@@ -114,17 +118,24 @@ class Settings extends Component {
           </View>
         </Content>
 
-        <View style={styles.signOut}>
-          <TouchableOpacity onPress={() => this._signOut()}>
-            <Icon name='ios-power' style={{fontSize: 40}} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.editButton}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('EditProfile')}>
-            <Icon name='md-create' style={styles.editIcon} />
-          </TouchableOpacity>
-        </View>
+        <Fab
+          active={this.state.menuActive}
+          direction="down"
+          containerStyle={{ }}
+          style={{ backgroundColor: '#5067FF' }}
+          position="topRight"
+          onPress={() => this.setState({menuActive: !this.state.menuActive})}>
+          <Icon name="ios-menu-outline" />
+          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile')}>
+            <Icon name="md-create" />
+          </Button>
+          <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword')}>
+            <Icon name="ios-lock" />
+          </Button>
+          <Button style={{ backgroundColor: '#DD5144' }} onPress={() => this._signOut()}>
+            <Icon name="ios-power" />
+          </Button>
+        </Fab>
       </View>
     )
   }

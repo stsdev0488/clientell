@@ -1,40 +1,40 @@
-import { put, select } from 'redux-saga/effects'
-import GithubActions, { GithubSelectors } from '../Redux/GithubRedux'
-import { is } from 'ramda'
-
-// exported to make available for tests
-export const selectAvatar = GithubSelectors.selectAvatar
+import { put, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import AuthActions from '../Redux/AuthRedux'
+import { AsyncStorage } from 'react-native'
+import API from '../Services/Api'
+import Secrets from 'react-native-config'
 
 // process STARTUP actions
 export function * startup (action) {
-  if (__DEV__ && console.tron) {
-    // straight-up string logging
-    console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
+  yield put(AuthActions.authWatch())
+}
 
-    // logging an object for better clarity
-    console.tron.log({
-      message: 'pass objects for better logging',
-      someGeneratorFunction: selectAvatar
-    })
+export function * apiGet () {
+  const a = yield call(AsyncStorage.getItem, '@AppStore:useAlternateURL')
+  /* ------------- API ------------- */
 
-    // fully customized!
-    const subObject = { a: 1, b: [1, 2, 3], c: true }
-    subObject.circularDependency = subObject // osnap!
-    console.tron.display({
-      name: '🔥 IGNITE 🔥',
-      preview: 'You should totally expand this',
-      value: {
-        '💃': 'Welcome to the future!',
-        subObject,
-        someInlineFunction: () => true,
-        someGeneratorFunction: startup,
-        someNormalFunction: selectAvatar
+  // The API we use is only used from Sagas, so we create it here and pass along
+  // to the sagas which need it.
+  const api = API.create(a ? Secrets.ALTERNATE_API_URL : Secrets.API_URL)
+  return api
+}
+
+export function * retryCall (maxRetries, apiName, data) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const api = yield call(apiGet)
+      const a = yield call(api[apiName], data)
+
+      if (a && a.ok) {
+        return a
+      } else {
+        return {ok: false}
       }
-    })
-  }
-  const avatar = yield select(selectAvatar)
-  // only get if we don't have it yet
-  if (!is(String, avatar)) {
-    yield put(GithubActions.userRequest('GantMan'))
+    } catch (err) {
+      if (i < (maxRetries - 1)) {
+        yield call(delay, 2000)
+      }
+    }
   }
 }
