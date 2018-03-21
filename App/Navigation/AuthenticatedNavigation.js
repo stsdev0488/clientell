@@ -9,8 +9,14 @@ import Clients from 'Containers/Clients'
 import AddClient from 'Containers/AddClient'
 import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
-import ClientProfile from 'Containers/ClientProfile'
 
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * CLIENTS SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+import ClientProfile from 'Containers/Clients/Screens/clientProfile'
 const ClientStack = StackNavigator(
   {
     Clients: { screen: Clients },

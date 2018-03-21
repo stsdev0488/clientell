@@ -37,5 +37,35 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  section: {
+    alignItems: 'center',
+    paddingVertical: Metrics.smallMargin
+  },
+  ratingText: {
+    marginTop: Metrics.smallMargin,
+    fontSize: 14,
+    color: '#888'
+  },
+  infoItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 0
+  },
+  textBtnIcon: {
+    fontSize: 32
+  },
+  btnIcon: {
+
+  },
+  contacts: {
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: '#f6f6f6',
+    borderColor: '#eee',
+    padding: Metrics.baseMargin,
+    margin: Metrics.baseMargin
   }
+
 })

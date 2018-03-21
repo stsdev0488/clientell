@@ -4,13 +4,13 @@ import {Container, Content, Text as NBText, Button} from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 
-import HeaderBar from '../../Components/HeaderBar'
-import Feedback from '../../Components/Feedback'
+import HeaderBar from '../../../Components/HeaderBar'
+import Feedback from '../../../Components/Feedback'
 import StarRating from 'react-native-star-rating'
 import {Call, Text, Map, Email} from 'react-native-openanything'
 
 // Styles
-import styles from './styles'
+import styles from '../styles'
 
 class ClientProfile extends React.PureComponent {
 
@@ -61,7 +61,7 @@ class ClientProfile extends React.PureComponent {
   renderInfo () {
     return (
       <View>
-        <View style={styles.row}>
+        <View style={styles.section}>
           <StarRating
             disabled
             starSize={30}
@@ -73,7 +73,7 @@ class ClientProfile extends React.PureComponent {
           <NBText style={styles.ratingText}>Average over 6 ratings</NBText>
         </View>
         <View style={styles.contacts}>
-          <View style={[styles.row, styles.infoItem]}>
+          <View style={[styles.section, styles.infoItem]}>
             <NBText>1345 Toad Street, Tampa, FL 33618</NBText>
             <Button
               onPress={() => Map('1345 Toad Street, Tampa, FL 33618')}
@@ -83,7 +83,7 @@ class ClientProfile extends React.PureComponent {
               <Icon name='ios-navigate' style={styles.textBtnIcon} />
             </Button>
           </View>
-          <View style={[styles.row, styles.infoItem]}>
+          <View style={[styles.section, styles.infoItem]}>
             <NBText>727-421-5555</NBText>
             <Button
               onPress={() => Call('7274215555', prompt = false)}
@@ -100,7 +100,7 @@ class ClientProfile extends React.PureComponent {
               <Icon name='md-text' style={styles.textBtnIcon} />
             </Button>
           </View>
-          <View style={[styles.row, styles.infoItem]}>
+          <View style={[styles.section, styles.infoItem]}>
             <NBText>jdoe@gmail.com</NBText>
             <Button
               onPress={() => Email(to = 'jdoe@gmail.com', subject = false, body = false, cc = false, bcc = false)}
