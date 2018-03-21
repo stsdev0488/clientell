@@ -12,7 +12,7 @@ import ThumbsRating from '../../../Components/ThumbsRating'
 import {Colors} from '../../../Themes'
 import styles from '../styles'
 
-const charLen = 4
+const charLen = 300
 
 class clientReview extends React.PureComponent {
 
@@ -41,39 +41,6 @@ class clientReview extends React.PureComponent {
   reviewId = this.props.navigation.getParam('id', 0)
   clientName = this.props.navigation.getParam('clientName', 'Client')
   clientAddress = this.props.navigation.getParam('clientAddress')
-
-  renderDatePicker () {
-    return (
-      <View style={[styles.section, styles.inlineField]}>
-        <NBText style={styles.datePickerLabel}>Review date</NBText>
-        <PickerComp
-          style={{width: 150, marginLeft: 10}}
-          date={this.state.date}
-          mode="date"
-          placeholder="Select date"
-          format={dateFormat}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          customStyles={{
-            dateIcon: {
-              position: 'absolute',
-              right: 0,
-              top: 4,
-              marginLeft: 0
-            },
-            dateInput: {
-              marginRight: 37,
-              borderColor: Colors.steel
-            },
-            dateText: {
-              fontSize: 16
-            }
-          }}
-          onDateChange={(date) => {this.setState({date: date})}}
-        />
-      </View>
-    )
-  }
 
   handleThumbsRating (type, key) {
     let existingVal = this.state[key]
