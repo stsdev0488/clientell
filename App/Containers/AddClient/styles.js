@@ -6,5 +6,16 @@ export default StyleSheet.create({
     flex: 1,
     marginTop: Metrics.navBarHeight,
     backgroundColor: Colors.background
+  },
+  section: {
+    marginBottom: Metrics.doubleBaseMargin
+  },
+  sectionText: {
+    marginBottom: Metrics.smallMargin
+  },
+  textarea: {
+    minHeight: 40,
+    paddingTop: 13,
+    paddingBottom: 13
   }
 })
