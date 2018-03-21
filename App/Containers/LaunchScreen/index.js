@@ -35,6 +35,10 @@ export default class LaunchScreen extends Component {
             <Button block bordered primary style={styles.loginButton} onPress={() => this.props.navigation.navigate('SignUpScreen')}>
               <Text>Sign up</Text>
             </Button>
+
+            <Button transparent primary style={[ styles.forgotPassword]} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+              <Text>Forgot password?</Text>
+            </Button>
           </Form>
         </Content>
       </View>

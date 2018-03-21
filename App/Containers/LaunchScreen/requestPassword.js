@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Input, Text } from 'native-base'
-import PhoneInput from 'react-native-phone-input'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from 'Redux/YourRedux'
 
 // Styles
-import styles from '../styles'
+import styles from './styles'
 import { Images } from 'Themes/'
 
 class Search extends Component {
@@ -39,27 +38,13 @@ class Search extends Component {
     return (
       <Content style={styles.container}>
         <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Change Password</Text>
+          <Text style={styles.titleText}>Forgot Password</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Current Password</Text>
+          <Text style={styles.sectionText}>Email</Text>
           <Item regular>
-            <Input placeholder='' secureTextEntry />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>New Password</Text>
-          <Item regular>
-            <Input placeholder='' secureTextEntry />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Confirm New Password</Text>
-          <Item regular>
-            <Input placeholder='' secureTextEntry />
+            <Input placeholder='' />
           </Item>
         </View>
 
