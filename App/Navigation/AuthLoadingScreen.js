@@ -6,6 +6,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import UserActions from '../Redux/UserRedux'
+import {connect} from 'react-redux'
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class AuthLoadingScreen extends React.Component {
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
+    this.props.getAuthUser()
     this.props.navigation.navigate(userToken ? 'App' : 'Auth')
   }
 
@@ -33,4 +36,17 @@ class AuthLoadingScreen extends React.Component {
   }
 }
 
-export default AuthLoadingScreen
+// export default AuthLoadingScreen
+const mapStateToProps = (state) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAuthUser: () => dispatch(UserActions.userRequest())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLoadingScreen)
