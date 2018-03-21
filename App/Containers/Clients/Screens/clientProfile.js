@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, TouchableOpacity} from 'react-native'
+import {View, TouchableOpacity, TextInput, Keyboard} from 'react-native'
 import {Container, Content, Text as NBText, Button} from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
@@ -116,6 +116,7 @@ class ClientProfile extends React.PureComponent {
   }
 
   render () {
+    const {navigate} = this.props.navigation
     return (
       <View style={styles.container}>
         <HeaderBar
@@ -131,7 +132,12 @@ class ClientProfile extends React.PureComponent {
 
           {this.renderInfo()}
 
-          <Button block iconLeft style={{marginBottom: 40, marginHorizontal: 10}}>
+          <Button
+            block
+            iconLeft
+            style={{marginBottom: 40, marginHorizontal: 10}}
+            onPress={() => navigate('ClientReview', { clientName: 'John Doe', clientAddress: '1345 Toad Street, Tampa, FL 33618'})}
+          >
             <Icon name='ios-create-outline' />
             <NBText>Write a new review</NBText>
           </Button>

@@ -38,7 +38,7 @@ class Feedback extends Component {
   renderAuthorBtn (userName) {
     if (userName === 'You') {
       return (
-        <Button transparent small style={styles.authorBtn}>
+        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', { id: 1, clientName: 'John Doe', clientAddress: '1345 Toad Street, Tampa, FL 33618'})}>
           <Icon name='ios-create-outline' style={styles.authorBtnIcon} />
         </Button>
       )
@@ -95,7 +95,7 @@ class Feedback extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigate: (route) => dispatch(NavigationActions.navigate({ routeName: route }))
+    navigate: (route, data = {}) => dispatch(NavigationActions.navigate({ routeName: route, params: data }))
   }
 }
 

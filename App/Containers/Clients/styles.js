@@ -66,6 +66,37 @@ export default StyleSheet.create({
     borderColor: '#eee',
     padding: Metrics.baseMargin,
     margin: Metrics.baseMargin
+  },
+  clientAddress: {
+    fontSize: 15,
+    marginBottom: Metrics.doubleBaseMargin
+  },
+  inlineField: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  formLabel: {
+    fontSize: 14,
+    color: Colors.text
+  },
+  labelBox: {
+    justifyContent: 'flex-end',
+    marginRight: Metrics.baseMargin
+  },
+  thumbRateLabel: {
+    fontSize: 14,
+    color: Colors.text,
+    textAlign: 'right'
+  },
+  commentField: {
+    borderWidth: 1,
+    borderColor: Colors.steel,
+    fontSize: 16,
+    color: Colors.coal,
+    padding: Metrics.baseMargin,
+    minHeight: 60,
+    width: Metrics.screenWidth - 20,
+    marginTop: Metrics.smallMargin
   }
-
 })

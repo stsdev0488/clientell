@@ -11,13 +11,17 @@ export default StyleSheet.create({
   },
   title: {
     fontWeight: '300',
-    lineHeight: 34
+    lineHeight: 35,
+    height: 30
   },
   secondaryTitle: {
     ...Fonts.style.h4,
     color: Colors.text,
     textAlign: 'center',
     fontSize: 18
+  },
+  subTitle: {
+    fontSize: 15
   },
   scrolledStyles: {
     borderBottomColor: Colors.steel

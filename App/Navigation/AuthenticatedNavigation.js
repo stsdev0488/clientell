@@ -17,10 +17,12 @@ import Settings from 'Containers/Settings'
  * ---------------------------------------------------------------------------------------
  */
 import ClientProfile from 'Containers/Clients/Screens/clientProfile'
+import ClientReview from 'Containers/Clients/Screens/clientReview'
 const ClientStack = StackNavigator(
   {
     Clients: { screen: Clients },
     ClientProfile: { screen: ClientProfile },
+    ClientReview: { screen: ClientReview },
   },
   {
     headerMode: 'none',

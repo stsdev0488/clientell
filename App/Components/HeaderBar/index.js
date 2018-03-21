@@ -45,7 +45,7 @@ export default class FullButton extends Component {
         <Body>
           {topTitle && <NBText style={styles.secondaryTitle}>{topTitle}</NBText>}
           <Title style={[styles.titleText, styles.title, titleStyles]}>{title}</Title>
-          {subTitle && <NBText style={styles.secondaryTitle}>{subTitle}</NBText>}
+          {subTitle && <NBText style={[styles.secondaryTitle, styles.subTitle]}>{subTitle}</NBText>}
         </Body>
         <Right style={styles.headerBtn}>
           {
