@@ -2,11 +2,41 @@ import React, { Component } from 'react'
 import { View, Text, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
-import HeaderBar from '../../Components/HeaderBar'
-import StarRating from 'react-native-star-rating'
+import StepIndicator from 'react-native-step-indicator'
 
 // Styles
 import styles from './styles'
+
+// Steps
+import PersonalInfoStep from './steps/personal'
+import AddressStep from './steps/address'
+import BillingStep from './steps/billing'
+import RatingStep from './steps/initialScore'
+
+const labels = ['Personal Info', 'Address', 'Billing', 'Rating']
+const customStyles = {
+  stepIndicatorSize: 25,
+  currentStepIndicatorSize:30,
+  separatorStrokeWidth: 2,
+  currentStepStrokeWidth: 3,
+  stepStrokeCurrentColor: '#fe7013',
+  stepStrokeWidth: 3,
+  stepStrokeFinishedColor: '#fe7013',
+  stepStrokeUnFinishedColor: '#aaaaaa',
+  separatorFinishedColor: '#fe7013',
+  separatorUnFinishedColor: '#aaaaaa',
+  stepIndicatorFinishedColor: '#fe7013',
+  stepIndicatorUnFinishedColor: '#ffffff',
+  stepIndicatorCurrentColor: '#ffffff',
+  stepIndicatorLabelFontSize: 13,
+  currentStepIndicatorLabelFontSize: 13,
+  stepIndicatorLabelCurrentColor: '#fe7013',
+  stepIndicatorLabelFinishedColor: '#ffffff',
+  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+  labelColor: '#999999',
+  labelSize: 13,
+  currentStepLabelColor: '#fe7013'
+}
 
 class AddClient extends Component {
   static navigationOptions = {
@@ -24,7 +54,8 @@ class AddClient extends Component {
     scrollOffsetY: 0,
     name: '',
     phone: '',
-    address: ''
+    address: '',
+    currentPosition: 0
   }
 
   handleSubmit () {
@@ -32,63 +63,48 @@ class AddClient extends Component {
     console.tron.log('Submit!')
   }
 
+  _submitStepInfo = () => {
+    this.setState(state => {
+      if ((state.currentPosition + 1) < 4) {
+        state.currentPosition = state.currentPosition + 1
+      }
+      return state
+    })
+  }
+
   render () {
     const {name, phone, address} = this.state
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          topTitle='Add New'
-          title='Client'
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
         <Content padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-          <Form>
-            <View style={styles.section}>
-              <Text style={styles.sectionText}>Name / Organization</Text>
-              <Item regular>
-                <Icon active name='ios-person' />
-                <Input
-                  defaultValue={name}
-                  onChangeText={name => this.setState({ name })}
-                  onSubmitEditing={() => {this.phoneInput._root.focus()}}
-                  returnKeyType='next'
-                />
-              </Item>
-            </View>
-            <View style={styles.section}>
-              <Text style={styles.sectionText}>Phone Number</Text>
-              <Item regular>
-                <Icon active name='ios-call' />
-                <Input
-                  ref={ref => {this.phoneInput = ref}}
-                  defaultValue={phone}
-                  onChangeText={phone => this.setState({ phone })}
-                  onSubmitEditing={() => {this.addressInput._root.focus()}}
-                  returnKeyType='next'
-                  keyboardType='phone-pad'
-                />
-              </Item>
-            </View>
-            <View style={styles.section}>
-              <Text style={styles.sectionText}>Address</Text>
-              <Item regular>
-                <Icon active name='ios-navigate' />
-                <Input
-                  ref={ref => {this.addressInput = ref}}
-                  multiline
-                  style={styles.textarea}
-                  defaultValue={address}
-                  onChangeText={address => this.setState({ address })}
-                  returnKeyType='go'
-                  onSubmitEditing={this.handleSubmit.bind(this)}
-                />
-              </Item>
-            </View>
-            <Button block onPress={this.handleSubmit.bind(this)}>
-              <NBText>Submit</NBText>
-            </Button>
-          </Form>
+          <View style={styles.titleSection}>
+            <Text style={styles.titleText}>Add Client</Text>
+          </View>
+
+          <StepIndicator
+            stepCount={4}
+            customStyles={customStyles}
+            currentPosition={this.state.currentPosition}
+            labels={labels}
+          />
+
+          {this.state.currentPosition === 0 &&
+            <PersonalInfoStep submitInfo={(d) => this._submitStepInfo(d)} />
+          }
+
+          {this.state.currentPosition === 1 &&
+            <AddressStep submitInfo={(d) => this._submitStepInfo(d)} />
+          }
+
+          {this.state.currentPosition === 2 &&
+            <BillingStep submitInfo={(d) => this._submitStepInfo(d)} />
+          }
+
+          {this.state.currentPosition === 3 &&
+            <RatingStep submitInfo={(d) => this._submitStepInfo(d)} />
+          }
+          
         </Content>
       </View>
     )

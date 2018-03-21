@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import StarRating from 'react-native-star-rating'
 
+// Redux
+import ClientActions from 'Redux/ClientRedux'
+
 // Styles
 import styles from './styles'
 
@@ -19,11 +22,7 @@ class Clients extends React.PureComponent {
       />
     )
   }
-  /* ***********************************************************
-  * STEP 1
-  * This is an array of objects with the properties you desire
-  * Usually this should come from Redux mapStateToProps
-  *************************************************************/
+
   state = {
     dataObjects: [
       {
@@ -36,14 +35,10 @@ class Clients extends React.PureComponent {
     searchKey: ''
   }
 
-  /* ***********************************************************
-  * STEP 2
-  * `renderRow` function. How each cell/row should be rendered
-  * It's our best practice to place a single component here:
-  *
-  * e.g.
-    return <MyCustomCell title={item.title} description={item.description} />
-  *************************************************************/
+  componentWillMount () {
+    this.props.clients()
+  }
+
   renderRow ({item}) {
     return (
       <ListItem>
@@ -68,26 +63,9 @@ class Clients extends React.PureComponent {
     )
   }
 
-  /* ***********************************************************
-  * STEP 3
-  * Consider the configurations we've set below.  Customize them
-  * to your liking!  Each with some friendly advice.
-  *************************************************************/
-  // Render a header?
-  renderHeader = () => {
-    return null
-  }
-
-  // Render a footer?
-  renderFooter = () =>
-    <Text style={[styles.label, styles.sectionHeader]}> - Footer - </Text>
-
   // Show this when data is empty
   renderEmpty = () =>
     <NBText style={[styles.label, {marginTop: 20}]}>No clients added.</NBText>
-
-  renderSeparator = () =>
-    <Text style={styles.label}> - ~~~~~ - </Text>
 
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
@@ -96,20 +74,6 @@ class Clients extends React.PureComponent {
 
   // How many items should be kept im memory as we scroll?
   oneScreensWorth = 20
-
-  // extraData is for anything that is not indicated in data
-  // for instance, if you kept "favorites" in `this.state.favs`
-  // pass that in, so changes in favorites will cause a re-render
-  // and your renderItem will have access to change depending on state
-  // e.g. `extraData`={this.state.favs}
-
-  // Optimize your list if the height of each item can be calculated
-  // by supplying a constant height, there is no need to measure each
-  // item after it renders.  This can save significant time for lists
-  // of a size 100+
-  // e.g. itemLayout={(data, index) => (
-  //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
-  // )}
 
   handleSearchInput (searchKey) {
     this.setState({searchKey})
@@ -165,6 +129,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    clients: () => {dispatch(ClientActions.clientRequest())}
   }
 }
 

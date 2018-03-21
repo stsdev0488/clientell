@@ -70,12 +70,21 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get(`user/${data.id}${data.param}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  /**
+   * Clients API
+   */
+
+  const getClients = (urlParams) => {
+    return getToken().then((a) => api.get('client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   return {
     login,
     loginSocial,
     signup,
     getUser,
-    getSpecificUser
+    getSpecificUser,
+    getClients
   }
 }
 

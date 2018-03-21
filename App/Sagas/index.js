@@ -1,19 +1,18 @@
 import { takeLatest, all } from 'redux-saga/effects'
-import API from '../Services/Api'
-import FixtureAPI from '../Services/FixtureApi'
-import DebugConfig from '../Config/DebugConfig'
 
 /* ------------- Types ------------- */
 
 import { AuthTypes } from '../Redux/AuthRedux'
 import { StartupTypes } from '../Redux/StartupRedux'
 import { UserTypes } from '../Redux/UserRedux'
+import { ClientTypes } from '../Redux/ClientRedux'
 
 /* ------------- Sagas ------------- */
 
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
 import { getUser, updateUser } from './UserSagas'
+import { getClients } from './ClientSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -27,6 +26,8 @@ export default function * root () {
 
     // USER SAGAS
     takeLatest(UserTypes.USER_REQUEST, getUser),
-    takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser)
+    takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
+
+    takeLatest(ClientTypes.CLIENT_REQUEST, getClients)
   ])
 }
