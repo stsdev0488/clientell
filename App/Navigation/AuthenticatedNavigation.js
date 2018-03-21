@@ -37,6 +37,7 @@ import SearchResults from 'Containers/Search/Screens/searchResults'
  * ---------------------------------------------------------------------------------------
  */
 import EditProfile from 'Containers/Settings/Screens/editProfile'
+import ChangePassword from 'Containers/Settings/Screens/changePassword'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -71,7 +72,8 @@ const SearchStack = StackNavigator({
  */
 const SettingsStack = StackNavigator({
   Settings: { screen: Settings },
-  EditProfile: { screen: EditProfile }
+  EditProfile: { screen: EditProfile },
+  ChangePassword: { screen: ChangePassword }
 }, {
   // Default config for all screens
   headerMode: 'none',
