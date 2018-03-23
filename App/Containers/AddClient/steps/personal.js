@@ -9,17 +9,10 @@ import Picker from 'Lib/CustomPicker'
 import styles from '../styles'
 
 class PersonalInfoStep extends Component {
-  state = {
-    client_type: 'individual',
-    name: '',
-    phone: '',
-    address: '',
-    organization_name: ''
-  }
+  state = {...this.props.initialData}
 
   handleSubmit () {
     Keyboard.dismiss()
-    console.tron.log('Submit!')
   }
 
   capitalize(str){
@@ -35,6 +28,7 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                defaultValue={this.state.organization_name}
                 onChangeText={organization_name => this.setState({ organization_name })}
               />
             </Item>
@@ -49,6 +43,7 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                defaultValue={this.state.first_name}
                 onChangeText={first_name => this.setState({ first_name })}
               />
             </Item>
@@ -59,6 +54,7 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                defaultValue={this.state.middle_name}
                 onChangeText={middle_name => this.setState({ middle_name })}
               />
             </Item>
@@ -69,6 +65,7 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                defaultValue={this.state.last_name}
                 onChangeText={last_name => this.setState({ last_name })}
               />
             </Item>
@@ -76,6 +73,16 @@ class PersonalInfoStep extends Component {
         </View>
       )
     }
+  }
+
+  _submitDetails = () => {
+    let finalData = {...this.state}
+    finalData.phone_number_ext = this.phone.getCountryCode()
+    finalData.phone_number = this.phone.getValue()
+    finalData.alt_phone_number_ext = this.phone_alternate.getCountryCode()
+    finalData.alt_phone_number = this.phone_alternate.getValue()
+
+    this.props.submitInfo(finalData)
   }
 
   render () {
@@ -98,36 +105,31 @@ class PersonalInfoStep extends Component {
         {this._renderConditionalInputs()}
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Phone Number</Text>
-          <Item regular>
-            <Icon active name='ios-call' />
-            <Input
-              ref={ref => {this.phoneInput = ref}}
-              defaultValue={phone}
-              onChangeText={phone => this.setState({ phone })}
-              onSubmitEditing={() => {this.addressInput._root.focus()}}
-              returnKeyType='next'
-              keyboardType='phone-pad'
-            />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
           <Text style={styles.sectionText}>Phone number</Text>
           <Item regular>
-            <PhoneInput ref='phone' style={{paddingHorizontal: 8}} textStyle={{height: 50}} />
+            <PhoneInput
+              ref={ref => { this.phone = ref }}
+              style={{paddingHorizontal: 8}}
+              textStyle={{height: 50}}
+              value={this.state.phone_number}
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Alternate Phone number</Text>
           <Item regular>
-            <PhoneInput ref='phone' style={{paddingHorizontal: 8}} textStyle={{height: 50}} />
+            <PhoneInput
+              ref={ref => { this.phone_alternate = ref }}
+              style={{paddingHorizontal: 8}}
+              textStyle={{height: 50}}
+              value={this.state.alt_phone_number}
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state)}>
+          <Button block onPress={() => this._submitDetails()}>
             <NBText>Submit</NBText>
           </Button>
         </View>

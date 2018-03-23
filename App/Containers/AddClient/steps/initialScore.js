@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, Keyboard } from 'react-native'
+import { View, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
+import {Button, Text} from 'native-base'
 
 import StarRating from 'react-native-star-rating'
 // Styles
@@ -8,7 +9,7 @@ import styles from '../styles'
 
 class RatingStep extends Component {
   state = {
-    initial_star_rating: 3
+    ...this.props.initialData
   }
 
   render () {
@@ -27,6 +28,12 @@ class RatingStep extends Component {
             containerStyle={{}}
             selectedStar={(initial_star_rating) => this.setState({initial_star_rating})}
           />
+        </View>
+
+        <View style={styles.section}>
+          <Button block onPress={() => this.props.submitInfo(this.state.initial_star_rating)}>
+            <Text>Submit</Text>
+          </Button>
         </View>
       </View>
     )

@@ -8,11 +8,7 @@ import styles from '../styles'
 
 class AddressStep extends Component {
   state = {
-    street_address: '',
-    street_address2: '',
-    city: '',
-    state: '',
-    postal: ''
+    ...this.props.initialData
   }
 
   handleSubmit () {
@@ -21,7 +17,7 @@ class AddressStep extends Component {
   }
 
   render () {
-    const {street_address, street_address2, city, state, postal} = this.state
+    const {street_address, street_address2, city, state, postal_code:postal} = this.state
 
     return (
       <Form style={{marginTop: 20}}>
@@ -90,7 +86,7 @@ class AddressStep extends Component {
               ref={ref => {this.postalInput = ref}}
               style={styles.textarea}
               defaultValue={postal}
-              onChangeText={postal => this.setState({ postal })}
+              onChangeText={postal_code => this.setState({ postal_code })}
               onSubmitEditing={() => this.props.submitInfo(this.state)}
               returnKeyType='go'
             />

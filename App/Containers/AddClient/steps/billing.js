@@ -8,14 +8,7 @@ import styles from '../styles'
 
 class BillingStep extends Component {
   state = {
-    billing_first_name: '',
-    billing_middle_name: '',
-    billing_last_name: '',
-    billing_street_address: '',
-    billing_street_address2: '',
-    billing_city: '',
-    billing_state: '',
-    billing_postal_code: ''
+    ...this.props.initialData
   }
 
   handleSubmit () {
@@ -29,7 +22,7 @@ class BillingStep extends Component {
       billing_middle_name: middle_name,
       billing_last_name: last_name,
       billing_street_address: street_address,
-      billing_street_address: street_address2,
+      billing_street_address2: street_address2,
       billing_city: city,
       billing_state: state,
       billing_postal_code: postal} = this.state

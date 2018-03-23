@@ -6,7 +6,11 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   clientRequest: ['data'],
   clientSuccess: ['payload'],
-  clientFailure: null
+  clientFailure: null,
+  addClient: ['data'],
+  addClientSuccess: ['data'],
+  addClientFailure: ['data']
+
 })
 
 export const ClientTypes = Types
@@ -18,7 +22,9 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  addingClient: null,
+  addError: null
 })
 
 /* ------------- Selectors ------------- */
@@ -33,20 +39,33 @@ export const ClientSelectors = {
 export const request = (state, { data }) =>
   state.merge({ fetching: true, payload: null })
 
+export const addRequest = (state, { data }) =>
+  state.merge({ addingClient: true })
+
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
   return state.merge({ fetching: false, error: null, data: payload })
 }
 
+export const addSuccess = (state, { data }) => {
+  return state.merge({ addingClient: false, error: null })
+}
+
 // Something went wrong somewhere.
 export const failure = state =>
   state.merge({ fetching: false, error: true, payload: null })
+
+export const addFailure = (state, { data }) =>
+  state.merge({ addingClient: false, addError: data })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLIENT_REQUEST]: request,
   [Types.CLIENT_SUCCESS]: success,
-  [Types.CLIENT_FAILURE]: failure
+  [Types.CLIENT_FAILURE]: failure,
+  [Types.ADD_CLIENT]: addRequest,
+  [Types.ADD_CLIENT_SUCCESS]: addSuccess,
+  [Types.ADD_CLIENT_FAILURE]: addFailure
 })

@@ -12,3 +12,19 @@ export function * getClients () {
     yield put(ClientActions.clientFailure())
   }
 }
+
+export function * addClient ({ data }) {
+  const api = yield call(apiGet)
+  
+  try {
+    const response = yield call(api.addClient, data)
+
+    if (response.ok) {
+      yield put(ClientActions.addClientSuccess(response.data))
+    } else {
+      yield put(ClientActions.addClientFailure(response.data))
+    }
+  } catch (err) {
+    // err
+  }
+}

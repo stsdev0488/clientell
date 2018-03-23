@@ -74,6 +74,10 @@ const create = (baseURL) => {
    * Clients API
    */
 
+  const addClient = (data) => {
+    return getToken().then((a) => api.post('client', data, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   const getClients = (urlParams) => {
     return getToken().then((a) => api.get('client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
@@ -84,6 +88,7 @@ const create = (baseURL) => {
     signup,
     getUser,
     getSpecificUser,
+    addClient,
     getClients
   }
 }

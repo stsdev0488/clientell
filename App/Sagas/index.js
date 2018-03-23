@@ -12,7 +12,7 @@ import { ClientTypes } from '../Redux/ClientRedux'
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
 import { getUser, updateUser } from './UserSagas'
-import { getClients } from './ClientSagas'
+import { getClients, addClient } from './ClientSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -28,6 +28,8 @@ export default function * root () {
     takeLatest(UserTypes.USER_REQUEST, getUser),
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
 
-    takeLatest(ClientTypes.CLIENT_REQUEST, getClients)
+    // CLIENT SAGAS
+    takeLatest(ClientTypes.CLIENT_REQUEST, getClients),
+    takeLatest(ClientTypes.ADD_CLIENT, addClient)
   ])
 }
