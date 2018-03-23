@@ -85,6 +85,12 @@ class PersonalInfoStep extends Component {
     this.props.submitInfo(finalData)
   }
 
+  _onChangetype = (a) => {
+    this.setState({client_type: a})
+
+    this.props.clientTypeChanged(a)
+  }
+
   render () {
     const {name, phone, address} = this.state
 
@@ -139,7 +145,7 @@ class PersonalInfoStep extends Component {
             this.picker = ref;
           }}
           selectedOption={this.state.client_type}
-          onSubmit={(a) => this.setState({client_type: a})}
+          onSubmit={(a) => this._onChangetype(a)}
           options={['individual', 'organization']}
         />
       </Form>

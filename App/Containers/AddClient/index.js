@@ -23,7 +23,9 @@ const AnimatedAddressStep = Animatable.createAnimatableComponent(AddressStep);
 const AnimatedBillingStep = Animatable.createAnimatableComponent(BillingStep);
 const AnimatedRatingStep = Animatable.createAnimatableComponent(RatingStep);
 
-const labels = ['Personal Info', 'Address', 'Billing', 'Rating']
+const labels = ['Personal Info', 'Address', 'Rating']
+const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
+
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize:30,
@@ -61,10 +63,10 @@ class AddClient extends Component {
   }
 
   state = {
+    clientType: 'individual',
     scrollOffsetY: 0,
     currentPosition: 0,
     personalData: {
-      client_type: 'individual',
       organization_name: '',
       first_name: '',
       last_name: '',
@@ -115,7 +117,9 @@ class AddClient extends Component {
     })
 
     this.setState(state => {
-      if ((state.currentPosition + 1) < 4) {
+      const count = this.state.clientType === 'individual' ? 3 : 4
+
+      if ((state.currentPosition + 1) < count) {
         state.currentPosition = state.currentPosition + 1
       }
       return state
@@ -126,9 +130,57 @@ class AddClient extends Component {
     this.setState({currentPosition: number})
   }
 
-  render () {
-    const {name, phone, address} = this.state
+  _renderBilling = () => {
+    if (this.state.clientType === 'organization' && this.state.currentPosition === 2) {
+      return (
+        <Animatable.View animation='fadeInUp' duration={400}>
+          <AnimatedBillingStep
+            initialData={this.state.billingData}
+            submitInfo={
+                    (d) => {
+                      this.setState({billingData: d})
+                      this._submitStepInfo(d)
+                    }
+                  }
+          />
+        </Animatable.View>
+      )
+    }
+  }
 
+  _renderRating = () => {
+    if (this.state.clientType === 'organization' && this.state.currentPosition === 3) {
+      return (
+        <Animatable.View animation='fadeInUp' duration={400}>
+          <AnimatedRatingStep
+            initialData={this.state.ratingData}
+            submitInfo={
+                  (d) => {
+                    this.setState({ratingData: d})
+                    this.handleSubmit(d)
+                  }
+                }
+          />
+        </Animatable.View>
+      )
+    } else if (this.state.clientType !== 'organization' && this.state.currentPosition === 2) {
+      return (
+        <Animatable.View animation='fadeInUp' duration={400}>
+          <AnimatedRatingStep
+            initialData={this.state.ratingData}
+            submitInfo={
+                  (d) => {
+                    this.setState({ratingData: d})
+                    this.handleSubmit(d)
+                  }
+                }
+          />
+        </Animatable.View>
+      )
+    }
+  }
+
+  render () {
     return (
       <View style={styles.container}>
         <Content innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
@@ -137,10 +189,10 @@ class AddClient extends Component {
           </View>
 
           <StepIndicator
-            stepCount={4}
+            stepCount={this.state.clientType === 'individual' ? 3 : 4}
             customStyles={customStyles}
             currentPosition={this.state.currentPosition}
-            labels={labels}
+            labels={this.state.clientType === 'individual' ? labels : labelsOrg}
             onPress={this._stepPressed}
           />
 
@@ -149,7 +201,8 @@ class AddClient extends Component {
           {this.state.currentPosition === 0 &&
             <Animatable.View animation='fadeInUp' duration={400}>
               <PersonalInfoStep
-                initialData={this.state.personalData}
+                clientTypeChanged={ct => this.setState({clientType: ct})}
+                initialData={{...this.state.personalData, client_type: this.state.clientType}}
                 submitInfo={
                   (d) => {
                   console.tron.log(d)
@@ -175,33 +228,9 @@ class AddClient extends Component {
             </Animatable.View>
           }
 
-          {this.state.currentPosition === 2 &&
-            <Animatable.View animation='fadeInUp' duration={400}>
-              <AnimatedBillingStep
-                initialData={this.state.billingData}
-                submitInfo={
-                  (d) => {
-                    this.setState({addressData: d})
-                    this._submitStepInfo(d)
-                  }
-                }
-              />
-            </Animatable.View>
-          }
+          {this._renderBilling()}
 
-          {this.state.currentPosition === 3 &&
-            <Animatable.View animation='fadeInUp' duration={400}>
-              <AnimatedRatingStep
-                initialData={this.state.ratingData}
-                submitInfo={
-                  (d) => {
-                    this.setState({ratingData: d})
-                    this.handleSubmit(d)
-                  }
-                }
-              />
-            </Animatable.View>
-          }
+          {this._renderRating()}
           
         </Content>
       </View>
