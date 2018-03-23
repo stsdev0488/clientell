@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Input, Text } from 'native-base'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+import PhoneInput from 'react-native-phone-input'
+import ErrorRenderer from 'Components/ErrorRenderer'
+
+// Redux action
+import SearchAction from 'Redux/SearchRedux'
 
 // Styles
 import styles from '../styles'
@@ -19,10 +22,27 @@ class Search extends Component {
       />
     )
   }
+
+  state = {
+    phone: ''
+  }
+
   // constructor (props) {
   //   super(props)
   //   this.state = {}
   // }
+
+  componentWillReceiveProps (newProps) {
+    if (this.props.fetching && !newProps.fetching) {
+      if (!newProps.error) {
+        this.props.navigation.navigate('SearchResults', {results: newProps.data, searchKey: this.state.phone})
+      }
+    }
+  }
+
+  _executeSearch = () => {
+    this.props.searchClient({search_by: 1, phone_number: this.state.phone})
+  }
 
   render () {
     return (
@@ -35,12 +55,21 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Client's phone number</Text>
           <Item regular>
-            <Input placeholder='' />
+            <PhoneInput
+              ref={ref => { this.phone = ref }}
+              style={{paddingHorizontal: 8}}
+              textStyle={{height: 50}}
+              onChangePhoneNumber={num => this.setState({phone: num})}
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
-          <Button primary block bordered onPress={() => this.props.navigation.navigate('SearchResults')}>
+          <ErrorRenderer error={this.props.error} />
+        </View>
+
+        <View style={styles.section}>
+          <Button primary block bordered onPress={() => this._executeSearch()}>
             <Text>Search</Text>
           </Button>
         </View>
@@ -57,11 +86,14 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.search.fetching,
+    error: state.search.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    searchClient: (value) => dispatch(SearchAction.searchRequest(value))
   }
 }
 

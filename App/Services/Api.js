@@ -82,6 +82,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get('client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const clientLookup = (params) => {
+    return getToken().then((a) => api.post('client/search?include=reviews', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   return {
     login,
     loginSocial,
@@ -89,7 +93,8 @@ const create = (baseURL) => {
     getUser,
     getSpecificUser,
     addClient,
-    getClients
+    getClients,
+    clientLookup
   }
 }
 

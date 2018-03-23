@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Input, Text } from 'native-base'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+import { Content, Icon, Button, Item, Input, Text, Fab } from 'native-base'
 import Feedback from 'Components/Feedback'
+import AlertMessage from 'Components/AlertMessage'
 
 // Styles
 import styles from '../styles'
@@ -21,36 +20,10 @@ class Search extends Component {
     )
   }
 
+  navParams = this.props.navigation.state.params
+
   state = {
-    reviews: [
-      {
-        userName: 'You',
-        rating: 3,
-        created: new Date(),
-        payment: 1,
-        character: 1,
-        repeat: 0,
-        feedback: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      },
-      {
-        userName: 'Bill Gates',
-        rating: 4,
-        created: new Date(),
-        payment: 1,
-        character: null,
-        repeat: null,
-        feedback: 'Very accomodating!'
-      },
-      {
-        userName: 'Steve Jobs',
-        rating: 5,
-        created: new Date(),
-        payment: 1,
-        character: 1,
-        repeat: 1,
-        feedback: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
-      }
-    ]
+    reviews: this.navParams.results || []
   }
 
   // constructor (props) {
@@ -58,13 +31,24 @@ class Search extends Component {
   //   this.state = {}
   // }
 
+  componentDidMount () {
+  }
+
   render () {
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Search Results</Text>
-          <Text style={styles.subTitleText}>john.doe@email.com</Text>
-        </View>
+      <View style={styles.container}>
+        <Content>
+          <View style={styles.titleSection}>
+            <Text style={styles.titleText}>Search Results</Text>
+            <Text style={styles.subTitleText}>{ this.navParams.searchKey || 'Client' }</Text>
+          </View>
+
+          {
+            this.state.reviews.length < 1 &&
+            <AlertMessage
+              title='You search did not yield any result'
+            />
+          }
 
           {
             this.state.reviews.map((item, i) => {
@@ -73,7 +57,18 @@ class Search extends Component {
               )
             })
           }
-      </Content>
+        </Content>
+
+        <Fab
+          active={this.state.menuActive}
+          direction="down"
+          containerStyle={{ }}
+          style={{ backgroundColor: '#5067FF' }}
+          position="topLeft"
+          onPress={() => this.props.navigation.goBack()}>
+          <Icon name="ios-arrow-back" />
+        </Fab>
+      </View>
     )
   }
 }
