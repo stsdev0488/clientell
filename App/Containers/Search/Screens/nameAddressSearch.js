@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Input, Text } from 'native-base'
+import { Content, Icon, Button, Item, Input, Text, Spinner } from 'native-base'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
 // Redux action
@@ -107,6 +107,7 @@ class Search extends Component {
 
         <View style={styles.section}>
           <Button primary block bordered onPress={() => this._executeSearch()}>
+            {this.props.fetching === true && <Spinner />}
             <Text>Search</Text>
           </Button>
         </View>
