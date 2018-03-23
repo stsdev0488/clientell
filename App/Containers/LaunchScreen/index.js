@@ -29,7 +29,7 @@ class LaunchScreen extends Component {
       <View style={styles.mainContainer}>
         <Content style={styles.container}>
           <View style={styles.logoWrapper}>
-            <Text style={{fontSize: 40, textAlign: 'center'}}>Clientell</Text>
+            <Image source={Images.logoWide} style={styles.logo} />
           </View>
 
           <Form style={styles.loginForm}>

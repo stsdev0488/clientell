@@ -11,10 +11,8 @@ export default StyleSheet.create({
     marginBottom: 20
   },
   logo: {
-    marginTop: Metrics.doubleSection,
-    height: Metrics.images.logo,
-    width: Metrics.images.logo,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    alignSelf: 'center'
   },
   centered: {
     alignItems: 'center'
