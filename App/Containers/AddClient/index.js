@@ -18,11 +18,6 @@ import AddressStep from './steps/address'
 import BillingStep from './steps/billing'
 import RatingStep from './steps/initialScore'
 
-const AnimatedPersonalInfoStep = Animatable.createAnimatableComponent(PersonalInfoStep);
-const AnimatedAddressStep = Animatable.createAnimatableComponent(AddressStep);
-const AnimatedBillingStep = Animatable.createAnimatableComponent(BillingStep);
-const AnimatedRatingStep = Animatable.createAnimatableComponent(RatingStep);
-
 const labels = ['Personal Info', 'Address', 'Rating']
 const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
 
@@ -134,7 +129,7 @@ class AddClient extends Component {
     if (this.state.clientType === 'organization' && this.state.currentPosition === 2) {
       return (
         <Animatable.View animation='fadeInUp' duration={400}>
-          <AnimatedBillingStep
+          <BillingStep
             initialData={this.state.billingData}
             submitInfo={
                     (d) => {
@@ -152,11 +147,11 @@ class AddClient extends Component {
     if (this.state.clientType === 'organization' && this.state.currentPosition === 3) {
       return (
         <Animatable.View animation='fadeInUp' duration={400}>
-          <AnimatedRatingStep
+          <RatingStep
             initialData={this.state.ratingData}
             submitInfo={
                   (d) => {
-                    this.setState({ratingData: d})
+                    this.setState({ratingData: {initial_star_rating: d}})
                     this.handleSubmit(d)
                   }
                 }
@@ -166,11 +161,11 @@ class AddClient extends Component {
     } else if (this.state.clientType !== 'organization' && this.state.currentPosition === 2) {
       return (
         <Animatable.View animation='fadeInUp' duration={400}>
-          <AnimatedRatingStep
+          <RatingStep
             initialData={this.state.ratingData}
             submitInfo={
                   (d) => {
-                    this.setState({ratingData: d})
+                    this.setState({ratingData: {initial_star_rating: d}})
                     this.handleSubmit(d)
                   }
                 }
@@ -216,7 +211,7 @@ class AddClient extends Component {
 
           {this.state.currentPosition === 1 &&
             <Animatable.View animation='fadeInUp' duration={400}>
-              <AnimatedAddressStep
+              <AddressStep
                 initialData={this.state.addressData}
                 submitInfo={
                   (d) => {
