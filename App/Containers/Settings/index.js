@@ -9,6 +9,7 @@ import StarRating from 'react-native-star-rating'
 // Styles
 import styles from './styles'
 import { Images } from 'Themes/'
+import moment from 'moment'
 
 class Settings extends Component {
   static navigationOptions = {
@@ -37,6 +38,7 @@ class Settings extends Component {
   }
 
   render () {
+    const {user} = this.props
     return (
       <View style={styles.container}>
         <Content style={{flex: 1}}>
@@ -49,14 +51,14 @@ class Settings extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.subTitleText}>Joe Don</Text>
-            <Text style={styles.subTitleText}>Webart Contractor</Text>
+            <Text style={styles.subTitleText}>{user.name}</Text>
+            {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 
-            <Text style={styles.sectionText}>Tampa, Florida</Text>
-            <Text style={styles.sectionText}>555 Generic Street</Text>
-            <Text style={styles.sectionText}>(813) 555-1313</Text>
-            <Text style={styles.sectionText}>www.webartcontractor.com</Text>
-            <Text style={styles.sectionText}>joe.don@john.com</Text>
+            <Text style={styles.sectionText}>{`${user.city || ''}${user.state ? ', ' : ''}${user.state || ''} ${user.postal_code || ''}`}</Text>
+            <Text style={styles.sectionText}>{`${user.street_address || ''} ${user.street_address2 || ''}`}</Text>
+            {user.phone_number && <Text style={styles.sectionText}>{user.phone_number}</Text>}
+            {user.business_url && <Text style={styles.sectionText}>{user.business_url}</Text>}
+            <Text style={styles.sectionText}>{user.email || ''}</Text>
           </View>
 
           <View style={[styles.section, styles.contactIcons]}>
@@ -87,11 +89,14 @@ class Settings extends Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-            </Text>
-          </View>
+          {
+            user.desciption &&
+            <View style={styles.section}>
+              <Text style={styles.sectionText}>
+                ${user.desciption}
+              </Text>
+            </View>
+          }
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
@@ -113,7 +118,7 @@ class Settings extends Component {
             </View>
 
             <Text style={styles.sectionText}>
-              Clientell member since March 2015
+              Clientell member since {moment(user.created_at).format('MMMM YYYY')}
             </Text>
           </View>
         </Content>
@@ -143,6 +148,8 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user.data,
+    fetching: state.user.fetching,
   }
 }
 
