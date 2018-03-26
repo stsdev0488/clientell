@@ -22,9 +22,9 @@ export function * updateUser (action) {
   const { data } = action
   // make the call to the api
   let endpoint = api.updateUser
-  // if (data._parts.length === 1 && data._parts[0][0] && data._parts[0][0] === 'avatar') {
-  //   endpoint = api.updateUserAvatar
-  // }
+  if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'street_address') {
+    endpoint = api.updateContactInfo
+  }
 
   const response = yield call(endpoint, data)
 

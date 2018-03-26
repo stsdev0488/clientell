@@ -74,6 +74,10 @@ const create = (baseURL) => {
     return getToken().then((a) => apiFile.post('auth/user/update-profile', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const updateContactInfo = (params) => {
+    return getToken().then((a) => apiFile.post('auth/user/update-contact', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   /**
    * Clients API
    */
@@ -97,6 +101,7 @@ const create = (baseURL) => {
     getUser,
     getSpecificUser,
     updateUser,
+    updateContactInfo,
     addClient,
     getClients,
     clientLookup

@@ -27,7 +27,14 @@ class Search extends Component {
   }
 
   state = {
-    first_name: ''
+    street_address: '',
+    street_address2: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    email: '',
+    business_url: '',
+    facebook_url: ''
   }
 
   // constructor (props) {
@@ -37,10 +44,22 @@ class Search extends Component {
 
   _submitChanges = () => {
     const formData = new FormData()
+    const { user } = this.props
 
-    formData.append('first_name', this.state.first_name)
+    formData.append('street_address', this.state.street_address || user.street_address)
+    formData.append('street_address', this.state.street_address2 || user.street_address2)
+    formData.append('city', this.state.city || user.city)
+    formData.append('state', this.state.state || user.state)
+    formData.append('postal_code', this.state.postal_code || user.postal_code)
+    formData.append('email', this.state.email || user.email)
+    formData.append('business_url', this.state.business_url || user.business_url)
+    formData.append('facebook_url', this.state.facebook_url || user.facebook_url)
+    formData.append('phone_number', this.main_phone.getPhoneNumber())
+    formData.append('phone_number_ext', this.main_phone.getCountryCode())
+    formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
+    formData.append('alt_phone_number_ext', this.alt_phone.getCountryCode())
 
-    // this.props.update(formData)
+    this.props.update(formData)
   }
 
   render () {
@@ -67,6 +86,7 @@ class Search extends Component {
           <Input
             defaultValue={user.street_address || ''}
             onChangeText={street_address => this.setState({street_address})}
+            required
           />
         </View>
 
