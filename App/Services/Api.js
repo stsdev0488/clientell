@@ -70,6 +70,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get(`user/${data.id}${data.param}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const updateUser = (params) => {
+    return getToken().then((a) => apiFile.post('auth/user/update-profile', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   /**
    * Clients API
    */
@@ -92,6 +96,7 @@ const create = (baseURL) => {
     signup,
     getUser,
     getSpecificUser,
+    updateUser,
     addClient,
     getClients,
     clientLookup
