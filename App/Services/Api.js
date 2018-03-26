@@ -87,7 +87,7 @@ const create = (baseURL) => {
   }
 
   const clientLookup = (params) => {
-    return getToken().then((a) => api.post('client/search?include=reviews', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   return {
