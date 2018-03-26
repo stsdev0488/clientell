@@ -40,7 +40,7 @@ export const request = (state, { data }) =>
   state.merge({ fetching: true, payload: null })
 
 export const addRequest = (state, { data }) =>
-  state.merge({ addingClient: true })
+  state.merge({ addingClient: true, addError: null })
 
 // successful api lookup
 export const success = (state, action) => {
@@ -49,7 +49,7 @@ export const success = (state, action) => {
 }
 
 export const addSuccess = (state, { data }) => {
-  return state.merge({ addingClient: false, error: null })
+  return state.merge({ addingClient: false, addError: null })
 }
 
 // Something went wrong somewhere.
