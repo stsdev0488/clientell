@@ -134,6 +134,9 @@ class Settings extends Component {
           <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile')}>
             <Icon name="md-create" />
           </Button>
+          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditMyContactInfo')}>
+            <Icon name="md-globe" />
+          </Button>
           <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword')}>
             <Icon name="ios-lock" />
           </Button>

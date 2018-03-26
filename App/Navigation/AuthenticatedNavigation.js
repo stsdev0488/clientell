@@ -45,6 +45,7 @@ import SearchResults from 'Containers/Search/Screens/searchResults'
  * ---------------------------------------------------------------------------------------
  */
 import EditProfile from 'Containers/Settings/Screens/editProfile'
+import EditContactInfo from 'Containers/Settings/Screens/editContactInfo'
 import ChangePassword from 'Containers/Settings/Screens/changePassword'
 
 /**
@@ -81,6 +82,7 @@ const SearchStack = StackNavigator({
 const SettingsStack = StackNavigator({
   Settings: { screen: Settings },
   EditProfile: { screen: EditProfile },
+  EditMyContactInfo: { screen: EditContactInfo },
   ChangePassword: { screen: ChangePassword }
 }, {
   // Default config for all screens
