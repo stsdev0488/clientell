@@ -1,4 +1,5 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
+import { Easing, Animated } from 'react-native'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -54,7 +55,8 @@ import ChangePassword from 'Containers/Settings/Screens/changePassword'
  * ---------------------------------------------------------------------------------------
  */
 import {
-  UserProfileModal
+  UserProfileModal,
+  AlertModal
 } from 'Modals/'
 
 /**
@@ -101,7 +103,10 @@ const TabNav = TabNavigator({
   Search: { screen: SearchStack },
   Settings: { screen: SettingsStack }
 }, {
-  animationEnabled: true
+  animationEnabled: true,
+  tabBarPosition: 'bottom',
+  lazy: false,
+  swipeEnabled: true
 });
 
 /**
@@ -117,12 +122,42 @@ export default StackNavigator(
     ProfileModal: {
       screen: UserProfileModal
     },
+    AlertModal: {
+      screen: AlertModal
+    },
   },
   {
     mode: 'modal',
     headerMode: 'none',
     navigationOptions: {
       gesturesEnabled: false
-    }
+    },
+    cardStyle: {
+      backgroundColor: 'transparent'
+    },
+    transitionConfig: () => ({
+      transitionSpec: {
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+      },
+      screenInterpolator: sceneProps => {
+        const { layout, position, scene } = sceneProps;
+        const { index } = scene;
+
+        const height = layout.initHeight;
+        const translateY = position.interpolate({
+          inputRange: [index - 1, index, index + 1],
+          outputRange: [height, 0, 0],
+        });
+
+        const opacity = position.interpolate({
+          inputRange: [index - 1, index - 0.99, index],
+          outputRange: [0, 1, 1],
+        });
+
+        return { opacity, transform: [{ translateY }] };
+      },
+    })
   }
 );
