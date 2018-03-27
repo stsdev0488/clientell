@@ -4,10 +4,14 @@ import {Container, Content, Text as NBText, Button} from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 
-import HeaderBar from '../../../Components/HeaderBar'
-import Feedback from '../../../Components/Feedback'
+import HeaderBar from 'Components/HeaderBar'
+import Feedback from 'Components/Feedback'
 import StarRating from 'react-native-star-rating'
 import {Call, Text, Map, Email} from 'react-native-openanything'
+import AlertMessage from 'Components/AlertMessage'
+
+// Redux actions
+import ClientActions from 'Redux/ClientRedux'
 
 // Styles
 import styles from '../styles'
@@ -27,39 +31,26 @@ class ClientProfile extends React.PureComponent {
 
   state = {
     scrollOffsetY: 0,
-    reviews: [
-      {
-        userName: 'You',
-        rating: 3,
-        created: new Date(),
-        payment: 1,
-        character: 1,
-        repeat: 0,
-        feedback: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-      },
-      {
-        userName: 'Bill Gates',
-        rating: 4,
-        created: new Date(),
-        payment: 1,
-        character: null,
-        repeat: null,
-        feedback: 'Very accomodating!'
-      },
-      {
-        userName: 'Steve Jobs',
-        rating: 5,
-        created: new Date(),
-        payment: 1,
-        character: 1,
-        repeat: 1,
-        feedback: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.'
-      },
-    ]
+    client: this.props.navigation.getParam('client'),
+    reviews: []
+  }
+
+  componentDidMount () {
+    const { client } = this.props.navigation.state.params
+    this.props.getClient(client.id)
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (this.props.fetching && !newProps.fetching) {
+      if (!newProps.error) {
+        console.tron.log(newProps.clientData)
+        this.setState({client: newProps.clientData})
+      }
+    }
   }
 
   renderInfo () {
-    const { client } = this.props.navigation.state.params
+    const { client } = this.state
 
     return (
       <View>
@@ -121,8 +112,8 @@ class ClientProfile extends React.PureComponent {
   }
 
   render () {
-    const { navigate, state } = this.props.navigation
-    const { client } = state.params
+    const { navigate } = this.props.navigation
+    const { client } = this.state
 
     return (
       <View style={styles.container}>
@@ -149,8 +140,12 @@ class ClientProfile extends React.PureComponent {
             <NBText>Write a new review</NBText>
           </Button>
 
+          {client.reviews.data.length < 1 && this.props.fetching !== true &&
+            <AlertMessage title="No reviews submitted for this user" />
+          }
+
           {
-            this.state.reviews.map((item, i) => {
+            client.reviews.data.map((item, i) => {
               return (
                 <Feedback key={i} data={item} />
               )
@@ -165,13 +160,15 @@ class ClientProfile extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-
+    fetching: state.client.fetchingClient,
+    clientData: state.client.fetchedClient,
+    error: state.client.fetchedClientError
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    getClient: (id) => dispatch(ClientActions.getSpecificClient(id))
   }
 }
 

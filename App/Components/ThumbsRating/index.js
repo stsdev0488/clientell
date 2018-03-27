@@ -13,9 +13,9 @@ export default class ThumbsRating extends Component {
   render () {
 
     let rate = ''
-    if (this.props.rate === 1) {
+    if (this.props.rate === 'Thumbs up') {
       rate = 'thumbs-up'
-    } else if (this.props.rate === 0) {
+    } else if (this.props.rate === 'Thumbs down') {
       rate = 'thumbs-down'
     }
 

@@ -7,13 +7,14 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { UserTypes } from '../Redux/UserRedux'
 import { ClientTypes } from '../Redux/ClientRedux'
 import { SearchTypes } from '../Redux/SearchRedux'
+import { ReviewTypes } from '../Redux/ReviewRedux'
 
 /* ------------- Sagas ------------- */
 
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
 import { getUser, updateUser } from './UserSagas'
-import { getClients, addClient } from './ClientSagas'
+import { getClients, addClient, reviewClient, getSpecificClient } from './ClientSagas'
 import { getSearchResults } from './SearchSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
@@ -33,6 +34,10 @@ export default function * root () {
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),
     takeLatest(ClientTypes.ADD_CLIENT, addClient),
+    takeLatest(ClientTypes.GET_SPECIFIC_CLIENT, getSpecificClient),
+
+    // REVIEW SAGAS
+    takeLatest(ReviewTypes.REVIEW_REQUEST, reviewClient),
 
     // SEARCH SAGAS
     takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults)

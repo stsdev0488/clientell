@@ -15,21 +15,22 @@ class Feedback extends Component {
 
   renderLeftCol () {
     const {data} = this.props
+    const user = data.user.data || data.user
     return (
       <View style={styles.left}>
-        <NBText style={styles.date}>{moment(data.created).format('MM/DD/YYYY')}</NBText>
+        <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
         <StarRating
           disabled
           starSize={20}
           maxStars={5}
-          rating={data.rating}
+          rating={data.star_rating}
           fullStarColor='#FFD700'
           emptyStarColor='#D6D6D6'
           containerStyle={{width: 100}}
         />
         <View style={styles.authorBox}>
-          <NBText style={styles.author}>By <NBText style={styles.authorName}>{data.userName}</NBText></NBText>
-          {this.renderAuthorBtn(data.userName)}
+          <NBText style={styles.author}>By <NBText style={styles.authorName}>{user.name}</NBText></NBText>
+          {this.renderAuthorBtn(user.name)}
         </View>
       </View>
     )
@@ -53,10 +54,10 @@ class Feedback extends Component {
 
   renderRateItem (rate, label) {
     let icon = <Icon name='ios-remove' style={styles.rateIcon} />
-    if (rate === 0) {
+    if (rate === 'Thumbs down') {
       icon = <Icon name='ios-thumbs-down' style={[styles.rateIcon, styles.thumbsDown]} />
     }
-    else if (rate === 1) {
+    else if (rate === 'Thumbs up') {
       icon = <Icon name='ios-thumbs-up' style={[styles.rateIcon, styles.thumbsUp]} />
     }
 
@@ -72,9 +73,9 @@ class Feedback extends Component {
     const {data} = this.props
     return (
       <View style={styles.right}>
-        {this.renderRateItem(data.payment, 'Payment')}
-        {this.renderRateItem(data.character, 'Character')}
-        {this.renderRateItem(data.repeat, 'Repeat')}
+        {this.renderRateItem(data.payment_rating, 'Payment')}
+        {this.renderRateItem(data.character_rating, 'Character')}
+        {this.renderRateItem(data.repeat_rating, 'Repeat')}
       </View>
     )
   }
@@ -87,7 +88,7 @@ class Feedback extends Component {
           {this.renderLeftCol()}
           {this.renderRightCol()}
         </View>
-        <NBText style={styles.feedback}>{data.feedback}</NBText>
+        <NBText style={styles.feedback}>{data.comment}</NBText>
       </View>
     )
   }

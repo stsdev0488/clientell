@@ -3,13 +3,16 @@ import {View, TouchableOpacity, TextInput} from 'react-native'
 import {Container, Content, Text as NBText, Button, Icon} from 'native-base'
 import { connect } from 'react-redux'
 
-import HeaderBar from '../../../Components/HeaderBar'
-import DTPicker from '../../../Components/DTPicker'
+// Redux actions
+import ReviewActions from 'Redux/ReviewRedux'
+
+import HeaderBar from 'Components/HeaderBar'
+import DTPicker from 'Components/DTPicker'
 import moment from 'moment'
 import StarRating from 'react-native-star-rating'
-import ThumbsRating from '../../../Components/ThumbsRating'
+import ThumbsRating from 'Components/ThumbsRating'
 // Styles
-import {Colors} from '../../../Themes'
+import {Colors} from 'Themes'
 import styles from '../styles'
 
 const charLen = 300
@@ -38,17 +41,26 @@ class clientReview extends React.PureComponent {
     comment: '',
     charRemaining: charLen
   }
+
   reviewId = this.props.navigation.getParam('id', 0)
-  clientName = this.props.navigation.getParam('clientName', 'Client')
-  clientAddress = this.props.navigation.getParam('clientAddress')
+  clientName = this.props.navigation.getParam('name', 'Client')
+  clientAddress = this.props.navigation.getParam('street_address')
+
+  componentWillReceiveProps (newProps) {
+    if (this.props.fetching && !newProps.fetching) {
+      if (!newProps.error) {
+        this.props.navigation.goBack()
+      }
+    }
+  }
 
   handleThumbsRating (type, key) {
     let existingVal = this.state[key]
     let newVal = null
     if (type === 'thumbs-up') {
-      newVal = existingVal === 1 ? null : 1
+      newVal = existingVal === 'Thumbs up' ? null : 'Thumbs up'
     } else if (type === 'thumbs-down') {
-      newVal = existingVal === 0 ? null : 0
+      newVal = existingVal === 'Thumbs down' ? null : 'Thumbs down'
     }
     let newState = {}
     newState[key] = newVal
@@ -60,6 +72,22 @@ class clientReview extends React.PureComponent {
     if (charRemaining > -1) {
       this.setState({charRemaining, comment})
     }
+  }
+
+  _submitReview = () => {
+    const { paymentRating, characterRating, repeatRating, comment, date, rating } = this.state
+
+    const data = {
+      service_date: moment(date).format('YYYY-MM-DD'),
+      star_rating: rating,
+      payment_rating: paymentRating,
+      character_rating: characterRating,
+      repeat_rating: repeatRating,
+      comment
+    }
+
+    this.props.addReview(this.reviewId, data)
+
   }
 
   render () {
@@ -148,7 +176,7 @@ class clientReview extends React.PureComponent {
             />
           </View>
 
-          <Button block style={{marginBottom: 30}}>
+          <Button disabled={this.props.fetching} block style={{marginBottom: 30}} onPress={this._submitReview}>
             <NBText>{this.reviewId ? 'Edit' : 'Add'} Rating</NBText>
           </Button>
 
@@ -161,13 +189,14 @@ class clientReview extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-
+    fetching: state.review.fetching,
+    error: state.review.error
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    addReview: (id, data) => dispatch(ReviewActions.reviewRequest(id, data))
   }
 }
 

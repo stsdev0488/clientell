@@ -8,7 +8,8 @@ export const reducers = combineReducers({
   auth: require('./AuthRedux').reducer,
   user: require('./UserRedux').reducer,
   client: require('./ClientRedux').reducer,
-  search: require('./SearchRedux').reducer
+  search: require('./SearchRedux').reducer,
+  review: require('./ReviewRedux').reducer
 })
 
 export default () => {

@@ -9,8 +9,10 @@ const { Types, Creators } = createActions({
   clientFailure: null,
   addClient: ['data'],
   addClientSuccess: ['data'],
-  addClientFailure: ['data']
-
+  addClientFailure: ['data'],
+  getSpecificClient: ['id'],
+  getClientSuccess: ['data'],
+  getClientFailure: null
 })
 
 export const ClientTypes = Types
@@ -24,7 +26,10 @@ export const INITIAL_STATE = Immutable({
   payload: null,
   error: null,
   addingClient: null,
-  addError: null
+  addError: null,
+  fetchingClient: null,
+  fetchedClient: null,
+  fetchingClientError: null
 })
 
 /* ------------- Selectors ------------- */
@@ -42,6 +47,9 @@ export const request = (state, { data }) =>
 export const addRequest = (state, { data }) =>
   state.merge({ addingClient: true, addError: null })
 
+export const getClient = (state, { id }) =>
+  state.merge({ fetchingClient: true, fetchedClient: null, fetchedClientError: false })
+
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
@@ -52,12 +60,20 @@ export const addSuccess = (state, { data }) => {
   return state.merge({ addingClient: false, addError: null })
 }
 
+export const fetchClientSuccess = (state, { data }) => {
+  return state.merge({ fetchingClient: false, fetchedClient: data })
+}
+
 // Something went wrong somewhere.
 export const failure = state =>
   state.merge({ fetching: false, error: true, payload: null })
 
 export const addFailure = (state, { data }) =>
   state.merge({ addingClient: false, addError: data })
+
+export const fetchClientError = (state, { data }) => {
+  return state.merge({ fetchingClient: false, fetchedClientError: true })
+}
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -67,5 +83,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CLIENT_FAILURE]: failure,
   [Types.ADD_CLIENT]: addRequest,
   [Types.ADD_CLIENT_SUCCESS]: addSuccess,
-  [Types.ADD_CLIENT_FAILURE]: addFailure
+  [Types.ADD_CLIENT_FAILURE]: addFailure,
+  [Types.GET_SPECIFIC_CLIENT]: getClient,
+  [Types.GET_CLIENT_SUCCESS]: fetchClientSuccess,
+  [Types.GET_CLIENT_FAILURE]: fetchClientError
 })
