@@ -95,8 +95,6 @@ class PersonalInfoStep extends Component {
   }
 
   render () {
-    const {name, phone, address} = this.state
-
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>

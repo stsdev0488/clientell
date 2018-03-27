@@ -76,7 +76,7 @@ class ClientProfile extends React.PureComponent {
             </Button>
           </View>
           <View style={[styles.section, styles.infoItem]}>
-            <NBText>727-421-5555</NBText>
+            <NBText>+{client.phone_number_ext}{client.phone_number}</NBText>
             <Button
               onPress={() => Call(client.phone_number, prompt = false)}
               transparent
@@ -119,7 +119,7 @@ class ClientProfile extends React.PureComponent {
         <HeaderBar
           title={client.name}
           rightBtnIcon='md-create'
-          rightBtnPress={() => console.tron.log('For Edit!')}
+          rightBtnPress={() => this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}

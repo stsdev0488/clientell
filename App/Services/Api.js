@@ -81,6 +81,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.post('client', data, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const editClient = ({id, data}) => {
+    return getToken().then((a) => api.post('client/' + id, {...data, _method: 'PUT'}, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   const getClients = (urlParams) => {
     return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
@@ -115,6 +119,7 @@ const create = (baseURL) => {
     updateUser,
     updateContactInfo,
     addClient,
+    editClient,
     getClients,
     clientLookup,
     addClientReview,

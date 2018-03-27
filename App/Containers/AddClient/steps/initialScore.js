@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
-import {Button, Text} from 'native-base'
+import {Button, Text, Spinner} from 'native-base'
 
 import StarRating from 'react-native-star-rating'
 // Styles
@@ -31,7 +31,8 @@ class RatingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state.initial_star_rating)}>
+          <Button disabled={this.props.fetching} block onPress={() => this.props.submitInfo(this.state.initial_star_rating)}>
+            {this.props.fetching === true && <Spinner />}
             <Text>Submit</Text>
           </Button>
         </View>
@@ -42,6 +43,7 @@ class RatingStep extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.client.addingClient
   }
 }
 

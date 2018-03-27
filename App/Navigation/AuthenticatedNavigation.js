@@ -24,6 +24,7 @@ const ClientStack = StackNavigator(
     Clients: { screen: Clients },
     ClientProfile: { screen: ClientProfile },
     ClientReview: { screen: ClientReview },
+    ClientEditProfile: { screen: AddClient }
   },
   {
     headerMode: 'none',

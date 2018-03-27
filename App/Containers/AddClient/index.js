@@ -6,6 +6,8 @@ import StepIndicator from 'react-native-step-indicator'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import * as Animatable from 'react-native-animatable'
 
+import HeaderBar from 'Components/HeaderBar'
+
 // Redux
 import ClientActions from 'Redux/ClientRedux'
 
@@ -17,6 +19,8 @@ import PersonalInfoStep from './steps/personal'
 import AddressStep from './steps/address'
 import BillingStep from './steps/billing'
 import RatingStep from './steps/initialScore'
+
+import { parseEditClient } from 'Lib/Utils'
 
 const labels = ['Personal Info', 'Address', 'Rating']
 const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
@@ -57,52 +61,72 @@ class AddClient extends Component {
     )
   }
 
-  state = {
-    clientType: 'individual',
-    scrollOffsetY: 0,
-    currentPosition: 0,
-    personalData: {
-      organization_name: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      email: ''
-    },
-    addressData: {
-      street_address: '',
-      street_address2: '',
-      city: '',
-      state: '',
-      postal_code: ''
-    },
-    billingData: {
-      billing_first_name: '',
-      billing_middle_name: '',
-      billing_last_name: '',
-      billing_street_address: '',
-      billing_street_address2: '',
-      billing_city: '',
-      billing_state: '',
-      billing_postal_code: ''
-    },
-    ratingData: {
-      initial_star_rating: 3
-    },
-    clientData: {}
+  constructor (props) {
+    super(props)
+    const c = this.props.navigation.getParam('client')
+    if (c) {
+      this.state = parseEditClient(c)
+    } else {
+      this.state = {
+        clientType: 'individual',
+        scrollOffsetY: 0,
+        currentPosition: 0,
+        personalData: {
+          organization_name: '',
+          first_name: '',
+          last_name: '',
+          middle_name: '',
+          email: ''
+        },
+        addressData: {
+          street_address: '',
+          street_address2: '',
+          city: '',
+          state: '',
+          postal_code: ''
+        },
+        billingData: {
+          billing_first_name: '',
+          billing_middle_name: '',
+          billing_last_name: '',
+          billing_street_address: '',
+          billing_street_address2: '',
+          billing_city: '',
+          billing_state: '',
+          billing_postal_code: ''
+        },
+        ratingData: {
+          initial_star_rating: 3
+        },
+        clientData: {}
+      }
+    }
   }
 
   componentWillReceiveProps (newProps) {
-    if (this.props.fetching && !newProps.fetching) {
+    if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
       if (!newProps.error) {
-        this.props.clients()
-        this.props.navigation.navigate('Clients')
+        const client = this.props.navigation.getParam('client')
+        if (!client) {
+          this.props.clients()
+          this.props.navigation.navigate('Clients')
+        } else {
+          this.props.clients()
+          this.props.navigation.goBack()
+        }
       }
     }
   }
 
   handleSubmit (initialRating) {
     Keyboard.dismiss()
-    this.props.addClient({...this.state.clientData, initial_star_rating: initialRating})
+
+    const client = this.props.navigation.getParam('client')
+    if (!client) {
+      this.props.addClient({...this.state.clientData, initial_star_rating: initialRating}, 0)
+    } else {
+      this.props.addClient({...this.state.clientData, initial_star_rating: initialRating}, client.id)
+    }
   }
 
   _submitStepInfo = (data) => {
@@ -178,12 +202,24 @@ class AddClient extends Component {
   }
 
   render () {
+    const client = this.props.navigation.getParam('client')
     return (
       <View style={styles.container}>
+        {client ?
+          <HeaderBar
+            title={'Edit Client'}
+            leftBtnIcon='ios-arrow-back'
+            leftBtnPress={() => this.props.navigation.goBack(null)}
+          /> : null
+        }
+
+
         <Content innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-          <View style={styles.titleSection}>
-            <Text style={styles.titleText}>Add Client</Text>
-          </View>
+          {!client ?
+            <View style={styles.titleSection}>
+              <Text style={styles.titleText}>Add Client</Text>
+            </View> : null
+          }
 
           <StepIndicator
             stepCount={this.state.clientType === 'individual' ? 3 : 4}
@@ -244,7 +280,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addClient: (data) => dispatch(ClientActions.addClient(data)),
+    addClient: (data, edit) => dispatch(ClientActions.addClient(data, edit)),
     clients: () => {dispatch(ClientActions.clientRequest())}
   }
 }

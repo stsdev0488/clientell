@@ -7,7 +7,7 @@ const { Types, Creators } = createActions({
   clientRequest: ['data'],
   clientSuccess: ['payload'],
   clientFailure: null,
-  addClient: ['data'],
+  addClient: ['data', 'edit'],
   addClientSuccess: ['data'],
   addClientFailure: ['data'],
   getSpecificClient: ['id'],

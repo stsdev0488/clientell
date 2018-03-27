@@ -34,14 +34,20 @@ export function * getSpecificClient (action) {
   }
 }
 
-export function * addClient ({ data }) {
+export function * addClient ({ data, edit }) {
   const api = yield call(apiGet)
-  
+  let apiCall = edit ? api.editClient : api.addClient
+  const toSubmit = edit ? { id: edit, data } : data
+
   try {
-    const response = yield call(api.addClient, data)
+    const response = yield call(apiCall, toSubmit)
 
     if (response.ok) {
       yield put(ClientActions.addClientSuccess(response.data))
+
+      if (edit) {
+        yield put(ClientActions.getSpecificClient(edit))
+      }
     } else {
       yield put(ClientActions.addClientFailure(response.data))
     }
