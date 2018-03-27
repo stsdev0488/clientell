@@ -6,7 +6,10 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
   reviewRequest: ['id', 'data'],
   reviewSuccess: ['payload'],
-  reviewFailure: ['data']
+  reviewFailure: ['data'],
+  editReview: ['id', 'data'],
+  editReviewSuccess: ['payload'],
+  editReviewFailure: ['data']
 })
 
 export const ReviewTypes = Types
@@ -18,7 +21,9 @@ export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
   payload: null,
-  error: null
+  error: null,
+  editing: null,
+  editError: null
 })
 
 /* ------------- Selectors ------------- */
@@ -43,10 +48,29 @@ export const success = (state, action) => {
 export const failure = ({ data }) =>
   state.merge({ fetching: false, error: data, payload: null })
 
+/**
+ * EDIT REVIEW
+ */
+// request the data from an api
+export const editRequest = (state, { data }) =>
+  state.merge({ editing: true, editError: null })
+
+// successful api lookup
+export const editSuccess = (state) => {
+  return state.merge({ editing: false })
+}
+
+// Something went wrong somewhere.
+export const editFailure = ({ data: editError }) =>
+  state.merge({ edit: false, editError })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.REVIEW_REQUEST]: request,
   [Types.REVIEW_SUCCESS]: success,
-  [Types.REVIEW_FAILURE]: failure
+  [Types.REVIEW_FAILURE]: failure,
+  [Types.EDIT_REVIEW]: editRequest,
+  [Types.EDIT_REVIEW_SUCCESS]: editSuccess,
+  [Types.EDIT_REVIEW_FAILURE]: editFailure
 })

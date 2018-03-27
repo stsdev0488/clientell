@@ -43,7 +43,6 @@ class ClientProfile extends React.PureComponent {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
-        console.tron.log(newProps.clientData)
         this.setState({client: newProps.clientData})
       }
     }
@@ -134,7 +133,7 @@ class ClientProfile extends React.PureComponent {
             block
             iconLeft
             style={{marginBottom: 40, marginHorizontal: 10}}
-            onPress={() => navigate('ClientReview', client)}
+            onPress={() => navigate('ClientReview', {client})}
           >
             <Icon name='ios-create-outline' />
             <NBText>Write a new review</NBText>

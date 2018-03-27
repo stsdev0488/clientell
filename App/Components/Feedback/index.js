@@ -16,6 +16,10 @@ class Feedback extends Component {
   renderLeftCol () {
     const {data} = this.props
     const user = data.user.data || data.user
+    const client = data.client.data || data.client
+
+    const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
+
     return (
       <View style={styles.left}>
         <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
@@ -29,17 +33,17 @@ class Feedback extends Component {
           containerStyle={{width: 100}}
         />
         <View style={styles.authorBox}>
-          <NBText style={styles.author}>By <NBText style={styles.authorName}>{user.name}</NBText></NBText>
-          {this.renderAuthorBtn(user.name)}
+          <NBText style={styles.author}>By <NBText style={styles.authorName}>{name}</NBText></NBText>
+          {this.renderAuthorBtn(name, client, data)}
         </View>
       </View>
     )
   }
 
-  renderAuthorBtn (userName) {
+  renderAuthorBtn (userName, client, review) {
     if (userName === 'You') {
       return (
-        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', { id: 1, clientName: 'John Doe', clientAddress: '1345 Toad Street, Tampa, FL 33618'})}>
+        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', {client, review})}>
           <Icon name='ios-create-outline' style={styles.authorBtnIcon} />
         </Button>
       )
@@ -94,10 +98,16 @@ class Feedback extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.user.data
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (route, data = {}) => dispatch(NavigationActions.navigate({ routeName: route, params: data }))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Feedback)
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback)

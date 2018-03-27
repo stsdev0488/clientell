@@ -82,11 +82,11 @@ const create = (baseURL) => {
   }
 
   const getClients = (urlParams) => {
-    return getToken().then((a) => api.get('client?include=reviews.user', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const clientLookup = (params) => {
-    return getToken().then((a) => api.get('client?include=reviews', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const getSpecificUser = (data) => {
@@ -94,13 +94,16 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get(`client/${data.id}${data.param}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
-
   /**
    * Client Review API
    */
 
   const addClientReview = ({id, data}) => {
     return getToken().then((a) => api.post(`client/${id}/review`, data, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+  const editClientReview = ({id, data}) => {
+    return getToken().then((a) => api.post(`review/${id}`, {...data, _method: 'PUT'}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   return {
@@ -114,7 +117,8 @@ const create = (baseURL) => {
     addClient,
     getClients,
     clientLookup,
-    addClientReview
+    addClientReview,
+    editClientReview
   }
 }
 

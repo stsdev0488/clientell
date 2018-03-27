@@ -15,6 +15,8 @@ import ThumbsRating from 'Components/ThumbsRating'
 import {Colors} from 'Themes'
 import styles from '../styles'
 
+import { parseClientAddress } from 'Lib/Utils'
+
 const charLen = 300
 
 class clientReview extends React.PureComponent {
@@ -30,25 +32,30 @@ class clientReview extends React.PureComponent {
     )
   }
 
+  client = this.props.navigation.getParam('client')
+  review = this.props.navigation.getParam('review', {})
+
   state = {
     scrollOffsetY: 0,
-    date: new Date(),
+    date: this.review.service_date ? moment(this.review.service_date) : new Date(),
     datepickerVisible: false,
-    rating: 0,
-    paymentRating: null,
-    characterRating: null,
-    repeatRating: null,
-    comment: '',
+    rating: this.review.star_rating || 0,
+    paymentRating: this.review.payment_rating || null,
+    characterRating: this.review.character_rating || null,
+    repeatRating: this.review.repeat_rating || null,
+    comment: this.review.comment || '',
     charRemaining: charLen
   }
-
-  reviewId = this.props.navigation.getParam('id', 0)
-  clientName = this.props.navigation.getParam('name', 'Client')
-  clientAddress = this.props.navigation.getParam('street_address')
 
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
+        this.props.navigation.goBack()
+      }
+    }
+
+    if (this.props.editing && !newProps.editing) {
+      if (!newProps.editError) {
         this.props.navigation.goBack()
       }
     }
@@ -86,8 +93,11 @@ class clientReview extends React.PureComponent {
       comment
     }
 
-    this.props.addReview(this.reviewId, data)
-
+    if (!this.review.id) {
+      this.props.addReview(this.client.id, data)
+    } else {
+      this.props.editReview(this.review.id, data)
+    }
   }
 
   render () {
@@ -95,8 +105,8 @@ class clientReview extends React.PureComponent {
       <View style={styles.container}>
         <HeaderBar
           topTitle={this.reviewId ? 'Edit review for' : 'New review for'}
-          title={this.clientName}
-          subTitle={this.clientAddress}
+          title={this.client.name}
+          subTitle={parseClientAddress(this.client)}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
@@ -176,8 +186,8 @@ class clientReview extends React.PureComponent {
             />
           </View>
 
-          <Button disabled={this.props.fetching} block style={{marginBottom: 30}} onPress={this._submitReview}>
-            <NBText>{this.reviewId ? 'Edit' : 'Add'} Rating</NBText>
+          <Button disabled={this.props.fetching || this.props.editing} block style={{marginBottom: 30}} onPress={this._submitReview}>
+            <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
           </Button>
 
         </Content>
@@ -190,13 +200,16 @@ class clientReview extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     fetching: state.review.fetching,
-    error: state.review.error
+    error: state.review.error,
+    editing: state.review.editing,
+    editError: state.review.editError
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addReview: (id, data) => dispatch(ReviewActions.reviewRequest(id, data))
+    addReview: (id, data) => dispatch(ReviewActions.reviewRequest(id, data)),
+    editReview: (id, data) => dispatch(ReviewActions.editReview(id, data))
   }
 }
 

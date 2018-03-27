@@ -17,7 +17,7 @@ export function * getClients () {
 export function * getSpecificClient (action) {
   try {
     const { id } = action
-    const includes = '?include=reviews.user'
+    const includes = '?include=reviews.user,reviews.client'
     // make the call to the api
     const response = yield call(retryCall, 5, 'getSpecificUser', {id, param: includes})
 
@@ -61,6 +61,24 @@ export function * reviewClient ({ id, data }) {
       yield put(ClientActions.getSpecificClient(id))
     } else {
       yield put(ReviewActions.reviewFailure(response.data))
+    }
+  } catch (err) {
+    // err
+  }
+}
+
+export function * editClientReview ({ id, data }) {
+  const api = yield call(apiGet)
+
+  try {
+    const response = yield call(api.editClientReview, {id, data})
+
+    if (response.ok) {
+      yield put(ReviewActions.editReviewSuccess(response.data))
+      console.tron.log(response.data)
+      yield put(ClientActions.getSpecificClient(response.data.client_id))
+    } else {
+      yield put(ReviewActions.editReviewFailure(response.data))
     }
   } catch (err) {
     // err

@@ -14,7 +14,13 @@ import { ReviewTypes } from '../Redux/ReviewRedux'
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
 import { getUser, updateUser } from './UserSagas'
-import { getClients, addClient, reviewClient, getSpecificClient } from './ClientSagas'
+import {
+  getClients,
+  addClient,
+  reviewClient,
+  getSpecificClient,
+  editClientReview
+} from './ClientSagas'
 import { getSearchResults } from './SearchSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
@@ -38,6 +44,7 @@ export default function * root () {
 
     // REVIEW SAGAS
     takeLatest(ReviewTypes.REVIEW_REQUEST, reviewClient),
+    takeLatest(ReviewTypes.EDIT_REVIEW, editClientReview),
 
     // SEARCH SAGAS
     takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults)
