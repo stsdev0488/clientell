@@ -100,7 +100,7 @@ class AddClient extends Component {
 
   handleSubmit (initialRating) {
     Keyboard.dismiss()
-    this.props.addClient({...this.state.clientData, star_rating: initialRating})
+    this.props.addClient({...this.state.clientData, initial_star_rating: initialRating})
   }
 
   _submitStepInfo = (data) => {
