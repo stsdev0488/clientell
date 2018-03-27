@@ -65,7 +65,8 @@ class AddClient extends Component {
       organization_name: '',
       first_name: '',
       last_name: '',
-      middle_name: ''
+      middle_name: '',
+      email: ''
     },
     addressData: {
       street_address: '',
@@ -93,6 +94,7 @@ class AddClient extends Component {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
+        this.props.clients()
         this.props.navigation.navigate('Clients')
       }
     }
@@ -242,7 +244,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addClient: (data) => dispatch(ClientActions.addClient(data))
+    addClient: (data) => dispatch(ClientActions.addClient(data)),
+    clients: () => {dispatch(ClientActions.clientRequest())}
   }
 }
 

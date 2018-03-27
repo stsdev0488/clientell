@@ -77,10 +77,13 @@ class PersonalInfoStep extends Component {
 
   _submitDetails = () => {
     let finalData = {...this.state}
+    const phone = this.phone.getValue();
+    const alt_phone = this.phone_alternate.getValue()
+
     finalData.phone_number_ext = this.phone.getCountryCode()
-    finalData.phone_number = this.phone.getValue()
+    finalData.phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
     finalData.alt_phone_number_ext = this.phone_alternate.getCountryCode()
-    finalData.alt_phone_number = this.phone_alternate.getValue()
+    finalData.alt_phone_number = alt_phone.replace('+' + this.phone_alternate.getCountryCode(), '')
 
     this.props.submitInfo(finalData)
   }
@@ -111,13 +114,25 @@ class PersonalInfoStep extends Component {
         {this._renderConditionalInputs()}
 
         <View style={styles.section}>
+          <Text style={styles.sectionText}>Email</Text>
+          <Item regular>
+            <Icon active name='ios-mail' />
+            <Input
+              defaultValue={this.state.email}
+              onChangeText={email => this.setState({ email })}
+              keyboardType='email-address'
+            />
+          </Item>
+        </View>
+
+        <View style={styles.section}>
           <Text style={styles.sectionText}>Phone number</Text>
           <Item regular>
             <PhoneInput
               ref={ref => { this.phone = ref }}
               style={{paddingHorizontal: 8}}
               textStyle={{height: 50}}
-              value={this.state.phone_number}
+              value={this.state.phone_number ? this.state.phone_number_ext + this.state.phone_number : '+1'}
             />
           </Item>
         </View>
@@ -129,7 +144,7 @@ class PersonalInfoStep extends Component {
               ref={ref => { this.phone_alternate = ref }}
               style={{paddingHorizontal: 8}}
               textStyle={{height: 50}}
-              value={this.state.alt_phone_number}
+              value={this.state.alt_phone_number ? this.state.alt_phone_number_ext + '' + this.state.alt_phone_number : '+1'}
             />
           </Item>
         </View>

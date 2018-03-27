@@ -59,6 +59,8 @@ class ClientProfile extends React.PureComponent {
   }
 
   renderInfo () {
+    const { client } = this.props.navigation.state.params
+
     return (
       <View>
         <View style={styles.section}>
@@ -66,7 +68,7 @@ class ClientProfile extends React.PureComponent {
             disabled
             starSize={30}
             maxStars={5}
-            rating={3}
+            rating={client.initial_star_rating}
             fullStarColor='#FFD700'
             emptyStarColor='#D6D6D6'
           />
@@ -74,9 +76,9 @@ class ClientProfile extends React.PureComponent {
         </View>
         <View style={styles.contacts}>
           <View style={[styles.section, styles.infoItem]}>
-            <NBText>1345 Toad Street, Tampa, FL 33618</NBText>
+            <NBText>{client.street_address} {client.street_address2}, {client.city}, {client.state} {client.postal_code}</NBText>
             <Button
-              onPress={() => Map('1345 Toad Street, Tampa, FL 33618')}
+              onPress={() => Map(`${client.street_address} ${client.street_address2}, ${client.city}, ${client.state} ${client.postal_code}`)}
               transparent
               style={styles.btnIcon}
             >
@@ -86,41 +88,46 @@ class ClientProfile extends React.PureComponent {
           <View style={[styles.section, styles.infoItem]}>
             <NBText>727-421-5555</NBText>
             <Button
-              onPress={() => Call('7274215555', prompt = false)}
+              onPress={() => Call(client.phone_number, prompt = false)}
               transparent
               style={styles.btnIcon}
             >
               <Icon name='ios-call' style={styles.textBtnIcon} />
             </Button>
             <Button
-              onPress={() => Text('7274215555', message = false, autoEncode = true)}
+              onPress={() => Text(client.phone_number, message = false, autoEncode = true)}
               transparent
               style={styles.btnIcon}
             >
               <Icon name='md-text' style={styles.textBtnIcon} />
             </Button>
           </View>
-          <View style={[styles.section, styles.infoItem]}>
-            <NBText>jdoe@gmail.com</NBText>
-            <Button
-              onPress={() => Email(to = 'jdoe@gmail.com', subject = false, body = false, cc = false, bcc = false)}
-              transparent
-              style={styles.btnIcon}
-            >
-              <Icon name='md-mail' style={{fontSize: 28}} />
-            </Button>
-          </View>
+
+          {client.email &&
+            <View style={[styles.section, styles.infoItem]}>
+              <NBText>{client.email}</NBText>
+              <Button
+                onPress={() => Email(to = client.email, subject = false, body = false, cc = false, bcc = false)}
+                transparent
+                style={styles.btnIcon}
+              >
+                <Icon name='md-mail' style={{fontSize: 28}} />
+              </Button>
+            </View>
+          }
         </View>
       </View>
     )
   }
 
   render () {
-    const {navigate} = this.props.navigation
+    const { navigate, state } = this.props.navigation
+    const { client } = state.params
+
     return (
       <View style={styles.container}>
         <HeaderBar
-          title='John Doe'
+          title={client.name}
           rightBtnIcon='md-create'
           rightBtnPress={() => console.tron.log('For Edit!')}
           leftBtnIcon='ios-arrow-back'
@@ -136,7 +143,7 @@ class ClientProfile extends React.PureComponent {
             block
             iconLeft
             style={{marginBottom: 40, marginHorizontal: 10}}
-            onPress={() => navigate('ClientReview', { clientName: 'John Doe', clientAddress: '1345 Toad Street, Tampa, FL 33618'})}
+            onPress={() => navigate('ClientReview', client)}
           >
             <Icon name='ios-create-outline' />
             <NBText>Write a new review</NBText>

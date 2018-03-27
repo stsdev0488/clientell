@@ -43,7 +43,7 @@ class Clients extends React.PureComponent {
   renderRow ({item}) {
     return (
       <ListItem>
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile')}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
           <Body>
             <View style={styles.listHeader}>
               <NBText style={styles.title}>{item.name}</NBText>
