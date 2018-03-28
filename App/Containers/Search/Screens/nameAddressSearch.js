@@ -39,7 +39,7 @@ class Search extends Component {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
         const { first_name, last_name } = this.state
-        this.props.navigation.navigate('SearchResults', {results: newProps.data, searchKey: first_name + ' ' + last_name})
+        this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: first_name + ' ' + last_name})
       }
     }
   }
@@ -49,8 +49,9 @@ class Search extends Component {
 
     this.props.searchClient(
       {
-        search_by: 3,
-        name: first_name + ' ' + last_name,
+        search_by: 'name and address',
+        first_name,
+        last_name,
         city,
         state,
         street_address
@@ -125,7 +126,8 @@ class Search extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.search.fetching,
-    error: state.search.error
+    error: state.search.error,
+    data: state.search.payload
   }
 }
 

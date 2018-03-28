@@ -90,7 +90,7 @@ const create = (baseURL) => {
   }
 
   const clientLookup = (params) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('review?include=client,user', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const getSpecificUser = (data) => {

@@ -34,14 +34,13 @@ class Search extends Component {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
-        console.tron.log(newProps.data)
         this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.email})
       }
     }
   }
 
   _executeSearch = () => {
-    this.props.searchClient({search_by: 2, email: this.state.email})
+    this.props.searchClient({search_by: 'email', email: this.state.email})
   }
 
   render () {

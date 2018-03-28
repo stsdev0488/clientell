@@ -53,7 +53,7 @@ class Search extends Component {
           {
             this.state.reviews.map((item, i) => {
               return (
-                <Feedback key={i} data={item} />
+                <Feedback key={i} noEdit data={item} />
               )
             })
           }

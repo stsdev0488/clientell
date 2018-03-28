@@ -10,7 +10,8 @@ import { NavigationActions } from 'react-navigation'
 
 class Feedback extends Component {
   static propTypes = {
-    data: PropTypes.object
+    data: PropTypes.object,
+    noEdit: PropTypes.bool
   }
 
   renderLeftCol () {
@@ -42,11 +43,13 @@ class Feedback extends Component {
 
   renderAuthorBtn (userName, client, review) {
     if (userName === 'You') {
-      return (
-        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', {client, review})}>
-          <Icon name='ios-create-outline' style={styles.authorBtnIcon} />
-        </Button>
-      )
+      if (!this.props.noEdit) {
+        return (
+          <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', {client, review})}>
+            <Icon name='ios-create-outline' style={styles.authorBtnIcon} />
+          </Button>
+        )
+      }
     } else {
       return (
         <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ProfileModal')}>
