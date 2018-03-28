@@ -81,10 +81,26 @@ export function * editClientReview ({ id, data }) {
 
     if (response.ok) {
       yield put(ReviewActions.editReviewSuccess(response.data))
-      console.tron.log(response.data)
       yield put(ClientActions.getSpecificClient(response.data.client_id))
     } else {
       yield put(ReviewActions.editReviewFailure(response.data))
+    }
+  } catch (err) {
+    // err
+  }
+}
+
+export function * deleteClientReview ({ id, client_id }) {
+  const api = yield call(apiGet)
+
+  try {
+    const response = yield call(api.deleteClientReview, id)
+
+    if (response.ok) {
+      yield put(ReviewActions.deleteReviewSuccess(response.data))
+      yield put(ClientActions.getSpecificClient(client_id))
+    } else {
+      yield put(ReviewActions.deleteReviewFailure(response.data))
     }
   } catch (err) {
     // err

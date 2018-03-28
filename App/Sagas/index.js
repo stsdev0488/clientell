@@ -19,7 +19,8 @@ import {
   addClient,
   reviewClient,
   getSpecificClient,
-  editClientReview
+  editClientReview,
+  deleteClientReview
 } from './ClientSagas'
 import { getSearchResults } from './SearchSagas'
 
@@ -45,6 +46,7 @@ export default function * root () {
     // REVIEW SAGAS
     takeLatest(ReviewTypes.REVIEW_REQUEST, reviewClient),
     takeLatest(ReviewTypes.EDIT_REVIEW, editClientReview),
+    takeLatest(ReviewTypes.DELETE_REVIEW, deleteClientReview),
 
     // SEARCH SAGAS
     takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults)

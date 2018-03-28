@@ -34,7 +34,8 @@ class Search extends Component {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
-        this.props.navigation.navigate('SearchResults', {results: newProps.data, searchKey: this.state.email})
+        console.tron.log(newProps.data)
+        this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.email})
       }
     }
   }
@@ -82,7 +83,8 @@ class Search extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.search.fetching,
-    error: state.search.error
+    error: state.search.error,
+    data: state.search.payload
   }
 }
 

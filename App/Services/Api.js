@@ -110,6 +110,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.post(`review/${id}`, {...data, _method: 'PUT'}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const deleteClientReview = (id) => {
+    return getToken().then((a) => api.delete(`review/${id}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   return {
     login,
     loginSocial,
@@ -123,7 +127,8 @@ const create = (baseURL) => {
     getClients,
     clientLookup,
     addClientReview,
-    editClientReview
+    editClientReview,
+    deleteClientReview
   }
 }
 

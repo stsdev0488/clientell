@@ -9,7 +9,10 @@ const { Types, Creators } = createActions({
   reviewFailure: ['data'],
   editReview: ['id', 'data'],
   editReviewSuccess: ['payload'],
-  editReviewFailure: ['data']
+  editReviewFailure: ['data'],
+  deleteReview: ['id', 'client_id'],
+  deleteReviewSuccess: ['payload'],
+  deleteReviewFailure: ['data']
 })
 
 export const ReviewTypes = Types
@@ -23,7 +26,9 @@ export const INITIAL_STATE = Immutable({
   payload: null,
   error: null,
   editing: null,
-  editError: null
+  editError: null,
+  deleting: null,
+  deleteError: null
 })
 
 /* ------------- Selectors ------------- */
@@ -61,8 +66,24 @@ export const editSuccess = (state) => {
 }
 
 // Something went wrong somewhere.
-export const editFailure = ({ data: editError }) =>
-  state.merge({ edit: false, editError })
+export const editFailure = (state, { data: editError }) =>
+  state.merge({ editing: false, editError })
+
+/**
+ * DELETE REVIEW
+ */
+// request the data from an api
+export const deleteRequest = (state, { data }) =>
+  state.merge({ deleting: true, deleteError: null })
+
+// successful api lookup
+export const deleteSuccess = (state) => {
+  return state.merge({ deleting: false })
+}
+
+// Something went wrong somewhere.
+export const deleteFailure = (state, { data: deleteError }) =>
+  state.merge({ deleting: false, deleteError })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -72,5 +93,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.REVIEW_FAILURE]: failure,
   [Types.EDIT_REVIEW]: editRequest,
   [Types.EDIT_REVIEW_SUCCESS]: editSuccess,
-  [Types.EDIT_REVIEW_FAILURE]: editFailure
+  [Types.EDIT_REVIEW_FAILURE]: editFailure,
+  [Types.DELETE_REVIEW]: deleteRequest,
+  [Types.DELETE_REVIEW_SUCCESS]: deleteSuccess,
+  [Types.DELETE_REVIEW_FAILURE]: deleteFailure
 })

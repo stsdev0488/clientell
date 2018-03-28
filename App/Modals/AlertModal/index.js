@@ -17,16 +17,19 @@ class UserProfileModal extends Component {
   //   this.state = {}
   // }
 
+  title = this.props.navigation.getParam('title', 'Clientell Alert')
+  message = this.props.navigation.getParam('message', '')
+
   render () {
     return (
       <View style={styles.container}>
         <View style={styles.modalContent}>
           <View>
-            <Text style={styles.titleText}>Sample Alert</Text>
+            <Text style={styles.titleText}>{this.title}</Text>
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.screenText}>A sample alert message here</Text>
+            <Text style={styles.screenText}>{this.message}</Text>
           </View>
 
           <View style={styles.section}>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, TouchableOpacity, TextInput} from 'react-native'
-import {Container, Content, Text as NBText, Button, Icon} from 'native-base'
+import {Container, Content, Text as NBText, Button, Icon, ActionSheet} from 'native-base'
 import { connect } from 'react-redux'
 
 // Redux actions
@@ -59,6 +59,14 @@ class clientReview extends React.PureComponent {
         this.props.navigation.goBack()
       }
     }
+
+    if (this.props.deleting && !newProps.deleting) {
+      if (!newProps.deleteError) {
+        this.props.navigation.goBack()
+      } else {
+        this.props.navigation.navigate('AlertModal', {title: `Delete review failed`, message: `Please check your internet connection or try again later.`})
+      }
+    }
   }
 
   handleThumbsRating (type, key) {
@@ -100,6 +108,24 @@ class clientReview extends React.PureComponent {
     }
   }
 
+  _showDeleteConfirm = () => {
+    const BUTTONS = ["Delete", "Cancel"]
+
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: "Delete this review?"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.deleteReview(this.review.id, this.client.id)
+        }
+      }
+    )
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -107,6 +133,8 @@ class clientReview extends React.PureComponent {
           topTitle={this.reviewId ? 'Edit review for' : 'New review for'}
           title={this.client.name}
           subTitle={parseClientAddress(this.client)}
+          rightBtnIcon='ios-trash'
+          rightBtnPress={() => this._showDeleteConfirm()}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
@@ -202,14 +230,17 @@ const mapStateToProps = state => {
     fetching: state.review.fetching,
     error: state.review.error,
     editing: state.review.editing,
-    editError: state.review.editError
+    editError: state.review.editError,
+    deleting: state.review.deleting,
+    deleteError: state.review.deleteError
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     addReview: (id, data) => dispatch(ReviewActions.reviewRequest(id, data)),
-    editReview: (id, data) => dispatch(ReviewActions.editReview(id, data))
+    editReview: (id, data) => dispatch(ReviewActions.editReview(id, data)),
+    deleteReview: (id, clientId) => dispatch(ReviewActions.deleteReview(id, clientId))
   }
 }
 
