@@ -8,6 +8,7 @@ import AlertMessage from 'Components/AlertMessage'
 
 // Redux
 import ClientActions from 'Redux/ClientRedux'
+import SearchActions from 'Redux/SearchRedux'
 
 // Styles
 import styles from './styles'
@@ -25,19 +26,27 @@ class Clients extends React.PureComponent {
   }
 
   state = {
-    dataObjects: [
-      {
-        name: 'John Doe',
-        address: '134 Toad Ave, Tampa, FL',
-        phone: '727-421-2555',
-        rating: 4
-      },
-    ],
+    dataObjects: [],
     searchKey: ''
   }
 
   componentWillMount () {
     this.props.clients()
+  }
+
+  componentWillReceiveProps (newProps) {
+    if (!newProps.filtering && this.props.filtering) {
+      console.tron.log(newProps)
+      if (newProps.filteredData) {
+        this.setState({dataObjects: newProps.filteredData.data})
+      }
+    }
+
+    if (!newProps.fetching && this.props.fetching) {
+      if (newProps.clientsData) {
+        this.setState({dataObjects: newProps.clientsData.data})
+      }
+    }
   }
 
   renderRow ({item}) {
@@ -66,7 +75,7 @@ class Clients extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
-    if (this.props.fetching) {
+    if (this.props.fetching || this.props.filtering) {
       return (
         <AlertMessage
           title='Fetching clients...'
@@ -91,6 +100,19 @@ class Clients extends React.PureComponent {
 
   handleSearchInput (searchKey) {
     this.setState({searchKey})
+
+    if (searchKey.length > 2) {
+      this.props.filter({keyword: searchKey})
+    } else if (searchKey.length === 0) {
+      this.setState({dataObjects: this.props.clientsData.data})
+    }
+  }
+
+  _handleOnEndSearhInput = () => {
+    // const { searchKey } = this.state
+    // if (searchKey.length > 2) {
+    //   this.props.filter({keyword: searchKey})
+    // }
   }
 
   renderCustomHeader () {
@@ -105,7 +127,7 @@ class Clients extends React.PureComponent {
           <Subtitle>47 clients</Subtitle>
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />
-            <Input placeholder="Search" value={this.state.searchKey} onChangeText={this.handleSearchInput.bind(this)} />
+            <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
             {
               this.state.searchKey !== '' &&
               <TouchableOpacity onPress={() => this.setState({searchKey: ''})}>
@@ -126,7 +148,7 @@ class Clients extends React.PureComponent {
         {this.renderCustomHeader()}
         <FlatList
           contentContainerStyle={styles.listContent}
-          data={clientsData.data || []}
+          data={this.state.dataObjects || []}
           renderItem={this.renderRow.bind(this)}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
@@ -141,13 +163,16 @@ class Clients extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     fetching: state.client.fetching,
-    clientsData: state.client.data || {}
+    clientsData: state.client.data || {},
+    filteredData: state.search.filteredClient,
+    filtering: state.search.filtering
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    clients: () => {dispatch(ClientActions.clientRequest())}
+    clients: () => dispatch(ClientActions.clientRequest()),
+    filter: (keyword) => dispatch(SearchActions.filterClients(keyword))
   }
 }
 

@@ -22,7 +22,7 @@ import {
   editClientReview,
   deleteClientReview
 } from './ClientSagas'
-import { getSearchResults } from './SearchSagas'
+import { getSearchResults, getFilteredClients } from './SearchSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -49,6 +49,7 @@ export default function * root () {
     takeLatest(ReviewTypes.DELETE_REVIEW, deleteClientReview),
 
     // SEARCH SAGAS
-    takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults)
+    takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults),
+    takeLatest(SearchTypes.FILTER_CLIENTS, getFilteredClients)
   ])
 }

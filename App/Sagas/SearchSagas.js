@@ -13,3 +13,15 @@ export function * getSearchResults ({ data }) {
     yield put(SearchActions.searchFailure(response.data))
   }
 }
+
+export function * getFilteredClients ({ keyword }) {
+  const api = yield call(apiGet)
+  const response = yield call(api.clientFilter, keyword)
+
+  // success?
+  if (response.ok) {
+    yield put(SearchActions.clientFilterSuccess(response.data))
+  } else {
+    yield put(SearchActions.clientFilterFailure(response.data))
+  }
+}

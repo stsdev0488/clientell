@@ -93,6 +93,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get('review?include=client,user', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const clientFilter = (params) => {
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   const getSpecificUser = (data) => {
     if (!data.param) data.param = ''
     return getToken().then((a) => api.get(`client/${data.id}${data.param}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
@@ -126,6 +130,7 @@ const create = (baseURL) => {
     editClient,
     getClients,
     clientLookup,
+    clientFilter,
     addClientReview,
     editClientReview,
     deleteClientReview
