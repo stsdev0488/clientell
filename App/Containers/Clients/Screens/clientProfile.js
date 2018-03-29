@@ -114,12 +114,16 @@ class ClientProfile extends React.PureComponent {
     const { navigate } = this.props.navigation
     const { client } = this.state
 
+    const rightButton = client.user_id === this.props.user.id ? {
+      rightBtnIcon: 'md-create',
+      rightBtnPress: () => this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})
+    } : {}
+
     return (
       <View style={styles.container}>
         <HeaderBar
           title={client.name}
-          rightBtnIcon='md-create'
-          rightBtnPress={() => this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})}
+          {...rightButton}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
@@ -161,7 +165,8 @@ const mapStateToProps = (state) => {
   return {
     fetching: state.client.fetchingClient,
     clientData: state.client.fetchedClient,
-    error: state.client.fetchedClientError
+    error: state.client.fetchedClientError,
+    user: state.user.data
   }
 }
 
