@@ -33,6 +33,7 @@
     "react-native": "0.52.2",
     "react-native-animatable": "^1.2.4",
     "react-native-config": "^0.10.0",
+    "react-native-image-picker": "git+https://git@github.com/react-community/react-native-image-picker",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-openanything": "0.0.3",
     "react-native-phone-input": "^0.2.1",
