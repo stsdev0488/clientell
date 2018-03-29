@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
-import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
+import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText, ActionSheet} from 'native-base'
 import StepIndicator from 'react-native-step-indicator'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import * as Animatable from 'react-native-animatable'
@@ -116,6 +116,14 @@ class AddClient extends Component {
         }
       }
     }
+
+    if (this.props.deleting && !newProps.deleting && this.props.navigation.isFocused()) {
+      if (!newProps.deleteError) {
+        this.props.navigation.popToTop()
+      } else {
+        this.props.navigation.navigate('AlertModal', {title: `Delete client failed`, message: `Please check your internet connection or try again later.`})
+      }
+    }
   }
 
   handleSubmit (initialRating) {
@@ -201,6 +209,25 @@ class AddClient extends Component {
     }
   }
 
+  _showDeleteConfirm = () => {
+    const BUTTONS = ["Delete", "Cancel"]
+    const client = this.props.navigation.getParam('client')
+
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: "Delete this review?"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.deleteClient(client.id)
+        }
+      }
+    )
+  }
+
   render () {
     const client = this.props.navigation.getParam('client')
     return (
@@ -208,6 +235,8 @@ class AddClient extends Component {
         {client ?
           <HeaderBar
             title={'Edit Client'}
+            rightBtnIcon='ios-trash'
+            rightBtnPress={() => this._showDeleteConfirm()}
             leftBtnIcon='ios-arrow-back'
             leftBtnPress={() => this.props.navigation.goBack(null)}
           /> : null
@@ -274,13 +303,16 @@ class AddClient extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.client.addingClient,
-    error: state.client.addError
+    error: state.client.addError,
+    deleting: state.client.deleting,
+    deleteError: state.client.deleteError
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addClient: (data, edit) => dispatch(ClientActions.addClient(data, edit)),
+    deleteClient: (id) => {dispatch(ClientActions.deleteClient(id))},
     clients: () => {dispatch(ClientActions.clientRequest())}
   }
 }

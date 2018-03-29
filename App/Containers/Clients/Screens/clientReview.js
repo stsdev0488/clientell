@@ -141,7 +141,7 @@ class clientReview extends React.PureComponent {
         />
 
         <Content padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-
+          {this._testFragment()}
           <View style={styles.section}>
             <DTPicker
               visible={this.state.datepickerVisible}

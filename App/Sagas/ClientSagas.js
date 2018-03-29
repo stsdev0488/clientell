@@ -56,6 +56,27 @@ export function * addClient ({ data, edit }) {
   }
 }
 
+export function * deleteClient ({ id }) {
+  const api = yield call(apiGet)
+
+  try {
+    const response = yield call(api.deleteClient, id)
+
+    if (response.ok) {
+      yield put(ClientActions.deleteClientSuccess(response.data))
+      yield put(ClientActions.clientRequest())
+    } else {
+      yield put(ClientActions.deleteClientFailure(response.data))
+    }
+  } catch (err) {
+    // err
+  }
+}
+
+/**
+ * CLIENT REVIEW CALLS
+ */
+
 export function * reviewClient ({ id, data }) {
   const api = yield call(apiGet)
 

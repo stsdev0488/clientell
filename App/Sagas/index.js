@@ -17,6 +17,7 @@ import { getUser, updateUser } from './UserSagas'
 import {
   getClients,
   addClient,
+  deleteClient,
   reviewClient,
   getSpecificClient,
   editClientReview,
@@ -41,6 +42,7 @@ export default function * root () {
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),
     takeLatest(ClientTypes.ADD_CLIENT, addClient),
+    takeLatest(ClientTypes.DELETE_CLIENT, deleteClient),
     takeLatest(ClientTypes.GET_SPECIFIC_CLIENT, getSpecificClient),
 
     // REVIEW SAGAS
