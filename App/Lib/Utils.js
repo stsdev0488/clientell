@@ -11,7 +11,7 @@ export const parseEditClient = client => {
     client_type, organization_name, first_name, last_name, middle_name, email, street_address,
     street_address2, city, state, postal_code, billing_first_name, billing_middle_name, billing_last_name,
     billing_street_address, billing_street_address2, billing_city, billing_state, billing_postal_code, initial_star_rating,
-    phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext
+    phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext, billing_phone_number, billing_phone_number_ext
   } = client
 
   let obj = {
@@ -43,7 +43,9 @@ export const parseEditClient = client => {
       billing_street_address2,
       billing_city,
       billing_state,
-      billing_postal_code
+      billing_postal_code,
+      billing_phone_number,
+      billing_phone_number_ext
     },
     ratingData: {
       initial_star_rating
@@ -52,7 +54,7 @@ export const parseEditClient = client => {
       client_type, organization_name, first_name, last_name, middle_name, email, street_address,
       street_address2, city, state, postal_code, billing_first_name, billing_middle_name, billing_last_name,
       billing_street_address, billing_street_address2, billing_city, billing_state, billing_postal_code, initial_star_rating,
-      phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext
+      phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext, billing_phone_number, billing_phone_number_ext
     }
   }
   

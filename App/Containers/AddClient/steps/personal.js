@@ -35,47 +35,11 @@ class PersonalInfoStep extends Component {
           </View>
         </View>
       )
-    } else {
-      return (
-        <View>
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>First name</Text>
-            <Item regular>
-              <Icon active name='ios-person' />
-              <Input
-                defaultValue={this.state.first_name}
-                onChangeText={first_name => this.setState({ first_name })}
-              />
-            </Item>
-          </View>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Middle name</Text>
-            <Item regular>
-              <Icon active name='ios-person' />
-              <Input
-                defaultValue={this.state.middle_name}
-                onChangeText={middle_name => this.setState({ middle_name })}
-              />
-            </Item>
-          </View>
-
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Last name</Text>
-            <Item regular>
-              <Icon active name='ios-person' />
-              <Input
-                defaultValue={this.state.last_name}
-                onChangeText={last_name => this.setState({ last_name })}
-              />
-            </Item>
-          </View>
-        </View>
-      )
     }
   }
 
   _submitDetails = () => {
+    Keyboard.dismiss()
     let finalData = {...this.state}
     const phone = this.phone.getValue();
     const alt_phone = this.phone_alternate.getValue()
@@ -110,6 +74,41 @@ class PersonalInfoStep extends Component {
         </View>
 
         {this._renderConditionalInputs()}
+
+        <View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>First name</Text>
+            <Item regular>
+              <Icon active name='ios-person' />
+              <Input
+                defaultValue={this.state.first_name}
+                onChangeText={first_name => this.setState({ first_name })}
+              />
+            </Item>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Middle name</Text>
+            <Item regular>
+              <Icon active name='ios-person' />
+              <Input
+                defaultValue={this.state.middle_name}
+                onChangeText={middle_name => this.setState({ middle_name })}
+              />
+            </Item>
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Last name</Text>
+            <Item regular>
+              <Icon active name='ios-person' />
+              <Input
+                defaultValue={this.state.last_name}
+                onChangeText={last_name => this.setState({ last_name })}
+              />
+            </Item>
+          </View>
+        </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Email</Text>

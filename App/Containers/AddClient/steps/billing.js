@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
+import PhoneInput from 'react-native-phone-input'
 
 // Styles
 import styles from '../styles'
@@ -13,7 +14,13 @@ class BillingStep extends Component {
 
   handleSubmit () {
     Keyboard.dismiss()
-    console.tron.log('Submit!')
+    const phone = this.phone.getValue();
+    let finalData = {...this.state}
+
+    finalData.billing_phone_number_ext = this.phone.getCountryCode()
+    finalData.billing_phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
+
+    this.props.submitInfo(finalData)
   }
 
   render () {
@@ -66,6 +73,18 @@ class BillingStep extends Component {
               onChangeText={billing_last_name => this.setState({ billing_last_name })}
               onSubmitEditing={() => {this.address._root.focus()}}
               returnKeyType='next'
+            />
+          </Item>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>Billing Phone number</Text>
+          <Item regular>
+            <PhoneInput
+              ref={ref => { this.phone = ref }}
+              style={{paddingHorizontal: 8}}
+              textStyle={{height: 50}}
+              value={this.state.billing_phone_number ? this.state.billing_phone_number_ext + this.state.billing_phone_number : '+1'}
             />
           </Item>
         </View>
@@ -144,7 +163,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state)}>
+          <Button block onPress={() => this.handleSubmit()}>
             <NBText>Submit</NBText>
           </Button>
         </View>
