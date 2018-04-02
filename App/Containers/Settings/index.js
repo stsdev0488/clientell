@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Fab } from 'native-base'
+import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from 'Redux/YourRedux'
@@ -33,8 +33,21 @@ class Settings extends Component {
   // }
 
   _signOut = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+    ActionSheet.show(
+      {
+        options: ['Log Out', 'Cancel'],
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: 'Are you sure you want so log out?'
+      },
+      async buttonIndex => {
+        if (buttonIndex === 0) {
+          await AsyncStorage.clear();
+          this.props.navigation.navigate('Auth');
+        }
+      }
+    )
+
   }
 
   render () {
