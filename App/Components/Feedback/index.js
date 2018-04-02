@@ -52,7 +52,7 @@ class Feedback extends Component {
       }
     } else {
       return (
-        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ProfileModal')}>
+        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ProfileModal', {user: review.user})}>
           <Icon name='ios-eye' style={styles.authorBtnIcon} />
         </Button>
       )

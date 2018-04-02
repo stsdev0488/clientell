@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Content } from 'native-base'
+import moment from 'moment'
 
 import StarRating from 'react-native-star-rating'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -17,7 +18,11 @@ class UserProfileModal extends Component {
   //   this.state = {}
   // }
 
+  user = this.props.navigation.getParam('user', {})
+
   render () {
+    const user = this.user
+
     return (
       <View style={styles.container}>
         <Content>
@@ -30,14 +35,14 @@ class UserProfileModal extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.subTitleText}>Joe Don</Text>
-            <Text style={styles.subTitleText}>Webart Contractor</Text>
+            <Text style={styles.subTitleText}>{user.name}</Text>
+            {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 
-            <Text style={styles.sectionText}>Tampa, Florida</Text>
-            <Text style={styles.sectionText}>555 Generic Street</Text>
-            <Text style={styles.sectionText}>(813) 555-1313</Text>
-            <Text style={styles.sectionText}>www.webartcontractor.com</Text>
-            <Text style={styles.sectionText}>joe.don@john.com</Text>
+            <Text style={styles.sectionText}>{`${user.city || ''}${user.state ? ', ' : ''}${user.state || ''} ${user.postal_code || ''}`}</Text>
+            <Text style={styles.sectionText}>{`${user.street_address || ''} ${user.street_address2 || ''}`}</Text>
+            {user.phone_number && <Text style={styles.sectionText}>{user.phone_number}</Text>}
+            {user.business_url && <Text style={styles.sectionText}>{user.business_url}</Text>}
+            <Text style={styles.sectionText}>{user.email || ''}</Text>
           </View>
 
           <View style={[styles.section, styles.contactIcons]}>
@@ -68,11 +73,14 @@ class UserProfileModal extends Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-            </Text>
-          </View>
+          {
+            user.desciption &&
+            <View style={styles.section}>
+              <Text style={styles.sectionText}>
+                ${user.desciption}
+              </Text>
+            </View>
+          }
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
@@ -94,7 +102,7 @@ class UserProfileModal extends Component {
             </View>
 
             <Text style={styles.sectionText}>
-             Clientell member since March 2015
+              Clientell member since {moment(user.created_at).format('MMMM YYYY')}
             </Text>
           </View>
         </Content>
