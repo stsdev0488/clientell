@@ -25,7 +25,7 @@ class Search extends Component {
       />
     )
   }
-  
+
   state = {
     street_address: '',
     street_address2: '',
@@ -73,12 +73,18 @@ class Search extends Component {
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Phone Number</Text>
-          <PhoneInput ref={ref => { this.main_phone = ref }} />
+          <PhoneInput
+            ref={ref => { this.main_phone = ref }}
+            value={user.phone_number ? user.phone_number : '+1'}
+          />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Alternate Phone Number</Text>
-          <PhoneInput ref={ref => { this.alt_phone = ref }} />
+          <PhoneInput
+            ref={ref => { this.alt_phone = ref }}
+            value={user.alt_phone_number ? user.alt_phone_number : '+1'}
+          />
         </View>
 
         <View style={styles.section}>
