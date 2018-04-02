@@ -19,10 +19,10 @@ import { Images } from 'Themes/'
 
 class Search extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Search Clients',
+    tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-search-outline'}
+        name={'ios-settings-outline'}
         size={30}
         style={{color: tintColor}}
       />

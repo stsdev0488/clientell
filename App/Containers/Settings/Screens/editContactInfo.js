@@ -16,16 +16,16 @@ import { Images } from 'Themes/'
 
 class Search extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Search Clients',
+    tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-search-outline'}
+        name={'ios-settings-outline'}
         size={30}
         style={{color: tintColor}}
       />
     )
   }
-
+  
   state = {
     street_address: '',
     street_address2: '',
@@ -47,7 +47,7 @@ class Search extends Component {
     const { user } = this.props
 
     formData.append('street_address', this.state.street_address || user.street_address)
-    formData.append('street_address', this.state.street_address2 || user.street_address2)
+    formData.append('street_address2', this.state.street_address2 || user.street_address2)
     formData.append('city', this.state.city || user.city)
     formData.append('state', this.state.state || user.state)
     formData.append('postal_code', this.state.postal_code || user.postal_code)

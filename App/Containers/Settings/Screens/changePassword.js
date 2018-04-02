@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Input, Text } from 'native-base'
-import PhoneInput from 'react-native-phone-input'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+import { Content, Icon, Button, Item, Text } from 'native-base'
+
+import Input from 'Components/Input'
+import ErrorRenderer from 'Components/ErrorRenderer'
+
+// Redux actions
+import UserActions from 'Redux/UserRedux'
 
 // Styles
 import styles from '../styles'
@@ -12,10 +15,10 @@ import { Images } from 'Themes/'
 
 class Search extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Search Clients',
+    tabBarLabel: 'Settings',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-search-outline'}
+        name={'ios-settings-outline'}
         size={30}
         style={{color: tintColor}}
       />
@@ -23,7 +26,8 @@ class Search extends Component {
   }
 
   state = {
-
+    password: '',
+    password_confirmation: ''
   }
 
   // constructor (props) {
@@ -32,10 +36,17 @@ class Search extends Component {
   // }
 
   _submit = () => {
+    const formData = new FormData()
 
+    formData.append('password', this.state.password)
+    formData.append('password_confirmation', this.state.password_confirmation)
+
+    this.props.update(formData)
   }
 
   render () {
+    const { user, saving, error } = this.props
+
     return (
       <Content style={styles.container}>
         <View style={styles.titleSection}>
@@ -43,28 +54,29 @@ class Search extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Current Password</Text>
-          <Item regular>
-            <Input placeholder='' secureTextEntry />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
           <Text style={styles.sectionText}>New Password</Text>
-          <Item regular>
-            <Input placeholder='' secureTextEntry />
-          </Item>
+          <Input
+            placeholder=''
+            secureTextEntry
+            onChangeText={password => this.setState({password})}
+          />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Confirm New Password</Text>
-          <Item regular>
-            <Input placeholder='' secureTextEntry />
-          </Item>
+          <Input
+            placeholder=''
+            secureTextEntry
+            onChangeText={password_confirmation => this.setState({password_confirmation})}
+          />
         </View>
 
         <View style={styles.section}>
-          <Button primary block bordered onPress={() => this._submit()}>
+          <ErrorRenderer error={error.errors} />
+        </View>
+
+        <View style={styles.section}>
+          <Button disabled={saving} primary block bordered onPress={() => this._submit()}>
             <Text>Submit</Text>
           </Button>
         </View>
@@ -81,11 +93,15 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user.data || {},
+    saving: state.user.updating,
+    error: state.user.updateError || {}
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    update: (data) => dispatch(UserActions.userUpdateRequest(data))
   }
 }
 

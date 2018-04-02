@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import UserActions from '../Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
+import { NavigationActions } from 'react-navigation'
 
 export function * getUser (action) {
   const { data } = action
@@ -26,6 +27,10 @@ export function * updateUser (action) {
     endpoint = api.updateContactInfo
   }
 
+  if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'password') {
+    endpoint = api.updatePassword
+  }
+
   const response = yield call(endpoint, data)
 
   // success?
@@ -33,6 +38,8 @@ export function * updateUser (action) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(UserActions.userUpdateSuccess(response.data))
+    yield put(UserActions.userRequest())
+    yield put(NavigationActions.back())
   } else {
     yield put(UserActions.userUpdateFailure(response.data))
   }
