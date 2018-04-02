@@ -34,6 +34,7 @@
     "react-native-animatable": "^1.2.4",
     "react-native-config": "^0.10.0",
     "react-native-image-picker": "git+https://git@github.com/react-community/react-native-image-picker",
+    "react-native-mime-types": "^2.2.1",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-openanything": "0.0.3",
     "react-native-phone-input": "^0.2.1",
@@ -45,6 +46,7 @@
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "reduxsauce": "0.7.0",
+    "rn-placeholder": "^1.2.0",
     "seamless-immutable": "^7.1.2"
   },
   "devDependencies": {

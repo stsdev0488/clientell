@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text } from 'native-base'
+import ImagePicker from 'react-native-image-picker'
+import mimes from 'react-native-mime-types'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
 
 import Input from 'Components/Input'
 import Picker from 'Components/Picker'
+import Image from 'Components/Image'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
 // Styles
@@ -32,7 +35,8 @@ class Search extends Component {
     last_name: '',
     account_type: 'individual',
     company_name: '',
-    description: ''
+    description: '',
+    image: ''
   }
 
   // constructor (props) {
@@ -52,6 +56,41 @@ class Search extends Component {
 
     this.props.update(formData)
   }
+  
+  _updateProfilePicture = () => {
+    var options = {
+      title: 'Update Photo',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      },
+      quality: 0.8,
+      maxWidth: 640,
+      maxHeight: 320
+    }
+
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        // cancelled handler
+      } else if (response.error) {
+        // error handler
+      } else {
+        if (Platform.OS === 'android') {
+          const dd = {uri: response.uri, name: response.fileName, type: mimes.lookup(response.fileName)}
+
+          this.setState({image: dd})
+        } else {
+          const dd = {
+            uri: response.uri,
+            name: response.fileName || randomstring() + '.' + (mimes.extension(mimes.lookup(response.uri))),
+            type: response.fileName ? mimes.lookup(response.fileName) : mimes.lookup(response.uri)
+          }
+
+          this.setState({image: dd})
+        }
+      }
+    })
+  }
 
   render () {
     const { user, saving, error } = this.props
@@ -63,7 +102,11 @@ class Search extends Component {
         </View>
 
         <View style={styles.centered}>
-          <Image source={Images.launch} style={styles.logo} />
+          <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
+            <View style={styles.logo}>
+              <Image source={this.state.image || Images.launch} />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
 
         <View style={styles.section}>

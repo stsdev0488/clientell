@@ -10,8 +10,7 @@ export default StyleSheet.create({
   logo: {
     marginTop: 30,
     height: 120,
-    width: 120,
-    resizeMode: 'contain'
+    width: 120
   },
 
   centered: {
