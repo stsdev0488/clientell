@@ -62,3 +62,36 @@ export const parseEditClient = client => {
   
   return obj
 }
+
+export const parseClientError = (errors, clientType) => {
+  const personal = ['organization_name', 'first_name', 'last_name', 'middle_name', 'email', 'phone_number', 'phone_number_ext', 'alt_phone_number', 'alt_phone_number_ext']
+  const address = ['street_address', 'street_address2', 'city', 'state', 'postal_code']
+  const billing = ['billing_first_name', 'billing_middle_name', 'billing_last_name', 'billing_street_address', 'billing_street_address2', 'billing_city', 'billing_state', 'billing_postal_code', 'billing_phone_number', 'billing_phone_number_ext']
+  const rating = ['initial_star_rating']
+
+  const keys = (Object.keys(errors))
+  let groupedError = {
+    personal: [],
+    address: [],
+    billing: [],
+    rating: []
+  }
+
+  keys.forEach(a => {
+    if (personal.includes(a)) {
+      groupedError.personal.push(errors[a][0])
+    } else if (address.includes(a)) {
+      groupedError.address.push(errors[a][0])
+    } else if (billing.includes(a)) {
+      groupedError.billing.push(errors[a][0])
+    } else if (rating.includes(a)) {
+      groupedError.rating.push(errors[a][0])
+    }
+  })
+
+  if (clientType === 'individual') {
+    delete groupedError.billing
+  }
+
+  return Object.values(groupedError)
+}

@@ -9,13 +9,13 @@ const ErrorRenderer = ({error}) => {
       return (
         <View style={styles.container}>
           {error.map((e, i) =>
-            <Alert key={i} type='error' style={{marginTop: 0}}>
+            <Alert key={i} type='error' style={{marginTop: 0, marginBottom: 10}}>
               *{e}
             </Alert>
           )}
         </View>
       )
-    } else {
+    } else if (!Array.isArray(error)) {
       const keys = (Object.keys(error))
 
       if (error.message) {
@@ -30,13 +30,15 @@ const ErrorRenderer = ({error}) => {
         return (
           <View style={styles.container}>
             {keys.map((e, i) =>
-              <Alert key={i} type='error' style={{marginTop: 0}}>
+              <Alert key={i} type='error' style={{marginTop: 0, marginBottom: 10}}>
                 *{error[e][0]}
               </Alert>
             )}
           </View>
         )
       }
+    } else {
+      return null
     }
   } else {
     return null

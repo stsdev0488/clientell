@@ -20,7 +20,7 @@ import AddressStep from './steps/address'
 import BillingStep from './steps/billing'
 import RatingStep from './steps/initialScore'
 
-import { parseEditClient } from 'Lib/Utils'
+import { parseEditClient, parseClientError } from 'Lib/Utils'
 
 const labels = ['Personal Info', 'Address', 'Rating']
 const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
@@ -113,6 +113,15 @@ class AddClient extends Component {
         } else {
           this.props.clients()
           this.props.navigation.goBack()
+        }
+      } else if (newProps.error) {
+        const errors = parseClientError(newProps.error.errors || {}, this.state.clientType)
+        if (errors[0].length) {
+          this.setState({currentPosition: 0})
+        } else if (errors[1].length) {
+          this.setState({currentPosition: 1})
+        } else if (errors[2].length) {
+          this.setState({currentPosition: 2})
         }
       }
     }
@@ -230,6 +239,9 @@ class AddClient extends Component {
 
   render () {
     const client = this.props.navigation.getParam('client')
+    const errors = parseClientError(this.props.error.errors || {}, this.state.clientType)
+    const currentErrors = errors[this.state.currentPosition] || null
+
     return (
       <View style={styles.container}>
         {client ?
@@ -241,7 +253,6 @@ class AddClient extends Component {
             leftBtnPress={() => this.props.navigation.goBack(null)}
           /> : null
         }
-
 
         <Content innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           {!client ?
@@ -258,7 +269,9 @@ class AddClient extends Component {
             onPress={this._stepPressed}
           />
 
-          <ErrorRenderer error={this.props.error} />
+          <View style={[styles.section, {paddingVertical: 0, marginBottom: 0}]}>
+            <ErrorRenderer error={currentErrors} />
+          </View>
 
           {this.state.currentPosition === 0 &&
             <Animatable.View animation='fadeInUp' duration={400}>
@@ -303,7 +316,7 @@ class AddClient extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.client.addingClient,
-    error: state.client.addError,
+    error: state.client.addError || {},
     deleting: state.client.deleting,
     deleteError: state.client.deleteError
   }
