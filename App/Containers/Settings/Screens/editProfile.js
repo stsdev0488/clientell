@@ -29,13 +29,15 @@ class Search extends Component {
     )
   }
 
+  user = this.props.navigation.getParam('user')
+
   state = {
-    first_name: '',
-    middle_name: '',
-    last_name: '',
-    account_type: 'individual',
-    company_name: '',
-    description: '',
+    first_name: this.user.first_name || '',
+    middle_name: this.user.middle_name || '',
+    last_name: this.user.last_name || '',
+    account_type: this.user.account_type || 'individual',
+    company_name: this.user.company_name || '',
+    description: this.user.description || '',
     image: ''
   }
 
@@ -48,12 +50,12 @@ class Search extends Component {
     const { user } = this.props
     const formData = new FormData()
 
-    formData.append('first_name', this.state.first_name || user.first_name)
-    formData.append('middle_name', this.state.middle_name || user.middle_name)
-    formData.append('last_name', this.state.last_name || user.last_name)
-    formData.append('account_type', this.state.account_type || user.account_type)
-    formData.append('company_name', this.state.company_name || user.company_name)
-    formData.append('description', this.state.description || user.description)
+    formData.append('first_name', this.state.first_name)
+    formData.append('middle_name', this.state.middle_name)
+    formData.append('last_name', this.state.last_name)
+    formData.append('account_type', this.state.account_type)
+    formData.append('company_name', this.state.company_name)
+    formData.append('description', this.state.description)
 
     this.props.update(formData)
   }
@@ -94,7 +96,8 @@ class Search extends Component {
   }
 
   render () {
-    const { user, saving, error } = this.props
+    const { saving, error } = this.props
+    const user = this.user
 
     return (
       <Content style={styles.container}>
@@ -194,7 +197,6 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.data || {},
     saving: state.user.updating,
     error: state.user.updateError || null
   }

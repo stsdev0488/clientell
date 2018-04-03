@@ -144,13 +144,13 @@ class Settings extends Component {
           position="topRight"
           onPress={() => this.setState({menuActive: !this.state.menuActive})}>
           <Icon name="ios-menu-outline" />
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile')}>
+          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile', {user: this.props.user})}>
             <Icon name="md-create" />
           </Button>
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditMyContactInfo')}>
+          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditMyContactInfo', {user: this.props.user})}>
             <Icon name="md-globe" />
           </Button>
-          <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword')}>
+          <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword', {user: this.props.user})}>
             <Icon name="ios-lock" />
           </Button>
           <Button style={{ backgroundColor: '#DD5144' }} onPress={() => this._signOut()}>

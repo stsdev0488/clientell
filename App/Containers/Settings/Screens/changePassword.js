@@ -25,6 +25,8 @@ class Search extends Component {
     )
   }
 
+  user = this.props.navigation.getParam('user')
+
   state = {
     password: '',
     password_confirmation: ''
@@ -45,7 +47,7 @@ class Search extends Component {
   }
 
   render () {
-    const { user, saving, error } = this.props
+    const { saving, error } = this.props
 
     return (
       <Content style={styles.container}>
@@ -97,7 +99,6 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.data || {},
     saving: state.user.updating,
     error: state.user.updateError || {}
   }
