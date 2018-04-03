@@ -3,6 +3,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Content } from 'native-base'
 import moment from 'moment'
+import {Call, Text as TextApp, Email, Web} from 'react-native-openanything'
 
 import StarRating from 'react-native-star-rating'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -46,31 +47,43 @@ class UserProfileModal extends Component {
           </View>
 
           <View style={[styles.section, styles.contactIcons]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-call' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.phone_number &&
+              <TouchableOpacity onPress={() => Call(user.phone_number, prompt = false)}>
+                <Icon name='md-call' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-text' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.phone_number &&
+              <TouchableOpacity onPress={() => TextApp(user.phone_number, message = false, autoEncode = true)}>
+                <Icon name='md-text' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-mail' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.email &&
+              <TouchableOpacity onPress={() => Email(to = user.email, subject = false, body = false, cc = false, bcc = false)}>
+                <Icon name='md-mail' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-globe' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.business_url &&
+              <TouchableOpacity onPress={() => Web(user.business_url)}>
+                <Icon name='md-globe' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-facebook' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.facebook_url &&
+              <TouchableOpacity onPress={() => Web(user.facebook_url)}>
+                <Icon name='logo-facebook' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-twitter' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {user.twitter_url &&
+              <TouchableOpacity onPress={() => Web(user.twitter_url)}>
+                <Icon name='logo-twitter' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           {
