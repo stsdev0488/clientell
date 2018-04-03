@@ -56,7 +56,7 @@ export const registrationSuccess = (state, {payload}) =>
 
 // Something went wrong somewhere.
 export const failure = (state, {payload}) =>
-  state.merge({ fetching: false, error: payload })
+  state.merge({ fetching: false, error: payload, data: null })
 
 export const registrationFailure = (state, {payload}) =>
   state.merge({ registering: false, registrationError: payload })

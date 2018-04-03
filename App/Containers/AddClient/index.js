@@ -67,47 +67,20 @@ class AddClient extends Component {
     if (c) {
       this.state = parseEditClient(c)
     } else {
-      this.state = {
-        clientType: 'individual',
-        scrollOffsetY: 0,
-        currentPosition: 0,
-        personalData: {
-          organization_name: '',
-          first_name: '',
-          last_name: '',
-          middle_name: '',
-          email: ''
-        },
-        addressData: {
-          street_address: '',
-          street_address2: '',
-          city: '',
-          state: '',
-          postal_code: ''
-        },
-        billingData: {
-          billing_first_name: '',
-          billing_middle_name: '',
-          billing_last_name: '',
-          billing_street_address: '',
-          billing_street_address2: '',
-          billing_city: '',
-          billing_state: '',
-          billing_postal_code: ''
-        },
-        ratingData: {
-          initial_star_rating: 3
-        },
-        clientData: {}
-      }
+      this.state = this._resetForm()
     }
   }
 
   componentWillReceiveProps (newProps) {
+    console.tron.log(newProps)
     if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
       if (!newProps.error) {
         const client = this.props.navigation.getParam('client')
         if (!client) {
+          this.setState(state => {
+            state = this._resetForm()
+            return state
+          })
           this.props.clients()
           this.props.navigation.navigate('Clients')
         } else {
@@ -132,6 +105,42 @@ class AddClient extends Component {
       } else {
         this.props.navigation.navigate('AlertModal', {title: `Delete client failed`, message: `Please check your internet connection or try again later.`})
       }
+    }
+  }
+
+  _resetForm = () => {
+    return {
+      clientType: 'individual',
+      scrollOffsetY: 0,
+      currentPosition: 0,
+      personalData: {
+        organization_name: '',
+        first_name: '',
+        last_name: '',
+        middle_name: '',
+        email: ''
+      },
+      addressData: {
+        street_address: '',
+        street_address2: '',
+        city: '',
+        state: '',
+        postal_code: ''
+      },
+      billingData: {
+        billing_first_name: '',
+        billing_middle_name: '',
+        billing_last_name: '',
+        billing_street_address: '',
+        billing_street_address2: '',
+        billing_city: '',
+        billing_state: '',
+        billing_postal_code: ''
+      },
+      ratingData: {
+        initial_star_rating: 3
+      },
+      clientData: {}
     }
   }
 
@@ -239,7 +248,7 @@ class AddClient extends Component {
 
   render () {
     const client = this.props.navigation.getParam('client')
-    const errors = parseClientError(this.props.error.errors || {}, this.state.clientType)
+    const errors = parseClientError(this.props.error ? this.props.error.errors : {}, this.state.clientType)
     const currentErrors = errors[this.state.currentPosition] || null
 
     return (
@@ -316,7 +325,7 @@ class AddClient extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.client.addingClient,
-    error: state.client.addError || {},
+    error: state.client.addError || null,
     deleting: state.client.deleting,
     deleteError: state.client.deleteError
   }

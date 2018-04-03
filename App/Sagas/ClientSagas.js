@@ -27,10 +27,10 @@ export function * getSpecificClient (action) {
       // located in ../Transforms/. Otherwise, just pass the data back from the api.
       yield put(ClientActions.getClientSuccess(response.data))
     } else {
-      yield put(ClientActions.getClientFailure())
+      yield put(ClientActions.getClientFailure({message: 'Client not found'}))
     }
   } catch (err) {
-    console.tron.log(err)
+    yield put(ClientActions.getClientFailure({message: 'Client not found'}))
   }
 }
 
@@ -53,6 +53,7 @@ export function * addClient ({ data, edit }) {
     }
   } catch (err) {
     // err
+    yield put(ClientActions.addClientFailure({message: 'Adding client failed. Please check the required fields and try again.'}))
   }
 }
 
@@ -91,6 +92,7 @@ export function * reviewClient ({ id, data }) {
     }
   } catch (err) {
     // err
+    yield put(ReviewActions.reviewFailure({message: 'Review client failed. Please try again.'}))
   }
 }
 
@@ -108,6 +110,7 @@ export function * editClientReview ({ id, data }) {
     }
   } catch (err) {
     // err
+    yield put(ReviewActions.reviewFailure({message: 'Edit Client review failed. Please try again.'}))
   }
 }
 
@@ -125,5 +128,6 @@ export function * deleteClientReview ({ id, client_id }) {
     }
   } catch (err) {
     // err
+    yield put(ReviewActions.reviewFailure({message: 'Failed to delete review.'}))
   }
 }
