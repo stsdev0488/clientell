@@ -64,5 +64,11 @@ export default StyleSheet.create({
     marginTop: 0,
     marginBottom: 0,
     fontSize: 24
+  },
+  basicData: {
+    color: '#333',
+    fontWeight: '700',
+    fontSize: 16,
+    marginBottom: 4
   }
 })
