@@ -45,14 +45,15 @@ class Search extends Component {
   // }
 
   _submitChanges = () => {
+    const { user } = this.props
     const formData = new FormData()
 
-    formData.append('first_name', this.state.first_name)
-    formData.append('middle_name', this.state.middle_name)
-    formData.append('last_name', this.state.last_name)
-    formData.append('account_type', this.state.account_type)
-    formData.append('company_name', this.state.company_name)
-    formData.append('description', this.state.description)
+    formData.append('first_name', this.state.first_name || user.first_name)
+    formData.append('middle_name', this.state.middle_name || user.middle_name)
+    formData.append('last_name', this.state.last_name || user.last_name)
+    formData.append('account_type', this.state.account_type || user.account_type)
+    formData.append('company_name', this.state.company_name || user.company_name)
+    formData.append('description', this.state.description || user.description)
 
     this.props.update(formData)
   }
