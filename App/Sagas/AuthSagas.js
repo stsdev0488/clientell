@@ -92,7 +92,7 @@ export function * register ({payload}) {
 export function * login (action, fixtureAPI) {
   let api
   if (!fixtureAPI) {
-    api = yield call(apiGet, fixtureAPI)
+    api = yield call(apiGet)
   } else {
     api = fixtureAPI
   }

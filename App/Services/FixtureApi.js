@@ -12,31 +12,28 @@ export default {
       data: d
     }
   },
-  loginFailure: (username, password) => {
+  getUser: () => {
     return {
       ok: true,
-      data: require('../Fixtures/loginFailure.json')
+      data: require('../Fixtures/getUser.json')
     }
   },
-  getRoot: () => {
-    return {
-      ok: true,
-      data: require('../Fixtures/root.json')
+  updateUser: (type) => {
+    let d
+    switch (type) {
+      case 'address':
+        d = require('../Fixtures/updateProfile.json')
+        break;
+      case 'password':
+        d = require('../Fixtures/updateProfile.json')
+        break;
+      default:
+        d = require('../Fixtures/updateProfile.json')
     }
-  },
-  getRate: () => {
+
     return {
       ok: true,
-      data: require('../Fixtures/rateLimit.json')
-    }
-  },
-  getUser: (username) => {
-    // This fixture only supports gantman or else returns skellock
-    const gantmanData = require('../Fixtures/gantman.json')
-    const skellockData = require('../Fixtures/skellock.json')
-    return {
-      ok: true,
-      data: username.toLowerCase() === 'gantman' ? gantmanData : skellockData
+      data: d
     }
   }
 }

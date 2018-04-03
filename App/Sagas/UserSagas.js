@@ -3,10 +3,16 @@ import UserActions from '../Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
 
-export function * getUser (action) {
+export function * getUser (action, fixtureAPI) {
   const { data } = action
   // make the call to the api
-  const response = yield call(retryCall, 5, 'getUser', data)
+  let response
+  if (!fixtureAPI) {
+    response = yield call(retryCall, 5, 'getUser', data)
+  } else {
+    response = yield call(fixtureAPI.getUser)
+  }
+
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
@@ -17,22 +23,28 @@ export function * getUser (action) {
   }
 }
 
-export function * updateUser (action) {
+export function * updateUser (action, fixtureAPI) {
   try {
-    const api = yield call(apiGet)
+    let response
+    if (!fixtureAPI) {
+      const api = yield call(apiGet)
 
-    const { data } = action
-    // make the call to the api
-    let endpoint = api.updateUser
-    if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'street_address') {
-      endpoint = api.updateContactInfo
+      const { data } = action
+      // make the call to the api
+      let endpoint = api.updateUser
+      if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'street_address') {
+        endpoint = api.updateContactInfo
+      }
+
+      if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'password') {
+        endpoint = api.updatePassword
+      }
+
+      response = yield call(endpoint, data)
+    } else {
+      const { data } = action
+      response = yield call(fixtureAPI.updateUser, data)
     }
-
-    if (data._parts.length && data._parts[0][0] && data._parts[0][0] === 'password') {
-      endpoint = api.updatePassword
-    }
-
-    const response = yield call(endpoint, data)
 
     // success?
     if (response.ok) {
