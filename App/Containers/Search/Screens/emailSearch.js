@@ -54,7 +54,12 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Client's email address</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={email => this.setState({ email })} />
+            <Input
+              placeholder=''
+              onChangeText={email => this.setState({ email })}
+              returnKeyType='search'
+              onSubmitEditing={this._executeSearch.bind(this)}
+            />
           </Item>
         </View>
 

@@ -90,71 +90,96 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Street address</Text>
           <Input
+            bref={ref => this.streetInput = ref}
             defaultValue={user.street_address || ''}
             onChangeText={street_address => this.setState({street_address})}
             required
+            onSubmitEditing={() => {this.street2Input._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Street address 2</Text>
           <Input
+            bref={ref => this.street2Input = ref}
             defaultValue={user.street_address2 || ''}
             onChangeText={street_address2 => this.setState({street_address2})}
+            onSubmitEditing={() => {this.cityInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>City</Text>
           <Input
+            bref={ref => this.cityInput = ref}
             defaultValue={user.city || ''}
             onChangeText={city => this.setState({city})}
+            onSubmitEditing={() => {this.stateInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>State</Text>
           <Input
+            bref={ref => this.stateInput = ref}
             defaultValue={user.state || ''}
             onChangeText={state => this.setState({state})}
+            onSubmitEditing={() => {this.postalInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Postal Code</Text>
           <Input
+            bref={ref => this.postalInput = ref}
             defaultValue={user.postal_code || ''}
             onChangeText={postal_code => this.setState({postal_code})}
+            onSubmitEditing={() => {this.emailInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Email</Text>
           <Input
+            bref={ref => this.emailInput = ref}
             defaultValue={user.email || ''}
             onChangeText={email => this.setState({email})}
+            onSubmitEditing={() => {this.businessInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Business URL</Text>
           <Input
+            bref={ref => this.businessInput = ref}
             defaultValue={user.business_url || ''}
             onChangeText={business_url => this.setState({business_url})}
+            onSubmitEditing={() => {this.fbInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Facebook URL</Text>
           <Input
+            bref={ref => this.fbInput = ref}
             defaultValue={user.facebook_url || ''}
             onChangeText={facebook_url => this.setState({facebook_url})}
+            onSubmitEditing={() => {this.twitterInput._root.focus()}}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Twitter URL</Text>
           <Input
+            bref={ref => this.twitterInput = ref}
             defaultValue={user.twitter_url || ''}
             onChangeText={twitter_url => this.setState({twitter_url})}
           />

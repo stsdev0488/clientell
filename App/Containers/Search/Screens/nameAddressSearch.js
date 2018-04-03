@@ -70,35 +70,65 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Last name</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={last_name => this.setState({ last_name })} />
+            <Input
+              ref={ref => this.lnameInput = ref}
+              placeholder=''
+              onChangeText={last_name => this.setState({ last_name })}
+              onSubmitEditing={() => {this.fnameInput._root.focus()}}
+              returnKeyType='next'
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>First name</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={first_name => this.setState({ first_name })} />
+            <Input
+              ref={ref => this.fnameInput = ref}
+              placeholder=''
+              onChangeText={first_name => this.setState({ first_name })}
+              onSubmitEditing={() => {this.cityInput._root.focus()}}
+              returnKeyType='next'
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>City</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={city => this.setState({ city })} />
+            <Input
+              ref={ref => this.cityInput = ref}
+              placeholder=''
+              onChangeText={city => this.setState({ city })}
+              onSubmitEditing={() => {this.stateInput._root.focus()}}
+              returnKeyType='next'
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>State</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={state => this.setState({ state })} />
+            <Input
+              ref={ref => this.stateInput = ref}
+              placeholder=''
+              onChangeText={state => this.setState({ state })}
+              onSubmitEditing={() => {this.streetInput._root.focus()}}
+              returnKeyType='next'
+            />
           </Item>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Street address</Text>
           <Item regular>
-            <Input placeholder='' onChangeText={address => this.setState({ address })} />
+            <Input
+              ref={ref => this.streetInput = ref}
+              placeholder=''
+              onChangeText={address => this.setState({ address })}
+              onSubmitEditing={this._executeSearch.bind(this)}
+              returnKeyType='search'
+            />
           </Item>
         </View>
 

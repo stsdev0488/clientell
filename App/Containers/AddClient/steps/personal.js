@@ -28,6 +28,7 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                ref={ref => {this.orgInput = ref}}
                 defaultValue={this.state.organization_name}
                 onChangeText={organization_name => this.setState({ organization_name })}
               />
@@ -81,8 +82,11 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                ref={ref => {this.fnameInput = ref}}
                 defaultValue={this.state.first_name}
                 onChangeText={first_name => this.setState({ first_name })}
+                onSubmitEditing={() => {this.mnameInput._root.focus()}}
+                returnKeyType='next'
               />
             </Item>
           </View>
@@ -92,8 +96,11 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                ref={ref => {this.mnameInput = ref}}
                 defaultValue={this.state.middle_name}
                 onChangeText={middle_name => this.setState({ middle_name })}
+                onSubmitEditing={() => {this.lnameInput._root.focus()}}
+                returnKeyType='next'
               />
             </Item>
           </View>
@@ -103,8 +110,11 @@ class PersonalInfoStep extends Component {
             <Item regular>
               <Icon active name='ios-person' />
               <Input
+                ref={ref => {this.lnameInput = ref}}
                 defaultValue={this.state.last_name}
                 onChangeText={last_name => this.setState({ last_name })}
+                onSubmitEditing={() => {this.emailInput._root.focus()}}
+                returnKeyType='next'
               />
             </Item>
           </View>
@@ -115,9 +125,12 @@ class PersonalInfoStep extends Component {
           <Item regular>
             <Icon active name='ios-mail' />
             <Input
+              ref={ref => {this.emailInput = ref}}
               defaultValue={this.state.email}
               onChangeText={email => this.setState({ email })}
               keyboardType='email-address'
+              onSubmitEditing={() => {this.phone.focus()}}
+              returnKeyType='next'
             />
           </Item>
         </View>
