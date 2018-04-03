@@ -60,7 +60,7 @@ class Clients extends React.PureComponent {
                 disabled
                 starSize={20}
                 maxStars={5}
-                rating={item.initial_star_rating}
+                rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
                 fullStarColor='#FFD700'
                 emptyStarColor='#D6D6D6'
               />

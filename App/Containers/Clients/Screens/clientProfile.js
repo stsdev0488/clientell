@@ -58,7 +58,7 @@ class ClientProfile extends React.PureComponent {
             disabled
             starSize={30}
             maxStars={5}
-            rating={client.initial_star_rating}
+            rating={client.avg_rating ? parseFloat(client.avg_rating) : client.initial_star_rating}
             fullStarColor='#FFD700'
             emptyStarColor='#D6D6D6'
           />
