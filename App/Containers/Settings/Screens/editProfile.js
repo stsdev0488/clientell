@@ -56,7 +56,7 @@ class Search extends Component {
 
     this.props.update(formData)
   }
-  
+
   _updateProfilePicture = () => {
     var options = {
       title: 'Update Photo',
@@ -112,23 +112,30 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>First name</Text>
           <Input
+            bref={ref => this.fnameInput = ref}
             defaultValue={user.first_name || ''}
             onChangeText={first_name => this.setState({first_name})}
             required
+            onSubmitEditing={() => this.mnameInput._root.focus()}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Middle name / initial</Text>
           <Input
+            bref={ref => this.mnameInput = ref}
             defaultValue={user.middle_name || ''}
             onChangeText={middle_name => this.setState({middle_name})}
+            onSubmitEditing={() => this.lnameInput._root.focus()}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Last name</Text>
           <Input
+            bref={ref => this.lnameInput = ref}
             defaultValue={user.last_name || ''}
             onChangeText={last_name => this.setState({last_name})}
             required
@@ -147,14 +154,18 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>Company name</Text>
           <Input
+            bref={ref => this.companyInput = ref}
             defaultValue={user.company_name || ''}
             onChangeText={company_name => this.setState({company_name})}
+            onSubmitEditing={() => this.descInput._root.focus()}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Description</Text>
           <Input
+            bref={ref => this.descInput = ref}
             defaultValue={user.description || ''}
             onChangeText={description => this.setState({description})}
           />

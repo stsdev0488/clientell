@@ -35,6 +35,7 @@ export default class InputC extends Component {
     return (
       <Item regular {...this.state.error}>
         <Input
+          ref={ref => typeof this.props.bref === "function" ? this.props.bref(ref) : null}
           onChangeText={text => {
             this.setState({value: text})
             onChangeText(text)

@@ -56,15 +56,19 @@ class Search extends Component {
         <View style={styles.section}>
           <Text style={styles.sectionText}>New Password</Text>
           <Input
+            bref={ref => this.passwordInput = ref}
             placeholder=''
             secureTextEntry
             onChangeText={password => this.setState({password})}
+            onSubmitEditing={() => this.confirmPassInput._root.focus()}
+            returnKeyType='next'
           />
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Confirm New Password</Text>
           <Input
+            bref={ref => this.confirmPassInput = ref}
             placeholder=''
             secureTextEntry
             onChangeText={password_confirmation => this.setState({password_confirmation})}
