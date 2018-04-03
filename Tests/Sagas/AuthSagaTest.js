@@ -1,34 +1,34 @@
-import API from '../../App/Services/Api'
+import FixtureAPI from '../../App/Services/FixtureApi'
 import { put, call } from 'redux-saga/effects'
 import { login } from '../../App/Sagas/AuthSagas'
+import AuthActions from '../../App/Redux/AuthRedux'
 import { path } from 'ramda'
 
 const stepper = (fn) => (mock) => fn.next(mock).value
 
-test('first calls API', () => {
-  const step = stepper(login(API, {username: 'admin@user.com', password: '123456'}))
-  // first yield is API
-  // expect(step()).toEqual(call(API.login, 'taco'))
+// test('Calls login API', () => {
+//   const api = API.create('https://test-server.io')
+//   const step = stepper(login({username: 'admin@user.com', password: '123456'}))
+//   step()
+//   const stepResponse = step({data: {token: 'test'}})
+// })
+
+test('login success saga', () => {
+  const response = FixtureAPI.login('admin@user.com', '123456')
+  const step = stepper(login({username: 'admin@user.com', password: '123456'}, FixtureAPI))
+  // first step API
+  step()
+  // Second step successful return
+  const stepResponse = step(response)
+  expect(stepResponse).toEqual(put(AuthActions.authSuccess(JSON.stringify(response.data))))
 })
 
-// test('success path', () => {
-//   const response = FixtureAPI.getUser('taco')
-//   const step = stepper(getUserAvatar(FixtureAPI, {username: 'taco'}))
-//   // first step API
-//   step()
-//   // Second step successful return
-//   const stepResponse = step(response)
-//   // Get the avatar Url from the response
-//   const firstUser = path(['data', 'items'], response)[0]
-//   const avatar = firstUser.avatar_url
-//   expect(stepResponse).toEqual(put(GithubActions.userSuccess(avatar)))
-// })
-//
-// test('failure path', () => {
-//   const response = {ok: false}
-//   const step = stepper(getUserAvatar(FixtureAPI, {username: 'taco'}))
-//   // first step API
-//   step()
-//   // Second step failed response
-//   expect(step(response)).toEqual(put(GithubActions.userFailure()))
-// })
+test('login failure saga', () => {
+  const response = FixtureAPI.login('admin@user.com', '1234567')
+  const step = stepper(login({username: 'admin@user.com', password: '1234567'}, FixtureAPI))
+  // first step API
+  step()
+  // Second step successful return
+  const stepResponse = step(response)
+  expect(stepResponse).toEqual(put(AuthActions.authFailure(response.data)))
+})

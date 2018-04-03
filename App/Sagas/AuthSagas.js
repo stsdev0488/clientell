@@ -89,8 +89,13 @@ export function * register ({payload}) {
 }
 
 // Login
-export function * login (action) {
-  const api = yield call(apiGet)
+export function * login (action, fixtureAPI) {
+  let api
+  if (!fixtureAPI) {
+    api = yield call(apiGet, fixtureAPI)
+  } else {
+    api = fixtureAPI
+  }
 
   try {
     const {username, password} = action
@@ -118,7 +123,7 @@ export function * login (action) {
       yield put(AuthActions.authFailure(response.data || {error: 'unknown', message: `Can't connect to server`}))
     }
   } catch (error) {
-    console.tron.log(error)
+    console.log(error)
     yield put(AuthActions.authFailure({error: 'unknown', message: `Can't connect to server`}))
   }
 }

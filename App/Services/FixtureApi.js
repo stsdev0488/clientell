@@ -1,5 +1,23 @@
 export default {
   // Functions return fixtures
+  login: (username, password) => {
+    let d
+    if (password === '1234567')
+      d = require('../Fixtures/loginFailure.json')
+    else
+      d = require('../Fixtures/loginSuccess.json')
+
+    return {
+      ok: password === '1234567' ? false : true,
+      data: d
+    }
+  },
+  loginFailure: (username, password) => {
+    return {
+      ok: true,
+      data: require('../Fixtures/loginFailure.json')
+    }
+  },
   getRoot: () => {
     return {
       ok: true,
