@@ -13,7 +13,7 @@ import { ReviewTypes } from '../Redux/ReviewRedux'
 
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
-import { getUser, updateUser } from './UserSagas'
+import { getUser, updateUser, updateUserAvatar } from './UserSagas'
 import {
   getClients,
   addClient,
@@ -38,6 +38,7 @@ export default function * root () {
     // USER SAGAS
     takeLatest(UserTypes.USER_REQUEST, getUser),
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
+    takeLatest(UserTypes.AVATAR_UPDATE_REQUEST, updateUserAvatar),
 
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),
