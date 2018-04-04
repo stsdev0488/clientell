@@ -10,7 +10,8 @@ export default StyleSheet.create({
   logo: {
     marginTop: 30,
     height: 120,
-    width: 120
+    width: 120,
+    position: 'relative'
   },
 
   centered: {
@@ -21,6 +22,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'
+  },
+
+  avatarSpinner: {
+    position: 'absolute',
+    top: 20,
+    left: 45
   },
 
   contactIcon: {

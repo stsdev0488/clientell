@@ -52,6 +52,7 @@ class Settings extends Component {
 
   render () {
     const {user} = this.props
+    const avatar = user.avatar_path ? {uri: user.avatar_path} : Images.launch
     return (
       <View style={styles.container}>
         <Content style={{flex: 1}}>
@@ -60,7 +61,7 @@ class Settings extends Component {
           </View>
 
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
+            <Image source={avatar} style={styles.logo} />
           </View>
 
           <View style={styles.section}>
