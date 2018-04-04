@@ -59,7 +59,22 @@ class PersonalInfoStep extends Component {
     this.props.clientTypeChanged(a)
   }
 
+  _validateForm = () => {
+    const requiredFields = ['first_name', 'last_name', 'phone_number']
+    let errors = []
+    for (const key in this.state) {
+      if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
+        errors.push(key)
+      }
+      if (key === 'phone_number' && isNaN(this.state[key])) {
+        errors.push(key)
+      }
+    }
+    return errors
+  }
+
   render () {
+    const fieldErrors = this._validateForm()
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>
@@ -78,7 +93,7 @@ class PersonalInfoStep extends Component {
 
         <View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>First name</Text>
+            <Text style={styles.sectionText}>First name <Text style={styles.sup}>*</Text></Text>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -106,7 +121,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Last name</Text>
+            <Text style={styles.sectionText}>Last name <Text style={styles.sup}>*</Text></Text>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -136,7 +151,7 @@ class PersonalInfoStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Phone number</Text>
+          <Text style={styles.sectionText}>Phone number <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <PhoneInput
               ref={ref => { this.phone = ref }}
@@ -160,7 +175,11 @@ class PersonalInfoStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this._submitDetails()}>
+          <Button
+            block
+            onPress={() => this._submitDetails()}
+            disabled={fieldErrors.length > 0}
+          >
             <NBText>Submit</NBText>
           </Button>
         </View>

@@ -138,7 +138,7 @@ class AddClient extends Component {
         billing_postal_code: ''
       },
       ratingData: {
-        initial_star_rating: 3
+        initial_star_rating: 0
       },
       clientData: {}
     }
@@ -315,7 +315,7 @@ class AddClient extends Component {
           {this._renderBilling()}
 
           {this._renderRating()}
-          
+
         </Content>
       </View>
     )
