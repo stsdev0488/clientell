@@ -84,7 +84,7 @@ class Clients extends React.PureComponent {
     } else {
       return (
         <AlertMessage
-          title='Clients not found'
+          title='No clients available'
         />
       )
     }
