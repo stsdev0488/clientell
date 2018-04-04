@@ -26,7 +26,6 @@ class LaunchScreen extends Component {
   }
 
   handleFbLogin = () => {
-    this.socialLogin = true
     LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_birthday']).then(
       (result) => {
         if (result.isCancelled) {
@@ -38,10 +37,8 @@ class LaunchScreen extends Component {
             }
           )
         }
-        this.socialLogin = false
       },
       (error) => {
-        this.socialLogin = false
         console.tron.log('Login fail with error: ' + error)
       }
     )
@@ -62,8 +59,8 @@ class LaunchScreen extends Component {
               onPress={this.handleFbLogin}
               disabled={this.props.fetching}
             >
-              {this.props.fetching === true && this.socialLogin && <Spinner color="#fff" />}
-              {!this.props.fetching === true && <Text>Sign in with Facebook</Text>}
+              {this.props.fetching && <Spinner color="#fff" />}
+              {!this.props.fetching && <Text>Sign in with Facebook</Text>}
             </Button>
             <Text style={styles.or}>Or</Text>
           </View>
