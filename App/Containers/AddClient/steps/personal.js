@@ -5,6 +5,8 @@ import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBTe
 import PhoneInput from 'react-native-phone-input'
 import Picker from 'Lib/CustomPicker'
 
+import { getPhoneExtension } from 'Lib/Utils'
+
 // Styles
 import styles from '../styles'
 
@@ -45,13 +47,12 @@ class PersonalInfoStep extends Component {
     const phone = this.phone.getValue();
     const alt_phone = this.phone_alternate.getValue()
 
-    finalData.phone_number_ext = this.phone.getCountryCode()
-    // finalData.phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
     finalData.phone_number = phone
-    finalData.alt_phone_number_ext = this.phone_alternate.getCountryCode()
-    // finalData.alt_phone_number = alt_phone.replace('+' + this.phone_alternate.getCountryCode(), '')
+    // finalData.phone_number_ext = getPhoneExtension(phone)
+
     const altPhonePrefix = '+' + this.phone_alternate.getCountryCode()
     finalData.alt_phone_number = alt_phone !== altPhonePrefix ? alt_phone : ''
+    // finalData.alt_phone_number_ext = getPhoneExtension(alt_phone)
 
     this.props.submitInfo(finalData)
   }
@@ -152,26 +153,55 @@ class PersonalInfoStep extends Component {
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Phone number <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <PhoneInput
-              ref={ref => { this.phone = ref }}
-              style={{paddingHorizontal: 8}}
-              textStyle={{height: 50}}
-              value={this.state.phone_number ? this.state.phone_number : '+1'}
-            />
-          </Item>
+          <View style={{flexDirection: 'row'}}>
+            <Item regular style={{flex: 1}}>
+              <PhoneInput
+                ref={ref => { this.phone = ref }}
+                style={{paddingHorizontal: 8}}
+                textStyle={{height: 50}}
+                value={this.state.phone_number ? this.state.phone_number : '+1'}
+              />
+            </Item>
+
+            <Item regular style={{width: 60}}>
+              <Input
+                style={{textAlign: 'center'}}
+                defaultValue={this.state.phone_number_ext}
+                onChangeText={phone_number_ext => this.setState({ phone_number_ext })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                returnKeyType='next'
+                placeholder='ext'
+              />
+            </Item>
+          </View>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Alternate Phone number</Text>
-          <Item regular>
-            <PhoneInput
-              ref={ref => { this.phone_alternate = ref }}
-              style={{paddingHorizontal: 8}}
-              textStyle={{height: 50}}
-              value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
-            />
-          </Item>
+          <View style={{flexDirection: 'row'}}>
+            <Item regular style={{flex: 1}}>
+              <PhoneInput
+                ref={ref => { this.phone_alternate = ref }}
+                style={{paddingHorizontal: 8}}
+                textStyle={{height: 50}}
+                value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
+              />
+
+            </Item>
+
+            <Item regular style={{width: 60}}>
+              <Input
+                style={{textAlign: 'center'}}
+                defaultValue={this.state.alt_phone_number_ext}
+                onChangeText={alt_phone_number_ext => this.setState({ alt_phone_number_ext })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => this._submitDetails()}
+                returnKeyType='go'
+                placeholder='ext'
+              />
+            </Item>
+          </View>
         </View>
 
         <View style={styles.section}>

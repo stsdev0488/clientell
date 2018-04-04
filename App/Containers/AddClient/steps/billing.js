@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
 import PhoneInput from 'react-native-phone-input'
 
+import { getPhoneExtension } from 'Lib/Utils'
+
 // Styles
 import styles from '../styles'
 
@@ -17,8 +19,8 @@ class BillingStep extends Component {
     const phone = this.phone.getValue();
     let finalData = {...this.state}
 
-    finalData.billing_phone_number_ext = this.phone.getCountryCode()
-    finalData.billing_phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
+    // finalData.billing_phone_number_ext = getPhoneExtension(phone)
+    finalData.billing_phone_number = phone
 
     this.props.submitInfo(finalData)
   }
@@ -71,7 +73,7 @@ class BillingStep extends Component {
               ref={ref => {this.lastName = ref}}
               defaultValue={last_name}
               onChangeText={billing_last_name => this.setState({ billing_last_name })}
-              onSubmitEditing={() => {this.address._root.focus()}}
+              onSubmitEditing={() => {this.phone.focus()}}
               returnKeyType='next'
             />
           </Item>
@@ -79,14 +81,28 @@ class BillingStep extends Component {
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Billing Phone number</Text>
-          <Item regular>
-            <PhoneInput
-              ref={ref => { this.phone = ref }}
-              style={{paddingHorizontal: 8}}
-              textStyle={{height: 50}}
-              value={this.state.billing_phone_number ? this.state.billing_phone_number_ext + this.state.billing_phone_number : '+1'}
-            />
-          </Item>
+          <View style={{flexDirection: 'row'}}>
+            <Item regular style={{flex: 1}}>
+              <PhoneInput
+                ref={ref => { this.phone = ref }}
+                style={{paddingHorizontal: 8}}
+                textStyle={{height: 50}}
+                value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+              />
+            </Item>
+
+            <Item regular style={{width: 60}}>
+              <Input
+                style={{textAlign: 'center'}}
+                defaultValue={this.state.billing_phone_number_ext}
+                onChangeText={billing_phone_number_ext => this.setState({ billing_phone_number_ext })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => this.address._root.focus()}
+                returnKeyType='next'
+                placeholder='ext'
+              />
+            </Item>
+          </View>
         </View>
 
         <View style={styles.section}>
