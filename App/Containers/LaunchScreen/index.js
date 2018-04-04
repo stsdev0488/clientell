@@ -34,7 +34,6 @@ class LaunchScreen extends Component {
         } else {
           AccessToken.getCurrentAccessToken().then(
             (data) => {
-              console.tron.log(data.accessToken)
               this.props.socialLogin(data.accessToken, 'facebook')
             }
           )

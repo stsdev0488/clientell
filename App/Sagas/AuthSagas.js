@@ -141,7 +141,8 @@ export function * loginFB (action) {
 
       AsyncStorage.setItem('@LoginStore:token', response.data.access_token)
       yield put(UserActions.userRequest())
-
+      yield put(NavigationActions.navigate({ routeName: 'App' }))
+      
       /**
        * ADD PUSH TOKEN TO USER
        */
