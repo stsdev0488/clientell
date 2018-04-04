@@ -57,6 +57,12 @@ class Search extends Component {
     formData.append('company_name', this.state.company_name)
     formData.append('description', this.state.description)
 
+    //Required by the `/api/v1/auth/user/update-profile` api
+    formData.append('email', this.user.email)
+    formData.append('phone_number', this.user.phone_number)
+    formData.append('city', this.user.city)
+    formData.append('state', this.user.state)
+
     this.props.update(formData)
   }
 
