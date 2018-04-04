@@ -10,6 +10,7 @@ import StarRating from 'react-native-star-rating'
 import styles from './styles'
 import { Images } from 'Themes/'
 import moment from 'moment'
+import {Call, Email, Text as SMSText, Web, Twitter, Facebook} from 'react-native-openanything'
 
 class Settings extends Component {
   static navigationOptions = {
@@ -52,6 +53,9 @@ class Settings extends Component {
 
   render () {
     const {user} = this.props
+    if (user) {
+      console.tron.log(user)
+    }
     return (
       <View style={styles.container}>
         <Content style={{flex: 1}}>
@@ -74,32 +78,50 @@ class Settings extends Component {
             <Text style={styles.sectionText}>{user.email || ''}</Text>
           </View>
 
-          <View style={[styles.section, styles.contactIcons]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-call' style={styles.contactIcon} />
-            </TouchableOpacity>
+          <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
+            {
+              user.phone_number &&
+              <TouchableOpacity onPress={() => { Call(user.phone_number).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-call' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-text' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.phone_number &&
+              <TouchableOpacity onPress={() => { SMSText(user.phone_number).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-text' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-mail' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.email &&
+              <TouchableOpacity onPress={() => { Email(user.email).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-mail' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-globe' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.business_url &&
+              <TouchableOpacity onPress={() => { Web(user.business_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-globe' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-facebook' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.facebook_url &&
+              <TouchableOpacity onPress={() => { Web(user.facebook_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='logo-facebook' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-twitter' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.twitter_url &&
+              <TouchableOpacity onPress={() => { Web(user.twitter_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='logo-twitter' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           {
