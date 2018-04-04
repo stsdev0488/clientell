@@ -13,16 +13,27 @@ class AddressStep extends Component {
 
   handleSubmit () {
     Keyboard.dismiss()
-    console.tron.log('Submit!')
+  }
+
+  _validateForm = () => {
+    const requiredFields = ['street_address', 'city', 'state']
+    let errors = []
+    for (const key in this.state) {
+      if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
+        errors.push(key)
+      }
+    }
+    return errors
   }
 
   render () {
     const {street_address, street_address2, city, state, postal_code:postal} = this.state
+    const fieldErrors = this._validateForm()
 
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Address Line 1</Text>
+          <Text style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -49,7 +60,7 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>City</Text>
+          <Text style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -64,7 +75,7 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>State</Text>
+          <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -94,7 +105,7 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state)}>
+          <Button block onPress={() => this.props.submitInfo(this.state)} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>

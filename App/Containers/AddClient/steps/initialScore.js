@@ -16,7 +16,7 @@ class RatingStep extends Component {
 
     return (
       <View style={{padding: 20}}>
-        <Text style={styles.sectionText}>Rate client from 0 (lowest) - 5 (highest)</Text>
+        <Text style={styles.sectionText}>Rate client from 1 (lowest) - 5 (highest)</Text>
 
         <View style={styles.section}>
           <StarRating
