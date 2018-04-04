@@ -140,6 +140,10 @@ class Clients extends React.PureComponent {
     )
   }
 
+  _onRefresh = () => {
+    this.props.clients()
+  }
+
   render () {
     const { clientsData } = this.props
 
@@ -153,6 +157,8 @@ class Clients extends React.PureComponent {
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
           ListEmptyComponent={this.renderEmpty}
+          refreshing={this.props.fetching || false}
+          onRefresh={this._onRefresh}
         />
       </View>
     )
