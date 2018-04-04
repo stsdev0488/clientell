@@ -46,9 +46,12 @@ class PersonalInfoStep extends Component {
     const alt_phone = this.phone_alternate.getValue()
 
     finalData.phone_number_ext = this.phone.getCountryCode()
-    finalData.phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
+    // finalData.phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
+    finalData.phone_number = phone
     finalData.alt_phone_number_ext = this.phone_alternate.getCountryCode()
-    finalData.alt_phone_number = alt_phone.replace('+' + this.phone_alternate.getCountryCode(), '')
+    // finalData.alt_phone_number = alt_phone.replace('+' + this.phone_alternate.getCountryCode(), '')
+    const altPhonePrefix = '+' + this.phone_alternate.getCountryCode()
+    finalData.alt_phone_number = alt_phone !== altPhonePrefix ? alt_phone : ''
 
     this.props.submitInfo(finalData)
   }
@@ -64,9 +67,6 @@ class PersonalInfoStep extends Component {
     let errors = []
     for (const key in this.state) {
       if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
-        errors.push(key)
-      }
-      if (key === 'phone_number' && isNaN(this.state[key])) {
         errors.push(key)
       }
     }
@@ -157,7 +157,7 @@ class PersonalInfoStep extends Component {
               ref={ref => { this.phone = ref }}
               style={{paddingHorizontal: 8}}
               textStyle={{height: 50}}
-              value={this.state.phone_number ? this.state.phone_number_ext + this.state.phone_number : '+1'}
+              value={this.state.phone_number ? this.state.phone_number : '+1'}
             />
           </Item>
         </View>
@@ -169,7 +169,7 @@ class PersonalInfoStep extends Component {
               ref={ref => { this.phone_alternate = ref }}
               style={{paddingHorizontal: 8}}
               textStyle={{height: 50}}
-              value={this.state.alt_phone_number ? this.state.alt_phone_number_ext + '' + this.state.alt_phone_number : '+1'}
+              value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
             />
           </Item>
         </View>

@@ -138,7 +138,7 @@ class AddClient extends Component {
         billing_postal_code: ''
       },
       ratingData: {
-        initial_star_rating: 0
+        initial_star_rating: 1
       },
       clientData: {}
     }
