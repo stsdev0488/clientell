@@ -26,7 +26,7 @@ class PersonalInfoStep extends Component {
       return (
         <View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Organization name</Text>
+            <Text style={styles.sectionText}>Organization name <Text style={styles.sup}>*</Text></Text>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -64,7 +64,11 @@ class PersonalInfoStep extends Component {
   }
 
   _validateForm = () => {
-    const requiredFields = ['first_name', 'last_name', 'phone_number']
+    let requiredFields = ['first_name', 'last_name', 'phone_number']
+    if (this.state.client_type === 'organization') {
+      requiredFields.push('organization_name')
+    }
+
     let errors = []
     for (const key in this.state) {
       if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
