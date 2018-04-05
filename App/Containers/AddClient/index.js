@@ -142,7 +142,7 @@ class AddClient extends Component {
         billing_phone_number_ext: ''
       },
       ratingData: {
-        initial_star_rating: 1
+        initial_star_rating: 4
       },
       clientData: {}
     }
