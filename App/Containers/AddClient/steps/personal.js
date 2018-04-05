@@ -147,6 +147,7 @@ class PersonalInfoStep extends Component {
               keyboardType='email-address'
               onSubmitEditing={() => {this.phone.focus()}}
               returnKeyType='next'
+              autoCapitalize='none'
             />
           </Item>
         </View>
