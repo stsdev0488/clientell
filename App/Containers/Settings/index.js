@@ -134,7 +134,7 @@ class Settings extends Component {
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
-              Submitted 90 reviews
+              Submitted {user.reviews_submitted || 0} reviews
             </Text>
             <Text style={styles.sectionText}>
               With an average rating of:
@@ -145,7 +145,7 @@ class Settings extends Component {
                 disabled
                 starSize={20}
                 maxStars={5}
-                rating={3}
+                rating={parseFloat(user.reviews_submitted_average) || 0}
                 fullStarColor='#FFD700'
                 emptyStarColor='#D6D6D6'
               />
