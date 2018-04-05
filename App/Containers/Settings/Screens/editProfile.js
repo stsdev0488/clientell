@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text } from 'native-base'
+import { Content, Icon, Button, Text, Spinner } from 'native-base'
 import ImagePicker from 'react-native-image-picker'
 import mimes from 'react-native-mime-types'
 
@@ -38,13 +38,21 @@ class Search extends Component {
     account_type: this.user.account_type || 'individual',
     company_name: this.user.company_name || '',
     description: this.user.description || '',
-    image: ''
+    image: this.user.avatar_path ? {uri: this.user.avatar_path} : ''
   }
 
   // constructor (props) {
   //   super(props)
   //   this.state = {}
   // }
+
+  componentWillReceiveProps (newProps) {
+    if (!newProps.updatingAvatar && this.props.updatingAvatar) {
+      if (newProps.userData && newProps.userData.avatar_path) {
+        this.setState({image: {uri: newProps.userData.avatar_path}})
+      }
+    }
+  }
 
   _submitChanges = () => {
     const { user } = this.props
@@ -95,7 +103,14 @@ class Search extends Component {
             type: response.fileName ? mimes.lookup(response.fileName) : mimes.lookup(response.uri)
           }
 
-          this.setState({image: dd})
+          // this.setState({image: dd})
+          const { uri } = response
+          const parts = uri.split('/')
+          const filename = parts[parts.length - 1]
+
+          const formData = new FormData()
+          formData.append('avatar', dd)
+          this.props.updateAvatar(formData)
         }
       }
     })
@@ -115,6 +130,7 @@ class Search extends Component {
           <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
             <View style={styles.logo}>
               <Image source={this.state.image || Images.launch} />
+              {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -204,13 +220,16 @@ class Search extends Component {
 const mapStateToProps = (state) => {
   return {
     saving: state.user.updating,
-    error: state.user.updateError || null
+    error: state.user.updateError || null,
+    updatingAvatar: state.user.updatingAvatar,
+    userData: state.user.data
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    update: (data) => dispatch(UserActions.userUpdateRequest(data))
+    update: (data) => dispatch(UserActions.userUpdateRequest(data)),
+    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data))
   }
 }
 

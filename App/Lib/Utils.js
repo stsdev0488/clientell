@@ -58,8 +58,6 @@ export const parseEditClient = client => {
     }
   }
   
-  console.tron.log(client)
-  
   return obj
 }
 
@@ -94,4 +92,14 @@ export const parseClientError = (errors, clientType) => {
   }
 
   return Object.values(groupedError)
+}
+
+export const getPhoneExtension = (phone_number) => {
+  const hasExtension = phone_number.search(',')
+
+  if (hasExtension > 0) {
+    return phone_number.substring(phone_number.indexOf(",") + 1)
+  } else {
+    return ''
+  }
 }

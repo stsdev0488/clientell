@@ -13,5 +13,9 @@ export default StyleSheet.create({
     minHeight: 40,
     paddingTop: 13,
     paddingBottom: 13
+  },
+
+  sup: {
+    color: Colors.fire
   }
 })

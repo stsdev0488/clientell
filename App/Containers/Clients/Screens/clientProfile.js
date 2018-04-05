@@ -76,7 +76,7 @@ class ClientProfile extends React.PureComponent {
             </Button>
           </View>
           <View style={[styles.section, styles.infoItem]}>
-            <NBText>+{client.phone_number_ext}{client.phone_number}</NBText>
+            <NBText>{client.phone_number}</NBText>
             <Button
               onPress={() => Call(client.phone_number, prompt = false)}
               transparent
