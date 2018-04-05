@@ -62,7 +62,7 @@ class ClientProfile extends React.PureComponent {
             fullStarColor='#FFD700'
             emptyStarColor='#D6D6D6'
           />
-          <NBText style={styles.ratingText}>Average over 6 ratings</NBText>
+          <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating' : `Average over ${client.review_count} rating`}{client.review_count > 1 ? 's' : ''}</NBText>
         </View>
         <View style={styles.contacts}>
           <View style={[styles.section, styles.infoItem]}>
