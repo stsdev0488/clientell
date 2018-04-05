@@ -34,7 +34,8 @@ export const INITIAL_STATE = Immutable({
   fetchedClient: null,
   fetchingClientError: null,
   deleting: null,
-  deleteError: null
+  deleteError: null,
+  pagination: null
 })
 
 /* ------------- Selectors ------------- */
@@ -50,15 +51,15 @@ export const ClientSelectors = {
  */
 
 export const request = (state, { data }) =>
-  state.merge({ fetching: true, payload: null })
+  state.merge({ fetching: true, payload: null, pagination: null })
 
 export const success = (state, action) => {
   const { payload } = action
-  return state.merge({ fetching: false, error: null, data: payload })
+  return state.merge({ fetching: false, error: null, data: payload, pagination: payload.meta ? payload.meta.pagination : null })
 }
 
 export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
+  state.merge({ fetching: false, error: true, payload: null, pagination: null })
 
 /**
  * ADD CLIENT

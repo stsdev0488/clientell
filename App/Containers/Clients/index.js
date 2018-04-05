@@ -36,7 +36,6 @@ class Clients extends React.PureComponent {
 
   componentWillReceiveProps (newProps) {
     if (!newProps.filtering && this.props.filtering) {
-      console.tron.log(newProps)
       if (newProps.filteredData) {
         this.setState({dataObjects: newProps.filteredData.data})
       }
@@ -104,6 +103,7 @@ class Clients extends React.PureComponent {
     if (searchKey.length > 2) {
       this.props.filter({keyword: searchKey})
     } else if (searchKey.length === 0) {
+      this.props.clearFilter()
       this.setState({dataObjects: this.props.clientsData.data})
     }
   }
@@ -121,6 +121,7 @@ class Clients extends React.PureComponent {
   }
 
   renderCustomHeader () {
+    const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
     return (
       <Header
         hasSubtitle
@@ -175,15 +176,18 @@ const mapStateToProps = (state) => {
   return {
     fetching: state.client.fetching,
     clientsData: state.client.data || {},
+    pagination: state.client.pagination || {},
     filteredData: state.search.filteredClient,
-    filtering: state.search.filtering
+    filtering: state.search.filtering,
+    filteredPagination: state.search.pagination || {},
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     clients: () => dispatch(ClientActions.clientRequest()),
-    filter: (keyword) => dispatch(SearchActions.filterClients(keyword))
+    filter: (keyword) => dispatch(SearchActions.filterClients(keyword)),
+    clearFilter: () => dispatch(SearchActions.clearFilter())
   }
 }
 
