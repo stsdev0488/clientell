@@ -23,7 +23,8 @@ class Search extends Component {
   }
 
   state = {
-    email: ''
+    email: '',
+    error: null
   }
 
   // constructor (props) {
@@ -34,12 +35,19 @@ class Search extends Component {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
-        this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.email})
+        if (newProps.data) {
+          if (newProps.data.data.length > 0) {
+            this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.email})
+          } else {
+            this.setState({error: {message: 'Your search did not yield any results.'}})
+          }
+        }
       }
     }
   }
 
   _executeSearch = () => {
+    this.setState({error: null})
     this.props.searchClient({search_by: 'email', email: this.state.email})
   }
 
@@ -66,7 +74,7 @@ class Search extends Component {
         </View>
 
         <View style={styles.section}>
-          <ErrorRenderer error={this.props.error} />
+          <ErrorRenderer error={this.props.error || this.state.error} />
         </View>
 
         <View style={styles.section}>

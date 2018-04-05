@@ -24,7 +24,8 @@ class Search extends Component {
   }
 
   state = {
-    phone: ''
+    phone: '',
+    error: null
   }
 
   // constructor (props) {
@@ -35,12 +36,19 @@ class Search extends Component {
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
-        this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.phone})
+        if (newProps.data) {
+          if (newProps.data.data.length > 0) {
+            this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.phone})
+          } else {
+            this.setState({error: {message: 'Your search did not yield any results.'}})
+          }
+        }
       }
     }
   }
 
   _executeSearch = () => {
+    this.setState({error: null})
     this.props.searchClient({search_by: 'phone number', phone_number: this.state.phone})
   }
 
@@ -65,7 +73,7 @@ class Search extends Component {
         </View>
 
         <View style={styles.section}>
-          <ErrorRenderer error={this.props.error} />
+          <ErrorRenderer error={this.props.error || this.state.error} />
         </View>
 
         <View style={styles.section}>
