@@ -129,7 +129,7 @@ class Clients extends React.PureComponent {
       >
         <Body>
           <Title>Client List</Title>
-          <Subtitle>47 clients</Subtitle>
+          <Subtitle>{this.state.dataObjects.length} clients</Subtitle>
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />
             <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />

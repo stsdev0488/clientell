@@ -98,7 +98,7 @@ const create = (baseURL) => {
   }
 
   const getClients = (urlParams) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client&per_page=100', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const clientLookup = (params) => {
@@ -106,7 +106,7 @@ const create = (baseURL) => {
   }
 
   const clientFilter = (params) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client&per_page=100', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const getSpecificUser = (data) => {
