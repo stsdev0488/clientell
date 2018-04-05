@@ -56,6 +56,7 @@ class Search extends Component {
     formData.append('email', this.state.email)
     formData.append('business_url', this.state.business_url)
     formData.append('facebook_url', this.state.facebook_url)
+    formData.append('twitter_url', this.state.twitter_url)
     formData.append('phone_number', this.main_phone.getPhoneNumber())
     formData.append('phone_number_ext', this.main_phone.getCountryCode())
     formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
@@ -154,6 +155,7 @@ class Search extends Component {
             onChangeText={email => this.setState({email})}
             onSubmitEditing={() => {this.businessInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -165,6 +167,7 @@ class Search extends Component {
             onChangeText={business_url => this.setState({business_url})}
             onSubmitEditing={() => {this.fbInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -176,6 +179,7 @@ class Search extends Component {
             onChangeText={facebook_url => this.setState({facebook_url})}
             onSubmitEditing={() => {this.twitterInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -185,6 +189,7 @@ class Search extends Component {
             bref={ref => this.twitterInput = ref}
             defaultValue={user.twitter_url || ''}
             onChangeText={twitter_url => this.setState({twitter_url})}
+            autoCapitalize='none'
           />
         </View>
 
