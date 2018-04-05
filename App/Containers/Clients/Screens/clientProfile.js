@@ -64,7 +64,9 @@ class ClientProfile extends React.PureComponent {
     }
 
     if (this.props.fetchingReviews && !newProps.fetchingReviews && this.props.navigation.isFocused()) {
-      this.setState({reviews: newProps.reviews.data})
+      if (!newProps.errorReviews) {
+        this.setState({reviews: newProps.reviews.data})
+      }
     }
   }
 
