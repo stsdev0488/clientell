@@ -24,6 +24,8 @@ import { parseEditClient, parseClientError } from 'Lib/Utils'
 
 const labels = ['Personal Info', 'Address', 'Rating']
 const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
+const labelsEdit = ['Personal Info', 'Address']
+const labelsOrgEdit = ['Personal Info', 'Address', 'Billing']
 
 const customStyles = {
   stepIndicatorSize: 25,
@@ -72,7 +74,6 @@ class AddClient extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    console.tron.log(newProps)
     if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
       if (!newProps.error) {
         const client = this.props.navigation.getParam('client')
@@ -160,17 +161,26 @@ class AddClient extends Component {
 
   _submitStepInfo = (data) => {
     this.scrollBar.scrollTo({x: 0, y: 0, animated: false})
+    const client = this.props.navigation.getParam('client')
 
     this.setState(state => {
+      let count
+      if (!client) {
+        count = this.state.clientType === 'individual' ? 3 : 4
+      } else {
+        count = this.state.clientType === 'individual' ? 2 : 3
+      }
+
       state.clientData = {...state.clientData, ...data}
-      return state
-    })
-
-    this.setState(state => {
-      const count = this.state.clientType === 'individual' ? 3 : 4
 
       if ((state.currentPosition + 1) < count) {
         state.currentPosition = state.currentPosition + 1
+      } else {
+        if (!client) {
+          this.props.addClient({...state.clientData}, 0)
+        } else {
+          this.props.addClient({...state.clientData}, client.id)
+        }
       }
       return state
     })
@@ -187,11 +197,12 @@ class AddClient extends Component {
           <BillingStep
             initialData={this.state.billingData}
             submitInfo={
-                    (d) => {
-                      this.setState({billingData: d})
-                      this._submitStepInfo(d)
-                    }
-                  }
+              (d) => {
+                console.tron.log(d)
+                this.setState({billingData: d})
+                this._submitStepInfo(d)
+              }
+            }
           />
         </Animatable.View>
       )
@@ -253,6 +264,16 @@ class AddClient extends Component {
     const client = this.props.navigation.getParam('client')
     const errors = parseClientError(this.props.error ? this.props.error.errors : {}, this.state.clientType)
     const currentErrors = errors[this.state.currentPosition] || null
+    let stepLabels
+    let sCount
+
+    if (!client) {
+      stepLabels = this.state.clientType === 'individual' ? labels : labelsOrg
+      sCount = this.state.clientType === 'individual' ? 3 : 4
+    } else {
+      stepLabels = this.state.clientType === 'individual' ? labelsEdit : labelsOrgEdit
+      sCount = this.state.clientType === 'individual' ? 2 : 3
+    }
 
     return (
       <View style={styles.container}>
@@ -274,10 +295,10 @@ class AddClient extends Component {
           }
 
           <StepIndicator
-            stepCount={this.state.clientType === 'individual' ? 3 : 4}
+            stepCount={sCount}
             customStyles={customStyles}
             currentPosition={this.state.currentPosition}
-            labels={this.state.clientType === 'individual' ? labels : labelsOrg}
+            labels={stepLabels}
             onPress={this._stepPressed}
           />
 
@@ -292,7 +313,6 @@ class AddClient extends Component {
                 initialData={{...this.state.personalData, client_type: this.state.clientType}}
                 submitInfo={
                   (d) => {
-                  console.tron.log(d)
                     this.setState({personalData: d})
                     this._submitStepInfo(d)
                   }
