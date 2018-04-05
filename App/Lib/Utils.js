@@ -3,7 +3,7 @@ export const capitalize = str => {
 }
 
 export const parseClientAddress = client => {
-  return `${client.street_address} ${client.street_address2}, ${client.city} ${client.state} ${client.postal_code}`
+  return `${client.street_address || ''} ${client.street_address2 || ''}, ${client.city || ''} ${client.state || ''} ${client.postal_code || ''}`
 }
 
 export const parseEditClient = client => {
@@ -57,7 +57,7 @@ export const parseEditClient = client => {
       phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext, billing_phone_number, billing_phone_number_ext
     }
   }
-  
+
   return obj
 }
 

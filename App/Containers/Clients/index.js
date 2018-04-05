@@ -115,6 +115,11 @@ class Clients extends React.PureComponent {
     // }
   }
 
+  _clearSearchInput () {
+    this.setState({searchKey: ''})
+    this.handleSearchInput('')
+  }
+
   renderCustomHeader () {
     return (
       <Header
@@ -130,7 +135,7 @@ class Clients extends React.PureComponent {
             <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
             {
               this.state.searchKey !== '' &&
-              <TouchableOpacity onPress={() => this.setState({searchKey: ''})}>
+              <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
                 <Icon name="md-close-circle" />
               </TouchableOpacity>
             }
