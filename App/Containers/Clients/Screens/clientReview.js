@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, TouchableOpacity, TextInput} from 'react-native'
-import {Container, Content, Text as NBText, Button, Icon, ActionSheet} from 'native-base'
+import {Container, Content, Text as NBText, Button, Icon, ActionSheet,Spinner} from 'native-base'
 import { connect } from 'react-redux'
 
 // Redux actions
@@ -144,7 +144,7 @@ class clientReview extends React.PureComponent {
           {...deleteReviewBtn}
         />
 
-        <Content extraScrollHeight={50} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+        <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={styles.section}>
             <DTPicker
               visible={this.state.datepickerVisible}
@@ -218,6 +218,7 @@ class clientReview extends React.PureComponent {
           </View>
 
           <Button disabled={this.props.fetching || this.props.editing} block style={{marginBottom: 30}} onPress={this._submitReview}>
+            {this.props.fetching === true || this.props.editing ? <Spinner /> : null}
             <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
           </Button>
 
