@@ -144,7 +144,7 @@ class clientReview extends React.PureComponent {
           {...deleteReviewBtn}
         />
 
-        <Content padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+        <Content extraScrollHeight={50} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={styles.section}>
             <DTPicker
               visible={this.state.datepickerVisible}
