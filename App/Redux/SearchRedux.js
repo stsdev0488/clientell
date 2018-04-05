@@ -7,6 +7,9 @@ const { Types, Creators } = createActions({
   searchRequest: ['data'],
   searchSuccess: ['payload'],
   searchFailure: ['data'],
+  search2Request: ['data'],
+  search2Success: ['payload'],
+  search2Failure: ['data'],
   filterClients: ['keyword'],
   clientFilterSuccess: ['data'],
   clientFilterFailure: null,
@@ -23,6 +26,10 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   payload: null,
   error: null,
+  data2: null,
+  fetching2: null,
+  payload2: null,
+  error2: null,
   filteredClient: null,
   filtering: null,
   filterError: null,
@@ -71,12 +78,32 @@ export const filterFailure = (state, { data }) =>
 export const clearFilter = (state) =>
   state.merge({ filteredClient: null, pagination: null })
 
+/**
+ * Search v2 used in client info
+ */
+// request the data from an api
+export const request2 = (state, { data }) =>
+  state.merge({ fetching2: true, data2: null })
+
+// successful api lookup
+export const success2 = (state, action) => {
+  const { payload } = action
+  return state.merge({ fetching2: false, error2: null, payload2: payload })
+}
+
+// Something went wrong somewhere.
+export const failure2 = (state, { data }) =>
+  state.merge({ fetching2: false, error2: data, payload2: null })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.SEARCH_REQUEST]: request,
   [Types.SEARCH_SUCCESS]: success,
   [Types.SEARCH_FAILURE]: failure,
+  [Types.SEARCH2_REQUEST]: request2,
+  [Types.SEARCH2_SUCCESS]: success2,
+  [Types.SEARCH2_FAILURE]: failure2,
   [Types.FILTER_CLIENTS]: requestFilter,
   [Types.CLIENT_FILTER_SUCCESS]: filterSuccess,
   [Types.CLIENT_FILTER_FAILURE]: filterFailure,

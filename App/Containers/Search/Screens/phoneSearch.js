@@ -34,7 +34,7 @@ class Search extends Component {
   // }
 
   componentWillReceiveProps (newProps) {
-    if (this.props.fetching && !newProps.fetching) {
+    if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
       if (!newProps.error) {
         if (newProps.data) {
           if (newProps.data.data.length > 0) {
