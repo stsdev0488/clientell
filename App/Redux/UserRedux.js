@@ -10,6 +10,7 @@ const { Types, Creators } = createActions({
   userUpdateRequest: ['data'],
   userUpdateSuccess: ['payload'],
   userUpdateFailure: ['payload'],
+  avatarUpdateRequest: ['data'],
   clearUser: null
 })
 
@@ -23,7 +24,8 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   error: null,
   updating: null,
-  updateError: null
+  updateError: null,
+  updatingAvatar: null
 })
 
 /* ------------- Reducers ------------- */
@@ -42,7 +44,7 @@ export const success = (state, action) => {
 }
 
 export const updateSuccess = (state, { payload }) => {
-  return state.merge({ updating: false, data: payload, updateError: null })
+  return state.merge({ updating: false, data: payload, updateError: null, updatingAvatar: false })
 }
 
 // Something went wrong somewhere.
@@ -50,11 +52,14 @@ export const failure = state =>
   state.merge({ fetching: false, error: true, payload: null })
 
 export const updateFailure = (state, {payload}) =>
-  state.merge({ updating: false, updateError: payload })
+  state.merge({ updating: false, updateError: payload, updatingAvatar: false })
 
 export const clearUser = (state) => {
   return INITIAL_STATE
 }
+
+export const avatarUpdateRequest = (state) =>
+  state.merge({ updatingAvatar: true })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -65,5 +70,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.USER_UPDATE_REQUEST]: updateRequest,
   [Types.USER_UPDATE_SUCCESS]: updateSuccess,
   [Types.USER_UPDATE_FAILURE]: updateFailure,
+  [Types.AVATAR_UPDATE_REQUEST]: avatarUpdateRequest,
   [Types.CLEAR_USER]: clearUser
 })

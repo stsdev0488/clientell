@@ -118,7 +118,9 @@ class AddClient extends Component {
         first_name: '',
         last_name: '',
         middle_name: '',
-        email: ''
+        email: '',
+        phone_number_ext: '',
+        alt_phone_number_ext: ''
       },
       addressData: {
         street_address: '',
@@ -135,10 +137,11 @@ class AddClient extends Component {
         billing_street_address2: '',
         billing_city: '',
         billing_state: '',
-        billing_postal_code: ''
+        billing_postal_code: '',
+        billing_phone_number_ext: ''
       },
       ratingData: {
-        initial_star_rating: 3
+        initial_star_rating: 1
       },
       clientData: {}
     }
@@ -315,7 +318,7 @@ class AddClient extends Component {
           {this._renderBilling()}
 
           {this._renderRating()}
-          
+
         </Content>
       </View>
     )

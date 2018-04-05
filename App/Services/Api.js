@@ -77,6 +77,10 @@ const create = (baseURL) => {
     return getToken().then((a) => apiFile.post('auth/user/change-password', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const updateAvatar = (params) => {
+    return getToken().then((a) => apiFile.post('auth/user/avatar', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   /**
    * Clients API
    */
@@ -135,6 +139,7 @@ const create = (baseURL) => {
     updateUser,
     updateContactInfo,
     updatePassword,
+    updateAvatar,
     addClient,
     editClient,
     deleteClient,
