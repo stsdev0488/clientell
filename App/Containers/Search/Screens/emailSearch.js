@@ -57,8 +57,10 @@ class Search extends Component {
             <Input
               placeholder=''
               onChangeText={email => this.setState({ email })}
+              keyboardType='email-address'
               returnKeyType='search'
               onSubmitEditing={this._executeSearch.bind(this)}
+              autoCapitalize='none'
             />
           </Item>
         </View>
