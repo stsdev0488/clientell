@@ -141,6 +141,7 @@ export function * loginFB (action) {
 
       AsyncStorage.setItem('@LoginStore:token', response.data.access_token)
       yield put(UserActions.userRequest())
+      yield put(NavigationActions.navigate({ routeName: 'App' }))
 
       /**
        * ADD PUSH TOKEN TO USER
@@ -150,7 +151,11 @@ export function * loginFB (action) {
       // });
       return true
     } else {
-      yield put(AuthActions.authFailure(response.data || {error: 'unknown', message: `Can't connect to server`}))
+      let errorObj = response.data || {error: 'unknown', message: `Can't connect to server`}
+      if (errorObj.error && errorObj.error === 'not_registered') {
+        errorObj = ['Facebook email was not registered.']
+      }
+      yield put(AuthActions.authFailure(errorObj))
     }
   } catch (error) {
     yield put(AuthActions.authFailure({error: 'unknown', message: `Can't connect to server`}))

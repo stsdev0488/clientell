@@ -3,8 +3,9 @@ import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+
+import withDrawer from 'Components/Drawer'
 
 // Styles
 import styles from './styles'
@@ -161,21 +162,10 @@ class Settings extends Component {
           direction="down"
           containerStyle={{ }}
           style={{ backgroundColor: '#5067FF' }}
-          position="topRight"
-          onPress={() => this.setState({menuActive: !this.state.menuActive})}>
+          position="topLeft"
+          onPress={() => this.props.drawer.openDrawer()}>
           <Icon name="ios-menu-outline" />
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile', {user: this.props.user})}>
-            <Icon name="md-create" />
-          </Button>
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditMyContactInfo', {user: this.props.user})}>
-            <Icon name="md-globe" />
-          </Button>
-          <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword', {user: this.props.user})}>
-            <Icon name="ios-lock" />
-          </Button>
-          <Button style={{ backgroundColor: '#DD5144' }} onPress={() => this._signOut()}>
-            <Icon name="ios-power" />
-          </Button>
+          
         </Fab>
       </View>
     )
@@ -194,4 +184,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+const FScreen = hoistNonReactStatics(withDrawer(Settings), Settings)
+
+export default connect(mapStateToProps, mapDispatchToProps)(FScreen)
