@@ -134,7 +134,7 @@ class Settings extends Component {
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
-              Submitted {user.reviews_submitted || 0} reviews
+              Submitted {user.reviews_submitted || 0} review{user.reviews_submitted !== 1 ? 's' : ''}
             </Text>
             <Text style={styles.sectionText}>
               With an average rating of:
@@ -165,7 +165,7 @@ class Settings extends Component {
           position="topLeft"
           onPress={() => this.props.drawer.openDrawer()}>
           <Icon name="ios-menu-outline" />
-          
+
         </Fab>
       </View>
     )
