@@ -127,17 +127,21 @@ class clientReview extends React.PureComponent {
   }
 
   render () {
+    const deleteReviewBtn = this.review.id ? {
+      rightBtnIcon: 'ios-trash',
+      rightBtnPress: () => this._showDeleteConfirm()
+    } : {}
+
     return (
       <View style={styles.container}>
         <HeaderBar
-          topTitle={this.reviewId ? 'Edit review for' : 'New review for'}
+          topTitle={this.review.id ? 'Edit review for' : 'New review for'}
           title={this.client.name}
           subTitle={parseClientAddress(this.client)}
-          rightBtnIcon='ios-trash'
-          rightBtnPress={() => this._showDeleteConfirm()}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
+          {...deleteReviewBtn}
         />
 
         <Content padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
