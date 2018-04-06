@@ -7226,7 +7226,7 @@ react-native-fbsdk@^0.7.0:
   version "0.26.7"
   resolved "git+https://git@github.com/react-community/react-native-image-picker#60169dc5dfcea47094703fe4adf54be262540b6b"
 
-react-native-iphone-x-helper@^1.0.1:
+react-native-iphone-x-helper@^1.0.1, react-native-iphone-x-helper@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
 
