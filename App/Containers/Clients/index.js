@@ -123,7 +123,7 @@ class Clients extends React.PureComponent {
 
   _clientCountDisplay = () => {
     const fullDataLen = this.props.clientsData && this.props.clientsData.data ? this.props.clientsData.data.length : 0
-    const displayLen = this.state.dataObjects.length
+    const displayLen = this.state.dataObjects ? this.state.dataObjects.length : 0
     let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
     if (displayLen < fullDataLen) {
       display = `Showing ${displayLen} of ${fullDataLen} clients`
