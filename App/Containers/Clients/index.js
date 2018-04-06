@@ -4,6 +4,7 @@ import {Container, Header, Body, Title, Subtitle, Item, Input, ListItem, Text as
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import StarRating from 'react-native-star-rating'
+import { isIphoneX } from 'react-native-iphone-x-helper'
 import AlertMessage from 'Components/AlertMessage'
 
 // Redux
@@ -122,11 +123,16 @@ class Clients extends React.PureComponent {
 
   renderCustomHeader () {
     const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
+    let addedHeight = {height: 125}
+    if (isIphoneX()) {
+      addedHeight = {height: 150}
+    }
+
     return (
       <Header
         hasSubtitle
         searchBar
-        style={styles.header}
+        style={[styles.header, addedHeight]}
       >
         <Body>
           <Title>Client List</Title>
