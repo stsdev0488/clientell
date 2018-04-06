@@ -13,7 +13,8 @@ const { Types, Creators } = createActions({
   filterClients: ['keyword'],
   clientFilterSuccess: ['data'],
   clientFilterFailure: null,
-  clearFilter: null
+  clearFilter: null,
+  searchReset: null
 })
 
 export const SearchTypes = Types
@@ -95,6 +96,8 @@ export const success2 = (state, action) => {
 export const failure2 = (state, { data }) =>
   state.merge({ fetching2: false, error2: data, payload2: null })
 
+export const searchReset = (state: Object) => INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -107,5 +110,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.FILTER_CLIENTS]: requestFilter,
   [Types.CLIENT_FILTER_SUCCESS]: filterSuccess,
   [Types.CLIENT_FILTER_FAILURE]: filterFailure,
-  [Types.CLEAR_FILTER]: clearFilter
+  [Types.CLEAR_FILTER]: clearFilter,
+  [Types.SEARCH_RESET]: searchReset
 })

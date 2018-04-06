@@ -7,6 +7,12 @@ import { Content, List, ListItem, Text, ActionSheet } from 'native-base'
 import { Images } from 'Themes/'
 import { NavigationActions } from 'react-navigation'
 
+// Redux Actions
+import SearchActions from 'Redux/SearchRedux'
+import ClientActions from 'Redux/ClientRedux'
+import ReviewActions from 'Redux/ReviewRedux'
+import UserActions from 'Redux/UserRedux'
+
 class DrawerContent extends Component {
   // // Prop type warnings
   // static propTypes = {
@@ -30,6 +36,11 @@ class DrawerContent extends Component {
       async buttonIndex => {
         if (buttonIndex === 0) {
           await AsyncStorage.clear()
+
+          this.props.clearUser()
+          this.props.clearSearches()
+          this.props.clearClients()
+          this.props.clearReviews()
           this.props.navigate('Auth')
         }
       }
@@ -93,7 +104,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigate: (route, data = {}) => dispatch(NavigationActions.navigate({ routeName: route, params: data }))
+    navigate: (route, data = {}) => dispatch(NavigationActions.navigate({ routeName: route, params: data })),
+    clearClients: () => dispatch(ClientActions.clientReset()),
+    clearReviews: () => dispatch(ReviewActions.reviewsReset()),
+    clearSearches: () => dispatch(SearchActions.searchReset()),
+    clearUser: () => dispatch(UserActions.clearUser())
   }
 }
 

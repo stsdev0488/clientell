@@ -12,7 +12,8 @@ const { Types, Creators } = createActions({
   editReviewFailure: ['data'],
   deleteReview: ['id', 'client_id'],
   deleteReviewSuccess: ['payload'],
-  deleteReviewFailure: ['data']
+  deleteReviewFailure: ['data'],
+  reviewsReset: null
 })
 
 export const ReviewTypes = Types
@@ -85,6 +86,8 @@ export const deleteSuccess = (state) => {
 export const deleteFailure = (state, { data: deleteError }) =>
   state.merge({ deleting: false, deleteError })
 
+export const reviewsReset = (state: Object) => INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -96,5 +99,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.EDIT_REVIEW_FAILURE]: editFailure,
   [Types.DELETE_REVIEW]: deleteRequest,
   [Types.DELETE_REVIEW_SUCCESS]: deleteSuccess,
-  [Types.DELETE_REVIEW_FAILURE]: deleteFailure
+  [Types.DELETE_REVIEW_FAILURE]: deleteFailure,
+  [Types.REVIEWS_RESET]: reviewsReset
 })
