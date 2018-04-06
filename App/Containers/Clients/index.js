@@ -120,6 +120,16 @@ class Clients extends React.PureComponent {
     this.handleSearchInput('')
   }
 
+  _clientCountDisplay = () => {
+    const fullDataLen = this.props.clientsData && this.props.clientsData.data ? this.props.clientsData.data.length : 0
+    const displayLen = this.state.dataObjects.length
+    let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
+    if (displayLen < fullDataLen) {
+      display = `Showing ${displayLen} of ${fullDataLen} clients`
+    }
+    return <Subtitle>{display}</Subtitle>
+  }
+
   renderCustomHeader () {
     const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
     return (
@@ -130,7 +140,7 @@ class Clients extends React.PureComponent {
       >
         <Body>
           <Title>Client List</Title>
-          <Subtitle>{this.state.dataObjects.length} clients</Subtitle>
+          {this._clientCountDisplay()}
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />
             <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
