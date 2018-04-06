@@ -27,7 +27,8 @@ class Settings extends Component {
   }
 
   state = {
-    menuActive: false
+    menuActive: false,
+    scrollOffsetY: 0
   }
 
   // constructor (props) {
@@ -62,8 +63,9 @@ class Settings extends Component {
           title={'Profile'}
           leftBtnIcon='ios-menu'
           leftBtnPress={() => this.props.drawer.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
         />
-        <Content style={{flex: 1}}>
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={{flex: 1}}>
           <View style={styles.centered}>
             <Image source={avatar} style={styles.logo} />
           </View>
@@ -136,7 +138,7 @@ class Settings extends Component {
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
-              Submitted {user.reviews_submitted || 0} reviews
+              Submitted {user.reviews_submitted || 0} review{user.reviews_submitted !== 1 ? 's' : ''}
             </Text>
             <Text style={styles.sectionText}>
               With an average rating of:

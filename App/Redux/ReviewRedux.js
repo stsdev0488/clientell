@@ -51,7 +51,7 @@ export const success = (state, action) => {
 }
 
 // Something went wrong somewhere.
-export const failure = ({ data }) =>
+export const failure = (state, { data }) =>
   state.merge({ fetching: false, error: data, payload: null })
 
 /**

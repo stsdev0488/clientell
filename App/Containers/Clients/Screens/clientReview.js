@@ -39,7 +39,7 @@ class clientReview extends React.PureComponent {
     scrollOffsetY: 0,
     date: this.review.service_date ? moment(this.review.service_date) : new Date(),
     datepickerVisible: false,
-    rating: this.review.star_rating || 0,
+    rating: this.review.star_rating || 1,
     paymentRating: this.review.payment_rating || null,
     characterRating: this.review.character_rating || null,
     repeatRating: this.review.repeat_rating || null,
@@ -136,7 +136,7 @@ class clientReview extends React.PureComponent {
       <View style={styles.container}>
         <HeaderBar
           topTitle={this.review.id ? 'Edit review for' : 'New review for'}
-          title={this.client.name}
+          title={this.client.display_name}
           subTitle={parseClientAddress(this.client)}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}

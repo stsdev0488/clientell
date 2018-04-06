@@ -33,7 +33,8 @@ class ClientProfile extends React.PureComponent {
   state = {
     scrollOffsetY: 0,
     client: this.props.navigation.getParam('client'),
-    reviews: []
+    reviews: [],
+    showBilling: false
   }
 
   componentDidMount () {
@@ -84,7 +85,7 @@ class ClientProfile extends React.PureComponent {
             fullStarColor='#FFD700'
             emptyStarColor='#D6D6D6'
           />
-          <NBText style={styles.ratingText}>Average over 6 ratings</NBText>
+          <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating' : `Average over ${client.review_count} rating`}{client.review_count > 1 ? 's' : ''}</NBText>
         </View>
         <View style={styles.contacts}>
           <View style={[styles.section, styles.infoItem]}>
@@ -127,9 +128,55 @@ class ClientProfile extends React.PureComponent {
               </Button>
             </View>
           }
+          {this.renderBillingInfo()}
         </View>
       </View>
     )
+  }
+
+  renderBillingInfo = () => {
+    const { client, showBilling } = this.state
+    const { billing_first_name, billing_middle_name, billing_last_name, billing_phone_number, billing_street_address, billing_street_address2, billing_city, billing_state, billing_postal_code, billing_email } = client
+    if (client.client_type !== 'organization') {
+      return <View />
+    } else {
+      return (
+        <View style={styles.billingInfo}>
+          {
+            !showBilling &&
+            <Button small transparent block onPress={() => this.setState({showBilling: true})}><NBText>Show Billing Information</NBText></Button>
+          }
+          {
+            showBilling &&
+            <View>
+              <View style={styles.billingRow}>
+                <NBText style={styles.billingLabel}>Billing Name</NBText>
+                <NBText style={styles.billingValue}>{`${billing_last_name}, ${billing_first_name} ${billing_middle_name || ''}`}</NBText>
+              </View>
+              <View style={styles.billingRow}>
+                <NBText style={styles.billingLabel}>Billing Address</NBText>
+                <NBText style={styles.billingValue}>{`${billing_street_address || ''} ${billing_street_address2 || ''}, ${billing_city || ''} ${billing_state || ''} ${billing_postal_code || ''}`}</NBText>
+              </View>
+              {
+                billing_phone_number &&
+                <View style={styles.billingRow}>
+                  <NBText style={styles.billingLabel}>Billing Phone</NBText>
+                  <NBText style={styles.billingValue}>{billing_phone_number}</NBText>
+                </View>
+              }
+              {
+                billing_email &&
+                <View style={styles.billingRow}>
+                  <NBText style={styles.billingLabel}>Billing Email</NBText>
+                  <NBText style={styles.billingValue}>{billing_email}</NBText>
+                </View>
+              }
+              <Button small transparent block onPress={() => this.setState({showBilling: false})}><NBText>Hide Billing Information</NBText></Button>
+            </View>
+          }
+        </View>
+      )
+    }
   }
 
   render () {
@@ -144,7 +191,8 @@ class ClientProfile extends React.PureComponent {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={client.name}
+          title={client.display_name}
+          subTitle={client.client_type === 'organization' ? `${client.first_name} ${client.middle_name || ''} ${client.last_name}` : null}
           {...rightButton}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}

@@ -25,6 +25,17 @@ class BillingStep extends Component {
     this.props.submitInfo(finalData)
   }
 
+  _validateForm = () => {
+    const requiredFields = ['billing_first_name', 'billing_last_name', 'billing_phone_number', 'billing_street_address', 'billing_city', 'billing_state']
+    let errors = []
+    for (const key in this.state) {
+      if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
+        errors.push(key)
+      }
+    }
+    return errors
+  }
+
   render () {
     const {
       billing_first_name: first_name,
@@ -35,11 +46,12 @@ class BillingStep extends Component {
       billing_city: city,
       billing_state: state,
       billing_postal_code: postal} = this.state
+    const fieldErrors = this._validateForm()
 
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>
-          <Text style={styles.sectionText}>First Name</Text>
+          <Text style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -66,7 +78,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Last Name</Text>
+          <Text style={styles.sectionText}>Last Name <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -80,7 +92,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Phone number</Text>
+          <Text style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Text>
           <View style={{flexDirection: 'row'}}>
             <Item regular style={{flex: 1}}>
               <PhoneInput
@@ -106,7 +118,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Address Line 1</Text>
+          <Text style={styles.sectionText}>Billing Address Line 1 <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -134,7 +146,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>City</Text>
+          <Text style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -149,7 +161,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>State</Text>
+          <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -179,7 +191,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.handleSubmit()}>
+          <Button block onPress={() => this.handleSubmit()} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>

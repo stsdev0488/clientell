@@ -55,7 +55,7 @@ class Clients extends React.PureComponent {
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
           <Body>
             <View style={styles.listHeader}>
-              <NBText style={styles.title}>{item.name}</NBText>
+              <NBText style={styles.title}>{item.display_name}</NBText>
               <StarRating
                 disabled
                 starSize={20}
@@ -121,6 +121,16 @@ class Clients extends React.PureComponent {
     this.handleSearchInput('')
   }
 
+  _clientCountDisplay = () => {
+    const fullDataLen = this.props.clientsData && this.props.clientsData.data ? this.props.clientsData.data.length : 0
+    const displayLen = this.state.dataObjects ? this.state.dataObjects.length : 0
+    let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
+    if (displayLen < fullDataLen) {
+      display = `Showing ${displayLen} of ${fullDataLen} clients`
+    }
+    return <Subtitle>{display}</Subtitle>
+  }
+
   renderCustomHeader () {
     const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
     let addedHeight = {height: 125}
@@ -136,7 +146,7 @@ class Clients extends React.PureComponent {
       >
         <Body>
           <Title>Client List</Title>
-          <Subtitle>{this.state.dataObjects.length} clients</Subtitle>
+          {this._clientCountDisplay()}
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />
             <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
