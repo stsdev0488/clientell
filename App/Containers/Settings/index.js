@@ -6,6 +6,7 @@ import StarRating from 'react-native-star-rating'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 
 import withDrawer from 'Components/Drawer'
+import HeaderBar from 'Components/HeaderBar'
 
 // Styles
 import styles from './styles'
@@ -26,7 +27,8 @@ class Settings extends Component {
   }
 
   state = {
-    menuActive: false
+    menuActive: false,
+    scrollOffsetY: 0
   }
 
   // constructor (props) {
@@ -57,11 +59,13 @@ class Settings extends Component {
     const avatar = user.avatar_path ? {uri: user.avatar_path} : Images.launch
     return (
       <View style={styles.container}>
-        <Content style={{flex: 1}}>
-          <View style={styles.titleSection}>
-            <Text style={styles.titleText}>Profile</Text>
-          </View>
-
+        <HeaderBar
+          title={'Profile'}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.drawer.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={{flex: 1}}>
           <View style={styles.centered}>
             <Image source={avatar} style={styles.logo} />
           </View>
@@ -156,17 +160,6 @@ class Settings extends Component {
             </Text>
           </View>
         </Content>
-
-        <Fab
-          active={this.state.menuActive}
-          direction="down"
-          containerStyle={{ }}
-          style={{ backgroundColor: '#5067FF' }}
-          position="topLeft"
-          onPress={() => this.props.drawer.openDrawer()}>
-          <Icon name="ios-menu-outline" />
-
-        </Fab>
       </View>
     )
   }

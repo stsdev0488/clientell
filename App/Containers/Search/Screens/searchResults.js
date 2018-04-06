@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Input, Text, Fab } from 'native-base'
 import Feedback from 'Components/Feedback'
 import AlertMessage from 'Components/AlertMessage'
+import HeaderBar from 'Components/HeaderBar'
 
 // Styles
 import styles from '../styles'
@@ -37,12 +38,14 @@ class Search extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <Content>
-          <View style={styles.titleSection}>
-            <Text style={styles.titleText}>Search Results</Text>
-            <Text style={styles.subTitleText}>{ this.navParams.searchKey || 'Client' }</Text>
-          </View>
+        <HeaderBar
+          title={'Search Results'}
+          subTitle={ this.navParams.searchKey || 'Client' }
+          leftBtnIcon='ios-arrow-back'
+          leftBtnPress={() => this.props.navigation.goBack(null)}
+        />
 
+        <Content>
           {
             this.state.reviews.length < 1 &&
             <AlertMessage
@@ -58,16 +61,6 @@ class Search extends Component {
             })
           }
         </Content>
-
-        <Fab
-          active={this.state.menuActive}
-          direction="down"
-          containerStyle={{ }}
-          style={{ backgroundColor: '#5067FF' }}
-          position="topLeft"
-          onPress={() => this.props.navigation.goBack()}>
-          <Icon name="ios-arrow-back" />
-        </Fab>
       </View>
     )
   }
