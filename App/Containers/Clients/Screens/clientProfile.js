@@ -12,6 +12,7 @@ import AlertMessage from 'Components/AlertMessage'
 
 // Redux actions
 import ClientActions from 'Redux/ClientRedux'
+import SearchActions from 'Redux/SearchRedux'
 
 // Styles
 import styles from '../styles'
@@ -44,6 +45,27 @@ class ClientProfile extends React.PureComponent {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
         this.setState({client: newProps.clientData})
+
+        // this.props.getClientReviews(
+        //   {
+        //     search_by: 'name and address',
+        //     first_name: newProps.clientData.first_name,
+        //     last_name: newProps.clientData.last_name
+        //   }
+        // )
+
+        this.props.getClientReviews(
+          {
+            search_by: 'specific client',
+            client_id: newProps.clientData.id
+          }
+        )
+      }
+    }
+
+    if (this.props.fetchingReviews && !newProps.fetchingReviews && this.props.navigation.isFocused()) {
+      if (!newProps.errorReviews) {
+        this.setState({reviews: newProps.reviews.data})
       }
     }
   }
@@ -143,12 +165,12 @@ class ClientProfile extends React.PureComponent {
             <NBText>Write a new review</NBText>
           </Button>
 
-          {client.reviews.data.length < 1 && this.props.fetching !== true &&
+          {this.state.reviews.length < 1 && this.props.fetchingReviews !== true &&
             <AlertMessage title="No reviews submitted for this user" />
           }
 
           {
-            client.reviews.data.map((item, i) => {
+            this.state.reviews.map((item, i) => {
               return (
                 <Feedback key={i} data={item} />
               )
@@ -166,13 +188,17 @@ const mapStateToProps = (state) => {
     fetching: state.client.fetchingClient,
     clientData: state.client.fetchedClient,
     error: state.client.fetchedClientError,
-    user: state.user.data
+    user: state.user.data,
+    fetchingReviews: state.search.fetching2,
+    errorReviews: state.search.error2,
+    reviews: state.search.payload2
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getClient: (id) => dispatch(ClientActions.getSpecificClient(id))
+    getClient: (id) => dispatch(ClientActions.getSpecificClient(id)),
+    getClientReviews: (value) => dispatch(SearchActions.search2Request(value))
   }
 }
 
