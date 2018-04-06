@@ -61,14 +61,19 @@ export function * updateUser (action, fixtureAPI) {
   }
 }
 
-export function * updateUserAvatar (action) {
+export function * updateUserAvatar (action, fixtureAPI) {
   try {
-    const api = yield call(apiGet)
-
+    let response
     const { data } = action
-    // make the call to the api
-    let endpoint = api.updateAvatar
-    const response = yield call(endpoint, data)
+
+    if (!fixtureAPI) {
+      const api = yield call(apiGet)
+      // make the call to the api
+      let endpoint = api.updateAvatar
+      response = yield call(endpoint, data)
+    } else {
+      response = yield call(fixtureAPI.updateUserAvatar, data)
+    }
 
     // success?
     if (response.ok) {

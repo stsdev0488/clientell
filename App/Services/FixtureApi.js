@@ -35,5 +35,30 @@ export default {
       ok: true,
       data: d
     }
+  },
+  updateUserAvatar: (image) => {
+    if (!image) {
+      return {
+        ok: false,
+        data: {error: true}
+      }
+    } else {
+      return {
+        ok: true,
+        data: require('../Fixtures/updateAvatar.json')
+      }
+    }
+  },
+  getClients: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/getClients.json')
+    }
+  },
+  addClient: () => {
+    return {
+      ok: true,
+      data: require('../Fixtures/addClient.json')
+    }
   }
 }
