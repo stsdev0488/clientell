@@ -4,13 +4,15 @@ import { Colors, Metrics, ApplicationStyles } from 'Themes/'
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.snow
   },
 
   logo: {
     marginTop: 30,
     height: 120,
-    width: 120
+    width: 120,
+    position: 'relative'
   },
 
   centered: {
@@ -21,6 +23,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between'
+  },
+
+  avatarSpinner: {
+    position: 'absolute',
+    top: 20,
+    left: 45
   },
 
   contactIcon: {

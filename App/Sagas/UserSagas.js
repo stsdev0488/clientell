@@ -60,3 +60,26 @@ export function * updateUser (action, fixtureAPI) {
     yield put(UserActions.userUpdateFailure({message: 'Update failure. Please try again.'}))
   }
 }
+
+export function * updateUserAvatar (action) {
+  try {
+    const api = yield call(apiGet)
+
+    const { data } = action
+    // make the call to the api
+    let endpoint = api.updateAvatar
+    const response = yield call(endpoint, data)
+
+    // success?
+    if (response.ok) {
+      // You might need to change the response here - do this with a 'transform',
+      // located in ../Transforms/. Otherwise, just pass the data back from the api.
+      yield put(UserActions.userUpdateSuccess(response.data))
+      yield put(UserActions.userRequest())
+    } else {
+      yield put(UserActions.userUpdateFailure(response.data))
+    }
+  } catch (error) {
+    yield put(UserActions.userUpdateFailure({message: 'Failed to update avatar. Please try again.'}))
+  }
+}

@@ -1,0 +1,8 @@
+app_identifier("com.sourcetoad.clientell") # The bundle identifier of your app
+apple_id("aaron@webartdesign.com.au") # Your Apple email address
+
+itc_team_id("6311816") # iTunes Connect Team ID
+team_id("GFWL5Q42Q6") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

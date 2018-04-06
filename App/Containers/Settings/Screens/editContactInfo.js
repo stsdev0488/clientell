@@ -26,15 +26,17 @@ class Search extends Component {
     )
   }
 
+  user = this.props.navigation.getParam('user')
+
   state = {
-    street_address: '',
-    street_address2: '',
-    city: '',
-    state: '',
-    postal_code: '',
-    email: '',
-    business_url: '',
-    facebook_url: ''
+    street_address: this.user.street_address || '',
+    street_address2: this.user.street_address2 || '',
+    city: this.user.city || '',
+    state: this.user.state || '',
+    postal_code: this.user.postal_code || '',
+    email: this.user.email || '',
+    business_url: this.user.business_url || '',
+    facebook_url: this.user.facebook_url || ''
   }
 
   // constructor (props) {
@@ -46,14 +48,15 @@ class Search extends Component {
     const formData = new FormData()
     const { user } = this.props
 
-    formData.append('street_address', this.state.street_address || user.street_address)
-    formData.append('street_address2', this.state.street_address2 || user.street_address2)
-    formData.append('city', this.state.city || user.city)
-    formData.append('state', this.state.state || user.state)
-    formData.append('postal_code', this.state.postal_code || user.postal_code)
-    formData.append('email', this.state.email || user.email)
-    formData.append('business_url', this.state.business_url || user.business_url)
-    formData.append('facebook_url', this.state.facebook_url || user.facebook_url)
+    formData.append('street_address', this.state.street_address)
+    formData.append('street_address2', this.state.street_address2)
+    formData.append('city', this.state.city)
+    formData.append('state', this.state.state)
+    formData.append('postal_code', this.state.postal_code)
+    formData.append('email', this.state.email)
+    formData.append('business_url', this.state.business_url)
+    formData.append('facebook_url', this.state.facebook_url)
+    formData.append('twitter_url', this.state.twitter_url)
     formData.append('phone_number', this.main_phone.getPhoneNumber())
     formData.append('phone_number_ext', this.main_phone.getCountryCode())
     formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
@@ -63,7 +66,8 @@ class Search extends Component {
   }
 
   render () {
-    const { user, saving, error } = this.props
+    const { saving, error } = this.props
+    const user = this.user
 
     return (
       <Content style={styles.container}>
@@ -151,6 +155,7 @@ class Search extends Component {
             onChangeText={email => this.setState({email})}
             onSubmitEditing={() => {this.businessInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -162,6 +167,7 @@ class Search extends Component {
             onChangeText={business_url => this.setState({business_url})}
             onSubmitEditing={() => {this.fbInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -173,6 +179,7 @@ class Search extends Component {
             onChangeText={facebook_url => this.setState({facebook_url})}
             onSubmitEditing={() => {this.twitterInput._root.focus()}}
             returnKeyType='next'
+            autoCapitalize='none'
           />
         </View>
 
@@ -182,6 +189,7 @@ class Search extends Component {
             bref={ref => this.twitterInput = ref}
             defaultValue={user.twitter_url || ''}
             onChangeText={twitter_url => this.setState({twitter_url})}
+            autoCapitalize='none'
           />
         </View>
 
@@ -207,7 +215,6 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.data || {},
     saving: state.user.updating,
     error: state.user.updateError || null
   }

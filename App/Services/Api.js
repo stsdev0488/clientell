@@ -77,6 +77,10 @@ const create = (baseURL) => {
     return getToken().then((a) => apiFile.post('auth/user/change-password', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const updateAvatar = (params) => {
+    return getToken().then((a) => apiFile.post('auth/user/avatar', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   /**
    * Clients API
    */
@@ -94,7 +98,7 @@ const create = (baseURL) => {
   }
 
   const getClients = (urlParams) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client&per_page=100', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const clientLookup = (params) => {
@@ -102,7 +106,7 @@ const create = (baseURL) => {
   }
 
   const clientFilter = (params) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client&per_page=100', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const getSpecificUser = (data) => {
@@ -135,6 +139,7 @@ const create = (baseURL) => {
     updateUser,
     updateContactInfo,
     updatePassword,
+    updateAvatar,
     addClient,
     editClient,
     deleteClient,

@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 import ClientActions from 'Redux/ClientRedux'
 import ReviewActions from 'Redux/ReviewRedux'
+import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 
 export function * getClients () {
@@ -87,6 +88,7 @@ export function * reviewClient ({ id, data }) {
     if (response.ok) {
       yield put(ReviewActions.reviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(id))
+      yield put(UserActions.userRequest())
     } else {
       yield put(ReviewActions.reviewFailure(response.data))
     }
@@ -105,6 +107,7 @@ export function * editClientReview ({ id, data }) {
     if (response.ok) {
       yield put(ReviewActions.editReviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(response.data.client_id))
+      yield put(UserActions.userRequest())
     } else {
       yield put(ReviewActions.editReviewFailure(response.data))
     }
@@ -123,6 +126,7 @@ export function * deleteClientReview ({ id, client_id }) {
     if (response.ok) {
       yield put(ReviewActions.deleteReviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(client_id))
+      yield put(UserActions.userRequest())
     } else {
       yield put(ReviewActions.deleteReviewFailure(response.data))
     }

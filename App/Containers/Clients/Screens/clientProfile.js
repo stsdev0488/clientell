@@ -12,6 +12,7 @@ import AlertMessage from 'Components/AlertMessage'
 
 // Redux actions
 import ClientActions from 'Redux/ClientRedux'
+import SearchActions from 'Redux/SearchRedux'
 
 // Styles
 import styles from '../styles'
@@ -32,7 +33,8 @@ class ClientProfile extends React.PureComponent {
   state = {
     scrollOffsetY: 0,
     client: this.props.navigation.getParam('client'),
-    reviews: []
+    reviews: [],
+    showBilling: false
   }
 
   componentDidMount () {
@@ -44,6 +46,27 @@ class ClientProfile extends React.PureComponent {
     if (this.props.fetching && !newProps.fetching) {
       if (!newProps.error) {
         this.setState({client: newProps.clientData})
+
+        // this.props.getClientReviews(
+        //   {
+        //     search_by: 'name and address',
+        //     first_name: newProps.clientData.first_name,
+        //     last_name: newProps.clientData.last_name
+        //   }
+        // )
+
+        this.props.getClientReviews(
+          {
+            search_by: 'specific client',
+            client_id: newProps.clientData.id
+          }
+        )
+      }
+    }
+
+    if (this.props.fetchingReviews && !newProps.fetchingReviews) {
+      if (!newProps.errorReviews) {
+        this.setState({reviews: newProps.reviews.data})
       }
     }
   }
@@ -58,11 +81,11 @@ class ClientProfile extends React.PureComponent {
             disabled
             starSize={30}
             maxStars={5}
-            rating={client.initial_star_rating}
+            rating={client.avg_rating ? parseFloat(client.avg_rating) : client.initial_star_rating}
             fullStarColor='#FFD700'
             emptyStarColor='#D6D6D6'
           />
-          <NBText style={styles.ratingText}>Average over 6 ratings</NBText>
+          <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating' : `Average over ${client.review_count} rating`}{client.review_count > 1 ? 's' : ''}</NBText>
         </View>
         <View style={styles.contacts}>
           <View style={[styles.section, styles.infoItem]}>
@@ -76,7 +99,7 @@ class ClientProfile extends React.PureComponent {
             </Button>
           </View>
           <View style={[styles.section, styles.infoItem]}>
-            <NBText>+{client.phone_number_ext}{client.phone_number}</NBText>
+            <NBText>{client.phone_number}</NBText>
             <Button
               onPress={() => Call(client.phone_number, prompt = false)}
               transparent
@@ -105,9 +128,55 @@ class ClientProfile extends React.PureComponent {
               </Button>
             </View>
           }
+          {this.renderBillingInfo()}
         </View>
       </View>
     )
+  }
+
+  renderBillingInfo = () => {
+    const { client, showBilling } = this.state
+    const { billing_first_name, billing_middle_name, billing_last_name, billing_phone_number, billing_street_address, billing_street_address2, billing_city, billing_state, billing_postal_code, billing_email } = client
+    if (client.client_type !== 'organization') {
+      return <View />
+    } else {
+      return (
+        <View style={styles.billingInfo}>
+          {
+            !showBilling &&
+            <Button small transparent block onPress={() => this.setState({showBilling: true})}><NBText>Show Billing Information</NBText></Button>
+          }
+          {
+            showBilling &&
+            <View>
+              <View style={styles.billingRow}>
+                <NBText style={styles.billingLabel}>Billing Name</NBText>
+                <NBText style={styles.billingValue}>{`${billing_last_name}, ${billing_first_name} ${billing_middle_name || ''}`}</NBText>
+              </View>
+              <View style={styles.billingRow}>
+                <NBText style={styles.billingLabel}>Billing Address</NBText>
+                <NBText style={styles.billingValue}>{`${billing_street_address || ''} ${billing_street_address2 || ''}, ${billing_city || ''} ${billing_state || ''} ${billing_postal_code || ''}`}</NBText>
+              </View>
+              {
+                billing_phone_number &&
+                <View style={styles.billingRow}>
+                  <NBText style={styles.billingLabel}>Billing Phone</NBText>
+                  <NBText style={styles.billingValue}>{billing_phone_number}</NBText>
+                </View>
+              }
+              {
+                billing_email &&
+                <View style={styles.billingRow}>
+                  <NBText style={styles.billingLabel}>Billing Email</NBText>
+                  <NBText style={styles.billingValue}>{billing_email}</NBText>
+                </View>
+              }
+              <Button small transparent block onPress={() => this.setState({showBilling: false})}><NBText>Hide Billing Information</NBText></Button>
+            </View>
+          }
+        </View>
+      )
+    }
   }
 
   render () {
@@ -122,7 +191,8 @@ class ClientProfile extends React.PureComponent {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={client.name}
+          title={client.display_name}
+          subTitle={client.client_type === 'organization' ? `${client.first_name} ${client.middle_name || ''} ${client.last_name}` : null}
           {...rightButton}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
@@ -143,12 +213,12 @@ class ClientProfile extends React.PureComponent {
             <NBText>Write a new review</NBText>
           </Button>
 
-          {client.reviews.data.length < 1 && this.props.fetching !== true &&
+          {this.state.reviews.length < 1 && this.props.fetchingReviews !== true &&
             <AlertMessage title="No reviews submitted for this user" />
           }
 
           {
-            client.reviews.data.map((item, i) => {
+            this.state.reviews.map((item, i) => {
               return (
                 <Feedback key={i} data={item} />
               )
@@ -166,13 +236,17 @@ const mapStateToProps = (state) => {
     fetching: state.client.fetchingClient,
     clientData: state.client.fetchedClient,
     error: state.client.fetchedClientError,
-    user: state.user.data
+    user: state.user.data,
+    fetchingReviews: state.search.fetching2,
+    errorReviews: state.search.error2,
+    reviews: state.search.payload2
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getClient: (id) => dispatch(ClientActions.getSpecificClient(id))
+    getClient: (id) => dispatch(ClientActions.getSpecificClient(id)),
+    getClientReviews: (value) => dispatch(SearchActions.search2Request(value))
   }
 }
 

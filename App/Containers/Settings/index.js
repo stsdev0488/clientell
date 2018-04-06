@@ -3,13 +3,16 @@ import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+
+import withDrawer from 'Components/Drawer'
+import HeaderBar from 'Components/HeaderBar'
 
 // Styles
 import styles from './styles'
 import { Images } from 'Themes/'
 import moment from 'moment'
+import {Call, Email, Text as SMSText, Web, Twitter, Facebook} from 'react-native-openanything'
 
 class Settings extends Component {
   static navigationOptions = {
@@ -24,7 +27,8 @@ class Settings extends Component {
   }
 
   state = {
-    menuActive: false
+    menuActive: false,
+    scrollOffsetY: 0
   }
 
   // constructor (props) {
@@ -52,15 +56,18 @@ class Settings extends Component {
 
   render () {
     const {user} = this.props
+    const avatar = user.avatar_path ? {uri: user.avatar_path} : Images.launch
     return (
       <View style={styles.container}>
-        <Content style={{flex: 1}}>
-          <View style={styles.titleSection}>
-            <Text style={styles.titleText}>Profile</Text>
-          </View>
-
+        <HeaderBar
+          title={'Profile'}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.drawer.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={{flex: 1}}>
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
+            <Image source={avatar} style={styles.logo} />
           </View>
 
           <View style={styles.section}>
@@ -74,32 +81,50 @@ class Settings extends Component {
             <Text style={styles.sectionText}>{user.email || ''}</Text>
           </View>
 
-          <View style={[styles.section, styles.contactIcons]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-call' style={styles.contactIcon} />
-            </TouchableOpacity>
+          <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
+            {
+              user.phone_number &&
+              <TouchableOpacity onPress={() => { Call(user.phone_number).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-call' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-text' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.phone_number &&
+              <TouchableOpacity onPress={() => { SMSText(user.phone_number).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-text' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-mail' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.email &&
+              <TouchableOpacity onPress={() => { Email(user.email).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-mail' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='md-globe' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.business_url &&
+              <TouchableOpacity onPress={() => { Web(user.business_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='md-globe' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-facebook' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.facebook_url &&
+              <TouchableOpacity onPress={() => { Web(user.facebook_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='logo-facebook' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
 
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name='logo-twitter' style={styles.contactIcon} />
-            </TouchableOpacity>
+            {
+              user.twitter_url &&
+              <TouchableOpacity onPress={() => { Web(user.twitter_url).catch(err => console.tron.log(err)) }}>
+                <Icon name='logo-twitter' style={styles.contactIcon} />
+              </TouchableOpacity>
+            }
           </View>
 
           {
@@ -113,7 +138,7 @@ class Settings extends Component {
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
-              Submitted 90 reviews
+              Submitted {user.reviews_submitted || 0} review{user.reviews_submitted !== 1 ? 's' : ''}
             </Text>
             <Text style={styles.sectionText}>
               With an average rating of:
@@ -124,7 +149,7 @@ class Settings extends Component {
                 disabled
                 starSize={20}
                 maxStars={5}
-                rating={3}
+                rating={parseFloat(user.reviews_submitted_average) || 0}
                 fullStarColor='#FFD700'
                 emptyStarColor='#D6D6D6'
               />
@@ -135,28 +160,6 @@ class Settings extends Component {
             </Text>
           </View>
         </Content>
-
-        <Fab
-          active={this.state.menuActive}
-          direction="down"
-          containerStyle={{ }}
-          style={{ backgroundColor: '#5067FF' }}
-          position="topRight"
-          onPress={() => this.setState({menuActive: !this.state.menuActive})}>
-          <Icon name="ios-menu-outline" />
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditProfile')}>
-            <Icon name="md-create" />
-          </Button>
-          <Button style={{ backgroundColor: '#34A34F' }} onPress={() => this.props.navigation.navigate('EditMyContactInfo')}>
-            <Icon name="md-globe" />
-          </Button>
-          <Button style={{ backgroundColor: '#3B5998' }} onPress={() => this.props.navigation.navigate('ChangePassword')}>
-            <Icon name="ios-lock" />
-          </Button>
-          <Button style={{ backgroundColor: '#DD5144' }} onPress={() => this._signOut()}>
-            <Icon name="ios-power" />
-          </Button>
-        </Fab>
       </View>
     )
   }
@@ -174,4 +177,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+const FScreen = hoistNonReactStatics(withDrawer(Settings), Settings)
+
+export default connect(mapStateToProps, mapDispatchToProps)(FScreen)

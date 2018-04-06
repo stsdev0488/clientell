@@ -98,5 +98,31 @@ export default StyleSheet.create({
     minHeight: 60,
     width: Metrics.screenWidth - 20,
     marginTop: Metrics.smallMargin
+  },
+  billingInfo: {
+    paddingTop: Metrics.baseMargin,
+    marginTop: Metrics.baseMargin,
+    marginHorizontal: -10,
+    paddingHorizontal: Metrics.baseMargin,
+    borderTopWidth: 1,
+    borderTopColor: '#eee'
+  },
+  billingTitle: {
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  billingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: Metrics.baseMargin
+  },
+  billingLabel: {
+    color: '#999',
+    fontSize: 13,
+    marginRight: Metrics.baseMargin
+  },
+  billingValue: {
+    textAlign: 'right',
+    fontSize: 14
   }
 })

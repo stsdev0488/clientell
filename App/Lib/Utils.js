@@ -3,7 +3,7 @@ export const capitalize = str => {
 }
 
 export const parseClientAddress = client => {
-  return `${client.street_address} ${client.street_address2}, ${client.city} ${client.state} ${client.postal_code}`
+  return `${client.street_address || ''} ${client.street_address2 || ''}, ${client.city || ''} ${client.state || ''} ${client.postal_code || ''}`
 }
 
 export const parseEditClient = client => {
@@ -57,9 +57,7 @@ export const parseEditClient = client => {
       phone_number, phone_number_ext, alt_phone_number, alt_phone_number_ext, billing_phone_number, billing_phone_number_ext
     }
   }
-  
-  console.tron.log(client)
-  
+
   return obj
 }
 
@@ -94,4 +92,14 @@ export const parseClientError = (errors, clientType) => {
   }
 
   return Object.values(groupedError)
+}
+
+export const getPhoneExtension = (phone_number) => {
+  const hasExtension = phone_number.search(',')
+
+  if (hasExtension > 0) {
+    return phone_number.substring(phone_number.indexOf(",") + 1)
+  } else {
+    return ''
+  }
 }

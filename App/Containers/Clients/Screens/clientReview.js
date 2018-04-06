@@ -1,6 +1,6 @@
 import React from 'react'
 import {View, TouchableOpacity, TextInput} from 'react-native'
-import {Container, Content, Text as NBText, Button, Icon, ActionSheet} from 'native-base'
+import {Container, Content, Text as NBText, Button, Icon, ActionSheet,Spinner} from 'native-base'
 import { connect } from 'react-redux'
 
 // Redux actions
@@ -39,7 +39,7 @@ class clientReview extends React.PureComponent {
     scrollOffsetY: 0,
     date: this.review.service_date ? moment(this.review.service_date) : new Date(),
     datepickerVisible: false,
-    rating: this.review.star_rating || 0,
+    rating: this.review.star_rating || 1,
     paymentRating: this.review.payment_rating || null,
     characterRating: this.review.character_rating || null,
     repeatRating: this.review.repeat_rating || null,
@@ -127,20 +127,24 @@ class clientReview extends React.PureComponent {
   }
 
   render () {
+    const deleteReviewBtn = this.review.id ? {
+      rightBtnIcon: 'ios-trash',
+      rightBtnPress: () => this._showDeleteConfirm()
+    } : {}
+
     return (
       <View style={styles.container}>
         <HeaderBar
-          topTitle={this.reviewId ? 'Edit review for' : 'New review for'}
-          title={this.client.name}
+          topTitle={this.review.id ? 'Edit review for' : 'New review for'}
+          title={this.client.display_name}
           subTitle={parseClientAddress(this.client)}
-          rightBtnIcon='ios-trash'
-          rightBtnPress={() => this._showDeleteConfirm()}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
+          {...deleteReviewBtn}
         />
 
-        <Content padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+        <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={styles.section}>
             <DTPicker
               visible={this.state.datepickerVisible}
@@ -214,6 +218,7 @@ class clientReview extends React.PureComponent {
           </View>
 
           <Button disabled={this.props.fetching || this.props.editing} block style={{marginBottom: 30}} onPress={this._submitReview}>
+            {this.props.fetching === true || this.props.editing ? <Spinner /> : null}
             <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
           </Button>
 

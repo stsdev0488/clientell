@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text } from 'native-base'
+import { Content, Icon, Button, Text, Spinner } from 'native-base'
 import ImagePicker from 'react-native-image-picker'
 import mimes from 'react-native-mime-types'
 
@@ -29,14 +29,16 @@ class Search extends Component {
     )
   }
 
+  user = this.props.navigation.getParam('user')
+
   state = {
-    first_name: '',
-    middle_name: '',
-    last_name: '',
-    account_type: 'individual',
-    company_name: '',
-    description: '',
-    image: ''
+    first_name: this.user.first_name || '',
+    middle_name: this.user.middle_name || '',
+    last_name: this.user.last_name || '',
+    account_type: this.user.account_type || 'individual',
+    company_name: this.user.company_name || '',
+    description: this.user.description || '',
+    image: this.user.avatar_path ? {uri: this.user.avatar_path} : ''
   }
 
   // constructor (props) {
@@ -44,7 +46,16 @@ class Search extends Component {
   //   this.state = {}
   // }
 
+  componentWillReceiveProps (newProps) {
+    if (!newProps.updatingAvatar && this.props.updatingAvatar) {
+      if (newProps.userData && newProps.userData.avatar_path) {
+        this.setState({image: {uri: newProps.userData.avatar_path}})
+      }
+    }
+  }
+
   _submitChanges = () => {
+    const { user } = this.props
     const formData = new FormData()
 
     formData.append('first_name', this.state.first_name)
@@ -53,6 +64,12 @@ class Search extends Component {
     formData.append('account_type', this.state.account_type)
     formData.append('company_name', this.state.company_name)
     formData.append('description', this.state.description)
+
+    //Required by the `/api/v1/auth/user/update-profile` api
+    formData.append('email', this.user.email)
+    formData.append('phone_number', this.user.phone_number)
+    formData.append('city', this.user.city)
+    formData.append('state', this.user.state)
 
     this.props.update(formData)
   }
@@ -86,14 +103,22 @@ class Search extends Component {
             type: response.fileName ? mimes.lookup(response.fileName) : mimes.lookup(response.uri)
           }
 
-          this.setState({image: dd})
+          // this.setState({image: dd})
+          const { uri } = response
+          const parts = uri.split('/')
+          const filename = parts[parts.length - 1]
+
+          const formData = new FormData()
+          formData.append('avatar', dd)
+          this.props.updateAvatar(formData)
         }
       }
     })
   }
 
   render () {
-    const { user, saving, error } = this.props
+    const { saving, error } = this.props
+    const user = this.user
 
     return (
       <Content style={styles.container}>
@@ -105,6 +130,7 @@ class Search extends Component {
           <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
             <View style={styles.logo}>
               <Image source={this.state.image || Images.launch} />
+              {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -193,15 +219,17 @@ class Search extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.data || {},
     saving: state.user.updating,
-    error: state.user.updateError || null
+    error: state.user.updateError || null,
+    updatingAvatar: state.user.updatingAvatar,
+    userData: state.user.data
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    update: (data) => dispatch(UserActions.userUpdateRequest(data))
+    update: (data) => dispatch(UserActions.userUpdateRequest(data)),
+    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data))
   }
 }
 

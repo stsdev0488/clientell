@@ -18,6 +18,22 @@ export function * getSearchResults ({ data }) {
   }
 }
 
+export function * getSearchResults2 ({ data }) {
+  try {
+    const api = yield call(apiGet)
+    const response = yield call(api.clientLookup, data)
+
+    // success?
+    if (response.ok) {
+      yield put(SearchActions.search2Success(response.data))
+    } else {
+      yield put(SearchActions.search2Failure(response.data))
+    }
+  } catch (error) {
+    yield put(SearchActions.search2Failure({message: 'Search failed. Please try again.'}))
+  }
+}
+
 export function * getFilteredClients ({ keyword }) {
   try {
     const api = yield call(apiGet)

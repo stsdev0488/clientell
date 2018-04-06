@@ -4,6 +4,7 @@ import { ScrollView, Image, View, AsyncStorage } from 'react-native'
 import { Images } from 'Themes/'
 import { Content, Form, Item, Input, Button, Text, Spinner } from 'native-base'
 import ErrorRenderer from 'Components/ErrorRenderer'
+import { LoginManager, AccessToken } from 'react-native-fbsdk'
 
 // Redux Actions
 import AuthActions from 'Redux/AuthRedux'
@@ -24,6 +25,25 @@ class LaunchScreen extends Component {
     this.props.login(email, password)
   }
 
+  handleFbLogin = () => {
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_birthday']).then(
+      (result) => {
+        if (result.isCancelled) {
+          console.tron.log('Login cancelled')
+        } else {
+          AccessToken.getCurrentAccessToken().then(
+            (data) => {
+              this.props.socialLogin(data.accessToken, 'facebook')
+            }
+          )
+        }
+      },
+      (error) => {
+        console.tron.log('Login fail with error: ' + error)
+      }
+    )
+  }
+
   render () {
     return (
       <View style={styles.mainContainer}>
@@ -32,10 +52,22 @@ class LaunchScreen extends Component {
             <Image source={Images.logoWide} style={styles.logo} />
           </View>
 
+          <View style={styles.fbBtnWrapper}>
+            <Button
+              block
+              style={styles.fbBtn}
+              onPress={this.handleFbLogin}
+              disabled={this.props.fetching}
+            >
+              {this.props.fetching && <Spinner color="#fff" />}
+              {!this.props.fetching && <Text>Sign in with Facebook</Text>}
+            </Button>
+            <Text style={styles.or}>Or</Text>
+          </View>
+
           <Form style={styles.loginForm}>
             <Item style={styles.loginItem}>
               <Input
-                autoFocus
                 autoCapitalize='none'
                 autoCorrect={false}
                 style={styles.input}
@@ -81,13 +113,15 @@ class LaunchScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.auth.fetching,
+    busy: state.auth.busy,
     error: state.auth.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, password) => dispatch(AuthActions.login(email, password))
+    login: (email, password) => dispatch(AuthActions.login(email, password)),
+    socialLogin: (accessToken, provider) => dispatch(AuthActions.loginSocial(accessToken, provider))
   }
 }
 

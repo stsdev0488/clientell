@@ -23,6 +23,10 @@ class Feedback extends Component {
 
     return (
       <View style={styles.left}>
+        {this.props.noEdit ?
+          <NBText style={styles.basicData}>{client.first_name} {client.last_name}, {client.city} {client.state}</NBText> : null
+        }
+
         <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
         <StarRating
           disabled

@@ -13,7 +13,7 @@ import { ReviewTypes } from '../Redux/ReviewRedux'
 
 import { authWatcher } from './AuthSagas'
 import { startup } from './StartupSagas'
-import { getUser, updateUser } from './UserSagas'
+import { getUser, updateUser, updateUserAvatar } from './UserSagas'
 import {
   getClients,
   addClient,
@@ -23,7 +23,7 @@ import {
   editClientReview,
   deleteClientReview
 } from './ClientSagas'
-import { getSearchResults, getFilteredClients } from './SearchSagas'
+import { getSearchResults, getSearchResults2, getFilteredClients } from './SearchSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -38,6 +38,7 @@ export default function * root () {
     // USER SAGAS
     takeLatest(UserTypes.USER_REQUEST, getUser),
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
+    takeLatest(UserTypes.AVATAR_UPDATE_REQUEST, updateUserAvatar),
 
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),
@@ -52,6 +53,7 @@ export default function * root () {
 
     // SEARCH SAGAS
     takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults),
+    takeLatest(SearchTypes.SEARCH2_REQUEST, getSearchResults2),
     takeLatest(SearchTypes.FILTER_CLIENTS, getFilteredClients)
   ])
 }

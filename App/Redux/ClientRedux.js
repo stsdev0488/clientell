@@ -15,7 +15,8 @@ const { Types, Creators } = createActions({
   getClientFailure: null,
   deleteClient: ['id'],
   deleteClientSuccess: null,
-  deleteClientFailure: null
+  deleteClientFailure: null,
+  clientReset: null
 })
 
 export const ClientTypes = Types
@@ -34,7 +35,8 @@ export const INITIAL_STATE = Immutable({
   fetchedClient: null,
   fetchingClientError: null,
   deleting: null,
-  deleteError: null
+  deleteError: null,
+  pagination: null
 })
 
 /* ------------- Selectors ------------- */
@@ -50,15 +52,15 @@ export const ClientSelectors = {
  */
 
 export const request = (state, { data }) =>
-  state.merge({ fetching: true, payload: null })
+  state.merge({ fetching: true, payload: null, pagination: null })
 
 export const success = (state, action) => {
   const { payload } = action
-  return state.merge({ fetching: false, error: null, data: payload })
+  return state.merge({ fetching: false, error: null, data: payload, pagination: payload.meta ? payload.meta.pagination : null })
 }
 
 export const failure = state =>
-  state.merge({ fetching: false, error: true, payload: null })
+  state.merge({ fetching: false, error: true, payload: null, pagination: null })
 
 /**
  * ADD CLIENT
@@ -106,6 +108,8 @@ export const deleteSuccess = (state, action) => {
 export const deleteFailure = state =>
   state.merge({ deleting: false, deleteError: true })
 
+export const clientsReset = (state: Object) => INITIAL_STATE
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -120,5 +124,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GET_CLIENT_FAILURE]: fetchClientError,
   [Types.DELETE_CLIENT]: deleteRequest,
   [Types.DELETE_CLIENT_SUCCESS]: deleteSuccess,
-  [Types.DELETE_CLIENT_FAILURE]: deleteFailure
+  [Types.DELETE_CLIENT_FAILURE]: deleteFailure,
+  [Types.CLIENT_RESET]: clientsReset
 })

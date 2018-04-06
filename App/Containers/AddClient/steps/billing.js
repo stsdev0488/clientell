@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
 import PhoneInput from 'react-native-phone-input'
 
+import { getPhoneExtension } from 'Lib/Utils'
+
 // Styles
 import styles from '../styles'
 
@@ -17,10 +19,21 @@ class BillingStep extends Component {
     const phone = this.phone.getValue();
     let finalData = {...this.state}
 
-    finalData.billing_phone_number_ext = this.phone.getCountryCode()
-    finalData.billing_phone_number = (phone).replace('+' + this.phone.getCountryCode(), '')
+    // finalData.billing_phone_number_ext = getPhoneExtension(phone)
+    finalData.billing_phone_number = phone
 
     this.props.submitInfo(finalData)
+  }
+
+  _validateForm = () => {
+    const requiredFields = ['billing_first_name', 'billing_last_name', 'billing_phone_number', 'billing_street_address', 'billing_city', 'billing_state']
+    let errors = []
+    for (const key in this.state) {
+      if (requiredFields.indexOf(key) !== -1 && this.state[key] === '') {
+        errors.push(key)
+      }
+    }
+    return errors
   }
 
   render () {
@@ -33,11 +46,12 @@ class BillingStep extends Component {
       billing_city: city,
       billing_state: state,
       billing_postal_code: postal} = this.state
+    const fieldErrors = this._validateForm()
 
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>
-          <Text style={styles.sectionText}>First Name</Text>
+          <Text style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -64,33 +78,47 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Last Name</Text>
+          <Text style={styles.sectionText}>Last Name <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
               ref={ref => {this.lastName = ref}}
               defaultValue={last_name}
               onChangeText={billing_last_name => this.setState({ billing_last_name })}
-              onSubmitEditing={() => {this.address._root.focus()}}
+              onSubmitEditing={() => {this.phone.focus()}}
               returnKeyType='next'
             />
           </Item>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Phone number</Text>
-          <Item regular>
-            <PhoneInput
-              ref={ref => { this.phone = ref }}
-              style={{paddingHorizontal: 8}}
-              textStyle={{height: 50}}
-              value={this.state.billing_phone_number ? this.state.billing_phone_number_ext + this.state.billing_phone_number : '+1'}
-            />
-          </Item>
+          <Text style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Text>
+          <View style={{flexDirection: 'row'}}>
+            <Item regular style={{flex: 1}}>
+              <PhoneInput
+                ref={ref => { this.phone = ref }}
+                style={{paddingHorizontal: 8}}
+                textStyle={{height: 50}}
+                value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+              />
+            </Item>
+
+            <Item regular style={{width: 60}}>
+              <Input
+                style={{textAlign: 'center'}}
+                defaultValue={this.state.billing_phone_number_ext}
+                onChangeText={billing_phone_number_ext => this.setState({ billing_phone_number_ext })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => this.address._root.focus()}
+                returnKeyType='next'
+                placeholder='ext'
+              />
+            </Item>
+          </View>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Address Line 1</Text>
+          <Text style={styles.sectionText}>Billing Address Line 1 <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-person' />
             <Input
@@ -118,7 +146,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>City</Text>
+          <Text style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -133,7 +161,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>State</Text>
+          <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
           <Item regular>
             <Icon active name='ios-navigate' />
             <Input
@@ -163,7 +191,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.handleSubmit()}>
+          <Button block onPress={() => this.handleSubmit()} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>

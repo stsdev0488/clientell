@@ -4,6 +4,7 @@ import {Container, Header, Body, Title, Subtitle, Item, Input, ListItem, Text as
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import StarRating from 'react-native-star-rating'
+import { isIphoneX } from 'react-native-iphone-x-helper'
 import AlertMessage from 'Components/AlertMessage'
 
 // Redux
@@ -36,7 +37,6 @@ class Clients extends React.PureComponent {
 
   componentWillReceiveProps (newProps) {
     if (!newProps.filtering && this.props.filtering) {
-      console.tron.log(newProps)
       if (newProps.filteredData) {
         this.setState({dataObjects: newProps.filteredData.data})
       }
@@ -55,12 +55,12 @@ class Clients extends React.PureComponent {
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
           <Body>
             <View style={styles.listHeader}>
-              <NBText style={styles.title}>{item.name}</NBText>
+              <NBText style={styles.title}>{item.display_name}</NBText>
               <StarRating
                 disabled
                 starSize={20}
                 maxStars={5}
-                rating={item.initial_star_rating}
+                rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
                 fullStarColor='#FFD700'
                 emptyStarColor='#D6D6D6'
               />
@@ -84,7 +84,7 @@ class Clients extends React.PureComponent {
     } else {
       return (
         <AlertMessage
-          title='Clients not found'
+          title='No clients available'
         />
       )
     }
@@ -104,6 +104,7 @@ class Clients extends React.PureComponent {
     if (searchKey.length > 2) {
       this.props.filter({keyword: searchKey})
     } else if (searchKey.length === 0) {
+      this.props.clearFilter()
       this.setState({dataObjects: this.props.clientsData.data})
     }
   }
@@ -115,22 +116,43 @@ class Clients extends React.PureComponent {
     // }
   }
 
+  _clearSearchInput () {
+    this.setState({searchKey: ''})
+    this.handleSearchInput('')
+  }
+
+  _clientCountDisplay = () => {
+    const fullDataLen = this.props.clientsData && this.props.clientsData.data ? this.props.clientsData.data.length : 0
+    const displayLen = this.state.dataObjects ? this.state.dataObjects.length : 0
+    let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
+    if (displayLen < fullDataLen) {
+      display = `Showing ${displayLen} of ${fullDataLen} clients`
+    }
+    return <Subtitle>{display}</Subtitle>
+  }
+
   renderCustomHeader () {
+    const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
+    let addedHeight = {height: 125}
+    if (isIphoneX()) {
+      addedHeight = {height: 150}
+    }
+
     return (
       <Header
         hasSubtitle
         searchBar
-        style={styles.header}
+        style={[styles.header, addedHeight]}
       >
         <Body>
           <Title>Client List</Title>
-          <Subtitle>47 clients</Subtitle>
+          {this._clientCountDisplay()}
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />
             <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
             {
               this.state.searchKey !== '' &&
-              <TouchableOpacity onPress={() => this.setState({searchKey: ''})}>
+              <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
                 <Icon name="md-close-circle" />
               </TouchableOpacity>
             }
@@ -138,6 +160,10 @@ class Clients extends React.PureComponent {
         </Body>
       </Header>
     )
+  }
+
+  _onRefresh = () => {
+    this.props.clients()
   }
 
   render () {
@@ -153,6 +179,8 @@ class Clients extends React.PureComponent {
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
           ListEmptyComponent={this.renderEmpty}
+          refreshing={this.props.fetching || false}
+          onRefresh={this._onRefresh}
         />
       </View>
     )
@@ -164,15 +192,18 @@ const mapStateToProps = (state) => {
   return {
     fetching: state.client.fetching,
     clientsData: state.client.data || {},
+    pagination: state.client.pagination || {},
     filteredData: state.search.filteredClient,
-    filtering: state.search.filtering
+    filtering: state.search.filtering,
+    filteredPagination: state.search.pagination || {},
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     clients: () => dispatch(ClientActions.clientRequest()),
-    filter: (keyword) => dispatch(SearchActions.filterClients(keyword))
+    filter: (keyword) => dispatch(SearchActions.filterClients(keyword)),
+    clearFilter: () => dispatch(SearchActions.clearFilter())
   }
 }
 
