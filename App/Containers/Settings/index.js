@@ -6,6 +6,7 @@ import StarRating from 'react-native-star-rating'
 import hoistNonReactStatics from 'hoist-non-react-statics'
 
 import withDrawer from 'Components/Drawer'
+import HeaderBar from 'Components/HeaderBar'
 
 // Styles
 import styles from './styles'
@@ -57,11 +58,12 @@ class Settings extends Component {
     const avatar = user.avatar_path ? {uri: user.avatar_path} : Images.launch
     return (
       <View style={styles.container}>
+        <HeaderBar
+          title={'Profile'}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.drawer.openDrawer()}
+        />
         <Content style={{flex: 1}}>
-          <View style={styles.titleSection}>
-            <Text style={styles.titleText}>Profile</Text>
-          </View>
-
           <View style={styles.centered}>
             <Image source={avatar} style={styles.logo} />
           </View>
@@ -156,17 +158,6 @@ class Settings extends Component {
             </Text>
           </View>
         </Content>
-
-        <Fab
-          active={this.state.menuActive}
-          direction="down"
-          containerStyle={{ }}
-          style={{ backgroundColor: '#5067FF' }}
-          position="topLeft"
-          onPress={() => this.props.drawer.openDrawer()}>
-          <Icon name="ios-menu-outline" />
-          
-        </Fab>
       </View>
     )
   }
