@@ -31,5 +31,8 @@ export default StyleSheet.create({
   },
   btnFiller: {
     width: 40
+  },
+  headerIcon: {
+    color: Colors.facebook
   }
 })

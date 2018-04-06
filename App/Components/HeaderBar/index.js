@@ -35,14 +35,14 @@ export default class FullButton extends Component {
               onPress={leftBtnPress}
               transparent
             >
-              <Icon name={leftBtnIcon ? leftBtnIcon : 'ios-help-circle'} />
+              <Icon style={styles.headerIcon} name={leftBtnIcon ? leftBtnIcon : 'ios-help-circle'} />
             </Button>
           }
           {
             !leftBtnPress && <View style={styles.btnFiller} />
           }
         </Left>
-        <Body>
+        <Body style={{alignItems: 'center'}}>
           {topTitle && <NBText style={styles.secondaryTitle}>{topTitle}</NBText>}
           <Title style={[styles.titleText, styles.title, titleStyles]}>{title}</Title>
           {subTitle && <NBText style={[styles.secondaryTitle, styles.subTitle]}>{subTitle}</NBText>}
@@ -54,7 +54,7 @@ export default class FullButton extends Component {
               onPress={rightBtnPress}
               transparent
             >
-              <Icon name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'} />
+              <Icon style={styles.headerIcon} name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'} />
             </Button>
           }
           {

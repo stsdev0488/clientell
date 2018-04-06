@@ -8,7 +8,8 @@ export default StyleSheet.create({
     backgroundColor: Colors.background
   },
   header: {
-    height: 125
+    height: 125,
+    backgroundColor: Colors.background
   },
   searchbar: {
     borderRadius: 20,
