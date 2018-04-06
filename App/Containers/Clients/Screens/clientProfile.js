@@ -191,7 +191,8 @@ class ClientProfile extends React.PureComponent {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={client.name}
+          title={client.display_name}
+          subTitle={client.client_type === 'organization' ? `${client.first_name} ${client.middle_name || ''} ${client.last_name}` : null}
           {...rightButton}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}

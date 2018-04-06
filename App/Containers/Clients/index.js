@@ -55,7 +55,7 @@ class Clients extends React.PureComponent {
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
           <Body>
             <View style={styles.listHeader}>
-              <NBText style={styles.title}>{item.name}</NBText>
+              <NBText style={styles.title}>{item.display_name}</NBText>
               <StarRating
                 disabled
                 starSize={20}

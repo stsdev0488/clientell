@@ -136,7 +136,7 @@ class clientReview extends React.PureComponent {
       <View style={styles.container}>
         <HeaderBar
           topTitle={this.review.id ? 'Edit review for' : 'New review for'}
-          title={this.client.name}
+          title={this.client.display_name}
           subTitle={parseClientAddress(this.client)}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
