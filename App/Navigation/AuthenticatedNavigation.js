@@ -104,6 +104,7 @@ const TabNav = TabNavigator({
   Search: { screen: SearchStack },
   Settings: { screen: SettingsStack }
 }, {
+  ...TabNavigator.Presets.iOSBottomTabs,
   animationEnabled: true,
   tabBarPosition: 'bottom',
   lazy: false,
