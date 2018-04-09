@@ -45,7 +45,7 @@ export default StyleSheet.create({
   or: {
     alignSelf: 'center',
     paddingHorizontal: Metrics.baseMargin,
-    marginBottom: -10,
+    marginBottom: 10,
     backgroundColor: '#eee',
     color: Colors.text
   },
