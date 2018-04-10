@@ -45,7 +45,7 @@ class AddressStep extends Component {
             onPress={() => this.picker.show()}
           >
             <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {capitalize(this.state.country)}
+              {capitalize(this.state.country || '')}
             </Text>
           </TouchableOpacity>
         </View>
