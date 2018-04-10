@@ -5,16 +5,27 @@ import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBTe
 import Picker from 'Lib/CustomPicker'
 import { countries, capitalize } from 'Lib/Utils'
 
+import Secrets from 'react-native-config'
+
 // Styles
 import styles from '../styles'
 
 class AddressStep extends Component {
   state = {
+    countries: [],
     ...this.props.initialData
   }
 
-  handleSubmit () {
+  _handleSubmit () {
     Keyboard.dismiss()
+
+    const {countries, ...info} = this.state
+
+    this.props.submitInfo(info)
+  }
+
+  componentWillMount () {
+    this._getCountries()
   }
 
   _validateForm = () => {
@@ -28,13 +39,19 @@ class AddressStep extends Component {
     return errors
   }
 
+  _getCountries = async () => {
+    const cc = await (await fetch(Secrets.API_URL + 'country')).json()
+    this.setState({countries: [{name: 'Select Country', id: 0}, ...cc.data]})
+  }
+
   _onChangeCountry = (a) => {
-    this.setState({country: a})
+    this.setState({country_id: a})
   }
 
   render () {
-    const {street_address, street_address2, city, state, postal_code:postal, country} = this.state
+    const {street_address, street_address2, city, state, postal_code:postal, country_id: country} = this.state
     const fieldErrors = this._validateForm()
+    const countryName = (this.state.countries).find(ccc => ccc.id == country)
 
     return (
       <Form style={{marginTop: 20}}>
@@ -45,7 +62,7 @@ class AddressStep extends Component {
             onPress={() => this.picker.show()}
           >
             <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {capitalize(this.state.country || '')}
+              {countryName ? countryName.name : 'Select country'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -123,7 +140,7 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state)} disabled={fieldErrors.length > 0}>
+          <Button block onPress={() => this._handleSubmit()} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>
@@ -132,9 +149,9 @@ class AddressStep extends Component {
           ref={ref => {
             this.picker = ref;
           }}
-          selectedOption={this.state.country}
+          selectedOption={country}
           onSubmit={(a) => this._onChangeCountry(a)}
-          options={countries.map(c => c.name)}
+          options={this.state.countries || []}
         />
       </Form>
     )

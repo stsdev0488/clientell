@@ -15,7 +15,7 @@ export default class CustomPicker extends Component {
     this.state = {
       buttonColor: this.props.buttonColor || '#007AFF',
       modalVisible: false,
-      selectedOption: this.props.selectedOption || this.props.options[0],
+      selectedOption: this.props.selectedOption || (typeof this.props.options[0] === 'object' ? this.props.options[0].id : this.props.options[0]),
       extraStyle: {}
     };
 
@@ -77,7 +77,11 @@ export default class CustomPicker extends Component {
   }
 
   renderItem(item, index) {
-    return <PickerItem key={item} value={item} label={capitalize(item)} />;
+    if (typeof item === 'object') {
+      return <PickerItem key={item.id} value={item.id} label={item.name} />;
+    } else {
+      return <PickerItem key={item} value={item} label={capitalize(item)} />;
+    }
   }
 
   render() {
