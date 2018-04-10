@@ -126,6 +126,7 @@ class AddClient extends Component {
       addressData: {
         street_address: '',
         street_address2: '',
+        country: '',
         city: '',
         state: '',
         postal_code: ''
