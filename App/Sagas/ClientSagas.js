@@ -3,6 +3,7 @@ import ClientActions from 'Redux/ClientRedux'
 import ReviewActions from 'Redux/ReviewRedux'
 import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
+import { NavigationActions } from 'react-navigation'
 
 export function * getClients () {
   const api = yield call(apiGet)
@@ -48,6 +49,9 @@ export function * addClient ({ data, edit }) {
 
       if (edit) {
         yield put(ClientActions.getSpecificClient(edit))
+      } else {
+        console.tron.log(response)
+        yield put(NavigationActions.navigate({ routeName: 'ClientProfile', params: { client: response.data } }))
       }
     } else {
       yield put(ClientActions.addClientFailure(response.data))
