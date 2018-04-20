@@ -50,7 +50,6 @@ export function * addClient ({ data, edit }) {
       if (edit) {
         yield put(ClientActions.getSpecificClient(edit))
       } else {
-        console.tron.log(response)
         yield put(NavigationActions.navigate({ routeName: 'ClientProfile', params: { client: response.data } }))
       }
     } else {
