@@ -16,10 +16,10 @@ import {Call, Email, Text as SMSText, Web, Twitter, Facebook} from 'react-native
 
 class Settings extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Settings',
+    tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-settings-outline'}
+        name={'ios-home-outline'}
         size={30}
         style={{color: tintColor}}
       />
