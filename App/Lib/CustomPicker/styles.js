@@ -1,34 +1,36 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 const SCREEN_WIDTH = width;
 
 export default StyleSheet.create({
+  mainBox: {
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
     // borderWidth:1,
   },
   basicContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalContainer: {
     width: SCREEN_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
+    paddingVertical: Platform.OS === 'android' ? 20 : 0
   },
   buttonView: {
     width: SCREEN_WIDTH,
     padding: 8,
-    borderTopWidth: 0.5,
-    borderTopColor: 'lightgrey',
     justifyContent: 'space-between',
     flexDirection: 'row',
+    paddingTop: Platform.OS === 'android' ? 0 : 20
   },
   bottomPicker: {
     width: SCREEN_WIDTH,

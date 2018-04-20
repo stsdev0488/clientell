@@ -128,7 +128,7 @@ class Clients extends React.PureComponent {
     if (displayLen < fullDataLen) {
       display = `Showing ${displayLen} of ${fullDataLen} clients`
     }
-    return <Subtitle>{display}</Subtitle>
+    return <Subtitle style={{color: '#8e8f90'}}>{display}</Subtitle>
   }
 
   renderCustomHeader () {
@@ -144,8 +144,8 @@ class Clients extends React.PureComponent {
         searchBar
         style={[styles.header, addedHeight]}
       >
-        <Body>
-          <Title>Client List</Title>
+        <Body style={{alignItems: 'center'}}>
+          <Title style={{color: '#000'}}>Client List</Title>
           {this._clientCountDisplay()}
           <Item style={styles.searchbar} regular>
             <Icon name="ios-search" />

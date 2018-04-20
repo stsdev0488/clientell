@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
-import { View, Text, Keyboard } from 'react-native'
+import { View, Text, Keyboard, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
+import Picker from 'Lib/CustomPicker'
+import { countries, capitalize } from 'Lib/Utils'
+
+import Secrets from 'react-native-config'
 
 // Styles
 import styles from '../styles'
 
 class AddressStep extends Component {
   state = {
+    countries: [],
     ...this.props.initialData
   }
 
-  handleSubmit () {
+  _handleSubmit () {
     Keyboard.dismiss()
+
+    const {countries, ...info} = this.state
+
+    this.props.submitInfo(info)
+  }
+
+  componentWillMount () {
+    this._getCountries()
   }
 
   _validateForm = () => {
@@ -26,12 +39,34 @@ class AddressStep extends Component {
     return errors
   }
 
+  _getCountries = async () => {
+    const cc = await (await fetch(Secrets.API_URL + 'country')).json()
+    this.setState({countries: [{name: 'Select Country', id: 0}, ...cc.data]})
+  }
+
+  _onChangeCountry = (a) => {
+    this.setState({country_id: a})
+  }
+
   render () {
-    const {street_address, street_address2, city, state, postal_code:postal} = this.state
+    const {street_address, street_address2, city, state, postal_code:postal, country_id: country} = this.state
     const fieldErrors = this._validateForm()
+    const countryName = (this.state.countries).find(ccc => ccc.id == country)
 
     return (
       <Form style={{marginTop: 20}}>
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
+          <TouchableOpacity
+            style={{height: 50}}
+            onPress={() => this.picker.show()}
+          >
+            <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+              {countryName ? countryName.name : 'Select country'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.section}>
           <Text style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Text>
           <Item regular>
@@ -105,10 +140,19 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.props.submitInfo(this.state)} disabled={fieldErrors.length > 0}>
+          <Button block onPress={() => this._handleSubmit()} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>
+
+        <Picker
+          ref={ref => {
+            this.picker = ref;
+          }}
+          selectedOption={country}
+          onSubmit={(a) => this._onChangeCountry(a)}
+          options={this.state.countries || []}
+        />
       </Form>
     )
   }

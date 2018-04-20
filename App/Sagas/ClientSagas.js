@@ -3,6 +3,7 @@ import ClientActions from 'Redux/ClientRedux'
 import ReviewActions from 'Redux/ReviewRedux'
 import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
+import { NavigationActions } from 'react-navigation'
 
 export function * getClients (action, fixtureAPI) {
   let api
@@ -60,6 +61,8 @@ export function * addClient ({ data, edit }, fixtureAPI) {
 
       if (edit) {
         yield put(ClientActions.getSpecificClient(edit))
+      } else {
+        yield put(NavigationActions.navigate({ routeName: 'ClientProfile', params: { client: response.data } }))
       }
     } else {
       yield put(ClientActions.addClientFailure(response.data))

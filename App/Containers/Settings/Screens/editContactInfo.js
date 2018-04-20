@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text } from 'native-base'
+import Picker from 'Lib/CustomPicker'
+
+import Secrets from 'react-native-config'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
@@ -16,10 +19,10 @@ import { Images } from 'Themes/'
 
 class Search extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Settings',
+    tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-settings-outline'}
+        name={'ios-home-outline'}
         size={30}
         style={{color: tintColor}}
       />
@@ -36,13 +39,24 @@ class Search extends Component {
     postal_code: this.user.postal_code || '',
     email: this.user.email || '',
     business_url: this.user.business_url || '',
-    facebook_url: this.user.facebook_url || ''
+    facebook_url: this.user.facebook_url || '',
+    country_id: this.user.country_id || 0,
+    countries: []
   }
 
   // constructor (props) {
   //   super(props)
   //   this.state = {}
   // }
+
+  componentWillMount () {
+    this._getCountries()
+  }
+
+  _getCountries = async () => {
+    const cc = await (await fetch(Secrets.API_URL + 'country')).json()
+    this.setState({countries: [{name: 'Select Country', id: 0}, ...cc.data]})
+  }
 
   _submitChanges = () => {
     const formData = new FormData()
@@ -54,25 +68,52 @@ class Search extends Component {
     formData.append('state', this.state.state)
     formData.append('postal_code', this.state.postal_code)
     formData.append('email', this.state.email)
-    formData.append('business_url', this.state.business_url)
-    formData.append('facebook_url', this.state.facebook_url)
-    formData.append('twitter_url', this.state.twitter_url)
     formData.append('phone_number', this.main_phone.getPhoneNumber())
     formData.append('phone_number_ext', this.main_phone.getCountryCode())
     formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
     formData.append('alt_phone_number_ext', this.alt_phone.getCountryCode())
 
+    if (this.state.country_id)
+      formData.append('country_id', this.state.country_id)
+
+    if (this.state.business_url)
+      formData.append('business_url', this.state.business_url)
+
+    if (this.state.facebook_url)
+      formData.append('facebook_url', this.state.facebook_url)
+
+    if (this.state.twitter_url)
+      formData.append('twitter_url', this.state.twitter_url)
+
     this.props.update(formData)
+  }
+
+  _onChangeCountry = (a) => {
+    this.setState({country_id: a})
   }
 
   render () {
     const { saving, error } = this.props
     const user = this.user
+    const {country_id: country} = this.state
+    const countryName = (this.state.countries).find(ccc => ccc.id == country)
 
     return (
       <Content style={styles.container}>
         <View style={styles.titleSection}>
           <Text style={styles.titleText}>Contact Information</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
+          <TouchableOpacity
+            style={{height: 50}}
+            onPress={() => this.picker.show()}
+          >
+            <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+              {countryName ? countryName.name : 'Select country'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
@@ -208,6 +249,15 @@ class Search extends Component {
             <Text>Back</Text>
           </Button>
         </View>
+
+        <Picker
+          ref={ref => {
+            this.picker = ref;
+          }}
+          selectedOption={country}
+          onSubmit={(a) => this._onChangeCountry(a)}
+          options={this.state.countries || []}
+        />
       </Content>
     )
   }

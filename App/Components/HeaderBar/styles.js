@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import { ApplicationStyles, Metrics, Colors, Fonts } from 'Themes'
 
 export default StyleSheet.create({
@@ -31,5 +31,9 @@ export default StyleSheet.create({
   },
   btnFiller: {
     width: 40
+  },
+  headerIcon: {
+    color: Colors.facebook,
+    fontSize: Platform.OS === 'android' ? 40 : 25
   }
 })

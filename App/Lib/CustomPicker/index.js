@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View, Modal, Picker } from 'react-native';
+import { Text, TouchableOpacity, View, Modal, Picker, Platform } from 'react-native';
 import PropTypes from 'prop-types';
+import { capitalize } from '../Utils'
+import { delay } from 'redux-saga'
 
 import styles from './styles';
 
@@ -13,7 +15,8 @@ export default class CustomPicker extends Component {
     this.state = {
       buttonColor: this.props.buttonColor || '#007AFF',
       modalVisible: false,
-      selectedOption: this.props.selectedOption || this.props.options[0],
+      selectedOption: this.props.selectedOption || (typeof this.props.options[0] === 'object' ? this.props.options[0].id : this.props.options[0]),
+      extraStyle: {}
     };
 
     this.onPressCancel = this.onPressCancel.bind(this);
@@ -33,20 +36,32 @@ export default class CustomPicker extends Component {
     });
   }
 
-  onPressCancel() {
+  async onPressCancel() {
     this.setState({
-      modalVisible: false,
-    });
+      extraStyle: {}
+    })
+
+    await delay(50)
+
+    this.setState({
+      modalVisible: false
+    })
   }
 
-  onPressSubmit() {
+  async onPressSubmit() {
     if (this.props.onSubmit) {
       this.props.onSubmit(this.state.selectedOption);
     }
 
     this.setState({
-      modalVisible: false,
-    });
+      extraStyle: {}
+    })
+
+    await delay(50)
+
+    this.setState({
+      modalVisible: false
+    })
   }
 
   onValueChange(selectedOption) {
@@ -62,7 +77,11 @@ export default class CustomPicker extends Component {
   }
 
   renderItem(item, index) {
-    return <PickerItem key={item} value={item} label={item} />;
+    if (typeof item === 'object') {
+      return <PickerItem key={item.id} value={item.id} label={item.name} />;
+    } else {
+      return <PickerItem key={item} value={item} label={capitalize(item)} />;
+    }
   }
 
   render() {
@@ -73,11 +92,27 @@ export default class CustomPicker extends Component {
         animationType="slide"
         transparent
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          console.log('Picker has been closed.');
+        onRequestClose={async () => {
+          this.setState({
+            extraStyle: {}
+          })
+
+          await delay(50)
+
+          this.setState({
+            modalVisible: false
+          })
+        }}
+        onShow={() => {
+          if (Platform.OS === 'android') {
+            setTimeout(() => {
+              if (this.state.modalVisible)
+                this.setState({extraStyle: {backgroundColor: 'rgba(0,0,0,0.4)'}})
+            }, 150)
+          }
         }}
       >
-        <View style={styles.basicContainer}>
+        <View style={[styles.basicContainer, this.state.extraStyle]}>
           <View
             style={[
               styles.modalContainer,

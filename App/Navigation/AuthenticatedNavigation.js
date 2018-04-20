@@ -99,11 +99,12 @@ const SettingsStack = StackNavigator({
  * ---------------------------------------------------------------------------------------
  */
 const TabNav = TabNavigator({
+  Settings: { screen: SettingsStack },
   Clients: { screen: ClientStack },
   AddClient: { screen: AddClient },
-  Search: { screen: SearchStack },
-  Settings: { screen: SettingsStack }
+  Search: { screen: SearchStack }
 }, {
+  ...TabNavigator.Presets.iOSBottomTabs,
   animationEnabled: true,
   tabBarPosition: 'bottom',
   lazy: false,
