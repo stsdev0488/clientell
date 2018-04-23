@@ -49,7 +49,7 @@ class Search extends Component {
   //   this.state = {}
   // }
 
-  componentWillMount () {
+  componentDidMount () {
     this._getCountries()
   }
 

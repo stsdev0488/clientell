@@ -31,7 +31,7 @@ class Clients extends React.PureComponent {
     searchKey: ''
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.clients()
   }
 
@@ -181,6 +181,7 @@ class Clients extends React.PureComponent {
           ListEmptyComponent={this.renderEmpty}
           refreshing={this.props.fetching || false}
           onRefresh={this._onRefresh}
+          onEndReached
         />
       </View>
     )
