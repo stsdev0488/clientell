@@ -97,8 +97,10 @@ const create = (baseURL) => {
     return getToken().then((a) => api.delete('client/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
-  const getClients = (urlParams) => {
-    return getToken().then((a) => api.get('client?include=reviews.user,reviews.client&per_page=100', urlParams, {headers: {'Authorization': 'Bearer ' + a}}))
+  const getClients = (nextUrl) => {
+    const url = nextUrl ? nextUrl + '&include=reviews.user,reviews.client&per_page=10' : 'client?include=reviews.user,reviews.client&per_page=10&page=1'
+
+    return getToken().then((a) => api.get(url, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const clientLookup = (params) => {

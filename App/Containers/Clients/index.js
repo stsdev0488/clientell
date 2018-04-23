@@ -31,6 +31,8 @@ class Clients extends React.PureComponent {
     searchKey: ''
   }
 
+  dataBeforeFilter = []
+
   componentDidMount () {
     this.props.clients()
   }
@@ -44,7 +46,21 @@ class Clients extends React.PureComponent {
 
     if (!newProps.fetching && this.props.fetching) {
       if (newProps.clientsData) {
-        this.setState({dataObjects: newProps.clientsData.data})
+        if (newProps.pagination.current_page === 1) {
+          this.setState(state => {
+            state.dataObjects = newProps.clientsData.data
+
+            this.dataBeforeFilter = state.dataObjects
+            return state
+          })
+        } else {
+          this.setState(state => {
+            state.dataObjects = [...state.dataObjects, ...newProps.clientsData.data]
+
+            this.dataBeforeFilter = state.dataObjects
+            return state
+          })
+        }
       }
     }
   }
@@ -54,19 +70,19 @@ class Clients extends React.PureComponent {
       <ListItem>
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
           <Body>
-            <View style={styles.listHeader}>
-              <NBText style={styles.title}>{item.display_name}</NBText>
-              <StarRating
-                disabled
-                starSize={20}
-                maxStars={5}
-                rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
-                fullStarColor='#FFD700'
-                emptyStarColor='#D6D6D6'
-              />
-            </View>
-            <NBText note>{item.phone_number}</NBText>
-            <NBText note>{item.street_address}, {item.city} {item.state}</NBText>
+          <View style={styles.listHeader}>
+            <NBText style={styles.title}>{item.display_name}</NBText>
+            <StarRating
+              disabled
+              starSize={20}
+              maxStars={5}
+              rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
+              fullStarColor='#FFD700'
+              emptyStarColor='#D6D6D6'
+            />
+          </View>
+          <NBText note>{item.phone_number}</NBText>
+          <NBText note>{item.street_address}, {item.city} {item.state}</NBText>
           </Body>
         </TouchableOpacity>
       </ListItem>
@@ -105,7 +121,7 @@ class Clients extends React.PureComponent {
       this.props.filter({keyword: searchKey})
     } else if (searchKey.length === 0) {
       this.props.clearFilter()
-      this.setState({dataObjects: this.props.clientsData.data})
+      this.setState({dataObjects: this.dataBeforeFilter})
     }
   }
 
@@ -122,8 +138,20 @@ class Clients extends React.PureComponent {
   }
 
   _clientCountDisplay = () => {
-    const fullDataLen = this.props.clientsData && this.props.clientsData.data ? this.props.clientsData.data.length : 0
-    const displayLen = this.state.dataObjects ? this.state.dataObjects.length : 0
+    let fullDataLen = 0
+
+    if (this.props.pagination) {
+      fullDataLen = this.props.pagination.total
+    }
+
+    let displayLen = 0
+
+    if (this.props.filteredPagination) {
+      displayLen = this.props.filteredPagination.total
+    } else if (this.props.pagination) {
+      displayLen = this.props.pagination.total
+    }
+
     let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
     if (displayLen < fullDataLen) {
       display = `Showing ${displayLen} of ${fullDataLen} clients`
@@ -132,7 +160,6 @@ class Clients extends React.PureComponent {
   }
 
   renderCustomHeader () {
-    const cCount = this.props.filteredPagination ? this.props.filteredPagination.count : this.props.pagination.count
     let addedHeight = {height: 125}
     if (isIphoneX()) {
       addedHeight = {height: 150}
@@ -145,18 +172,18 @@ class Clients extends React.PureComponent {
         style={[styles.header, addedHeight]}
       >
         <Body style={{alignItems: 'center'}}>
-          <Title style={{color: '#000'}}>Client List</Title>
-          {this._clientCountDisplay()}
-          <Item style={styles.searchbar} regular>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
-            {
-              this.state.searchKey !== '' &&
-              <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
-                <Icon name="md-close-circle" />
-              </TouchableOpacity>
-            }
-          </Item>
+        <Title style={{color: '#000'}}>Client List</Title>
+        {this._clientCountDisplay()}
+        <Item style={styles.searchbar} regular>
+          <Icon name="ios-search" />
+          <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
+          {
+            this.state.searchKey !== '' &&
+            <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
+              <Icon name="md-close-circle" />
+            </TouchableOpacity>
+          }
+        </Item>
         </Body>
       </Header>
     )
@@ -164,6 +191,16 @@ class Clients extends React.PureComponent {
 
   _onRefresh = () => {
     this.props.clients()
+  }
+
+  _onEndReached = () => {
+    if (!this.props.filteredData) {
+      const {current_page, total_pages, links} = this.props.pagination
+
+      if (current_page < total_pages) {
+        this.props.clients(links.next)
+      }
+    }
   }
 
   render () {
@@ -181,7 +218,8 @@ class Clients extends React.PureComponent {
           ListEmptyComponent={this.renderEmpty}
           refreshing={this.props.fetching || false}
           onRefresh={this._onRefresh}
-          onEndReached
+          onEndReached={this._onEndReached}
+          onEndReachedThreshold={0.1}
         />
       </View>
     )
@@ -193,16 +231,16 @@ const mapStateToProps = (state) => {
   return {
     fetching: state.client.fetching,
     clientsData: state.client.data || {},
-    pagination: state.client.pagination || {},
+    pagination: state.client.pagination || null,
     filteredData: state.search.filteredClient,
     filtering: state.search.filtering,
-    filteredPagination: state.search.pagination || {},
+    filteredPagination: state.search.pagination || null,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    clients: () => dispatch(ClientActions.clientRequest()),
+    clients: (pagination) => dispatch(ClientActions.clientRequest(pagination)),
     filter: (keyword) => dispatch(SearchActions.filterClients(keyword)),
     clearFilter: () => dispatch(SearchActions.clearFilter())
   }
