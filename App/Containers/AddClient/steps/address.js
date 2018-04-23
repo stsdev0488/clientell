@@ -24,7 +24,7 @@ class AddressStep extends Component {
     this.props.submitInfo(info)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this._getCountries()
   }
 
