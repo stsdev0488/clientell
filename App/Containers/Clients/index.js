@@ -49,6 +49,7 @@ class Clients extends React.PureComponent {
         if (newProps.pagination.current_page === 1) {
           this.setState(state => {
             state.dataObjects = newProps.clientsData.data
+            state.searchKey = ''
 
             this.dataBeforeFilter = state.dataObjects
             return state
