@@ -56,7 +56,7 @@ export const request = (state, { data }) =>
 
 export const success = (state, action) => {
   const { payload } = action
-  return state.merge({ fetching: false, error: null, data: payload, pagination: payload.meta ? payload.meta.pagination : null })
+  return state.merge({ fetching: false, error: null, data: payload, pagination: payload.meta && payload.meta.pagination ? payload.meta.pagination : null })
 }
 
 export const failure = state =>

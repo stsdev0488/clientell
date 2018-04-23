@@ -5,7 +5,7 @@ import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
 
-export function * getClients (action, fixtureAPI) {
+export function * getClients ({ data }, fixtureAPI) {
   let api
   if (!fixtureAPI) {
     api = yield call(apiGet)
@@ -13,7 +13,7 @@ export function * getClients (action, fixtureAPI) {
     api = fixtureAPI
   }
 
-  const response = yield call(api.getClients)
+  const response = yield call(api.getClients, data)
 
   if (response.ok) {
     yield put(ClientActions.clientSuccess(response.data))
