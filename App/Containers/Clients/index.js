@@ -50,6 +50,7 @@ class Clients extends React.PureComponent {
           this.setState(state => {
             state.dataObjects = newProps.clientsData.data
             state.searchKey = ''
+            this.props.clearFilter()
 
             this.dataBeforeFilter = state.dataObjects
             return state
