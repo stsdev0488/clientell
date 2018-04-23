@@ -5,8 +5,14 @@ import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
 
-export function * getClients () {
-  const api = yield call(apiGet)
+export function * getClients (action, fixtureAPI) {
+  let api
+  if (!fixtureAPI) {
+    api = yield call(apiGet)
+  } else {
+    api = fixtureAPI
+  }
+
   const response = yield call(api.getClients)
 
   if (response.ok) {
@@ -36,8 +42,14 @@ export function * getSpecificClient (action) {
   }
 }
 
-export function * addClient ({ data, edit }) {
-  const api = yield call(apiGet)
+export function * addClient ({ data, edit }, fixtureAPI) {
+  let api
+  if (!fixtureAPI) {
+    api = yield call(apiGet)
+  } else {
+    api = fixtureAPI
+  }
+
   let apiCall = edit ? api.editClient : api.addClient
   const toSubmit = edit ? { id: edit, data } : data
 
