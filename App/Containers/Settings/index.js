@@ -60,12 +60,15 @@ class Settings extends Component {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={'Profile'}
+          title={''}
           leftBtnIcon='ios-menu'
           leftBtnPress={() => this.props.drawer.openDrawer()}
           scrollOffsetY={this.state.scrollOffsetY}
         />
-        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={{flex: 1}}>
+
+        <View style={styles.contentUpperBG} />
+
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           <View style={styles.centered}>
             <Image source={avatar} style={styles.logo} />
           </View>

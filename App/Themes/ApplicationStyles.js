@@ -24,8 +24,39 @@ const ApplicationStyles = {
       backgroundColor: Colors.transparent
     },
 
+    mContainer: {
+      flex: 1,
+      backgroundColor: Colors.snow,
+      marginVertical: 30,
+      marginHorizontal: 20,
+      borderColor: '#eee',
+      borderWidth: 1
+    },
+
+    appText: {
+      fontWeight: 'bold',
+      color: Colors.app2
+    },
+
     titleSection: {
       marginTop: 40
+    },
+
+    appButton: {
+      backgroundColor: Colors.app2
+    },
+
+    appButtonText: {
+
+    },
+
+    contentUpperBG: {
+      backgroundColor: Colors.app,
+      height: Metrics.screenHeight * 0.30,
+      position: 'absolute',
+      top: 60,
+      left: 0,
+      right: 0
     },
 
     section: {

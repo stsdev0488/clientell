@@ -22,7 +22,7 @@ export default class FullButton extends Component {
     const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
-    let height = 60
+    let height = 55
     if (topTitle) height += 20
     if (subTitle) height += 20
 

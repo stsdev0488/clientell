@@ -36,13 +36,11 @@ export default StyleSheet.create({
   },
   date: {
     color: '#999',
-    fontSize: 14,
-    marginBottom: Metrics.smallMargin
+    fontSize: 14
   },
   author: {
     color: '#999',
-    fontSize: 14,
-    marginTop: Metrics.smallMargin,
+    fontSize: 14
   },
   authorName: {
     color: '#333',
@@ -50,6 +48,7 @@ export default StyleSheet.create({
     fontSize: 14
   },
   feedback: {
+    marginTop: 15,
     color: '#333',
     fontSize: 14,
     lineHeight: 20
@@ -68,7 +67,10 @@ export default StyleSheet.create({
   basicData: {
     color: '#333',
     fontWeight: '700',
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 4
+  },
+  left: {
+    flex: 1
   }
 })

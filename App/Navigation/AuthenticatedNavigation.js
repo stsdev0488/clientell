@@ -108,7 +108,21 @@ const TabNav = TabNavigator({
   animationEnabled: true,
   tabBarPosition: 'bottom',
   lazy: false,
-  swipeEnabled: true
+  swipeEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#242e64',
+    inactiveTintColor: '#adadad',
+    style: { height:60 },
+    tabStyle: {
+      justifyContent: 'space-around',
+    },
+    labelStyle: {
+      marginBottom: 7
+    },
+    iconStyle: {
+      fontSize: 40
+    }
+  }
 });
 
 /**
