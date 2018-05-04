@@ -65,7 +65,7 @@ class Settings extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={[styles.contentUpperBG, {height: '40%'}]} />
+        <View style={[styles.contentUpperBG, {height: '50%'}]} />
 
         <SubHeaderBar
           title={user.name}
