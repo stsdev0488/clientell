@@ -7,9 +7,11 @@ import ErrorRenderer from 'Components/ErrorRenderer'
 import * as Animatable from 'react-native-animatable'
 
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 
 // Redux
 import ClientActions from 'Redux/ClientRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -27,28 +29,30 @@ const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
 const labelsEdit = ['Personal Info', 'Address']
 const labelsOrgEdit = ['Personal Info', 'Address', 'Billing']
 
+import { Colors } from 'Themes/'
+
 const customStyles = {
   stepIndicatorSize: 25,
   currentStepIndicatorSize:30,
   separatorStrokeWidth: 2,
-  currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: '#fe7013',
-  stepStrokeWidth: 3,
-  stepStrokeFinishedColor: '#fe7013',
-  stepStrokeUnFinishedColor: '#aaaaaa',
-  separatorFinishedColor: '#fe7013',
-  separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor: '#fe7013',
-  stepIndicatorUnFinishedColor: '#ffffff',
-  stepIndicatorCurrentColor: '#ffffff',
+  currentStepStrokeWidth: 2,
+  stepStrokeCurrentColor: Colors.app2,
+  stepStrokeWidth: 2,
+  stepStrokeFinishedColor: Colors.app2,
+  stepStrokeUnFinishedColor: '#fff',
+  separatorFinishedColor: Colors.app2,
+  separatorUnFinishedColor: '#fff',
+  stepIndicatorFinishedColor: Colors.app2,
+  stepIndicatorUnFinishedColor: Colors.app,
+  stepIndicatorCurrentColor: Colors.app,
   stepIndicatorLabelFontSize: 13,
   currentStepIndicatorLabelFontSize: 13,
-  stepIndicatorLabelCurrentColor: '#fe7013',
+  stepIndicatorLabelCurrentColor: '#fff',
   stepIndicatorLabelFinishedColor: '#ffffff',
-  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-  labelColor: '#999999',
+  stepIndicatorLabelUnFinishedColor: '#fff',
+  labelColor: '#fff',
   labelSize: 13,
-  currentStepLabelColor: '#fe7013'
+  currentStepLabelColor: '#fff'
 }
 
 class AddClient extends Component {
@@ -267,6 +271,9 @@ class AddClient extends Component {
     const currentErrors = errors[this.state.currentPosition] || null
     let stepLabels
     let sCount
+    let subValues = {
+      title: 'Add Client'
+    }
 
     if (!client) {
       stepLabels = this.state.clientType === 'individual' ? labels : labelsOrg
@@ -274,35 +281,39 @@ class AddClient extends Component {
     } else {
       stepLabels = this.state.clientType === 'individual' ? labelsEdit : labelsOrgEdit
       sCount = this.state.clientType === 'individual' ? 2 : 3
+      subValues = {
+        title: 'Edit Client',
+        rightBtnIcon: 'ios-trash',
+        rightBtnPress: () => this._showDeleteConfirm(),
+        leftBtnIcon: 'ios-arrow-back',
+        leftBtnPress: () => this.props.navigation.goBack(null)
+      }
     }
 
     return (
       <View style={styles.container}>
-        {client ?
-          <HeaderBar
-            title={'Edit Client'}
-            rightBtnIcon='ios-trash'
-            rightBtnPress={() => this._showDeleteConfirm()}
-            leftBtnIcon='ios-arrow-back'
-            leftBtnPress={() => this.props.navigation.goBack(null)}
-          /> : null
-        }
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
 
-        <Content innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-          {!client ?
-            <View style={styles.titleSection}>
-              <Text style={styles.titleText}>Add Client</Text>
-            </View> : null
-          }
+        <View style={styles.contentUpperBG} />
 
-          <StepIndicator
-            stepCount={sCount}
-            customStyles={customStyles}
-            currentPosition={this.state.currentPosition}
-            labels={stepLabels}
-            onPress={this._stepPressed}
-          />
+        <SubHeaderBar
+          {...subValues}
+        />
 
+        <StepIndicator
+          stepCount={sCount}
+          customStyles={customStyles}
+          currentPosition={this.state.currentPosition}
+          labels={stepLabels}
+          onPress={this._stepPressed}
+        />
+
+        <Content style={styles.mContainer} innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={[styles.section, {paddingVertical: 0, marginBottom: 0}]}>
             <ErrorRenderer error={currentErrors} />
           </View>
@@ -359,7 +370,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addClient: (data, edit) => dispatch(ClientActions.addClient(data, edit)),
     deleteClient: (id) => {dispatch(ClientActions.deleteClient(id))},
-    clients: () => {dispatch(ClientActions.clientRequest())}
+    clients: () => {dispatch(ClientActions.clientRequest())},
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

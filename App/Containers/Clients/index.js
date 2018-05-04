@@ -7,9 +7,6 @@ import StarRating from 'react-native-star-rating'
 import AlertMessage from 'Components/AlertMessage'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
-import hoistNonReactStatics from 'hoist-non-react-statics'
-
-import withDrawer from 'Components/Drawer'
 
 // Redux
 import ClientActions from 'Redux/ClientRedux'
@@ -258,7 +255,5 @@ const mapDispatchToProps = (dispatch) => {
     openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
-
-const FScreen = hoistNonReactStatics(withDrawer(Clients), Clients)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Clients)

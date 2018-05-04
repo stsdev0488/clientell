@@ -17,5 +17,13 @@ export default StyleSheet.create({
 
   sup: {
     color: Colors.fire
+  },
+
+  sectionText: {
+    textAlign: 'left',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 8,
+    color: Colors.text
   }
 })

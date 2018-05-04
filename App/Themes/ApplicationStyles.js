@@ -60,7 +60,7 @@ const ApplicationStyles = {
     },
 
     section: {
-      marginHorizontal: Metrics.section,
+      marginHorizontal: 10,
       marginBottom: 5,
       padding: Metrics.baseMargin
     },

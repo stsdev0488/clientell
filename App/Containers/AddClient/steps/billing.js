@@ -191,7 +191,7 @@ class BillingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this.handleSubmit()} disabled={fieldErrors.length > 0}>
+          <Button block onPress={() => this.handleSubmit()} disabled={fieldErrors.length > 0} style={styles.appButton}>
             <NBText>Submit</NBText>
           </Button>
         </View>
