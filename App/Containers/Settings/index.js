@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
@@ -64,15 +65,18 @@ class Settings extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={styles.contentUpperBG} />
+        <View style={[styles.contentUpperBG, {height: '40%'}]} />
+
+        <SubHeaderBar
+          title={user.name}
+        />
+
+        <View style={styles.centered}>
+          <Image source={avatar} style={styles.logo} />
+        </View>
 
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
-          <View style={styles.centered}>
-            <Image source={avatar} style={styles.logo} />
-          </View>
-
           <View style={styles.section}>
-            <Text style={styles.subTitleText}>{user.name}</Text>
             {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 
             <Text style={styles.sectionText}>{`${user.city || ''}${user.state ? ', ' : ''}${user.state || ''} ${user.postal_code || ''}`}</Text>
