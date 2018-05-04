@@ -9,12 +9,22 @@ export default StyleSheet.create({
   },
   header: {
     height: 125,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.transparent
+  },
+  title: {
+    fontWeight: 'bold',
+    color: Colors.text
+  },
+  ldesc: {
+    color: Colors.text
   },
   searchbar: {
-    borderRadius: 20,
+    borderRadius: 6,
     height: 40,
     marginTop: 15
+  },
+  searchInput: {
+    color: Colors.snow
   },
   row: {
     flex: 1,
@@ -40,13 +50,17 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   section: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: Metrics.smallMargin
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
   ratingText: {
     marginTop: Metrics.smallMargin,
-    fontSize: 14,
-    color: '#888'
+    fontSize: 12,
+    color: Colors.snow,
+    alignSelf: 'center',
+    marginBottom: 10
   },
   infoItem: {
     flexDirection: 'row',
@@ -55,16 +69,12 @@ export default StyleSheet.create({
     paddingVertical: 0
   },
   textBtnIcon: {
-    fontSize: 32
+    fontSize: 32,
+    color: Colors.app
   },
   btnIcon: {
-
   },
   contacts: {
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: '#f6f6f6',
-    borderColor: '#eee',
     padding: Metrics.baseMargin,
     margin: Metrics.baseMargin
   },
@@ -74,19 +84,21 @@ export default StyleSheet.create({
   },
   inlineField: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-between',
+    flex: 1,
   },
   formLabel: {
-    fontSize: 14,
-    color: Colors.text
+    fontSize: 12,
+    color: Colors.text,
+    fontWeight: 'bold'
   },
   labelBox: {
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     marginRight: Metrics.baseMargin
   },
   thumbRateLabel: {
-    fontSize: 14,
+    fontWeight: 'bold',
+    fontSize: 12,
     color: Colors.text,
     textAlign: 'right'
   },
@@ -97,8 +109,9 @@ export default StyleSheet.create({
     color: Colors.coal,
     padding: Metrics.baseMargin,
     minHeight: 60,
-    width: Metrics.screenWidth - 20,
-    marginTop: Metrics.smallMargin
+    marginTop: Metrics.smallMargin,
+    flex: 1,
+    width: '100%'
   },
   billingInfo: {
     paddingTop: Metrics.baseMargin,
@@ -113,17 +126,22 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   billingRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     marginVertical: Metrics.baseMargin
   },
   billingLabel: {
-    color: '#999',
-    fontSize: 13,
+    color: Colors.app,
+    fontSize: 16,
     marginRight: Metrics.baseMargin
   },
   billingValue: {
-    textAlign: 'right',
-    fontSize: 14
+    textAlign: 'left',
+    fontSize: 14,
+    flex: 1
+  },
+  upperTitle: {
+    fontSize: 24,
+    color: Colors.snow,
+    textAlign: 'center'
   }
 })

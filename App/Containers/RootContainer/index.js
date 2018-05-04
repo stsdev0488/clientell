@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 import StartupActions from 'Redux/StartupRedux'
 import { Root } from 'native-base'
 
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import withDrawer from 'Components/Drawer'
+
 // Styles
 import styles from './styles'
 
@@ -17,6 +20,7 @@ class RootContainer extends Component {
     return (
       <Root style={styles.applicationView}>
         <StatusBar barStyle='light-content' />
+
         <ReduxNavigation />
       </Root>
     )
@@ -28,4 +32,5 @@ const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup())
 })
 
-export default connect(null, mapDispatchToProps)(RootContainer)
+const FScreen = hoistNonReactStatics(withDrawer(RootContainer), RootContainer)
+export default connect(null, mapDispatchToProps)(FScreen)

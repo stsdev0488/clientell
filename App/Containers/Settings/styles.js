@@ -9,10 +9,11 @@ export default StyleSheet.create({
   },
 
   logo: {
-    marginTop: 30,
-    height: 120,
-    width: 120,
-    position: 'relative'
+    marginTop: 20,
+    height: 90,
+    width: 90,
+    position: 'relative',
+    borderRadius: 45
   },
 
   centered: {

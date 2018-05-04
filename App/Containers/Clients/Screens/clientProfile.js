@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 import Feedback from 'Components/Feedback'
 import StarRating from 'react-native-star-rating'
 import {Call, Text, Map, Email} from 'react-native-openanything'
@@ -13,17 +14,17 @@ import AlertMessage from 'Components/AlertMessage'
 // Redux actions
 import ClientActions from 'Redux/ClientRedux'
 import SearchActions from 'Redux/SearchRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from '../styles'
 
 class ClientProfile extends React.PureComponent {
-
   static navigationOptions = {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-contacts-outline'}
+        name={'ios-people'}
         size={30}
         style={{color: tintColor}}
       />
@@ -75,62 +76,73 @@ class ClientProfile extends React.PureComponent {
     const { client } = this.state
 
     return (
-      <View>
-        <View style={styles.section}>
+      <View style={styles.contacts}>
+        <View style={[styles.section, styles.infoItem]}>
+          <Button
+            onPress={() => Map(`${client.street_address} ${client.street_address2}, ${client.city}, ${client.state} ${client.postal_code}`)}
+            transparent
+            style={styles.btnIcon}
+          >
+            <Icon name='ios-navigate' style={styles.textBtnIcon} />
+          </Button>
+          <NBText style={{flex: 1}}>{client.street_address} {client.street_address2}, {client.city}, {client.state} {client.postal_code}</NBText>
+        </View>
+        <View style={[styles.section, styles.infoItem]}>
+          <Button
+            onPress={() => Call(client.phone_number, prompt = false)}
+            transparent
+            style={styles.btnIcon}
+          >
+            <Icon name='ios-call' style={styles.textBtnIcon} />
+          </Button>
+
+          {
+            // <Button
+            //   onPress={() => Text(client.phone_number, message = false, autoEncode = true)}
+            //   transparent
+            //   style={styles.btnIcon}
+            // >
+            //   <Icon name='md-text' style={styles.textBtnIcon} />
+            // </Button>
+          }
+
+          <NBText style={{flex: 1}}>{client.phone_number}</NBText>
+        </View>
+
+        {client.email &&
+          <View style={[styles.section, styles.infoItem]}>
+            <Button
+              onPress={() => Email(to = client.email, subject = false, body = false, cc = false, bcc = false)}
+              transparent
+              style={styles.btnIcon}
+            >
+              <Icon name='md-mail' style={[styles.textBtnIcon,{fontSize: 28}]} />
+            </Button>
+            <NBText style={{flex: 1}}>{client.email}</NBText>
+          </View>
+        }
+        {this.renderBillingInfo()}
+      </View>
+    )
+  }
+
+  renderRating = () => {
+    const { client } = this.state
+
+    return (
+      <React.Fragment>
+        <View style={{ alignSelf: 'center', width: 30 * 5 + 15 }}>
           <StarRating
             disabled
             starSize={30}
             maxStars={5}
             rating={client.avg_rating ? parseFloat(client.avg_rating) : client.initial_star_rating}
-            fullStarColor='#FFD700'
-            emptyStarColor='#D6D6D6'
+            fullStarColor='#297fae'
+            emptyStarColor='#297fae'
           />
-          <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating' : `Average over ${client.review_count} rating`}{client.review_count > 1 ? 's' : ''}</NBText>
         </View>
-        <View style={styles.contacts}>
-          <View style={[styles.section, styles.infoItem]}>
-            <NBText>{client.street_address} {client.street_address2}, {client.city}, {client.state} {client.postal_code}</NBText>
-            <Button
-              onPress={() => Map(`${client.street_address} ${client.street_address2}, ${client.city}, ${client.state} ${client.postal_code}`)}
-              transparent
-              style={styles.btnIcon}
-            >
-              <Icon name='ios-navigate' style={styles.textBtnIcon} />
-            </Button>
-          </View>
-          <View style={[styles.section, styles.infoItem]}>
-            <NBText>{client.phone_number}</NBText>
-            <Button
-              onPress={() => Call(client.phone_number, prompt = false)}
-              transparent
-              style={styles.btnIcon}
-            >
-              <Icon name='ios-call' style={styles.textBtnIcon} />
-            </Button>
-            <Button
-              onPress={() => Text(client.phone_number, message = false, autoEncode = true)}
-              transparent
-              style={styles.btnIcon}
-            >
-              <Icon name='md-text' style={styles.textBtnIcon} />
-            </Button>
-          </View>
-
-          {client.email &&
-            <View style={[styles.section, styles.infoItem]}>
-              <NBText>{client.email}</NBText>
-              <Button
-                onPress={() => Email(to = client.email, subject = false, body = false, cc = false, bcc = false)}
-                transparent
-                style={styles.btnIcon}
-              >
-                <Icon name='md-mail' style={{fontSize: 28}} />
-              </Button>
-            </View>
-          }
-          {this.renderBillingInfo()}
-        </View>
-      </View>
+        <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating'.toUpperCase() : (`Average over ${client.review_count} rating`).toUpperCase()}{client.review_count > 1 ? 's'.toUpperCase() : ''}</NBText>
+      </React.Fragment>
     )
   }
 
@@ -144,7 +156,7 @@ class ClientProfile extends React.PureComponent {
         <View style={styles.billingInfo}>
           {
             !showBilling &&
-            <Button small transparent block onPress={() => this.setState({showBilling: true})}><NBText>Show Billing Information</NBText></Button>
+            <Button small transparent block onPress={() => this.setState({showBilling: true})}><NBText style={styles.appText}>Show Billing Information</NBText></Button>
           }
           {
             showBilling &&
@@ -171,7 +183,7 @@ class ClientProfile extends React.PureComponent {
                   <NBText style={styles.billingValue}>{billing_email}</NBText>
                 </View>
               }
-              <Button small transparent block onPress={() => this.setState({showBilling: false})}><NBText>Hide Billing Information</NBText></Button>
+              <Button small transparent block onPress={() => this.setState({showBilling: false})}><NBText style={styles.appText}>Hide Billing Information</NBText></Button>
             </View>
           }
         </View>
@@ -191,6 +203,15 @@ class ClientProfile extends React.PureComponent {
     return (
       <View style={styles.container}>
         <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
           title={client.display_name}
           subTitle={client.client_type === 'organization' ? `${client.first_name} ${client.middle_name || ''} ${client.last_name}` : null}
           {...rightButton}
@@ -199,14 +220,15 @@ class ClientProfile extends React.PureComponent {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+        {this.renderRating()}
 
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           {this.renderInfo()}
 
           <Button
             block
             iconLeft
-            style={{marginBottom: 40, marginHorizontal: 10}}
+            style={[{marginBottom: 40, marginHorizontal: 10}, styles.appButton]}
             onPress={() => navigate('ClientReview', {client})}
           >
             <Icon name='ios-create-outline' />
@@ -246,7 +268,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getClient: (id) => dispatch(ClientActions.getSpecificClient(id)),
-    getClientReviews: (value) => dispatch(SearchActions.search2Request(value))
+    getClientReviews: (value) => dispatch(SearchActions.search2Request(value)),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

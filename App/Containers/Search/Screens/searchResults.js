@@ -5,6 +5,9 @@ import { Content, Icon, Button, Item, Input, Text, Fab } from 'native-base'
 import Feedback from 'Components/Feedback'
 import AlertMessage from 'Components/AlertMessage'
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
+
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from '../styles'
@@ -39,13 +42,20 @@ class Search extends Component {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={'Search Results'}
-          subTitle={ this.navParams.searchKey || 'Client' }
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+        />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
+          title='Search Results'
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
         />
 
-        <Content>
+        <Content style={styles.mContainer}>
           {
             this.state.reviews.length < 1 &&
             <AlertMessage
@@ -73,6 +83,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

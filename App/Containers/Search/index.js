@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text } from 'native-base'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from 'Redux/YourRedux'
+
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
+
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -26,33 +29,43 @@ class Search extends Component {
 
   render () {
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Search</Text>
-        </View>
+      <View style={styles.container}>
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+        />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
+          title='Search'
+        />
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>How would you like to search for a client?</Text>
+          <Text uppercase style={styles.upperContentText}>How would you like to search for a client?</Text>
         </View>
 
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this.props.navigation.navigate('PhoneSearch')}>
-            <Text>By phone number</Text>
-          </Button>
-        </View>
+        <Content style={styles.mContainer}>
+          <View style={[styles.section, {marginTop: 25}]}>
+            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('PhoneSearch')}>
+              <Text>By phone number</Text>
+            </Button>
+          </View>
 
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this.props.navigation.navigate('EmailSearch')}>
-            <Text>By email</Text>
-          </Button>
-        </View>
+          <View style={styles.section}>
+            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('EmailSearch')}>
+              <Text>By email</Text>
+            </Button>
+          </View>
 
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this.props.navigation.navigate('NameAddressSearch')}>
-            <Text>By name and address</Text>
-          </Button>
-        </View>
-      </Content>
+          <View style={styles.section}>
+            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('NameAddressSearch')}>
+              <Text>By name and address</Text>
+            </Button>
+          </View>
+        </Content>
+      </View>
     )
   }
 }
@@ -64,6 +77,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

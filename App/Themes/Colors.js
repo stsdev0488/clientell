@@ -1,4 +1,6 @@
 const colors = {
+  app: '#132966',
+  app2: '#297eae',
   background: '#fff',
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
@@ -21,7 +23,7 @@ const colors = {
   eggplant: '#251a34',
   border: '#483F53',
   banner: '#5F3E63',
-  text: '#4c4c4c',
+  text: '#484848',
   errorOpacity: '#f8d7da',
   warningOpacity: '#856404',
   etext: '#721c24',

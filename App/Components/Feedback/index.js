@@ -28,19 +28,20 @@ class Feedback extends Component {
         }
 
         <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
+        <View style={styles.authorBox}>
+          <NBText style={styles.author}>By <NBText style={styles.authorName}>{name}</NBText></NBText>
+        </View>
         <StarRating
           disabled
           starSize={20}
           maxStars={5}
           rating={data.star_rating}
-          fullStarColor='#FFD700'
-          emptyStarColor='#D6D6D6'
+          fullStarColor='#297fae'
+          emptyStarColor='#297fae'
           containerStyle={{width: 100}}
         />
-        <View style={styles.authorBox}>
-          <NBText style={styles.author}>By <NBText style={styles.authorName}>{name}</NBText></NBText>
-          {this.renderAuthorBtn(name, client, data)}
-        </View>
+
+        <NBText style={styles.feedback}>{data.comment}</NBText>
       </View>
     )
   }
@@ -49,15 +50,15 @@ class Feedback extends Component {
     if (userName === 'You') {
       if (!this.props.noEdit) {
         return (
-          <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ClientReview', {client, review})}>
-            <Icon name='ios-create-outline' style={styles.authorBtnIcon} />
+          <Button small style={styles.appButton} onPress={() => this.props.navigate('ClientReview', {client, review})}>
+            <NBText>Edit Review</NBText>
           </Button>
         )
       }
     } else {
       return (
-        <Button transparent small style={styles.authorBtn} onPress={() => this.props.navigate('ProfileModal', {user: review.user})}>
-          <Icon name='ios-eye' style={styles.authorBtnIcon} />
+        <Button small style={styles.appButton} onPress={() => this.props.navigate('ProfileModal', {user: review.user})}>
+          <NBText>Reviewer's Profile</NBText>
         </Button>
       )
     }
@@ -93,13 +94,19 @@ class Feedback extends Component {
 
   render () {
     const {data} = this.props
+    const user = data.user.data || data.user
+    const client = data.client.data || data.client
+
+    const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           {this.renderLeftCol()}
           {this.renderRightCol()}
         </View>
-        <NBText style={styles.feedback}>{data.comment}</NBText>
+
+        {this.renderAuthorBtn(name, client, data)}
       </View>
     )
   }

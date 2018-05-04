@@ -3,10 +3,9 @@ import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
-import hoistNonReactStatics from 'hoist-non-react-statics'
-
-import withDrawer from 'Components/Drawer'
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -60,18 +59,24 @@ class Settings extends Component {
     return (
       <View style={styles.container}>
         <HeaderBar
-          title={'Profile'}
+          title={''}
           leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.drawer.openDrawer()}
+          leftBtnPress={() => this.props.openDrawer()}
           scrollOffsetY={this.state.scrollOffsetY}
         />
-        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={{flex: 1}}>
-          <View style={styles.centered}>
-            <Image source={avatar} style={styles.logo} />
-          </View>
 
+        <View style={[styles.contentUpperBG, {height: '50%'}]} />
+
+        <SubHeaderBar
+          title={user.name}
+        />
+
+        <View style={styles.centered}>
+          <Image source={avatar} style={styles.logo} />
+        </View>
+
+        <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           <View style={styles.section}>
-            <Text style={styles.subTitleText}>{user.name}</Text>
             {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 
             <Text style={styles.sectionText}>{`${user.city || ''}${user.state ? ', ' : ''}${user.state || ''} ${user.postal_code || ''}`}</Text>
@@ -174,9 +179,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
   }
 }
 
-const FScreen = hoistNonReactStatics(withDrawer(Settings), Settings)
-
-export default connect(mapStateToProps, mapDispatchToProps)(FScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

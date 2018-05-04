@@ -1,15 +1,17 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import {Container, Header, Body, Title, Subtitle, Item, Input, ListItem, Text as NBText} from 'native-base'
+import { Body, Subtitle, Item, Input, ListItem, Text as NBText } from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import StarRating from 'react-native-star-rating'
-import { isIphoneX } from 'react-native-iphone-x-helper'
 import AlertMessage from 'Components/AlertMessage'
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 
 // Redux
 import ClientActions from 'Redux/ClientRedux'
 import SearchActions from 'Redux/SearchRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -19,7 +21,7 @@ class Clients extends React.PureComponent {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-contacts-outline'}
+        name={'ios-people'}
         size={30}
         style={{color: tintColor}}
       />
@@ -79,12 +81,12 @@ class Clients extends React.PureComponent {
               starSize={20}
               maxStars={5}
               rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
-              fullStarColor='#FFD700'
-              emptyStarColor='#D6D6D6'
+              fullStarColor='#297fae'
+              emptyStarColor='#297fae'
             />
           </View>
-          <NBText note>{item.phone_number}</NBText>
-          <NBText note>{item.street_address}, {item.city} {item.state}</NBText>
+          <NBText note style={styles.ldesc}>{item.phone_number}</NBText>
+          <NBText note style={styles.ldesc}>{item.street_address}, {item.city} {item.state}</NBText>
           </Body>
         </TouchableOpacity>
       </ListItem>
@@ -161,36 +163,6 @@ class Clients extends React.PureComponent {
     return <Subtitle style={{color: '#8e8f90'}}>{display}</Subtitle>
   }
 
-  renderCustomHeader () {
-    let addedHeight = {height: 125}
-    if (isIphoneX()) {
-      addedHeight = {height: 150}
-    }
-
-    return (
-      <Header
-        hasSubtitle
-        searchBar
-        style={[styles.header, addedHeight]}
-      >
-        <Body style={{alignItems: 'center'}}>
-        <Title style={{color: '#000'}}>Client List</Title>
-        {this._clientCountDisplay()}
-        <Item style={styles.searchbar} regular>
-          <Icon name="ios-search" />
-          <Input placeholder="Search" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
-          {
-            this.state.searchKey !== '' &&
-            <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
-              <Icon name="md-close-circle" />
-            </TouchableOpacity>
-          }
-        </Item>
-        </Body>
-      </Header>
-    )
-  }
-
   _onRefresh = () => {
     this.props.clients()
   }
@@ -205,24 +177,59 @@ class Clients extends React.PureComponent {
     }
   }
 
+  _renderSearchBar = () => {
+    return (
+      <View style={{paddingHorizontal: 20}}>
+        <Item style={styles.searchbar} regular>
+          <Icon name="ios-search" style={{color: '#fff'}} />
+          <Input style={styles.searchInput} placeholder="Search" placeholderTextColor="#fff" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
+          {
+            this.state.searchKey !== '' &&
+            <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
+              <Icon name="md-close-circle" style={{color: '#fff'}} />
+            </TouchableOpacity>
+          }
+        </Item>
+      </View>
+    )
+  }
+
   render () {
     const { clientsData } = this.props
 
     return (
       <View style={styles.container}>
-        {this.renderCustomHeader()}
-        <FlatList
-          contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects || []}
-          renderItem={this.renderRow.bind(this)}
-          keyExtractor={this.keyExtractor}
-          initialNumToRender={this.oneScreensWorth}
-          ListEmptyComponent={this.renderEmpty}
-          refreshing={this.props.fetching || false}
-          onRefresh={this._onRefresh}
-          onEndReached={this._onEndReached}
-          onEndReachedThreshold={0.1}
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
         />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
+          title={'Client List'}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
+
+        {this._clientCountDisplay()}
+        {this._renderSearchBar()}
+
+        <View style={styles.mContainer}>
+          <FlatList
+            contentContainerStyle={[styles.listContent]}
+            data={this.state.dataObjects || []}
+            renderItem={this.renderRow.bind(this)}
+            keyExtractor={this.keyExtractor}
+            initialNumToRender={this.oneScreensWorth}
+            ListEmptyComponent={this.renderEmpty}
+            refreshing={this.props.fetching || false}
+            onRefresh={this._onRefresh}
+            onEndReached={this._onEndReached}
+            onEndReachedThreshold={0.1}
+          />
+        </View>
       </View>
     )
 
@@ -244,7 +251,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     clients: (pagination) => dispatch(ClientActions.clientRequest(pagination)),
     filter: (keyword) => dispatch(SearchActions.filterClients(keyword)),
-    clearFilter: () => dispatch(SearchActions.clearFilter())
+    clearFilter: () => dispatch(SearchActions.clearFilter()),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

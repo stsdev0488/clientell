@@ -5,8 +5,10 @@ import { connect } from 'react-redux'
 
 // Redux actions
 import ReviewActions from 'Redux/ReviewRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 import DTPicker from 'Components/DTPicker'
 import moment from 'moment'
 import StarRating from 'react-native-star-rating'
@@ -126,6 +128,15 @@ class clientReview extends React.PureComponent {
     )
   }
 
+  renderClientHeader = () => {
+    return (
+      <View>
+        <NBText style={styles.upperTitle}>{this.client.display_name}</NBText>
+        <NBText style={styles.ratingText}>{parseClientAddress(this.client).toUpperCase()}</NBText>
+      </View>
+    )
+  }
+
   render () {
     const deleteReviewBtn = this.review.id ? {
       rightBtnIcon: 'ios-trash',
@@ -135,70 +146,84 @@ class clientReview extends React.PureComponent {
     return (
       <View style={styles.container}>
         <HeaderBar
-          topTitle={this.review.id ? 'Edit review for' : 'New review for'}
-          title={this.client.display_name}
-          subTitle={parseClientAddress(this.client)}
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
+          // topTitle={this.review.id ? 'Edit Review for' : 'New Review'}
+          title={this.review.id ? 'Edit Review for' : 'New Review'}
+          // subTitle={parseClientAddress(this.client)}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
           {...deleteReviewBtn}
         />
 
-        <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-          <View style={styles.section}>
-            <DTPicker
-              visible={this.state.datepickerVisible}
-              date={this.state.date}
-              label="Review date"
-              onConfirm={date => this.setState({date, datepickerVisible: false})}
-              hide={() => this.setState({datepickerVisible: false})}
-              show={() => this.setState({datepickerVisible: true})}
-              styles={{ alignSelf: 'center' }}
-              inputStyles={{ width: 150 }}
-            />
-          </View>
+        {this.renderClientHeader()}
 
-          <View style={[styles.section, {marginVertical: 20}]}>
-            <NBText style={[styles.formLabel]}>Enter your overall rating:</NBText>
+        <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
+          <View style={[styles.section]}>
+            <NBText style={[styles.formLabel]}>{`Overall rating`.toUpperCase()}</NBText>
             <StarRating
               disabled={false}
               maxStars={5}
+              starSize={35}
               rating={this.state.rating}
               selectedStar={rating => this.setState({rating})}
-              fullStarColor='#FFD700'
-              emptyStarColor='#D6D6D6'
+              fullStarColor='#297fae'
+              emptyStarColor='#297fae'
               containerStyle={{marginTop: 5}}
               buttonStyle={{marginHorizontal: 2}}
             />
           </View>
 
-          <View style={[styles.section, {marginVertical: 20}]}>
+          <View style={styles.section}>
+            <DTPicker
+              visible={this.state.datepickerVisible}
+              date={this.state.date}
+              label={"Review date".toUpperCase()}
+              onConfirm={date => this.setState({date, datepickerVisible: false})}
+              hide={() => this.setState({datepickerVisible: false})}
+              show={() => this.setState({datepickerVisible: true})}
+              styles={{ alignSelf: 'center', justifyContent: 'space-between', flex: 1 }}
+              inputStyles={{ width: 150 }}
+            />
+          </View>
+
+          <View style={[styles.section]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
-                <NBText style={styles.thumbRateLabel}>Enter Payment</NBText>
-                <NBText style={styles.thumbRateLabel}>rating:</NBText>
+                <NBText style={styles.thumbRateLabel}>{`Payment Rating`.toUpperCase()}</NBText>
               </View>
               <ThumbsRating
                 rate={this.state.paymentRating}
                 toggle={type => this.handleThumbsRating(type, 'paymentRating')}
               />
             </View>
-
+          </View>
+          
+          <View style={[styles.section]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
-                <NBText style={styles.thumbRateLabel}>Enter Character</NBText>
-                <NBText style={styles.thumbRateLabel}>rating:</NBText>
+                <NBText style={styles.thumbRateLabel}>{`Character Rating`.toUpperCase()}</NBText>
               </View>
+
               <ThumbsRating
                 rate={this.state.characterRating}
                 toggle={type => this.handleThumbsRating(type, 'characterRating')}
               />
             </View>
-
+          </View>
+          
+          <View style={[styles.section]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
-                <NBText style={styles.thumbRateLabel}>Enter Repeat</NBText>
-                <NBText style={styles.thumbRateLabel}>rating:</NBText>
+                <NBText style={styles.thumbRateLabel}>{`Repeat Rating`.toUpperCase()}</NBText>
               </View>
               <ThumbsRating
                 rate={this.state.repeatRating}
@@ -207,8 +232,8 @@ class clientReview extends React.PureComponent {
             </View>
           </View>
 
-          <View style={[styles.section, {marginVertical: 20}]}>
-            <NBText style={[styles.formLabel]}>Enter comment ({this.state.charRemaining} characters remaining):</NBText>
+          <View style={[styles.section, {flexDirection: 'column'}]}>
+            <NBText style={[styles.formLabel, {alignSelf: 'flex-start', fontWeight: 'bold'}]}>{`Enter comment (${this.state.charRemaining} characters remaining)`.toUpperCase()}</NBText>
             <TextInput
               multiline
               style={styles.commentField}
@@ -217,7 +242,7 @@ class clientReview extends React.PureComponent {
             />
           </View>
 
-          <Button disabled={this.props.fetching || this.props.editing} block style={{marginBottom: 30}} onPress={this._submitReview}>
+          <Button disabled={this.props.fetching || this.props.editing} block style={[{marginBottom: 30}, styles.appButton]} onPress={this._submitReview}>
             {this.props.fetching === true || this.props.editing ? <Spinner /> : null}
             <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
           </Button>
@@ -244,7 +269,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addReview: (id, data) => dispatch(ReviewActions.reviewRequest(id, data)),
     editReview: (id, data) => dispatch(ReviewActions.editReview(id, data)),
-    deleteReview: (id, clientId) => dispatch(ReviewActions.deleteReview(id, clientId))
+    deleteReview: (id, clientId) => dispatch(ReviewActions.deleteReview(id, clientId)),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

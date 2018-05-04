@@ -9,6 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   input: {
+    flexDirection: 'row',
     marginLeft: Metrics.baseMargin
   },
   inputDisplay: {
@@ -22,7 +23,8 @@ export default StyleSheet.create({
     padding: Metrics.baseMargin
   },
   label: {
-    fontSize: 14,
-    color: Colors.text
+    fontSize: 12,
+    color: Colors.text,
+    fontWeight: 'bold'
   }
 })

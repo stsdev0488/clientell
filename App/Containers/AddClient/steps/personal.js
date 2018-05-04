@@ -26,7 +26,7 @@ class PersonalInfoStep extends Component {
       return (
         <View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Organization name <Text style={styles.sup}>*</Text></Text>
+            <NBText uppercase style={styles.sectionText}>Organization name <NBText uppercase style={styles.sup}>*</NBText></NBText>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -83,12 +83,12 @@ class PersonalInfoStep extends Component {
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Type</Text>
+          <NBText uppercase style={styles.sectionText} upperCase>Type</NBText>
           <TouchableOpacity
             style={{height: 50}}
             onPress={() => this.picker.show()}
           >
-            <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+            <Text uppercase style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
               {this.capitalize(this.state.client_type)}
             </Text>
           </TouchableOpacity>
@@ -98,7 +98,7 @@ class PersonalInfoStep extends Component {
 
         <View>
           <View style={styles.section}>
-            <Text style={styles.sectionText}>First name <Text style={styles.sup}>*</Text></Text>
+            <NBText uppercase style={styles.sectionText}>First name <NBText uppercase style={styles.sup}>*</NBText></NBText>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -112,7 +112,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Middle name</Text>
+            <NBText uppercase style={styles.sectionText}>Middle name</NBText>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -126,7 +126,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Last name <Text style={styles.sup}>*</Text></Text>
+            <NBText uppercase style={styles.sectionText}>Last name <NBText uppercase style={styles.sup}>*</NBText></NBText>
             <Item regular>
               <Icon active name='ios-person' />
               <Input
@@ -141,7 +141,7 @@ class PersonalInfoStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Email</Text>
+          <NBText uppercase style={styles.sectionText}>Email</NBText>
           <Item regular>
             <Icon active name='ios-mail' />
             <Input
@@ -157,7 +157,7 @@ class PersonalInfoStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Phone number <Text style={styles.sup}>*</Text></Text>
+          <NBText uppercase style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></NBText>
           <View style={{flexDirection: 'row'}}>
             <Item regular style={{flex: 1}}>
               <PhoneInput
@@ -183,7 +183,7 @@ class PersonalInfoStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Alternate Phone number</Text>
+          <NBText uppercase style={styles.sectionText}>Alternate Phone number</NBText>
           <View style={{flexDirection: 'row'}}>
             <Item regular style={{flex: 1}}>
               <PhoneInput
@@ -214,8 +214,9 @@ class PersonalInfoStep extends Component {
             block
             onPress={() => this._submitDetails()}
             disabled={fieldErrors.length > 0}
+            style={styles.appButton}
           >
-            <NBText>Submit</NBText>
+            <NBText uppercase>Submit</NBText>
           </Button>
         </View>
 
