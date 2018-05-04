@@ -5,6 +5,11 @@ import { Content, Icon, Button, Item, Input, Text, Spinner } from 'native-base'
 import PhoneInput from 'react-native-phone-input'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
+
+import DrawerActions from 'Redux/DrawerRedux'
+
 // Redux action
 import SearchAction from 'Redux/SearchRedux'
 
@@ -54,41 +59,51 @@ class Search extends Component {
 
   render () {
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Search</Text>
-          <Text style={styles.subTitleText}>by phone number</Text>
-        </View>
+      <View style={styles.container}>
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+        />
+
+        <View style={styles.contentUpperBG} />
+
+        <SubHeaderBar
+          title='Search'
+          leftBtnIcon='ios-arrow-back'
+          leftBtnPress={() => this.props.navigation.goBack(null)}
+        />
 
         <View style={styles.section}>
-          <Text style={styles.sectionText}>Client's phone number</Text>
-          <Item regular>
-            <PhoneInput
-              ref={ref => { this.phone = ref }}
-              style={{paddingHorizontal: 8}}
-              textStyle={{height: 50}}
-              onChangePhoneNumber={num => this.setState({phone: num})}
-            />
-          </Item>
+          <Text uppercase style={styles.upperContentText}>By phone number</Text>
         </View>
 
-        <View style={styles.section}>
-          <ErrorRenderer error={this.props.error || this.state.error} />
-        </View>
+        <Content style={styles.mContainer}>
 
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this._executeSearch()}>
-            {this.props.fetching === true && <Spinner />}
-            <Text>Search</Text>
-          </Button>
-        </View>
+          <View style={styles.section}>
+            <Text uppercase style={styles.sectionText}>Client's phone number</Text>
+            <Item regular>
+              <PhoneInput
+                ref={ref => { this.phone = ref }}
+                style={{paddingHorizontal: 8}}
+                textStyle={{height: 50}}
+                onChangePhoneNumber={num => this.setState({phone: num})}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Button warning block transparent onPress={() => this.props.navigation.goBack()}>
-            <Text>Back</Text>
-          </Button>
-        </View>
-      </Content>
+          <View style={styles.section}>
+            <ErrorRenderer error={this.props.error || this.state.error} />
+          </View>
+
+          <View style={styles.section}>
+            <Button style={styles.appButton} primary block onPress={() => this._executeSearch()}>
+              {this.props.fetching === true && <Spinner />}
+              <Text>Search</Text>
+            </Button>
+          </View>
+        </Content>
+      </View>
     )
   }
 }
@@ -103,7 +118,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    searchClient: (value) => dispatch(SearchAction.searchRequest(value))
+    searchClient: (value) => dispatch(SearchAction.searchRequest(value)),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 

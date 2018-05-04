@@ -89,6 +89,11 @@ const ApplicationStyles = {
       position: 'absolute',
       top: 30,
       left: 20
+    },
+    upperContentText: {
+      fontSize: 14,
+      color: Colors.snow,
+      textAlign: 'center'
     }
   },
   darkLabelContainer: {
