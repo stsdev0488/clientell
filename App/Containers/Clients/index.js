@@ -14,6 +14,7 @@ import withDrawer from 'Components/Drawer'
 // Redux
 import ClientActions from 'Redux/ClientRedux'
 import SearchActions from 'Redux/SearchRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -204,7 +205,7 @@ class Clients extends React.PureComponent {
         <HeaderBar
           title={''}
           leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.drawer.openDrawer()}
+          leftBtnPress={() => this.props.openDrawer()}
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
@@ -253,10 +254,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     clients: (pagination) => dispatch(ClientActions.clientRequest(pagination)),
     filter: (keyword) => dispatch(SearchActions.filterClients(keyword)),
-    clearFilter: () => dispatch(SearchActions.clearFilter())
+    clearFilter: () => dispatch(SearchActions.clearFilter()),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 
 const FScreen = hoistNonReactStatics(withDrawer(Clients), Clients)
 
-export default connect(mapStateToProps, mapDispatchToProps)(FScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(Clients)

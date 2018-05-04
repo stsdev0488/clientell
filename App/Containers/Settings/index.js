@@ -3,10 +3,8 @@ import { Text, View, AsyncStorage, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
-import hoistNonReactStatics from 'hoist-non-react-statics'
-
-import withDrawer from 'Components/Drawer'
 import HeaderBar from 'Components/HeaderBar'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from './styles'
@@ -62,7 +60,7 @@ class Settings extends Component {
         <HeaderBar
           title={''}
           leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.drawer.openDrawer()}
+          leftBtnPress={() => this.props.openDrawer()}
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
@@ -177,9 +175,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
   }
 }
 
-const FScreen = hoistNonReactStatics(withDrawer(Settings), Settings)
-
-export default connect(mapStateToProps, mapDispatchToProps)(FScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

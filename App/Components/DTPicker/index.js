@@ -25,14 +25,17 @@ export default class DTPicker extends Component {
     return (
       <View style={[styles.wrapper, this.props.styles]}>
         <NBText style={styles.label}>{label}</NBText>
+
         <TouchableWithoutFeedback onPress={show}>
           <View style={[styles.input, styles.inputDisplay]}>
             <NBText style={[styles.textField, inputStyles]}>{moment(date).format('MM-DD-YYYY')}</NBText>
+
+            <Button onPress={show} transparent style={{margin: 0, paddingTop: 0, paddingBottom: 0}}>
+              <Icon name='md-calendar' style={{fontSize: 24}} />
+            </Button>
           </View>
         </TouchableWithoutFeedback>
-        <Button onPress={show} transparent>
-          <Icon name='md-calendar' style={{fontSize: 24}} />
-        </Button>
+
         <DateTimePicker
           mode={mode || 'date'}
           isVisible={visible}

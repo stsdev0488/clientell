@@ -14,6 +14,7 @@ import AlertMessage from 'Components/AlertMessage'
 // Redux actions
 import ClientActions from 'Redux/ClientRedux'
 import SearchActions from 'Redux/SearchRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from '../styles'
@@ -140,7 +141,7 @@ class ClientProfile extends React.PureComponent {
             emptyStarColor='#297fae'
           />
         </View>
-        <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating' : `Average over ${client.review_count} rating`}{client.review_count > 1 ? 's' : ''}</NBText>
+        <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating'.toUpperCase() : (`Average over ${client.review_count} rating`).toUpperCase()}{client.review_count > 1 ? 's'.toUpperCase() : ''}</NBText>
       </React.Fragment>
     )
   }
@@ -204,7 +205,7 @@ class ClientProfile extends React.PureComponent {
         <HeaderBar
           title={''}
           leftBtnIcon='ios-menu'
-          leftBtnPress={() => {}}
+          leftBtnPress={() => this.props.openDrawer()}
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
@@ -267,7 +268,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getClient: (id) => dispatch(ClientActions.getSpecificClient(id)),
-    getClientReviews: (value) => dispatch(SearchActions.search2Request(value))
+    getClientReviews: (value) => dispatch(SearchActions.search2Request(value)),
+    openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }
 
