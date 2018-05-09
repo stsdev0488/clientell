@@ -164,6 +164,7 @@ class PersonalInfoStep extends Component {
                 ref={ref => { this.phone = ref }}
                 style={{paddingHorizontal: 8}}
                 textStyle={{height: 50}}
+                flagStyle={{width: 0, height: 0}}
                 value={this.state.phone_number ? this.state.phone_number : '+1'}
               />
             </Item>
@@ -190,6 +191,7 @@ class PersonalInfoStep extends Component {
                 ref={ref => { this.phone_alternate = ref }}
                 style={{paddingHorizontal: 8}}
                 textStyle={{height: 50}}
+                flagStyle={{width: 0, height: 0}}
                 value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
               />
 

@@ -87,6 +87,7 @@ class Search extends Component {
                 ref={ref => { this.phone = ref }}
                 style={{paddingHorizontal: 8}}
                 textStyle={{height: 50}}
+                flagStyle={{width: 0, height: 0}}
                 onChangePhoneNumber={num => this.setState({phone: num})}
               />
             </Item>

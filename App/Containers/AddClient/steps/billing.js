@@ -98,6 +98,7 @@ class BillingStep extends Component {
               <PhoneInput
                 ref={ref => { this.phone = ref }}
                 style={{paddingHorizontal: 8}}
+                flagStyle={{width: 0, height: 0}}
                 textStyle={{height: 50}}
                 value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
               />
