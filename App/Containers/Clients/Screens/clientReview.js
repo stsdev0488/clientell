@@ -244,7 +244,7 @@ class clientReview extends React.PureComponent {
 
           <Button disabled={this.props.fetching || this.props.editing} block style={[{marginBottom: 30}, styles.appButton]} onPress={this._submitReview}>
             {this.props.fetching === true || this.props.editing ? <Spinner /> : null}
-            <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
+            <NBText>{this.review.id ? 'Save Changes' : 'Add Rating'}</NBText>
           </Button>
 
         </Content>
