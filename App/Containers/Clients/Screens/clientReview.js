@@ -192,6 +192,9 @@ class clientReview extends React.PureComponent {
               show={() => this.setState({datepickerVisible: true})}
               styles={{ alignSelf: 'center', justifyContent: 'space-between', flex: 1 }}
               inputStyles={{ width: 150 }}
+              datePickerProps={{
+                maximumDate: new Date()
+              }}
             />
           </View>
 

@@ -8,6 +8,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker'
 import moment from 'moment'
 
 export default class DTPicker extends Component {
+  static defaultProps = { datePickerProps: {} }
   static propTypes = {
     mode: PropTypes.string,
     visible: PropTypes.bool,
@@ -21,7 +22,8 @@ export default class DTPicker extends Component {
   }
 
   render () {
-    const {mode, date, label, hide, show, visible, onConfirm, inputStyles} = this.props
+    const {mode, date, label, hide, show, visible, onConfirm, inputStyles, datePickerProps} = this.props
+
     return (
       <View style={[styles.wrapper, this.props.styles]}>
         <NBText style={styles.label}>{label}</NBText>
@@ -41,6 +43,7 @@ export default class DTPicker extends Component {
           isVisible={visible}
           onConfirm={onConfirm}
           onCancel={hide}
+          {...datePickerProps}
         />
       </View>
     )
