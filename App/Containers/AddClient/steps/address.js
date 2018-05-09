@@ -55,17 +55,19 @@ class AddressStep extends Component {
 
     return (
       <Form style={{marginTop: 20}}>
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
-          <TouchableOpacity
-            style={{height: 50}}
-            onPress={() => this.picker.show()}
-          >
-            <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {countryName ? countryName.name : 'Select country'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {
+          // <View style={styles.section}>
+          //   <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
+          //   <TouchableOpacity
+          //     style={{height: 50}}
+          //     onPress={() => this.picker.show()}
+          //   >
+          //     <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+          //       {countryName ? countryName.name : 'Select country'}
+          //     </Text>
+          //   </TouchableOpacity>
+          // </View>
+        }
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Text>

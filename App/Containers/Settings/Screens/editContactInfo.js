@@ -40,7 +40,7 @@ class Search extends Component {
     email: this.user.email || '',
     business_url: this.user.business_url || '',
     facebook_url: this.user.facebook_url || '',
-    country_id: this.user.country_id || 0,
+    country_id: 840,
     countries: []
   }
 
@@ -103,18 +103,19 @@ class Search extends Component {
         <View style={styles.titleSection}>
           <Text style={styles.titleText}>Contact Information</Text>
         </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
-          <TouchableOpacity
-            style={{height: 50}}
-            onPress={() => this.picker.show()}
-          >
-            <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {countryName ? countryName.name : 'Select country'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {
+          // <View style={styles.section}>
+          //   <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
+          //   <TouchableOpacity
+          //     style={{height: 50}}
+          //     onPress={() => this.picker.show()}
+          //   >
+          //     <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+          //       {countryName ? countryName.name : 'Select country'}
+          //     </Text>
+          //   </TouchableOpacity>
+          // </View>
+        }
 
         <View style={styles.section}>
           <Text style={styles.sectionText}>Phone Number</Text>
