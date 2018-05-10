@@ -35,6 +35,7 @@ export default class PhoneInputC extends Component {
           ref={ref => { this.phone = ref }}
           style={{paddingHorizontal: 8}}
           textStyle={{height: 50}}
+          flagStyle={{width: 0, height: 0}}
           value={this.props.value}
         />
       </Item>

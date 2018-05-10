@@ -29,7 +29,7 @@ class Feedback extends Component {
 
         <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
         <View style={styles.authorBox}>
-          <NBText style={styles.author}>By <NBText style={styles.authorName}>{name}</NBText></NBText>
+          <NBText uppercase style={styles.author}>By <NBText uppercase style={styles.authorName}>{name}</NBText></NBText>
         </View>
         <StarRating
           disabled
@@ -75,7 +75,7 @@ class Feedback extends Component {
 
     return (
       <View style={styles.rateItem}>
-        <NBText style={styles.rateLabel}>{label}</NBText>
+        <NBText uppercase style={styles.rateLabel}>{label}</NBText>
         {icon}
       </View>
     )

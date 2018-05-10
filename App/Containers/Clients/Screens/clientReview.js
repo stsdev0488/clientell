@@ -156,7 +156,7 @@ class clientReview extends React.PureComponent {
 
         <SubHeaderBar
           // topTitle={this.review.id ? 'Edit Review for' : 'New Review'}
-          title={this.review.id ? 'Edit Review for' : 'New Review'}
+          title={this.review.id ? 'Edit Review' : 'New Review'}
           // subTitle={parseClientAddress(this.client)}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
@@ -192,6 +192,9 @@ class clientReview extends React.PureComponent {
               show={() => this.setState({datepickerVisible: true})}
               styles={{ alignSelf: 'center', justifyContent: 'space-between', flex: 1 }}
               inputStyles={{ width: 150 }}
+              datePickerProps={{
+                maximumDate: new Date()
+              }}
             />
           </View>
 
@@ -242,9 +245,9 @@ class clientReview extends React.PureComponent {
             />
           </View>
 
-          <Button disabled={this.props.fetching || this.props.editing} block style={[{marginBottom: 30}, styles.appButton]} onPress={this._submitReview}>
+          <Button primary disabled={this.props.fetching || this.props.editing} block style={[{marginBottom: 30}]} onPress={this._submitReview}>
             {this.props.fetching === true || this.props.editing ? <Spinner /> : null}
-            <NBText>{this.review.id ? 'Edit' : 'Add'} Rating</NBText>
+            <NBText>{this.review.id ? 'Save Changes' : 'Add Review'}</NBText>
           </Button>
 
         </Content>

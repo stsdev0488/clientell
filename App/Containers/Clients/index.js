@@ -76,17 +76,24 @@ class Clients extends React.PureComponent {
           <Body>
           <View style={styles.listHeader}>
             <NBText style={styles.title}>{item.display_name}</NBText>
-            <StarRating
-              disabled
-              starSize={20}
-              maxStars={5}
-              rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
-              fullStarColor='#297fae'
-              emptyStarColor='#297fae'
-            />
           </View>
-          <NBText note style={styles.ldesc}>{item.phone_number}</NBText>
-          <NBText note style={styles.ldesc}>{item.street_address}, {item.city} {item.state}</NBText>
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View style={{maxWidth: '50%'}}>
+              <NBText note style={styles.ldesc}>{item.phone_number}</NBText>
+              <NBText note style={styles.ldesc}>{item.street_address}, {item.city} {item.state}</NBText>
+            </View>
+
+            <View style={{alignSelf: 'center'}}>
+              <StarRating
+                disabled
+                starSize={25}
+                maxStars={5}
+                rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
+                fullStarColor='#297fae'
+                emptyStarColor='#297fae'
+              />
+            </View>
+          </View>
           </Body>
         </TouchableOpacity>
       </ListItem>

@@ -5,7 +5,6 @@ export default StyleSheet.create({
   ...ApplicationStyles.screen,
   headerContainer: {
     backgroundColor: Colors.snow,
-    borderBottomWidth: 0,
     borderBottomWidth: 1,
     borderBottomColor: Colors.snow
   },

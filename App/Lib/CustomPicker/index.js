@@ -144,6 +144,7 @@ export default class CustomPicker extends Component {
                 itemStyle={itemStyle}
                 mode="dialog"
               >
+                <PickerItem value={''} label={''} />
                 {this.props.options.map((item, index) => this.renderItem(item, index))}
               </Picker>
             </View>

@@ -76,7 +76,6 @@ const ApplicationStyles = {
       marginHorizontal: Metrics.smallMargin
     },
     titleText: {
-      ...Fonts.style.h3,
       color: Colors.text,
       textAlign: 'center'
     },

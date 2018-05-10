@@ -1,7 +1,7 @@
 const type = {
-  base: 'Avenir-Book',
-  bold: 'Avenir-Black',
-  emphasis: 'HelveticaNeue-Italic'
+  base: 'SourceSansPro-Regular',
+  bold: 'SourceSansPro-Bold',
+  emphasis: 'SourceSansPro-Italic'
 }
 
 const size = {
@@ -46,6 +46,10 @@ const style = {
   normal: {
     fontFamily: type.base,
     fontSize: size.regular
+  },
+  bold: {
+    fontFamily: type.bold,
+    fontWeight: 'bold'
   },
   description: {
     fontFamily: type.base,

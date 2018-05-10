@@ -23,7 +23,8 @@ export default StyleSheet.create({
     padding: Metrics.baseMargin
   },
   label: {
-    fontSize: 12,
+    ...Fonts.style.normal,
+    fontSize: 13,
     color: Colors.text,
     fontWeight: 'bold'
   }

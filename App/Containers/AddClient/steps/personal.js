@@ -88,9 +88,9 @@ class PersonalInfoStep extends Component {
             style={{height: 50}}
             onPress={() => this.picker.show()}
           >
-            <Text uppercase style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+            <NBText style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
               {this.capitalize(this.state.client_type)}
-            </Text>
+            </NBText>
           </TouchableOpacity>
         </View>
 
@@ -164,6 +164,7 @@ class PersonalInfoStep extends Component {
                 ref={ref => { this.phone = ref }}
                 style={{paddingHorizontal: 8}}
                 textStyle={{height: 50}}
+                flagStyle={{width: 0, height: 0}}
                 value={this.state.phone_number ? this.state.phone_number : '+1'}
               />
             </Item>
@@ -190,6 +191,7 @@ class PersonalInfoStep extends Component {
                 ref={ref => { this.phone_alternate = ref }}
                 style={{paddingHorizontal: 8}}
                 textStyle={{height: 50}}
+                flagStyle={{width: 0, height: 0}}
                 value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
               />
 
@@ -213,8 +215,8 @@ class PersonalInfoStep extends Component {
           <Button
             block
             onPress={() => this._submitDetails()}
+            primary
             disabled={fieldErrors.length > 0}
-            style={styles.appButton}
           >
             <NBText uppercase>Submit</NBText>
           </Button>

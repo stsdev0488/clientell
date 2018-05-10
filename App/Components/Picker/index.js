@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types';
 import styles from './styles'
+import { Text } from 'native-base'
 
 import Picker from 'Lib/CustomPicker'
 import { capitalize } from 'Lib/Utils'

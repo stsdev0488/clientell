@@ -24,7 +24,8 @@
 	<string>6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-  <key>ITSAppUsesNonExemptEncryption</key><false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -60,6 +61,18 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>SourceSansPro-Black.otf</string>
+		<string>SourceSansPro-BlackIt.otf</string>
+		<string>SourceSansPro-Bold.otf</string>
+		<string>SourceSansPro-BoldIt.otf</string>
+		<string>SourceSansPro-ExtraLight.otf</string>
+		<string>SourceSansPro-ExtraLightIt.otf</string>
+		<string>SourceSansPro-It.otf</string>
+		<string>SourceSansPro-Light.otf</string>
+		<string>SourceSansPro-LightIt.otf</string>
+		<string>SourceSansPro-Regular.otf</string>
+		<string>SourceSansPro-Semibold.otf</string>
+		<string>SourceSansPro-SemiboldIt.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
@@ -73,27 +86,25 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>fb1950426675273297</string>
-      </array>
-    </dict>
-  </array>
-  <key>FacebookAppID</key>
-  <string>1950426675273297</string>
-  <key>FacebookDisplayName</key>
-  <string>Clientell</string>
-  
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>fbapi</string>
-    <string>fb-messenger-share-api</string>
-    <string>fbauth2</string>
-    <string>fbshareextension</string>
-  </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1950426675273297</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1950426675273297</string>
+	<key>FacebookDisplayName</key>
+	<string>Clientell</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>
