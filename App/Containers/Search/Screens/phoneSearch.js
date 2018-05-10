@@ -21,7 +21,8 @@ class Search extends Component {
     tabBarLabel: 'Search Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-search-outline'}
+        name={'search'}
+        type="FontAwesome"
         size={30}
         style={{color: tintColor}}
       />

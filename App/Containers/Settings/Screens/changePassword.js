@@ -22,9 +22,10 @@ class Search extends Component {
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-home-outline'}
+        name={'home'}
         size={30}
-        style={{color: tintColor}}
+        style={{color: tintColor, fontSize: 35}}
+        type='FontAwesome'
       />
     )
   }

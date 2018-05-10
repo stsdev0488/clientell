@@ -24,9 +24,10 @@ class ClientProfile extends React.PureComponent {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-people'}
-        size={30}
-        style={{color: tintColor, fontSize: 40}}
+        name={'users'}
+        type="FontAwesome"
+        size={40}
+        style={{color: tintColor, fontSize: 30}}
       />
     )
   }
