@@ -9,9 +9,9 @@ export default StyleSheet.create({
     borderBottomColor: Colors.snow
   },
   title: {
-    fontWeight: '300',
+    fontSize: 30,
+    fontWeight: '800',
     lineHeight: 35,
-    height: 30,
     color: Colors.snow
   },
   secondaryTitle: {

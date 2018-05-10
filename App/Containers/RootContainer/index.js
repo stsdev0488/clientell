@@ -3,7 +3,8 @@ import { View, StatusBar } from 'react-native'
 import ReduxNavigation from 'Navigation/ReduxNavigation'
 import { connect } from 'react-redux'
 import StartupActions from 'Redux/StartupRedux'
-import { Root } from 'native-base'
+import { Root, StyleProvider, getTheme } from 'native-base'
+import { Variables } from 'Themes'
 
 import hoistNonReactStatics from 'hoist-non-react-statics'
 import withDrawer from 'Components/Drawer'
@@ -18,11 +19,13 @@ class RootContainer extends Component {
 
   render () {
     return (
-      <Root style={styles.applicationView}>
-        <StatusBar barStyle='light-content' />
+      <StyleProvider style={getTheme(Variables)}>
+        <Root style={styles.applicationView}>
+          <StatusBar barStyle='light-content' />
 
-        <ReduxNavigation />
-      </Root>
+          <ReduxNavigation />
+        </Root>
+      </StyleProvider>
     )
   }
 }

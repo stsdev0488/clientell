@@ -142,7 +142,7 @@ class AddressStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button block onPress={() => this._handleSubmit()} disabled={fieldErrors.length > 0} style={styles.appButton}>
+          <Button primary block onPress={() => this._handleSubmit()} disabled={fieldErrors.length > 0}>
             <NBText>Submit</NBText>
           </Button>
         </View>

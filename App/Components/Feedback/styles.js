@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Metrics, Colors } from 'Themes'
+import { ApplicationStyles, Metrics, Colors, Fonts } from 'Themes'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -20,8 +20,9 @@ export default StyleSheet.create({
     marginBottom: 2
   },
   rateLabel: {
+    ...Fonts.style.normal,
     marginRight: Metrics.smallMargin,
-    fontSize: 14,
+    fontSize: 12,
     color: '#999'
   },
   rateIcon: {
@@ -35,22 +36,25 @@ export default StyleSheet.create({
     color: '#ff0000'
   },
   date: {
+    ...Fonts.style.normal,
     color: '#999',
-    fontSize: 14
+    fontSize: 11
   },
   author: {
     color: '#999',
     fontSize: 14
   },
   authorName: {
+    ...Fonts.style.normal,
     color: '#333',
     fontWeight: '700',
     fontSize: 14
   },
   feedback: {
+    ...Fonts.style.normal,
     marginTop: 15,
     color: '#333',
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 20
   },
   authorBox: {

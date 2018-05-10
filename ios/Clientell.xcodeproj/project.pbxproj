@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -56,6 +55,18 @@
 		E7681ED9F742424F95C37D73 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 56ADD498FF1E4F81819654AF /* Zocial.ttf */; };
 		EA8E29A26218459489C5E0AB /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CC73E106E9A4708AD2E88B3 /* Roboto_medium.ttf */; };
 		ECE46A36BED146CDACEAF444 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADFF9CFA4C544DC0AEDF4052 /* libReactNativeConfig.a */; };
+		587976F8895F4083A7323304 /* SourceSansPro-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE564F33E3244E90AC563F1A /* SourceSansPro-Black.otf */; };
+		52403386F33047068ADA59CF /* SourceSansPro-BlackIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 107E00F0525E454DA4E1ED3E /* SourceSansPro-BlackIt.otf */; };
+		1F940115C3B34163A5C0F576 /* SourceSansPro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DF05E622FEC340A28CFDE2B7 /* SourceSansPro-Bold.otf */; };
+		855507B263744595ADED73F7 /* SourceSansPro-BoldIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = A7795B9049614983BE563E06 /* SourceSansPro-BoldIt.otf */; };
+		8B20903211FC4A8D8D453374 /* SourceSansPro-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = A7CF572491C54FFEB286612A /* SourceSansPro-ExtraLight.otf */; };
+		25D73D7487224C018E75922E /* SourceSansPro-ExtraLightIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7964C138C5B54322AB4B5511 /* SourceSansPro-ExtraLightIt.otf */; };
+		80B182198B6149D3A948D97E /* SourceSansPro-It.otf in Resources */ = {isa = PBXBuildFile; fileRef = 82F9923E9F74479F84B1F54C /* SourceSansPro-It.otf */; };
+		2C8E64D99E0E4541A1BB94D6 /* SourceSansPro-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 32F5B188A6E242E697B253EC /* SourceSansPro-Light.otf */; };
+		57C11D619A274425AFC0F9D4 /* SourceSansPro-LightIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8CA80A62CA074BFAA95F698C /* SourceSansPro-LightIt.otf */; };
+		AC1BAD026C134A5C8B0154D7 /* SourceSansPro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94ED36C9044B4B919B51D6DA /* SourceSansPro-Regular.otf */; };
+		1A566327782F4AC9BB146220 /* SourceSansPro-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5DE4F3DFF39D469DBA80A6AD /* SourceSansPro-Semibold.otf */; };
+		228B7944C3304A7D8CFD4690 /* SourceSansPro-SemiboldIt.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3E7072154EC947DA88A9679E /* SourceSansPro-SemiboldIt.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -404,6 +415,18 @@
 		E9C5D6D7231C4A199CE775AC /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		FAC9CB6884174B52954603B2 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		FC2A85C04535464B9874C156 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		EE564F33E3244E90AC563F1A /* SourceSansPro-Black.otf */ = {isa = PBXFileReference; name = "SourceSansPro-Black.otf"; path = "../Fonts/SourceSansPro-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		107E00F0525E454DA4E1ED3E /* SourceSansPro-BlackIt.otf */ = {isa = PBXFileReference; name = "SourceSansPro-BlackIt.otf"; path = "../Fonts/SourceSansPro-BlackIt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DF05E622FEC340A28CFDE2B7 /* SourceSansPro-Bold.otf */ = {isa = PBXFileReference; name = "SourceSansPro-Bold.otf"; path = "../Fonts/SourceSansPro-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A7795B9049614983BE563E06 /* SourceSansPro-BoldIt.otf */ = {isa = PBXFileReference; name = "SourceSansPro-BoldIt.otf"; path = "../Fonts/SourceSansPro-BoldIt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A7CF572491C54FFEB286612A /* SourceSansPro-ExtraLight.otf */ = {isa = PBXFileReference; name = "SourceSansPro-ExtraLight.otf"; path = "../Fonts/SourceSansPro-ExtraLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7964C138C5B54322AB4B5511 /* SourceSansPro-ExtraLightIt.otf */ = {isa = PBXFileReference; name = "SourceSansPro-ExtraLightIt.otf"; path = "../Fonts/SourceSansPro-ExtraLightIt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		82F9923E9F74479F84B1F54C /* SourceSansPro-It.otf */ = {isa = PBXFileReference; name = "SourceSansPro-It.otf"; path = "../Fonts/SourceSansPro-It.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		32F5B188A6E242E697B253EC /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; name = "SourceSansPro-Light.otf"; path = "../Fonts/SourceSansPro-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8CA80A62CA074BFAA95F698C /* SourceSansPro-LightIt.otf */ = {isa = PBXFileReference; name = "SourceSansPro-LightIt.otf"; path = "../Fonts/SourceSansPro-LightIt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		94ED36C9044B4B919B51D6DA /* SourceSansPro-Regular.otf */ = {isa = PBXFileReference; name = "SourceSansPro-Regular.otf"; path = "../Fonts/SourceSansPro-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5DE4F3DFF39D469DBA80A6AD /* SourceSansPro-Semibold.otf */ = {isa = PBXFileReference; name = "SourceSansPro-Semibold.otf"; path = "../Fonts/SourceSansPro-Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3E7072154EC947DA88A9679E /* SourceSansPro-SemiboldIt.otf */ = {isa = PBXFileReference; name = "SourceSansPro-SemiboldIt.otf"; path = "../Fonts/SourceSansPro-SemiboldIt.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -729,6 +752,18 @@
 				82583C2DD33A4D19A00ABADF /* rubicon-icon-font.ttf */,
 				C131437850A140E0A50D6A41 /* SimpleLineIcons.ttf */,
 				56ADD498FF1E4F81819654AF /* Zocial.ttf */,
+				EE564F33E3244E90AC563F1A /* SourceSansPro-Black.otf */,
+				107E00F0525E454DA4E1ED3E /* SourceSansPro-BlackIt.otf */,
+				DF05E622FEC340A28CFDE2B7 /* SourceSansPro-Bold.otf */,
+				A7795B9049614983BE563E06 /* SourceSansPro-BoldIt.otf */,
+				A7CF572491C54FFEB286612A /* SourceSansPro-ExtraLight.otf */,
+				7964C138C5B54322AB4B5511 /* SourceSansPro-ExtraLightIt.otf */,
+				82F9923E9F74479F84B1F54C /* SourceSansPro-It.otf */,
+				32F5B188A6E242E697B253EC /* SourceSansPro-Light.otf */,
+				8CA80A62CA074BFAA95F698C /* SourceSansPro-LightIt.otf */,
+				94ED36C9044B4B919B51D6DA /* SourceSansPro-Regular.otf */,
+				5DE4F3DFF39D469DBA80A6AD /* SourceSansPro-Semibold.otf */,
+				3E7072154EC947DA88A9679E /* SourceSansPro-SemiboldIt.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1228,6 +1263,18 @@
 				DCF8D30439C6408B88834EFA /* rubicon-icon-font.ttf in Resources */,
 				83BC1974D7314E92A0C10018 /* SimpleLineIcons.ttf in Resources */,
 				E7681ED9F742424F95C37D73 /* Zocial.ttf in Resources */,
+				587976F8895F4083A7323304 /* SourceSansPro-Black.otf in Resources */,
+				52403386F33047068ADA59CF /* SourceSansPro-BlackIt.otf in Resources */,
+				1F940115C3B34163A5C0F576 /* SourceSansPro-Bold.otf in Resources */,
+				855507B263744595ADED73F7 /* SourceSansPro-BoldIt.otf in Resources */,
+				8B20903211FC4A8D8D453374 /* SourceSansPro-ExtraLight.otf in Resources */,
+				25D73D7487224C018E75922E /* SourceSansPro-ExtraLightIt.otf in Resources */,
+				80B182198B6149D3A948D97E /* SourceSansPro-It.otf in Resources */,
+				2C8E64D99E0E4541A1BB94D6 /* SourceSansPro-Light.otf in Resources */,
+				57C11D619A274425AFC0F9D4 /* SourceSansPro-LightIt.otf in Resources */,
+				AC1BAD026C134A5C8B0154D7 /* SourceSansPro-Regular.otf in Resources */,
+				1A566327782F4AC9BB146220 /* SourceSansPro-Semibold.otf in Resources */,
+				228B7944C3304A7D8CFD4690 /* SourceSansPro-SemiboldIt.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

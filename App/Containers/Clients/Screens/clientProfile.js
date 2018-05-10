@@ -228,7 +228,8 @@ class ClientProfile extends React.PureComponent {
           <Button
             block
             iconLeft
-            style={[{marginBottom: 40, marginHorizontal: 10}, styles.appButton]}
+            primary
+            style={[{marginBottom: 40, marginHorizontal: 10}]}
             onPress={() => navigate('ClientReview', {client})}
           >
             <Icon name='ios-create-outline' />

@@ -97,5 +97,10 @@
     ],
     "preset": "react-native"
   },
-  "config": {}
+  "config": {},
+  "rnpm": {
+    "assets": [
+      "./Fonts"
+    ]
+  }
 }

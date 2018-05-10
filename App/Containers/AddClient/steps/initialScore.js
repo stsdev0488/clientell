@@ -31,7 +31,7 @@ class RatingStep extends Component {
         </View>
 
         <View style={styles.section}>
-          <Button disabled={this.props.fetching} block onPress={() => this.props.submitInfo(this.state.initial_star_rating)} style={styles.appButton}>
+          <Button disabled={this.props.fetching} block onPress={() => this.props.submitInfo(this.state.initial_star_rating)} primary>
             {this.props.fetching === true && <Spinner />}
             <Text>Submit</Text>
           </Button>

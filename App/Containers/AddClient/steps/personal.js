@@ -88,9 +88,9 @@ class PersonalInfoStep extends Component {
             style={{height: 50}}
             onPress={() => this.picker.show()}
           >
-            <Text uppercase style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+            <NBText style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
               {this.capitalize(this.state.client_type)}
-            </Text>
+            </NBText>
           </TouchableOpacity>
         </View>
 
@@ -215,8 +215,8 @@ class PersonalInfoStep extends Component {
           <Button
             block
             onPress={() => this._submitDetails()}
+            primary
             disabled={fieldErrors.length > 0}
-            style={styles.appButton}
           >
             <NBText uppercase>Submit</NBText>
           </Button>

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles, Metrics, Colors } from 'Themes'
+import { ApplicationStyles, Metrics, Colors, Fonts } from 'Themes'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -12,10 +12,14 @@ export default StyleSheet.create({
     backgroundColor: Colors.transparent
   },
   title: {
+    ...Fonts.style.normal,
+    fontSize: 20,
     fontWeight: 'bold',
     color: Colors.text
   },
   ldesc: {
+    ...Fonts.style.normal,
+    fontSize: 16,
     color: Colors.text
   },
   searchbar: {
@@ -56,8 +60,9 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   ratingText: {
+    ...Fonts.style.normal,
     marginTop: Metrics.smallMargin,
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.snow,
     alignSelf: 'center',
     marginBottom: 10
@@ -88,7 +93,8 @@ export default StyleSheet.create({
     flex: 1,
   },
   formLabel: {
-    fontSize: 12,
+    ...Fonts.style.normal,
+    fontSize: 13,
     color: Colors.text,
     fontWeight: 'bold'
   },
@@ -97,15 +103,17 @@ export default StyleSheet.create({
     marginRight: Metrics.baseMargin
   },
   thumbRateLabel: {
+    ...Fonts.style.normal,
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.text,
     textAlign: 'right'
   },
   commentField: {
+    ...Fonts.style.normal,
     borderWidth: 1,
     borderColor: Colors.steel,
-    fontSize: 16,
+    fontSize: 15,
     color: Colors.coal,
     padding: Metrics.baseMargin,
     minHeight: 60,
@@ -130,16 +138,19 @@ export default StyleSheet.create({
     marginVertical: Metrics.baseMargin
   },
   billingLabel: {
+    ...Fonts.style.normal,
     color: Colors.app,
     fontSize: 16,
     marginRight: Metrics.baseMargin
   },
   billingValue: {
+    ...Fonts.style.normal,
     textAlign: 'left',
     fontSize: 14,
     flex: 1
   },
   upperTitle: {
+    ...Fonts.style.normal,
     fontSize: 24,
     color: Colors.snow,
     textAlign: 'center'
