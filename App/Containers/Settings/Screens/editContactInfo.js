@@ -3,11 +3,14 @@ import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text } from 'native-base'
 import Picker from 'Lib/CustomPicker'
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 
 import Secrets from 'react-native-config'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 import Input from 'Components/Input'
 import PhoneInput from 'Components/PhoneInput'
@@ -99,167 +102,175 @@ class Search extends Component {
     const countryName = (this.state.countries).find(ccc => ccc.id == country)
 
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Contact Information</Text>
-        </View>
-        {
-          // <View style={styles.section}>
-          //   <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
-          //   <TouchableOpacity
-          //     style={{height: 50}}
-          //     onPress={() => this.picker.show()}
-          //   >
-          //     <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-          //       {countryName ? countryName.name : 'Select country'}
-          //     </Text>
-          //   </TouchableOpacity>
-          // </View>
-        }
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Phone Number</Text>
-          <PhoneInput
-            ref={ref => { this.main_phone = ref }}
-            value={user.phone_number ? user.phone_number : '+1'}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Alternate Phone Number</Text>
-          <PhoneInput
-            ref={ref => { this.alt_phone = ref }}
-            value={user.alt_phone_number ? user.alt_phone_number : '+1'}
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Street address</Text>
-          <Input
-            bref={ref => this.streetInput = ref}
-            defaultValue={user.street_address || ''}
-            onChangeText={street_address => this.setState({street_address})}
-            required
-            onSubmitEditing={() => {this.street2Input._root.focus()}}
-            returnKeyType='next'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Street address 2</Text>
-          <Input
-            bref={ref => this.street2Input = ref}
-            defaultValue={user.street_address2 || ''}
-            onChangeText={street_address2 => this.setState({street_address2})}
-            onSubmitEditing={() => {this.cityInput._root.focus()}}
-            returnKeyType='next'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>City</Text>
-          <Input
-            bref={ref => this.cityInput = ref}
-            defaultValue={user.city || ''}
-            onChangeText={city => this.setState({city})}
-            onSubmitEditing={() => {this.stateInput._root.focus()}}
-            returnKeyType='next'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>State</Text>
-          <Input
-            bref={ref => this.stateInput = ref}
-            defaultValue={user.state || ''}
-            onChangeText={state => this.setState({state})}
-            onSubmitEditing={() => {this.postalInput._root.focus()}}
-            returnKeyType='next'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Postal Code</Text>
-          <Input
-            bref={ref => this.postalInput = ref}
-            defaultValue={user.postal_code || ''}
-            onChangeText={postal_code => this.setState({postal_code})}
-            onSubmitEditing={() => {this.emailInput._root.focus()}}
-            returnKeyType='next'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Email</Text>
-          <Input
-            bref={ref => this.emailInput = ref}
-            defaultValue={user.email || ''}
-            onChangeText={email => this.setState({email})}
-            onSubmitEditing={() => {this.businessInput._root.focus()}}
-            returnKeyType='next'
-            autoCapitalize='none'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Business URL</Text>
-          <Input
-            bref={ref => this.businessInput = ref}
-            defaultValue={user.business_url || ''}
-            onChangeText={business_url => this.setState({business_url})}
-            onSubmitEditing={() => {this.fbInput._root.focus()}}
-            returnKeyType='next'
-            autoCapitalize='none'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Facebook URL</Text>
-          <Input
-            bref={ref => this.fbInput = ref}
-            defaultValue={user.facebook_url || ''}
-            onChangeText={facebook_url => this.setState({facebook_url})}
-            onSubmitEditing={() => {this.twitterInput._root.focus()}}
-            returnKeyType='next'
-            autoCapitalize='none'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Twitter URL</Text>
-          <Input
-            bref={ref => this.twitterInput = ref}
-            defaultValue={user.twitter_url || ''}
-            onChangeText={twitter_url => this.setState({twitter_url})}
-            autoCapitalize='none'
-          />
-        </View>
-
-        <View style={styles.section}>
-          <ErrorRenderer error={error} />
-        </View>
-
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this._submitChanges()}>
-            <Text>Update</Text>
-          </Button>
-        </View>
-
-        <View style={styles.section}>
-          <Button disabled={saving} warning block transparent onPress={() => this.props.navigation.goBack()}>
-            <Text>Back</Text>
-          </Button>
-        </View>
-
-        <Picker
-          ref={ref => {
-            this.picker = ref;
-          }}
-          selectedOption={country}
-          onSubmit={(a) => this._onChangeCountry(a)}
-          options={this.state.countries || []}
+      <View style={styles.container}>
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
         />
-      </Content>
+
+        <View style={[styles.contentUpperBG, {height: '50%'}]} />
+
+        <SubHeaderBar
+          title={'Contact Information'}
+          leftBtnIcon='ios-arrow-back'
+          leftBtnPress={() => this.props.navigation.goBack(null)}
+        />
+
+        <Content style={styles.mContainer}>
+          {
+            // <View style={styles.section}>
+            //   <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
+            //   <TouchableOpacity
+            //     style={{height: 50}}
+            //     onPress={() => this.picker.show()}
+            //   >
+            //     <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+            //       {countryName ? countryName.name : 'Select country'}
+            //     </Text>
+            //   </TouchableOpacity>
+            // </View>
+          }
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Phone Number</Text>
+            <PhoneInput
+              ref={ref => { this.main_phone = ref }}
+              value={user.phone_number ? user.phone_number : '+1'}
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Alternate Phone Number</Text>
+            <PhoneInput
+              ref={ref => { this.alt_phone = ref }}
+              value={user.alt_phone_number ? user.alt_phone_number : '+1'}
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Street address</Text>
+            <Input
+              bref={ref => this.streetInput = ref}
+              defaultValue={user.street_address || ''}
+              onChangeText={street_address => this.setState({street_address})}
+              required
+              onSubmitEditing={() => {this.street2Input._root.focus()}}
+              returnKeyType='next'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Street address 2</Text>
+            <Input
+              bref={ref => this.street2Input = ref}
+              defaultValue={user.street_address2 || ''}
+              onChangeText={street_address2 => this.setState({street_address2})}
+              onSubmitEditing={() => {this.cityInput._root.focus()}}
+              returnKeyType='next'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>City</Text>
+            <Input
+              bref={ref => this.cityInput = ref}
+              defaultValue={user.city || ''}
+              onChangeText={city => this.setState({city})}
+              onSubmitEditing={() => {this.stateInput._root.focus()}}
+              returnKeyType='next'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>State</Text>
+            <Input
+              bref={ref => this.stateInput = ref}
+              defaultValue={user.state || ''}
+              onChangeText={state => this.setState({state})}
+              onSubmitEditing={() => {this.postalInput._root.focus()}}
+              returnKeyType='next'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Postal Code</Text>
+            <Input
+              bref={ref => this.postalInput = ref}
+              defaultValue={user.postal_code || ''}
+              onChangeText={postal_code => this.setState({postal_code})}
+              onSubmitEditing={() => {this.emailInput._root.focus()}}
+              returnKeyType='next'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Email</Text>
+            <Input
+              bref={ref => this.emailInput = ref}
+              defaultValue={user.email || ''}
+              onChangeText={email => this.setState({email})}
+              onSubmitEditing={() => {this.businessInput._root.focus()}}
+              returnKeyType='next'
+              autoCapitalize='none'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Business URL</Text>
+            <Input
+              bref={ref => this.businessInput = ref}
+              defaultValue={user.business_url || ''}
+              onChangeText={business_url => this.setState({business_url})}
+              onSubmitEditing={() => {this.fbInput._root.focus()}}
+              returnKeyType='next'
+              autoCapitalize='none'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Facebook URL</Text>
+            <Input
+              bref={ref => this.fbInput = ref}
+              defaultValue={user.facebook_url || ''}
+              onChangeText={facebook_url => this.setState({facebook_url})}
+              onSubmitEditing={() => {this.twitterInput._root.focus()}}
+              returnKeyType='next'
+              autoCapitalize='none'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Twitter URL</Text>
+            <Input
+              bref={ref => this.twitterInput = ref}
+              defaultValue={user.twitter_url || ''}
+              onChangeText={twitter_url => this.setState({twitter_url})}
+              autoCapitalize='none'
+            />
+          </View>
+
+          <View style={styles.section}>
+            <ErrorRenderer error={error} />
+          </View>
+
+          <View style={styles.section}>
+            <Button primary block onPress={() => this._submitChanges()}>
+              <Text>Update</Text>
+            </Button>
+          </View>
+
+          <Picker
+            ref={ref => {
+              this.picker = ref;
+            }}
+            selectedOption={country}
+            onSubmit={(a) => this._onChangeCountry(a)}
+            options={this.state.countries || []}
+          />
+        </Content>
+      </View>
     )
   }
 }
@@ -273,6 +284,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data))
   }
 }
