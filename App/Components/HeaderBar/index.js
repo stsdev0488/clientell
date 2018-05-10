@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, View, Image } from 'react-native'
 import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon} from 'native-base'
 import styles from './styles'
 import { Images } from 'Themes'
+import { isIphoneX } from 'react-native-iphone-x-helper'
 
 export default class FullButton extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ export default class FullButton extends Component {
     const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
-    let height = 60
+    let height = isIphoneX() ? 80: 60
     if (topTitle) height += 20
     if (subTitle) height += 20
 

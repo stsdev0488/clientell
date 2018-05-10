@@ -22,8 +22,8 @@ class Clients extends React.PureComponent {
     tabBarIcon: ({ tintColor }) => (
       <Icon
         name={'ios-people'}
-        size={30}
-        style={{color: tintColor}}
+        size={40}
+        style={{color: tintColor, fontSize: 40}}
       />
     )
   }

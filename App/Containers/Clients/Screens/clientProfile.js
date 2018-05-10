@@ -26,7 +26,7 @@ class ClientProfile extends React.PureComponent {
       <Icon
         name={'ios-people'}
         size={30}
-        style={{color: tintColor}}
+        style={{color: tintColor, fontSize: 40}}
       />
     )
   }
