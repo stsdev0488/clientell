@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { TouchableOpacity, Text, View } from 'react-native'
+import { TouchableOpacity, Text, View, Image } from 'react-native'
 import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon} from 'native-base'
 import styles from './styles'
+import { Images } from 'Themes'
 
 export default class FullButton extends Component {
   static propTypes = {
@@ -60,6 +61,7 @@ export default class FullButton extends Component {
           {
             !rightBtnPress && <View style={styles.btnFiller} />
           }
+          <Image source={Images.logoOnly} style={{width: 45, height: 40}} />
         </Right>
       </Header>
     )

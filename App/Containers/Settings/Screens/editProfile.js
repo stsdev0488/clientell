@@ -4,9 +4,12 @@ import { connect } from 'react-redux'
 import { Content, Icon, Button, Text, Spinner } from 'native-base'
 import ImagePicker from 'react-native-image-picker'
 import mimes from 'react-native-mime-types'
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 import Input from 'Components/Input'
 import Picker from 'Components/Picker'
@@ -121,98 +124,105 @@ class Search extends Component {
     const user = this.user
 
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Edit Profile</Text>
-        </View>
+      <View style={styles.container}>
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
 
-        <View style={styles.centered}>
-          <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
-            <View style={styles.logo}>
-              <Image source={this.state.image || Images.launch} />
-              {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <View style={[styles.contentUpperBG, {height: '50%'}]} />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>First name</Text>
-          <Input
-            bref={ref => this.fnameInput = ref}
-            defaultValue={user.first_name || ''}
-            onChangeText={first_name => this.setState({first_name})}
-            required
-            onSubmitEditing={() => this.mnameInput._root.focus()}
-            returnKeyType='next'
-          />
-        </View>
+        <SubHeaderBar
+          title={'Edit Profile'}
+          leftBtnIcon='ios-arrow-back'
+          leftBtnPress={() => this.props.navigation.goBack(null)}
+        />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Middle name / initial</Text>
-          <Input
-            bref={ref => this.mnameInput = ref}
-            defaultValue={user.middle_name || ''}
-            onChangeText={middle_name => this.setState({middle_name})}
-            onSubmitEditing={() => this.lnameInput._root.focus()}
-            returnKeyType='next'
-          />
-        </View>
+        <Content style={styles.mContainer}>
+          <View style={styles.centered}>
+            <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
+              <View style={styles.logo}>
+                <Image source={this.state.image || Images.launch} />
+                {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Last name</Text>
-          <Input
-            bref={ref => this.lnameInput = ref}
-            defaultValue={user.last_name || ''}
-            onChangeText={last_name => this.setState({last_name})}
-            required
-          />
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>First name</Text>
+            <Input
+              bref={ref => this.fnameInput = ref}
+              defaultValue={user.first_name || ''}
+              onChangeText={first_name => this.setState({first_name})}
+              required
+              onSubmitEditing={() => this.mnameInput._root.focus()}
+              returnKeyType='next'
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Type</Text>
-          <Picker
-            defaultValue={this.state.account_type}
-            options={['individual', 'company']}
-            onSelect={account_type => this.setState({account_type})}
-          />
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Middle name / initial</Text>
+            <Input
+              bref={ref => this.mnameInput = ref}
+              defaultValue={user.middle_name || ''}
+              onChangeText={middle_name => this.setState({middle_name})}
+              onSubmitEditing={() => this.lnameInput._root.focus()}
+              returnKeyType='next'
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Company name</Text>
-          <Input
-            bref={ref => this.companyInput = ref}
-            defaultValue={user.company_name || ''}
-            onChangeText={company_name => this.setState({company_name})}
-            onSubmitEditing={() => this.descInput._root.focus()}
-            returnKeyType='next'
-          />
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Last name</Text>
+            <Input
+              bref={ref => this.lnameInput = ref}
+              defaultValue={user.last_name || ''}
+              onChangeText={last_name => this.setState({last_name})}
+              required
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Description</Text>
-          <Input
-            bref={ref => this.descInput = ref}
-            defaultValue={user.description || ''}
-            onChangeText={description => this.setState({description})}
-          />
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Type</Text>
+            <Picker
+              defaultValue={this.state.account_type}
+              options={['individual', 'company']}
+              onSelect={account_type => this.setState({account_type})}
+            />
+          </View>
 
-        <View style={styles.section}>
-          <ErrorRenderer error={error} />
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Company name</Text>
+            <Input
+              bref={ref => this.companyInput = ref}
+              defaultValue={user.company_name || ''}
+              onChangeText={company_name => this.setState({company_name})}
+              onSubmitEditing={() => this.descInput._root.focus()}
+              returnKeyType='next'
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Button primary block bordered onPress={() => this._submitChanges()}>
-            <Text>Update</Text>
-          </Button>
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Description</Text>
+            <Input
+              bref={ref => this.descInput = ref}
+              defaultValue={user.description || ''}
+              onChangeText={description => this.setState({description})}
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Button disabled={saving} warning block transparent onPress={() => this.props.navigation.goBack()}>
-            <Text>Back</Text>
-          </Button>
-        </View>
-      </Content>
+          <View style={styles.section}>
+            <ErrorRenderer error={error} />
+          </View>
+
+          <View style={styles.section}>
+            <Button primary block onPress={() => this._submitChanges()}>
+              <Text>Update</Text>
+            </Button>
+          </View>
+        </Content>
+      </View>
     )
   }
 }
@@ -228,6 +238,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
     updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data))
   }

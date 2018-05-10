@@ -52,7 +52,7 @@ export const ClientSelectors = {
  */
 
 export const request = (state, { data }) =>
-  state.merge({ fetching: true, payload: null, pagination: null })
+  state.merge({ fetching: true, payload: null, pagination: null, error: false })
 
 export const success = (state, action) => {
   const { payload } = action

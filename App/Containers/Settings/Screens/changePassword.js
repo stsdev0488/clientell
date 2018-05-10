@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Text } from 'native-base'
+import HeaderBar from 'Components/HeaderBar'
+import SubHeaderBar from 'Components/SubHeaderBar'
+
 
 import Input from 'Components/Input'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
+import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
 import styles from '../styles'
@@ -50,49 +54,56 @@ class Search extends Component {
     const { saving, error } = this.props
 
     return (
-      <Content style={styles.container}>
-        <View style={styles.titleSection}>
-          <Text style={styles.titleText}>Change Password</Text>
-        </View>
+      <View style={styles.container}>
+        <HeaderBar
+          title={''}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          scrollOffsetY={this.state.scrollOffsetY}
+        />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>New Password</Text>
-          <Input
-            bref={ref => this.passwordInput = ref}
-            placeholder=''
-            secureTextEntry
-            onChangeText={password => this.setState({password})}
-            onSubmitEditing={() => this.confirmPassInput._root.focus()}
-            returnKeyType='next'
-          />
-        </View>
+        <View style={[styles.contentUpperBG, {height: '50%'}]} />
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Confirm New Password</Text>
-          <Input
-            bref={ref => this.confirmPassInput = ref}
-            placeholder=''
-            secureTextEntry
-            onChangeText={password_confirmation => this.setState({password_confirmation})}
-          />
-        </View>
+        <SubHeaderBar
+          title={'Change Password'}
+          leftBtnIcon='ios-arrow-back'
+          leftBtnPress={() => this.props.navigation.goBack(null)}
+        />
 
-        <View style={styles.section}>
-          <ErrorRenderer error={error.errors} />
-        </View>
+        <Content style={styles.mContainer}>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>New Password</Text>
+            <Input
+              bref={ref => this.passwordInput = ref}
+              placeholder=''
+              secureTextEntry
+              onChangeText={password => this.setState({password})}
+              onSubmitEditing={() => this.confirmPassInput._root.focus()}
+              returnKeyType='next'
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Button disabled={saving} primary block bordered onPress={() => this._submit()}>
-            <Text>Submit</Text>
-          </Button>
-        </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Confirm New Password</Text>
+            <Input
+              bref={ref => this.confirmPassInput = ref}
+              placeholder=''
+              secureTextEntry
+              onChangeText={password_confirmation => this.setState({password_confirmation})}
+            />
+          </View>
 
-        <View style={styles.section}>
-          <Button warning block transparent onPress={() => this.props.navigation.goBack()}>
-            <Text>Back</Text>
-          </Button>
-        </View>
-      </Content>
+          <View style={styles.section}>
+            <ErrorRenderer error={error.errors} />
+          </View>
+
+          <View style={styles.section}>
+            <Button primary block onPress={() => this._submit()} disabled={saving}>
+              <Text>Submit</Text>
+            </Button>
+          </View>
+        </Content>
+      </View>
     )
   }
 }
@@ -106,6 +117,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data))
   }
 }
