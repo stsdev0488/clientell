@@ -29,7 +29,7 @@ class clientReview extends React.PureComponent {
       <Icon
         name={'ios-contacts-outline'}
         size={30}
-        style={{color: tintColor}}
+        style={{color: tintColor, fontSize: 40}}
       />
     )
   }

@@ -1,6 +1,7 @@
 import Fonts from './Fonts'
 import Metrics from './Metrics'
 import Colors from './Colors'
+import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 // This file is for a reusable grouping of Theme items.
 // Similar to an XML fragment layout in Android
@@ -54,7 +55,11 @@ const ApplicationStyles = {
       backgroundColor: Colors.app,
       height: Metrics.screenHeight * 0.30,
       position: 'absolute',
-      top: 60,
+      ...ifIphoneX({
+        top: 80
+      }, {
+        top: 60
+      }),
       left: 0,
       right: 0
     },
