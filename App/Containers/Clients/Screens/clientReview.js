@@ -22,14 +22,14 @@ import { parseClientAddress } from 'Lib/Utils'
 const charLen = 300
 
 class clientReview extends React.PureComponent {
-
   static navigationOptions = {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'ios-contacts-outline'}
-        size={30}
-        style={{color: tintColor, fontSize: 40}}
+        name={'users'}
+        type="FontAwesome"
+        size={40}
+        style={{color: tintColor, fontSize: 30}}
       />
     )
   }

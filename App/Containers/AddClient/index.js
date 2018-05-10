@@ -60,9 +60,10 @@ class AddClient extends Component {
     tabBarLabel: 'Add Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'md-person-add'}
+        name={'user-plus'}
         size={30}
         style={{color: tintColor}}
+        type="FontAwesome"
       />
     )
   }
