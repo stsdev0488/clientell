@@ -47,7 +47,7 @@ class Clients extends React.PureComponent {
     }
 
     if (!newProps.fetching && this.props.fetching) {
-      if (newProps.clientsData) {
+      if (newProps.clientsData && !newProps.error) {
         if (newProps.pagination.current_page === 1) {
           this.setState(state => {
             state.dataObjects = newProps.clientsData.data
@@ -251,6 +251,7 @@ const mapStateToProps = (state) => {
     filteredData: state.search.filteredClient,
     filtering: state.search.filtering,
     filteredPagination: state.search.pagination || null,
+    error: state.client.error
   }
 }
 
