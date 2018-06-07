@@ -12,15 +12,26 @@ export default StyleSheet.create({
     backgroundColor: Colors.transparent
   },
   title: {
-    ...Fonts.style.normal,
-    fontSize: 20,
-    fontWeight: 'bold',
+    ...Fonts.style.bold,
+    letterSpacing: 0.2,
+    fontSize: 15,
     color: Colors.text
+  },
+  lwrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10
   },
   ldesc: {
     ...Fonts.style.normal,
-    fontSize: 16,
-    color: Colors.text
+    fontSize: 14,
+    color: Colors.text,
+    paddingVertical: 5,
+  },
+  licon: {
+    width: 16,
+    height: 18,
+    resizeMode: 'contain'
   },
   searchbar: {
     borderRadius: 6,

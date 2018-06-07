@@ -61,8 +61,8 @@ class AddClient extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Icon
         name={'user-plus'}
-        size={30}
-        style={{color: tintColor}}
+        size={20}
+        style={{color: tintColor, fontSize: 20}}
         type="FontAwesome"
       />
     )

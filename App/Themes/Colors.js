@@ -1,5 +1,5 @@
 const colors = {
-  app: '#132966',
+  app: '#37b2ea',
   app2: '#297eae',
   background: '#fff',
   clear: 'rgba(0,0,0,0)',
@@ -23,11 +23,14 @@ const colors = {
   eggplant: '#251a34',
   border: '#483F53',
   banner: '#5F3E63',
-  text: '#484848',
+  text: '#4b515f',
+  text2: '#81858f',
   errorOpacity: '#f8d7da',
   warningOpacity: '#856404',
   etext: '#721c24',
-  wtext: '#856404'
+  wtext: '#856404',
+  scheme1: '#59beea',
+  scheme2: '#2888c9'
 }
 
 export default colors

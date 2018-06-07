@@ -19,8 +19,8 @@ class Settings extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Icon
         name={'home'}
-        size={30}
-        style={{color: tintColor, fontSize: 35}}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
         type='FontAwesome'
       />
     )

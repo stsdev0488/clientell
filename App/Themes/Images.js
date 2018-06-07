@@ -6,7 +6,12 @@ const images = {
   logoWide: require('Images/logo-wide.png'),
   logoWideBig: require('Images/logo-wide-big.png'),
   logoWideClear: require('Images/logo-wide-white.png'),
-  launch: require('Images/logo-icon.png')
+  launch: require('Images/logo-icon.png'),
+  star: require('Images/star.png'),
+  starHalf: require('Images/star-half.png'),
+  starGrey: require('Images/greystar.png'),
+  address: require('Images/address.png'),
+  phone: require('Images/phone.png')
 }
 
 export default images

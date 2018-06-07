@@ -28,10 +28,12 @@ const ApplicationStyles = {
     mContainer: {
       flex: 1,
       backgroundColor: Colors.snow,
-      marginVertical: 30,
-      marginHorizontal: 20,
+      margin: 8,
+      marginBottom: 0,
       borderColor: '#eee',
-      borderWidth: 1
+      borderWidth: 1,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
 
     appText: {

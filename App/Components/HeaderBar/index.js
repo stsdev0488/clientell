@@ -21,6 +21,8 @@ export default class FullButton extends Component {
   }
 
   render () {
+    return null;
+
     const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 

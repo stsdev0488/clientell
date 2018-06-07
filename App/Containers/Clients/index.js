@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import { Body, Subtitle, Item, Input, ListItem, Text as NBText } from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
+import { Images } from 'Themes/'
 import StarRating from 'react-native-star-rating'
 import AlertMessage from 'Components/AlertMessage'
-import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 // Redux
@@ -23,8 +23,8 @@ class Clients extends React.PureComponent {
       <Icon
         name={'users'}
         type="FontAwesome"
-        size={40}
-        style={{color: tintColor, fontSize: 30}}
+        size={20}
+        style={{color: tintColor, fontSize: 20}}
       />
     )
   }
@@ -80,8 +80,19 @@ class Clients extends React.PureComponent {
           </View>
           <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
             <View style={{maxWidth: '50%'}}>
-              <NBText note style={styles.ldesc}>{item.phone_number}</NBText>
-              <NBText note style={styles.ldesc}>{item.street_address}, {item.city} {item.state}</NBText>
+              <View style={styles.lwrap}>
+                <Image source={Images.phone} style={styles.licon} />
+                <NBText note style={styles.ldesc}>
+                  {item.phone_number}
+                </NBText>
+              </View>
+
+              <View style={styles.lwrap}>
+                <Image source={Images.address} style={styles.licon} />
+                <NBText note style={styles.ldesc}>
+                  {item.street_address}, {item.city} {item.state}
+                </NBText>
+              </View>
             </View>
 
             <View style={{alignSelf: 'center'}}>
@@ -90,8 +101,10 @@ class Clients extends React.PureComponent {
                 starSize={25}
                 maxStars={5}
                 rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
-                fullStarColor='#297fae'
-                emptyStarColor='#297fae'
+                emptyStar={Images.starGrey}
+                fullStar={Images.star}
+                halfStar={Images.starHalf}
+                starStyle={{marginRight: 3}}
               />
             </View>
           </View>
@@ -207,22 +220,10 @@ class Clients extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           title={'Client List'}
           scrollOffsetY={this.state.scrollOffsetY}
         />
-
-        {this._clientCountDisplay()}
-        {this._renderSearchBar()}
 
         <View style={styles.mContainer}>
           <FlatList

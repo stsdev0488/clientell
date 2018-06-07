@@ -18,8 +18,8 @@ class Search extends Component {
       <Icon
         name={'search'}
         type="FontAwesome"
-        size={30}
-        style={{color: tintColor}}
+        size={20}
+        style={{color: tintColor, fontSize: 20}}
       />
     )
   }
