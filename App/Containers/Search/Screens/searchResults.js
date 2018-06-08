@@ -17,10 +17,9 @@ class Search extends Component {
     tabBarLabel: 'Search Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'search'}
-        type="FontAwesome"
-        size={30}
-        style={{color: tintColor}}
+        name={'ios-search'}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
       />
     )
   }
@@ -48,15 +47,13 @@ class Search extends Component {
           leftBtnPress={() => this.props.openDrawer()}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           title='Search Results'
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
         />
 
-        <Content style={styles.mContainer}>
+        <Content style={{backgroundColor: 'transparent', marginTop: 10}}>
           {
             this.state.reviews.length < 1 &&
             <AlertMessage

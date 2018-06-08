@@ -7,6 +7,7 @@ import styles from './styles'
 import StarRating from 'react-native-star-rating'
 import moment from 'moment'
 import { NavigationActions } from 'react-navigation'
+import { Images } from 'Themes/'
 
 class Feedback extends Component {
   static propTypes = {
@@ -19,29 +20,21 @@ class Feedback extends Component {
     const user = data.user.data || data.user
     const client = data.client.data || data.client
 
-    const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
-
     return (
       <View style={styles.left}>
-        {this.props.noEdit ?
-          <NBText style={styles.basicData}>{client.first_name} {client.last_name}, {client.city} {client.state}</NBText> : null
-        }
+        <NBText style={styles.basicData}>{client.first_name} {client.last_name}, {client.city} {client.state}</NBText>
 
-        <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
-        <View style={styles.authorBox}>
-          <NBText uppercase style={styles.author}>By <NBText uppercase style={styles.authorName}>{name}</NBText></NBText>
-        </View>
         <StarRating
           disabled
           starSize={20}
           maxStars={5}
           rating={data.star_rating}
-          fullStarColor='#297fae'
-          emptyStarColor='#297fae'
+          emptyStar={Images.starGrey}
+          fullStar={Images.star}
+          halfStar={Images.starHalf}
+          starStyle={{marginRight: 3}}
           containerStyle={{width: 100}}
         />
-
-        <NBText style={styles.feedback}>{data.comment}</NBText>
       </View>
     )
   }
@@ -65,26 +58,45 @@ class Feedback extends Component {
   }
 
   renderRateItem (rate, label) {
+    let addTheme = {}
     let icon = <Icon name='ios-remove' style={styles.rateIcon} />
     if (rate === 'Thumbs down') {
       icon = <Icon name='ios-thumbs-down' style={[styles.rateIcon, styles.thumbsDown]} />
+      addTheme.danger = true
     }
     else if (rate === 'Thumbs up') {
       icon = <Icon name='ios-thumbs-up' style={[styles.rateIcon, styles.thumbsUp]} />
+      addTheme.success = true
     }
 
     return (
-      <View style={styles.rateItem}>
-        <NBText uppercase style={styles.rateLabel}>{label}</NBText>
+      <Button rounded bordered iconLeft small {...addTheme}>
         {icon}
-      </View>
+        <NBText style={styles.rateLabel}>{label}</NBText>
+      </Button>
     )
   }
 
   renderRightCol () {
     const {data} = this.props
+    const user = data.user.data || data.user
+    const client = data.client.data || data.client
+    const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
+
     return (
       <View style={styles.right}>
+        <NBText style={styles.date}>{moment(data.created_at).format('MM/DD/YYYY')}</NBText>
+        <View style={styles.authorBox}>
+          <NBText uppercase style={styles.author}>By <NBText uppercase style={styles.authorName}>{name}</NBText></NBText>
+        </View>
+      </View>
+    )
+  }
+
+  renderRatings () {
+    const {data} = this.props
+    return (
+      <View style={styles.ratings}>
         {this.renderRateItem(data.payment_rating, 'Payment')}
         {this.renderRateItem(data.character_rating, 'Character')}
         {this.renderRateItem(data.repeat_rating, 'Repeat')}
@@ -105,6 +117,11 @@ class Feedback extends Component {
           {this.renderLeftCol()}
           {this.renderRightCol()}
         </View>
+
+        {this.renderRatings()}
+
+
+        <NBText style={styles.feedback}>{data.comment}</NBText>
 
         {this.renderAuthorBtn(name, client, data)}
       </View>

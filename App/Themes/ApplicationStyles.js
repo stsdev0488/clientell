@@ -97,9 +97,28 @@ const ApplicationStyles = {
       left: 20
     },
     upperContentText: {
-      fontSize: 14,
-      color: Colors.snow,
+      fontSize: 16,
+      color: Colors.text,
       textAlign: 'center'
+    },
+
+    topContentImage: {
+      height: 25,
+      width: 25,
+      resizeMode: 'contain',
+      marginVertical: 20
+    },
+
+    topContentIcon: {
+      fontSize: 30,
+      color: Colors.app,
+      marginVertical: 20
+    },
+
+    screenTopContent: {
+      textAlign: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 20
     }
   },
   darkLabelContainer: {

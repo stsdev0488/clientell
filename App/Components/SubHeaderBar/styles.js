@@ -34,6 +34,15 @@ export default StyleSheet.create({
   },
 
   headerBtn: {
+    maxWidth: 80
+  },
+
+  headerBtnItem: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingBottom: 0,
+    paddingTop: 0,
+    margin: 0
   },
 
   btnFiller: {
@@ -42,7 +51,8 @@ export default StyleSheet.create({
 
   headerIcon: {
     color: Colors.snow,
-    fontSize: Platform.OS === 'android' ? 40 : 40
+    fontSize: 25,
+    paddingHorizontal: 15
   },
 
   headerGradient: {

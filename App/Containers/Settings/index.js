@@ -18,10 +18,9 @@ class Settings extends Component {
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'home'}
+        name={'ios-home-outline'}
         size={20}
         style={{color: tintColor, fontSize: 25}}
-        type='FontAwesome'
       />
     )
   }

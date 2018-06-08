@@ -1,10 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { TouchableOpacity, Text, View } from 'react-native'
-import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon} from 'native-base'
+import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon as NBIcon} from 'native-base'
 import styles from './styles'
 import LinearGradient from 'react-native-linear-gradient'
 import {Colors} from 'Themes/'
+import * as Animatable from 'react-native-animatable'
+
+
+Animatable.initializeRegistryWithDefinitions({
+  customPulse: {
+    0: {
+      scale: 1
+    },
+    0.5: {
+      scale: 1.25
+    },
+    1: {
+      scale: 1
+    }
+  }
+});
+const Icon = Animatable.createAnimatableComponent(NBIcon)
 
 export default class FullButton extends Component {
   static propTypes = {
@@ -20,8 +37,16 @@ export default class FullButton extends Component {
     scrollOffsetY: PropTypes.number
   }
 
+  componentWillReceiveProps (newProps) {
+    if (newProps.rightBtnLoading && !this.props.rightBtnLoading) {
+      this.rIcon.customPulse()
+    } else if (!newProps.rightBtnLoading && this.props.rightBtnLoading){
+      this.rIcon.stopAnimation()
+    }
+  }
+
   render () {
-    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, rightBtnText, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
+    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, rightBtnText, rightBtnLoading, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
     let height = 90
@@ -43,6 +68,7 @@ export default class FullButton extends Component {
             {
               leftBtnPress &&
               <Button
+                style={styles.headerBtnItem}
                 onPress={leftBtnPress}
                 transparent
               >
@@ -62,12 +88,20 @@ export default class FullButton extends Component {
             {
               rightBtnPress &&
               <Button
+                style={styles.headerBtnItem}
                 onPress={rightBtnPress}
                 transparent
                 {...rightAdditional}
               >
                 {!!rightBtnIcon &&
-                  <Icon style={styles.headerIcon} name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'}/>
+                  <Icon
+                    ref={a => this.rIcon = a}
+                    animation="customPulse"
+                    easing="ease-out"
+                    iterationCount={rightBtnLoading ? 'infinite' : 0}
+                    style={styles.headerIcon}
+                    name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'}
+                  />
                 }
 
                 {!!rightBtnText &&
