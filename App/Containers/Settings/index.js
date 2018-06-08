@@ -65,17 +65,17 @@ class Settings extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={[styles.contentUpperBG, {height: '50%'}]} />
-
         <SubHeaderBar
           title={user.name}
         />
 
-        <View style={styles.centered}>
-          <Image source={avatar} style={styles.logo} />
-        </View>
-
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.centered}>
+              <Image source={avatar} style={styles.logo} />
+            </View>
+          </View>
+
           <View style={styles.section}>
             {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 
