@@ -21,12 +21,15 @@ export default class FullButton extends Component {
   }
 
   render () {
-    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
+    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, rightBtnText, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
     let height = 90
     if (topTitle) height += 20
     if (subTitle) height += 20
+    const rightAdditional = {
+      hasText: !!rightBtnText
+    }
 
     return (
       <React.Fragment>
@@ -61,8 +64,17 @@ export default class FullButton extends Component {
               <Button
                 onPress={rightBtnPress}
                 transparent
+                {...rightAdditional}
               >
-                <Icon style={styles.headerIcon} name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'} />
+                {!!rightBtnIcon &&
+                  <Icon style={styles.headerIcon} name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'}/>
+                }
+
+                {!!rightBtnText &&
+                  <NBText style={styles.btnText}>
+                    {rightBtnText}
+                  </NBText>
+                }
               </Button>
             }
             {

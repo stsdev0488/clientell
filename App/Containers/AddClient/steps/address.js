@@ -21,7 +21,7 @@ class AddressStep extends Component {
 
     const {countries, ...info} = this.state
 
-    this.props.submitInfo(info)
+    return info
   }
 
   componentDidMount () {
@@ -73,95 +73,96 @@ class AddressStep extends Component {
           // </View>
         }
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              defaultValue={street_address}
-              onChangeText={street_address => this.setState({ street_address })}
-              onSubmitEditing={() => {this.address2._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
+        <View style={styles.formUpper}>
+          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <NBText style={styles.upperText} uppercase>Address</NBText>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Address Line 2</Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              ref={ref => {this.address2 = ref}}
-              defaultValue={street_address2}
-              onChangeText={street_address2 => this.setState({ street_address2 })}
-              onSubmitEditing={() => {this.cityInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+        <View style={styles.formWrapper}>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Label>
+              <Input
+                defaultValue={street_address}
+                onChangeText={street_address => this.setState({ street_address })}
+                onSubmitEditing={() => {this.address2._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-navigate' />
-            <Input
-              ref={ref => {this.cityInput = ref}}
-              style={styles.textarea}
-              defaultValue={city}
-              onChangeText={city => this.setState({ city })}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
-        {
-          // <View style={styles.section}>
-          //   <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
-          //   <Item regular>
-          //     <Icon active name='ios-navigate'/>
-          //     <Input
-          //       ref={ref => {this.stateInput = ref}}
-          //       style={styles.textarea}
-          //       defaultValue={state}
-          //       onChangeText={state => this.setState({ state })}
-          //       onSubmitEditing={() => {this.postalInput._root.focus()}}
-          //       returnKeyType='next'
-          //     />
-          //   </Item>
-          // </View>
-        }
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Address Line 2</Label>
+              <Input
+                ref={ref => {this.address2 = ref}}
+                defaultValue={street_address2}
+                onChangeText={street_address2 => this.setState({ street_address2 })}
+                onSubmitEditing={() => {this.cityInput._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
-          <TouchableOpacity
-            style={{height: 50}}
-            onPress={() => this.statePicker.show()}
-          >
-            <NBText style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {stateName ? stateName.name : 'Select state'}
-            </NBText>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
+              <Input
+                ref={ref => {this.cityInput = ref}}
+                style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                defaultValue={city}
+                onChangeText={city => this.setState({ city })}
+                returnKeyType='next'
+              />
+            </Item>
+          </View>
+
+          {
+            // <View style={styles.section}>
+            //   <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
+            //   <Item fixedLabel>
+            //     <Icon active name='ios-navigate'/>
+            //     <Input
+            //       ref={ref => {this.stateInput = ref}}
+            //       style={styles.textarea}
+            //       defaultValue={state}
+            //       onChangeText={state => this.setState({ state })}
+            //       onSubmitEditing={() => {this.postalInput._root.focus()}}
+            //       returnKeyType='next'
+            //     />
+            //   </Item>
+            // </View>
+          }
+
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
+              <TouchableOpacity
+                style={{flex: 1, justifyContent: 'center', height: 50}}
+                onPress={() => this.statePicker.show()}
+              >
+                <NBText style={styles.disabledInput}>{stateName ? stateName.name : 'Select state'}</NBText>
+              </TouchableOpacity>
+            </Item>
+          </View>
 
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Postal code</Text>
-          <Item regular>
-            <Icon active name='ios-navigate' />
-            <Input
-              ref={ref => {this.postalInput = ref}}
-              style={styles.textarea}
-              defaultValue={postal}
-              onChangeText={postal_code => this.setState({ postal_code })}
-              onSubmitEditing={() => this.props.submitInfo(this.state)}
-              returnKeyType='go'
-            />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
-          <Button primary block onPress={() => this._handleSubmit()} disabled={fieldErrors.length > 0}>
-            <NBText>Submit</NBText>
-          </Button>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Postal code</Label>
+              <Input
+                ref={ref => {this.postalInput = ref}}
+                style={styles.textarea}
+                defaultValue={postal}
+                onChangeText={postal_code => this.setState({ postal_code })}
+                onSubmitEditing={() => this.props.submitInfo(this.state)}
+                returnKeyType='go'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
         </View>
 
         {
@@ -199,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddressStep)
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(AddressStep)

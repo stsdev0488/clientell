@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
-import {Button, Text, Spinner} from 'native-base'
+import {Button, Text, Spinner, Icon} from 'native-base'
 
 import StarRating from 'react-native-star-rating'
 // Styles
@@ -12,29 +12,33 @@ class RatingStep extends Component {
     ...this.props.initialData
   }
 
+  _handleSubmit = () => {
+    return {ratingData: this.state.initial_star_rating}
+  }
+
   render () {
 
     return (
-      <View style={{padding: 20}}>
-        <Text style={styles.sectionText}>Rate client from 1 (lowest) - 5 (highest)</Text>
-
-        <View style={styles.section}>
-          <StarRating
-            starSize={40}
-            maxStars={5}
-            rating={this.state.initial_star_rating}
-            fullStarColor='#FFD700'
-            emptyStarColor='#D6D6D6'
-            containerStyle={{}}
-            selectedStar={(initial_star_rating) => this.setState({initial_star_rating})}
-          />
+      <View style={{marginTop: 20, marginBottom: 40}}>
+        <View style={styles.formUpper}>
+          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <Text style={styles.upperText} uppercase>Rating</Text>
         </View>
 
-        <View style={styles.section}>
-          <Button disabled={this.props.fetching} block onPress={() => this.props.submitInfo(this.state.initial_star_rating)} primary>
-            {this.props.fetching === true && <Spinner />}
-            <Text>Submit</Text>
-          </Button>
+        <View style={[styles.formWrapper, {paddingLeft: 20}]}>
+          <Text style={styles.sectionText}>Rate client from 1 (lowest) - 5 (highest)</Text>
+
+          <View style={styles.section}>
+            <StarRating
+              starSize={40}
+              maxStars={5}
+              rating={this.state.initial_star_rating}
+              fullStarColor='#FFD700'
+              emptyStarColor='#D6D6D6'
+              containerStyle={{}}
+              selectedStar={(initial_star_rating) => this.setState({initial_star_rating})}
+            />
+          </View>
         </View>
       </View>
     )
@@ -52,4 +56,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RatingStep)
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(RatingStep)

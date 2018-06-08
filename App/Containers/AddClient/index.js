@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Keyboard } from 'react-native'
+import { View, Text, Keyboard, Image } from 'react-native'
 import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText, ActionSheet} from 'native-base'
 import StepIndicator from 'react-native-step-indicator'
@@ -29,31 +29,7 @@ const labelsOrg = ['Personal Info', 'Address', 'Billing', 'Rating']
 const labelsEdit = ['Personal Info', 'Address']
 const labelsOrgEdit = ['Personal Info', 'Address', 'Billing']
 
-import { Colors } from 'Themes/'
-
-const customStyles = {
-  stepIndicatorSize: 25,
-  currentStepIndicatorSize:30,
-  separatorStrokeWidth: 2,
-  currentStepStrokeWidth: 2,
-  stepStrokeCurrentColor: Colors.app2,
-  stepStrokeWidth: 2,
-  stepStrokeFinishedColor: Colors.app2,
-  stepStrokeUnFinishedColor: '#fff',
-  separatorFinishedColor: Colors.app2,
-  separatorUnFinishedColor: '#fff',
-  stepIndicatorFinishedColor: Colors.app2,
-  stepIndicatorUnFinishedColor: Colors.app,
-  stepIndicatorCurrentColor: Colors.app,
-  stepIndicatorLabelFontSize: 13,
-  currentStepIndicatorLabelFontSize: 13,
-  stepIndicatorLabelCurrentColor: '#fff',
-  stepIndicatorLabelFinishedColor: '#ffffff',
-  stepIndicatorLabelUnFinishedColor: '#fff',
-  labelColor: '#fff',
-  labelSize: 13,
-  currentStepLabelColor: '#fff'
-}
+import { Colors, Images } from 'Themes/'
 
 class AddClient extends Component {
   static navigationOptions = {
@@ -192,15 +168,39 @@ class AddClient extends Component {
     })
   }
 
+  _submitForm = () => {
+    let billingData = {}
+    const personalData = this.s1.getWrappedInstance()._submitDetails()
+    const addressData = this.s2.getWrappedInstance()._handleSubmit()
+    const ratingData = this.s4.getWrappedInstance()._handleSubmit()
+    const client = this.props.navigation.getParam('client')
+
+    if (this.s3) {
+      billingData = this.s3._handleSubmit()
+    }
+
+    this.setState(state => {
+      state.clientData = {...state.clientData, ...personalData, ...addressData, ...billingData, ...ratingData}
+
+      if (!client) {
+        this.props.addClient({...state.clientData}, 0)
+      } else {
+        this.props.addClient({...state.clientData}, client.id)
+      }
+      return state
+    })
+  }
+
   _stepPressed = (number) => {
     this.setState({currentPosition: number})
   }
 
   _renderBilling = () => {
-    if (this.state.clientType === 'organization' && this.state.currentPosition === 2) {
+    if (this.state.clientType === 'organization') {
       return (
         <Animatable.View animation='fadeInUp' duration={400}>
           <BillingStep
+            ref={r => this.s3 = r}
             initialData={this.state.billingData}
             submitInfo={
               (d) => {
@@ -216,35 +216,20 @@ class AddClient extends Component {
   }
 
   _renderRating = () => {
-    if (this.state.clientType === 'organization' && this.state.currentPosition === 3) {
-      return (
-        <Animatable.View animation='fadeInUp' duration={400}>
-          <RatingStep
-            initialData={this.state.ratingData}
-            submitInfo={
-                  (d) => {
-                    this.setState({ratingData: {initial_star_rating: d}})
-                    this.handleSubmit(d)
-                  }
+    return (
+      <Animatable.View animation='fadeInUp' duration={400}>
+        <RatingStep
+          ref={r => this.s4 = r}
+          initialData={this.state.ratingData}
+          submitInfo={
+                (d) => {
+                  this.setState({ratingData: {initial_star_rating: d}})
+                  this.handleSubmit(d)
                 }
-          />
-        </Animatable.View>
-      )
-    } else if (this.state.clientType !== 'organization' && this.state.currentPosition === 2) {
-      return (
-        <Animatable.View animation='fadeInUp' duration={400}>
-          <RatingStep
-            initialData={this.state.ratingData}
-            submitInfo={
-                  (d) => {
-                    this.setState({ratingData: {initial_star_rating: d}})
-                    this.handleSubmit(d)
-                  }
-                }
-          />
-        </Animatable.View>
-      )
-    }
+              }
+        />
+      </Animatable.View>
+    )
   }
 
   _showDeleteConfirm = () => {
@@ -279,6 +264,11 @@ class AddClient extends Component {
     if (!client) {
       stepLabels = this.state.clientType === 'individual' ? labels : labelsOrg
       sCount = this.state.clientType === 'individual' ? 3 : 4
+      subValues = {
+        title: 'Add Client',
+        rightBtnText: 'Submit',
+        rightBtnPress: () => this._submitForm()
+      }
     } else {
       stepLabels = this.state.clientType === 'individual' ? labelsEdit : labelsOrgEdit
       sCount = this.state.clientType === 'individual' ? 2 : 3
@@ -300,53 +290,46 @@ class AddClient extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           {...subValues}
         />
 
-        <StepIndicator
-          stepCount={sCount}
-          customStyles={customStyles}
-          currentPosition={this.state.currentPosition}
-          labels={stepLabels}
-          onPress={this._stepPressed}
-        />
-
-        <Content style={styles.mContainer} innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+        <Content style={[styles.mContainer]}innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
+          <View style={{textAlign: 'center', alignItems: 'center'}}>
+            <Image source={Images.user} style={styles.topImage} />
+            <NBText uppercase>Personal details</NBText>
+          </View>
+          
           <View style={[styles.section, {paddingVertical: 0, marginBottom: 0}]}>
             <ErrorRenderer error={currentErrors} />
           </View>
 
-          {this.state.currentPosition === 0 &&
-            <Animatable.View animation='fadeInUp' duration={400}>
-              <PersonalInfoStep
-                clientTypeChanged={ct => this.setState({clientType: ct})}
-                initialData={{...this.state.personalData, client_type: this.state.clientType}}
-                submitInfo={
-                  (d) => {
-                    this.setState({personalData: d})
-                    this._submitStepInfo(d)
-                  }
+          <Animatable.View animation='fadeInUp' duration={400}>
+            <PersonalInfoStep
+              ref={r => this.s1 = r}
+              clientTypeChanged={ct => this.setState({clientType: ct})}
+              initialData={{...this.state.personalData, client_type: this.state.clientType}}
+              submitInfo={
+                (d) => {
+                  this.setState({personalData: d})
+                  this._submitStepInfo(d)
                 }
-              />
-            </Animatable.View>
-          }
+              }
+            />
+          </Animatable.View>
 
-          {this.state.currentPosition === 1 &&
-            <Animatable.View animation='fadeInUp' duration={400}>
-              <AddressStep
-                initialData={this.state.addressData}
-                submitInfo={
-                  (d) => {
-                    this.setState({addressData: d})
-                    this._submitStepInfo(d)
-                  }
+          <Animatable.View animation='fadeInUp' duration={400}>
+            <AddressStep
+              ref={r => this.s2 = r}
+              initialData={this.state.addressData}
+              submitInfo={
+                (d) => {
+                  this.setState({addressData: d})
+                  this._submitStepInfo(d)
                 }
-              />
-            </Animatable.View>
-          }
+              }
+            />
+          </Animatable.View>
 
           {this._renderBilling()}
 

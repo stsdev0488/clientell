@@ -22,7 +22,7 @@ class BillingStep extends Component {
     // finalData.billing_phone_number_ext = getPhoneExtension(phone)
     finalData.billing_phone_number = phone
 
-    this.props.submitInfo(finalData)
+    return finalData
   }
 
   _validateForm = () => {
@@ -50,151 +50,154 @@ class BillingStep extends Component {
 
     return (
       <Form style={{marginTop: 20}}>
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              defaultValue={first_name}
-              onChangeText={billing_first_name => this.setState({ billing_first_name })}
-              onSubmitEditing={() => {this.middleName._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
+        <View style={styles.formUpper}>
+          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <NBText style={styles.upperText} uppercase>Billing</NBText>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Middle Name</Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              ref={ref => {this.middleName = ref}}
-              defaultValue={middle_name}
-              onChangeText={billing_middle_name => this.setState({ billing_middle_name })}
-              onSubmitEditing={() => {this.lastName._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+        <View style={styles.formWrapper}>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Label>
+              <Input
+                defaultValue={first_name}
+                onChangeText={billing_first_name => this.setState({ billing_first_name })}
+                onSubmitEditing={() => {this.middleName._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Last Name <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              ref={ref => {this.lastName = ref}}
-              defaultValue={last_name}
-              onChangeText={billing_last_name => this.setState({ billing_last_name })}
-              onSubmitEditing={() => {this.phone.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Middle Name</Label>
+              <Input
+                ref={ref => {this.middleName = ref}}
+                defaultValue={middle_name}
+                onChangeText={billing_middle_name => this.setState({ billing_middle_name })}
+                onSubmitEditing={() => {this.lastName._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Text>
-          <View style={{flexDirection: 'row'}}>
-            <Item regular style={{flex: 1}}>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Last Name <Text style={styles.sup}>*</Text></Label>
+              <Input
+                ref={ref => {this.lastName = ref}}
+                defaultValue={last_name}
+                onChangeText={billing_last_name => this.setState({ billing_last_name })}
+                onSubmitEditing={() => {this.phone.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
+
+          <View style={styles.section}>
+            <Item fixedLabel style={styles.fixedInput}>
+              <View>
+                <Label style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Label>
+              </View>
               <PhoneInput
                 ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8}}
+                style={{paddingHorizontal: 8, flex: 1}}
                 flagStyle={{width: 0, height: 0}}
-                textStyle={{height: 50}}
+                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                 value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
               />
             </Item>
+          </View>
 
-            <Item regular style={{width: 60}}>
+          <View style={styles.section}>
+            <Item  fixedLabel>
+              <Label style={styles.sectionText}>Billing Phone number ext</Label>
               <Input
-                style={{textAlign: 'center'}}
                 defaultValue={this.state.billing_phone_number_ext}
                 onChangeText={billing_phone_number_ext => this.setState({ billing_phone_number_ext })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => this.address._root.focus()}
                 returnKeyType='next'
                 placeholder='ext'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
-        </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Address Line 1 <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              ref={ref => {this.address = ref}}
-              defaultValue={street_address}
-              onChangeText={street_address => this.setState({ billing_street_address: street_address })}
-              onSubmitEditing={() => {this.address2._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Billing Address Line 1 <Text style={styles.sup}>*</Text></Label>
+              <Input
+                ref={ref => {this.address = ref}}
+                defaultValue={street_address}
+                onChangeText={street_address => this.setState({ billing_street_address: street_address })}
+                onSubmitEditing={() => {this.address2._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Billing Address Line 2</Text>
-          <Item regular>
-            <Icon active name='ios-person' />
-            <Input
-              ref={ref => {this.address2 = ref}}
-              defaultValue={street_address2}
-              onChangeText={street_address2 => this.setState({ billing_street_address2: street_address2 })}
-              onSubmitEditing={() => {this.cityInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Billing Address Line 2</Label>
+              <Input
+                ref={ref => {this.address2 = ref}}
+                defaultValue={street_address2}
+                onChangeText={street_address2 => this.setState({ billing_street_address2: street_address2 })}
+                onSubmitEditing={() => {this.cityInput._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-navigate' />
-            <Input
-              ref={ref => {this.cityInput = ref}}
-              style={styles.textarea}
-              defaultValue={city}
-              onChangeText={billing_city => this.setState({ billing_city })}
-              onSubmitEditing={() => {this.stateInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
+              <Input
+                ref={ref => {this.cityInput = ref}}
+                style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                defaultValue={city}
+                onChangeText={billing_city => this.setState({ billing_city })}
+                onSubmitEditing={() => {this.stateInput._root.focus()}}
+                returnKeyType='next'
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Text>
-          <Item regular>
-            <Icon active name='ios-navigate' />
-            <Input
-              ref={ref => {this.stateInput = ref}}
-              style={styles.textarea}
-              defaultValue={state}
-              onChangeText={billing_state => this.setState({ billing_state })}
-              onSubmitEditing={() => {this.postalInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
+              <Input
+                ref={ref => {this.stateInput = ref}}
+                style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                defaultValue={state}
+                onChangeText={billing_state => this.setState({ billing_state })}
+                onSubmitEditing={() => {this.postalInput._root.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionText}>Postal code</Text>
-          <Item regular>
-            <Icon active name='ios-navigate' />
-            <Input
-              ref={ref => {this.postalInput = ref}}
-              style={styles.textarea}
-              defaultValue={postal}
-              onChangeText={billing_postal_code => this.setState({ billing_postal_code })}
-              onSubmitEditing={() => this.props.submitInfo(this.state)}
-              returnKeyType='go'
-            />
-          </Item>
-        </View>
-
-        <View style={styles.section}>
-          <Button block onPress={() => this.handleSubmit()} disabled={fieldErrors.length > 0} primary>
-            <NBText>Submit</NBText>
-          </Button>
+          <View style={styles.section}>
+            <Text style={styles.sectionText}>Postal code</Text>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Postal code</Label>
+              <Input
+                ref={ref => {this.postalInput = ref}}
+                style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                defaultValue={postal}
+                onChangeText={billing_postal_code => this.setState({ billing_postal_code })}
+                onSubmitEditing={() => this.props.submitInfo(this.state)}
+                returnKeyType='go'
+              />
+            </Item>
+          </View>
         </View>
       </Form>
     )
@@ -211,4 +214,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BillingStep)
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(BillingStep)

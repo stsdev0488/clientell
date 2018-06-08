@@ -11,7 +11,8 @@ const images = {
   starHalf: require('Images/star-half.png'),
   starGrey: require('Images/greystar.png'),
   address: require('Images/address.png'),
-  phone: require('Images/phone.png')
+  phone: require('Images/phone.png'),
+  user: require('Images/user.png')
 }
 
 export default images

@@ -104,6 +104,7 @@ const TabNav = TabNavigator({
   AddClient: { screen: AddClient },
   Search: { screen: SearchStack }
 }, {
+  initialRouteName: 'AddClient',
   ...TabNavigator.Presets.iOSBottomTabs,
   animationEnabled: true,
   tabBarPosition: 'bottom',
