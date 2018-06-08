@@ -70,7 +70,7 @@ class Search extends Component {
           rightBtnIcon='ios-search'
           rightBtnPress={() => this._executeSearch()}
           rightBtnLoading={this.props.fetching}
-          leftBtnIcon='ios-ar row-back'
+          leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
         />
 
