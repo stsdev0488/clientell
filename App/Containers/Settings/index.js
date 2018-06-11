@@ -18,10 +18,9 @@ class Settings extends Component {
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'home'}
-        size={30}
-        style={{color: tintColor, fontSize: 35}}
-        type='FontAwesome'
+        name={'ios-home-outline'}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
       />
     )
   }
@@ -66,17 +65,19 @@ class Settings extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={[styles.contentUpperBG, {height: '50%'}]} />
-
         <SubHeaderBar
           title={user.name}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
         />
 
-        <View style={styles.centered}>
-          <Image source={avatar} style={styles.logo} />
-        </View>
-
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.centered}>
+              <Image source={avatar} style={styles.logo} />
+            </View>
+          </View>
+
           <View style={styles.section}>
             {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Input, Text, Spinner } from 'native-base'
+import { Content, Icon, Button, Item, Input, Text, Spinner, Label } from 'native-base'
 import PhoneInput from 'react-native-phone-input'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
@@ -21,10 +21,9 @@ class Search extends Component {
     tabBarLabel: 'Search Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'search'}
-        type="FontAwesome"
-        size={30}
-        style={{color: tintColor}}
+        name={'ios-search'}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
       />
     )
   }
@@ -67,42 +66,39 @@ class Search extends Component {
           leftBtnPress={() => this.props.openDrawer()}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           title='Search'
+          rightBtnIcon='ios-search'
+          rightBtnPress={() => this._executeSearch()}
+          rightBtnLoading={this.props.fetching}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
         />
 
-        <View style={styles.section}>
-          <Text uppercase style={styles.upperContentText}>By phone number</Text>
-        </View>
-
         <Content style={styles.mContainer}>
-
-          <View style={styles.section}>
-            <Text uppercase style={styles.sectionText}>Client's phone number</Text>
-            <Item regular>
-              <PhoneInput
-                ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8}}
-                textStyle={{height: 50}}
-                flagStyle={{width: 0, height: 0}}
-                onChangePhoneNumber={num => this.setState({phone: num})}
-              />
-            </Item>
-          </View>
-
           <View style={styles.section}>
             <ErrorRenderer error={this.props.error || this.state.error} />
           </View>
 
-          <View style={styles.section}>
-            <Button style={styles.appButton} primary block onPress={() => this._executeSearch()}>
-              {this.props.fetching === true && <Spinner />}
-              <Text>Search</Text>
-            </Button>
+          <View style={styles.screenTopContent}>
+            <Icon name='ios-search-outline' style={styles.topContentIcon} />
+            <Text style={styles.upperContentText} uppercase>By phone number</Text>
+          </View>
+
+          <View style={[styles.section, {marginTop: 25}]}>
+            <Item fixedLabel>
+              <View>
+                <Label style={styles.sectionText}>Phone number <Text uppercase style={styles.sup}>*</Text></Label>
+              </View>
+
+              <PhoneInput
+                ref={ref => { this.phone = ref }}
+                style={{paddingHorizontal: 8, flex: 1}}
+                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                flagStyle={{width: 0, height: 0}}
+                onChangePhoneNumber={num => this.setState({phone: num})}
+              />
+            </Item>
           </View>
         </Content>
       </View>

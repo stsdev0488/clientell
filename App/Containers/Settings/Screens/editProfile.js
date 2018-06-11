@@ -25,10 +25,9 @@ class Search extends Component {
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'home'}
-        size={30}
-        style={{color: tintColor, fontSize: 35}}
-        type='FontAwesome'
+        name={'ios-home-outline'}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
       />
     )
   }
@@ -133,8 +132,6 @@ class Search extends Component {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={[styles.contentUpperBG, {height: '50%'}]} />
-
         <SubHeaderBar
           title={'Edit Profile'}
           leftBtnIcon='ios-arrow-back'
@@ -142,8 +139,8 @@ class Search extends Component {
         />
 
         <Content style={styles.mContainer}>
-          <View style={styles.centered}>
-            <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()}>
+          <View style={[styles.centered]}>
+            <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()} style={{alignItems: 'center'}}>
               <View style={styles.logo}>
                 <Image source={this.state.image || Images.launch} />
                 {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}

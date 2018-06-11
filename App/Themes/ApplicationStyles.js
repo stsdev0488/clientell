@@ -28,10 +28,12 @@ const ApplicationStyles = {
     mContainer: {
       flex: 1,
       backgroundColor: Colors.snow,
-      marginVertical: 30,
-      marginHorizontal: 20,
+      margin: 8,
+      marginBottom: 0,
       borderColor: '#eee',
-      borderWidth: 1
+      borderWidth: 1,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
     },
 
     appText: {
@@ -95,9 +97,29 @@ const ApplicationStyles = {
       left: 20
     },
     upperContentText: {
-      fontSize: 14,
-      color: Colors.snow,
-      textAlign: 'center'
+      fontSize: 16,
+      color: Colors.text,
+      textAlign: 'center',
+      fontWeight: 'bold'
+    },
+
+    topContentImage: {
+      height: 25,
+      width: 25,
+      resizeMode: 'contain',
+      marginVertical: 20
+    },
+
+    topContentIcon: {
+      fontSize: 30,
+      color: Colors.app,
+      marginVertical: 20
+    },
+
+    screenTopContent: {
+      textAlign: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 20
     }
   },
   darkLabelContainer: {

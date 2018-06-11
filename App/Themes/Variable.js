@@ -25,7 +25,7 @@ export default {
   badgePadding: platform === "ios" ? 3 : 0,
 
   // Button
-  btnFontFamily: "SourceSansPro-Regular",
+  btnFontFamily: "SanFranciscoText-Regular",
   btnDisabledBg: "#b5b5b5",
   buttonPadding: 6,
   get btnPrimaryBg() {
@@ -104,7 +104,7 @@ export default {
   brandLight: "#f4f4f4",
 
   // Font
-  fontFamily: "SourceSansPro-Regular",
+  fontFamily: "SanFranciscoText-Regular",
   fontSizeBase: 15,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
@@ -229,7 +229,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: "SourceSansPro-Regular",
+  titleFontfamily: "SanFranciscoText-Regular",
   titleFontSize: platform === "ios" ? 17 : 19,
   subTitleFontSize: platform === "ios" ? 12 : 14,
   subtitleColor: platform === "ios" ? "#000" : "#fff",

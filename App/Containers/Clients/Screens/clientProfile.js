@@ -1,8 +1,9 @@
 import React from 'react'
-import {View, TouchableOpacity, TextInput, Keyboard} from 'react-native'
-import {Container, Content, Text as NBText, Button} from 'native-base'
+import {View, TouchableOpacity, TextInput, Keyboard, Image} from 'react-native'
+import {Container, Content, Text as NBText, Button, ActionSheet} from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
+import { Images } from 'Themes/'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -24,9 +25,7 @@ class ClientProfile extends React.PureComponent {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'users'}
-        type="FontAwesome"
-        size={40}
+        name={'ios-people-outline'}
         style={{color: tintColor, fontSize: 30}}
       />
     )
@@ -79,47 +78,28 @@ class ClientProfile extends React.PureComponent {
     return (
       <View style={styles.contacts}>
         <View style={[styles.section, styles.infoItem]}>
-          <Button
+          <TouchableOpacity
             onPress={() => Map(`${client.street_address} ${client.street_address2}, ${client.city}, ${client.state} ${client.postal_code}`)}
-            transparent
-            style={styles.btnIcon}
           >
-            <Icon name='ios-navigate' style={styles.textBtnIcon} />
-          </Button>
-          <NBText style={{flex: 1}}>{client.street_address} {client.street_address2}, {client.city}, {client.state} {client.postal_code}</NBText>
+            <NBText style={styles.infoText}>{client.street_address} {client.street_address2}, {client.city}, {client.state} {client.postal_code}</NBText>
+          </TouchableOpacity>
         </View>
+
         <View style={[styles.section, styles.infoItem]}>
-          <Button
+          <TouchableOpacity
             onPress={() => Call(client.phone_number, prompt = false)}
-            transparent
-            style={styles.btnIcon}
           >
-            <Icon name='ios-call' style={styles.textBtnIcon} />
-          </Button>
-
-          {
-            // <Button
-            //   onPress={() => Text(client.phone_number, message = false, autoEncode = true)}
-            //   transparent
-            //   style={styles.btnIcon}
-            // >
-            //   <Icon name='md-text' style={styles.textBtnIcon} />
-            // </Button>
-          }
-
-          <NBText style={{flex: 1}}>{client.phone_number}</NBText>
+            <NBText style={styles.infoText}>{client.phone_number}</NBText>
+          </TouchableOpacity>
         </View>
 
         {client.email &&
           <View style={[styles.section, styles.infoItem]}>
-            <Button
+            <TouchableOpacity
               onPress={() => Email(to = client.email, subject = false, body = false, cc = false, bcc = false)}
-              transparent
-              style={styles.btnIcon}
             >
-              <Icon name='md-mail' style={[styles.textBtnIcon,{fontSize: 28}]} />
-            </Button>
-            <NBText style={{flex: 1}}>{client.email}</NBText>
+              <NBText style={styles.infoText}>{client.email}</NBText>
+            </TouchableOpacity>
           </View>
         }
         {this.renderBillingInfo()}
@@ -132,14 +112,16 @@ class ClientProfile extends React.PureComponent {
 
     return (
       <React.Fragment>
-        <View style={{ alignSelf: 'center', width: 30 * 5 + 15 }}>
+        <View style={{ alignSelf: 'center' }}>
           <StarRating
             disabled
-            starSize={30}
+            starSize={40}
             maxStars={5}
             rating={client.avg_rating ? parseFloat(client.avg_rating) : client.initial_star_rating}
-            fullStarColor='#297fae'
-            emptyStarColor='#297fae'
+            emptyStar={Images.starGrey}
+            fullStar={Images.star}
+            halfStar={Images.starHalf}
+            starStyle={{marginRight: 5}}
           />
         </View>
         <NBText style={styles.ratingText}>{client.review_count === 0 ? 'Initial rating'.toUpperCase() : (`Average over ${client.review_count} rating`).toUpperCase()}{client.review_count > 1 ? 's'.toUpperCase() : ''}</NBText>
@@ -192,13 +174,54 @@ class ClientProfile extends React.PureComponent {
     }
   }
 
+  _showDeleteConfirm = () => {
+    const BUTTONS = ["Delete", "Cancel"]
+    const { client } = this.state
+
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: "Delete this client?"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.deleteClient(client.id)
+        }
+      }
+    )
+  }
+
+  _showOptions = () => {
+    const BUTTONS = ["Edit", "Delete", "Cancel"]
+    const { client } = this.state
+
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: 2,
+        destructiveButtonIndex: 1,
+        title: "Client options"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})
+        }
+        if (buttonIndex === 1) {
+          this._showDeleteConfirm()
+        }
+      }
+    )
+  }
+
   render () {
     const { navigate } = this.props.navigation
     const { client } = this.state
 
     const rightButton = client.user_id === this.props.user.id ? {
       rightBtnIcon: 'md-create',
-      rightBtnPress: () => this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})
+      rightBtnPress: () => this._showOptions()
     } : {}
 
     return (
@@ -210,32 +233,41 @@ class ClientProfile extends React.PureComponent {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
-          title={client.display_name}
-          subTitle={client.client_type === 'organization' ? `${client.first_name} ${client.middle_name || ''} ${client.last_name}` : null}
+          title={'Rating'}
           {...rightButton}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        {this.renderRating()}
-
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
+          <View style={{textAlign: 'center', alignItems: 'center'}}>
+            <Image source={Images.user} style={styles.topContentImage} />
+            <NBText uppercase style={styles.upperContentText}>
+              {client.client_type === 'organization' ? client.organization_name : client.name}
+            </NBText>
+          </View>
+
           {this.renderInfo()}
 
-          <Button
-            block
-            iconLeft
-            primary
-            style={[{marginBottom: 40, marginHorizontal: 10}]}
+          {this.renderRating()}
+
+          <TouchableOpacity
             onPress={() => navigate('ClientReview', {client})}
+            style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40}}
           >
-            <Icon name='ios-create-outline' />
-            <NBText>Write a new review</NBText>
-          </Button>
+            <Button
+              rounded
+              bordered
+              primary
+              style={styles.reviewIcon}
+            >
+              <Icon name='md-create' style={{marginLeft: 0, marginRight: 0, fontSize: 16}} />
+            </Button>
+
+            <NBText style={styles.writeReviewText}>Write a new review</NBText>
+          </TouchableOpacity>
 
           {this.state.reviews.length < 1 && this.props.fetchingReviews !== true &&
             <AlertMessage title="No reviews submitted for this user" />
@@ -244,7 +276,7 @@ class ClientProfile extends React.PureComponent {
           {
             this.state.reviews.map((item, i) => {
               return (
-                <Feedback key={i} data={item} />
+                <Feedback key={i} data={item} style={styles.reviewItem} />
               )
             })
           }

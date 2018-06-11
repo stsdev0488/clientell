@@ -24,18 +24,16 @@ class PersonalInfoStep extends Component {
   _renderConditionalInputs = () => {
     if (this.state.client_type === 'organization') {
       return (
-        <View>
-          <View style={styles.section}>
-            <NBText uppercase style={styles.sectionText}>Organization name <NBText uppercase style={styles.sup}>*</NBText></NBText>
-            <Item regular>
-              <Icon active name='ios-person' />
-              <Input
-                ref={ref => {this.orgInput = ref}}
-                defaultValue={this.state.organization_name}
-                onChangeText={organization_name => this.setState({ organization_name })}
-              />
-            </Item>
-          </View>
+        <View style={styles.section}>
+          <Item  fixedLabel>
+            <Label style={styles.sectionText}>Organization name <NBText uppercase style={styles.sup}>*</NBText></Label>
+            <Input
+              ref={ref => {this.orgInput = ref}}
+              defaultValue={this.state.organization_name}
+              onChangeText={organization_name => this.setState({ organization_name })}
+              style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+            />
+          </Item>
         </View>
       )
     }
@@ -54,7 +52,8 @@ class PersonalInfoStep extends Component {
     finalData.alt_phone_number = alt_phone !== altPhonePrefix ? alt_phone : ''
     // finalData.alt_phone_number_ext = getPhoneExtension(alt_phone)
 
-    this.props.submitInfo(finalData)
+    // this.props.submitInfo(finalData)
+    return finalData
   }
 
   _onChangetype = (a) => {
@@ -82,94 +81,102 @@ class PersonalInfoStep extends Component {
     const fieldErrors = this._validateForm()
     return (
       <Form style={{marginTop: 20}}>
-        <View style={styles.section}>
-          <NBText uppercase style={styles.sectionText} upperCase>Type</NBText>
-          <TouchableOpacity
-            style={{height: 50}}
-            onPress={() => this.picker.show()}
-          >
-            <NBText style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
-              {this.capitalize(this.state.client_type)}
-            </NBText>
-          </TouchableOpacity>
+        <View style={styles.formUpper}>
+          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <NBText style={styles.upperText} uppercase>Basic info</NBText>
         </View>
-
-        {this._renderConditionalInputs()}
-
-        <View>
+        
+        <View style={styles.formWrapper}>
           <View style={styles.section}>
-            <NBText uppercase style={styles.sectionText}>First name <NBText uppercase style={styles.sup}>*</NBText></NBText>
-            <Item regular>
-              <Icon active name='ios-person' />
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Type</Label>
+              <TouchableOpacity
+                style={{flex: 1, justifyContent: 'center', height: 50}}
+                onPress={() => this.picker.show()}
+              >
+                <NBText style={styles.disabledInput}>{this.capitalize(this.state.client_type)}</NBText>
+              </TouchableOpacity>
+            </Item>
+          </View>
+
+          {this._renderConditionalInputs()}
+
+          <View style={styles.section}>
+            <Item  fixedLabel>
+              <Label style={styles.sectionText}>First name <NBText uppercase style={styles.sup}>*</NBText></Label>
               <Input
                 ref={ref => {this.fnameInput = ref}}
                 defaultValue={this.state.first_name}
                 onChangeText={first_name => this.setState({ first_name })}
                 onSubmitEditing={() => {this.mnameInput._root.focus()}}
                 returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
 
           <View style={styles.section}>
-            <NBText uppercase style={styles.sectionText}>Middle name</NBText>
-            <Item regular>
-              <Icon active name='ios-person' />
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Middle name</Label>
               <Input
                 ref={ref => {this.mnameInput = ref}}
                 defaultValue={this.state.middle_name}
                 onChangeText={middle_name => this.setState({ middle_name })}
                 onSubmitEditing={() => {this.lnameInput._root.focus()}}
                 returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
 
           <View style={styles.section}>
-            <NBText uppercase style={styles.sectionText}>Last name <NBText uppercase style={styles.sup}>*</NBText></NBText>
-            <Item regular>
-              <Icon active name='ios-person' />
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Last name <NBText uppercase style={styles.sup}>*</NBText></Label>
               <Input
                 ref={ref => {this.lnameInput = ref}}
                 defaultValue={this.state.last_name}
                 onChangeText={last_name => this.setState({ last_name })}
                 onSubmitEditing={() => {this.emailInput._root.focus()}}
                 returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
-        </View>
 
-        <View style={styles.section}>
-          <NBText uppercase style={styles.sectionText}>Email</NBText>
-          <Item regular>
-            <Icon active name='ios-mail' />
-            <Input
-              ref={ref => {this.emailInput = ref}}
-              defaultValue={this.state.email}
-              onChangeText={email => this.setState({ email })}
-              keyboardType='email-address'
-              onSubmitEditing={() => {this.phone.focus()}}
-              returnKeyType='next'
-              autoCapitalize='none'
-            />
-          </Item>
-        </View>
+          <View style={styles.section}>
+            <Item fixedLabel>
+              <Label style={styles.sectionText}>Email</Label>
+              <Input
+                ref={ref => {this.emailInput = ref}}
+                defaultValue={this.state.email}
+                onChangeText={email => this.setState({ email })}
+                keyboardType='email-address'
+                onSubmitEditing={() => {this.phone.focus()}}
+                returnKeyType='next'
+                autoCapitalize='none'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
+            </Item>
+          </View>
 
-        <View style={styles.section}>
-          <NBText uppercase style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></NBText>
-          <View style={{flexDirection: 'row'}}>
-            <Item regular style={{flex: 1}}>
+          <View style={styles.section}>
+            <Item fixedLabel style={styles.fixedInput}>
+              <View>
+                <Label style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></Label>
+              </View>
               <PhoneInput
                 ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8}}
-                textStyle={{height: 50}}
+                style={{paddingHorizontal: 8, flex: 1}}
+                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                 flagStyle={{width: 0, height: 0}}
                 value={this.state.phone_number ? this.state.phone_number : '+1'}
               />
             </Item>
+          </View>
 
-            <Item regular style={{width: 60}}>
+          <View style={styles.section}>
+            <Item  fixedLabel>
+              <Label style={styles.sectionText}>Phone number extension</Label>
               <Input
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.phone_number_ext}
@@ -178,26 +185,28 @@ class PersonalInfoStep extends Component {
                 onSubmitEditing={() => {this.phone_alternate.focus()}}
                 returnKeyType='next'
                 placeholder='ext'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
-        </View>
 
-        <View style={styles.section}>
-          <NBText uppercase style={styles.sectionText}>Alternate Phone number</NBText>
-          <View style={{flexDirection: 'row'}}>
-            <Item regular style={{flex: 1}}>
+          <View style={styles.section}>
+            <Item  fixedLabel>
+              <Label style={styles.sectionText}>Alternate Phone number</Label>
               <PhoneInput
                 ref={ref => { this.phone_alternate = ref }}
-                style={{paddingHorizontal: 8}}
-                textStyle={{height: 50}}
+                style={{paddingHorizontal: 8, flex: 1}}
+                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                 flagStyle={{width: 0, height: 0}}
                 value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
               />
 
             </Item>
+          </View>
 
-            <Item regular style={{width: 60}}>
+          <View style={styles.section}>
+            <Item  fixedLabel>
+              <Label style={styles.sectionText}>Alternate Phone number extension</Label>
               <Input
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.alt_phone_number_ext}
@@ -206,20 +215,10 @@ class PersonalInfoStep extends Component {
                 onSubmitEditing={() => this._submitDetails()}
                 returnKeyType='go'
                 placeholder='ext'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
-        </View>
-
-        <View style={styles.section}>
-          <Button
-            block
-            onPress={() => this._submitDetails()}
-            primary
-            disabled={fieldErrors.length > 0}
-          >
-            <NBText uppercase>Submit</NBText>
-          </Button>
         </View>
 
         <Picker
@@ -245,4 +244,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalInfoStep)
+export default connect(mapStateToProps, mapDispatchToProps, null, {withRef: true})(PersonalInfoStep)

@@ -57,7 +57,8 @@ import ChangePassword from 'Containers/Settings/Screens/changePassword'
  */
 import {
   UserProfileModal,
-  AlertModal
+  AlertModal,
+  SearchModal
 } from 'Modals/'
 
 /**
@@ -110,18 +111,24 @@ const TabNav = TabNavigator({
   lazy: false,
   swipeEnabled: true,
   tabBarOptions: {
-    activeTintColor: '#242e64',
-    inactiveTintColor: '#adadad',
-    style: { height:60 },
+    activeTintColor: '#37b2ea',
+    inactiveTintColor: '#4b515f',
+    style: {
+      height:60,
+      borderWidth: 0,
+      backgroundColor: '#fff',
+      shadowColor: '#ddd',
+      shadowOffset: { width: 0, height: -4 },
+      shadowOpacity: 0.8,
+      elevation: -4
+    },
     tabStyle: {
       justifyContent: 'space-around',
     },
     labelStyle: {
       marginBottom: 7
     },
-    iconStyle: {
-      fontSize: 40
-    }
+    iconStyle: {}
   }
 });
 
@@ -140,6 +147,9 @@ export default StackNavigator(
     },
     AlertModal: {
       screen: AlertModal
+    },
+    SearchModal: {
+      screen: SearchModal
     },
   },
   {

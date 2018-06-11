@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text } from 'native-base'
 
@@ -16,10 +16,9 @@ class Search extends Component {
     tabBarLabel: 'Search Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'search'}
-        type="FontAwesome"
-        size={30}
-        style={{color: tintColor}}
+        name={'ios-search'}
+        size={20}
+        style={{color: tintColor, fontSize: 25}}
       />
     )
   }
@@ -37,31 +36,32 @@ class Search extends Component {
           leftBtnPress={() => this.props.openDrawer()}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           title='Search'
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
         />
 
-        <View style={styles.section}>
-          <Text uppercase style={styles.upperContentText}>How would you like to search for a client?</Text>
-        </View>
-
         <Content style={styles.mContainer}>
-          <View style={[styles.section, {marginTop: 25}]}>
-            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('PhoneSearch')}>
+          <View style={styles.screenTopContent}>
+            <Icon name='ios-search-outline' style={styles.topContentIcon} />
+            <Text style={styles.upperContentText} uppercase>How would you like to search for a client?</Text>
+          </View>
+
+          <View style={[styles.section]}>
+            <Button bordered primary block onPress={() => this.props.navigation.navigate('PhoneSearch')}>
               <Text>By phone number</Text>
             </Button>
           </View>
 
           <View style={styles.section}>
-            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('EmailSearch')}>
+            <Button bordered primary block onPress={() => this.props.navigation.navigate('EmailSearch')}>
               <Text>By email</Text>
             </Button>
           </View>
 
           <View style={styles.section}>
-            <Button style={styles.appButton} primary block onPress={() => this.props.navigation.navigate('NameAddressSearch')}>
+            <Button bordered primary block onPress={() => this.props.navigation.navigate('NameAddressSearch')}>
               <Text>By name and address</Text>
             </Button>
           </View>

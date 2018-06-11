@@ -12,15 +12,26 @@ export default StyleSheet.create({
     backgroundColor: Colors.transparent
   },
   title: {
-    ...Fonts.style.normal,
-    fontSize: 20,
-    fontWeight: 'bold',
+    ...Fonts.style.bold,
+    letterSpacing: 0.2,
+    fontSize: 15,
     color: Colors.text
+  },
+  lwrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10
   },
   ldesc: {
     ...Fonts.style.normal,
-    fontSize: 16,
-    color: Colors.text
+    fontSize: 14,
+    color: Colors.text,
+    paddingVertical: 5,
+  },
+  licon: {
+    width: 16,
+    height: 18,
+    resizeMode: 'contain'
   },
   searchbar: {
     borderRadius: 6,
@@ -55,17 +66,27 @@ export default StyleSheet.create({
   },
   section: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center', 
     justifyContent: 'space-between',
     marginBottom: 10,
+  },
+  sectionCol: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10
   },
   ratingText: {
     ...Fonts.style.normal,
     marginTop: Metrics.smallMargin,
     fontSize: 13,
-    color: Colors.snow,
+    color: Colors.text2,
     alignSelf: 'center',
     marginBottom: 10
+  },
+  infoText: {
+    color: Colors.text2,
+    fontSize: 16
   },
   infoItem: {
     flexDirection: 'row',
@@ -141,11 +162,12 @@ export default StyleSheet.create({
     ...Fonts.style.normal,
     color: Colors.app,
     fontSize: 16,
-    marginRight: Metrics.baseMargin
+    marginRight: Metrics.baseMargin,
+    textAlign: 'center'
   },
   billingValue: {
     ...Fonts.style.normal,
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 14,
     flex: 1
   },
@@ -154,5 +176,20 @@ export default StyleSheet.create({
     fontSize: 24,
     color: Colors.snow,
     textAlign: 'center'
+  },
+  writeReviewText: {
+    fontSize: 14,
+    color: Colors.text2,
+    marginLeft: 10
+  },
+  reviewIcon: {
+    width: 25,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  reviewItem: {
+    shadowColor: '#fff',
+    backgroundColor: Colors.scheme3
   }
 })

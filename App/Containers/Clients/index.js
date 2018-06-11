@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import { Body, Subtitle, Item, Input, ListItem, Text as NBText } from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
+import { Images } from 'Themes/'
 import StarRating from 'react-native-star-rating'
 import AlertMessage from 'Components/AlertMessage'
-import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 // Redux
@@ -21,9 +21,7 @@ class Clients extends React.PureComponent {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'users'}
-        type="FontAwesome"
-        size={40}
+        name={'ios-people-outline'}
         style={{color: tintColor, fontSize: 30}}
       />
     )
@@ -41,12 +39,6 @@ class Clients extends React.PureComponent {
   }
 
   componentWillReceiveProps (newProps) {
-    if (!newProps.filtering && this.props.filtering) {
-      if (newProps.filteredData) {
-        this.setState({dataObjects: newProps.filteredData.data})
-      }
-    }
-
     if (!newProps.fetching && this.props.fetching) {
       if (newProps.clientsData && !newProps.error) {
         if (newProps.pagination.current_page === 1) {
@@ -80,8 +72,19 @@ class Clients extends React.PureComponent {
           </View>
           <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
             <View style={{maxWidth: '50%'}}>
-              <NBText note style={styles.ldesc}>{item.phone_number}</NBText>
-              <NBText note style={styles.ldesc}>{item.street_address}, {item.city} {item.state}</NBText>
+              <View style={styles.lwrap}>
+                <Image source={Images.phone} style={styles.licon} />
+                <NBText note style={styles.ldesc}>
+                  {item.phone_number}
+                </NBText>
+              </View>
+
+              <View style={styles.lwrap}>
+                <Image source={Images.address} style={styles.licon} />
+                <NBText note style={styles.ldesc}>
+                  {item.street_address}, {item.city} {item.state}
+                </NBText>
+              </View>
             </View>
 
             <View style={{alignSelf: 'center'}}>
@@ -90,8 +93,10 @@ class Clients extends React.PureComponent {
                 starSize={25}
                 maxStars={5}
                 rating={item.avg_rating ? parseFloat(item.avg_rating) : item.initial_star_rating}
-                fullStarColor='#297fae'
-                emptyStarColor='#297fae'
+                emptyStar={Images.starGrey}
+                fullStar={Images.star}
+                halfStar={Images.starHalf}
+                starStyle={{marginRight: 3}}
               />
             </View>
           </View>
@@ -103,7 +108,7 @@ class Clients extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
-    if (this.props.fetching || this.props.filtering) {
+    if (this.props.fetching) {
       return (
         <AlertMessage
           title='Fetching clients...'
@@ -168,7 +173,7 @@ class Clients extends React.PureComponent {
     if (displayLen < fullDataLen) {
       display = `Showing ${displayLen} of ${fullDataLen} clients`
     }
-    return <Subtitle style={{color: '#8e8f90'}}>{display}</Subtitle>
+    return display
   }
 
   _onRefresh = () => {
@@ -207,22 +212,15 @@ class Clients extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           title={'Client List'}
+          subTitle={this._clientCountDisplay()}
           scrollOffsetY={this.state.scrollOffsetY}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
+          rightBtnIcon='search'
+          rightBtnPress={() => this.props.navigation.navigate('SearchModal')}
         />
-
-        {this._clientCountDisplay()}
-        {this._renderSearchBar()}
 
         <View style={styles.mContainer}>
           <FlatList
@@ -249,9 +247,6 @@ const mapStateToProps = (state) => {
     fetching: state.client.fetching,
     clientsData: state.client.data || {},
     pagination: state.client.pagination || null,
-    filteredData: state.search.filteredClient,
-    filtering: state.search.filtering,
-    filteredPagination: state.search.pagination || null,
     error: state.client.error
   }
 }

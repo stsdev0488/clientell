@@ -4,9 +4,16 @@ import { ApplicationStyles, Metrics, Colors, Fonts } from 'Themes'
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container: {
-    borderTopWidth: 1,
-    borderTopColor: Colors.steel,
-    padding: Metrics.doubleBaseMargin
+    padding: Metrics.doubleBaseMargin,
+    backgroundColor: Colors.snow,
+    marginBottom: 8,
+    marginHorizontal: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#eee'
   },
   header: {
     flexDirection: 'row',
@@ -21,13 +28,15 @@ export default StyleSheet.create({
   },
   rateLabel: {
     ...Fonts.style.normal,
-    marginRight: Metrics.smallMargin,
     fontSize: 12,
-    color: '#999'
+    color: '#999',
+    paddingLeft: 12,
+    paddingRight: 12
   },
   rateIcon: {
     color: '#999',
-    fontSize: 20
+    fontSize: 20,
+    marginLeft: 8
   },
   thumbsUp: {
     color: '#00ff00'
@@ -37,24 +46,26 @@ export default StyleSheet.create({
   },
   date: {
     ...Fonts.style.normal,
-    color: '#999',
-    fontSize: 11
+    color: Colors.text2,
+    fontSize: 11,
+    textAlign: 'right'
   },
   author: {
-    color: '#999',
-    fontSize: 14
+    color: Colors.text2,
+    fontSize: 12
   },
   authorName: {
     ...Fonts.style.normal,
-    color: '#333',
+    color: Colors.text2,
     fontWeight: '700',
-    fontSize: 14
+    fontSize: 12
   },
   feedback: {
     ...Fonts.style.normal,
     marginTop: 15,
-    color: '#333',
-    fontSize: 16,
+    marginBottom: 15,
+    color: Colors.text,
+    fontSize: 14,
     lineHeight: 20
   },
   authorBox: {
@@ -69,12 +80,18 @@ export default StyleSheet.create({
     fontSize: 24
   },
   basicData: {
-    color: '#333',
+    color: Colors.app,
     fontWeight: '700',
     fontSize: 14,
     marginBottom: 4
   },
   left: {
     flex: 1
+  },
+  ratings: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 15
   }
 })

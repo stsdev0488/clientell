@@ -9,15 +9,24 @@ export default StyleSheet.create({
   },
 
   logo: {
-    marginTop: 20,
     height: 90,
     width: 90,
     position: 'relative',
-    borderRadius: 45
+    borderRadius: 45,
+    alignSelf: 'center'
   },
 
   centered: {
-    alignItems: 'center'
+    marginTop: 25,
+    marginBottom: 10,
+    height: 90,
+    width: 90,
+    borderRadius: 45,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    alignSelf: 'center',
+    overflow: 'hidden'
   },
 
   contactIcons: {

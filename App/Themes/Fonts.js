@@ -1,7 +1,7 @@
 const type = {
-  base: 'SourceSansPro-Regular',
-  bold: 'SourceSansPro-Bold',
-  emphasis: 'SourceSansPro-Italic'
+  base: 'SanFranciscoText-Regular',
+  bold: 'SanFranciscoText-Bold',
+  emphasis: 'SanFranciscoText-Semibold'
 }
 
 const size = {
