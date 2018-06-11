@@ -30,7 +30,8 @@ const colors = {
   etext: '#721c24',
   wtext: '#856404',
   scheme1: '#59beea',
-  scheme2: '#2888c9'
+  scheme2: '#2888c9',
+  scheme3: '#f5f8f9'
 }
 
 export default colors

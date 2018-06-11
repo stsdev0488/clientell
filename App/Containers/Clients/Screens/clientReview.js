@@ -26,9 +26,7 @@ class clientReview extends React.PureComponent {
     tabBarLabel: 'Clients',
     tabBarIcon: ({ tintColor }) => (
       <Icon
-        name={'users'}
-        type="FontAwesome"
-        size={40}
+        name={'ios-people-outline'}
         style={{color: tintColor, fontSize: 30}}
       />
     )

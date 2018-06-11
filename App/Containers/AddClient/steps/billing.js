@@ -14,7 +14,7 @@ class BillingStep extends Component {
     ...this.props.initialData
   }
 
-  handleSubmit () {
+  _handleSubmit () {
     Keyboard.dismiss()
     const phone = this.phone.getValue();
     let finalData = {...this.state}

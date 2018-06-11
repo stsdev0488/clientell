@@ -74,9 +74,13 @@ export default StyleSheet.create({
     ...Fonts.style.normal,
     marginTop: Metrics.smallMargin,
     fontSize: 13,
-    color: Colors.snow,
+    color: Colors.text2,
     alignSelf: 'center',
     marginBottom: 10
+  },
+  infoText: {
+    color: Colors.text2,
+    fontSize: 16
   },
   infoItem: {
     flexDirection: 'row',
@@ -152,11 +156,12 @@ export default StyleSheet.create({
     ...Fonts.style.normal,
     color: Colors.app,
     fontSize: 16,
-    marginRight: Metrics.baseMargin
+    marginRight: Metrics.baseMargin,
+    textAlign: 'center'
   },
   billingValue: {
     ...Fonts.style.normal,
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 14,
     flex: 1
   },
@@ -165,5 +170,20 @@ export default StyleSheet.create({
     fontSize: 24,
     color: Colors.snow,
     textAlign: 'center'
+  },
+  writeReviewText: {
+    fontSize: 14,
+    color: Colors.text2,
+    marginLeft: 10
+  },
+  reviewIcon: {
+    width: 25,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  reviewItem: {
+    shadowColor: '#fff',
+    backgroundColor: Colors.scheme3
   }
 })

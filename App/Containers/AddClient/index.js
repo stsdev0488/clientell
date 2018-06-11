@@ -32,16 +32,21 @@ const labelsOrgEdit = ['Personal Info', 'Address', 'Billing']
 import { Colors, Images } from 'Themes/'
 
 class AddClient extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Add Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-person-add-outline'}
-        size={20}
-        style={{color: tintColor, fontSize: 30}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const client = navigation.getParam('client')
+    return {
+      tabBarLabel: !client ? 'Add Clients' : 'Clients',
+        tabBarIcon: ({ tintColor }) => {
+        return (
+          <Icon
+            name={!client ? 'ios-person-add-outline' : 'ios-people-outline'}
+            size={20}
+            style={{color: tintColor, fontSize: 30}}
+          />
+        )
+      }
+    }
+  })
 
   constructor (props) {
     super(props)
@@ -175,7 +180,7 @@ class AddClient extends Component {
     const client = this.props.navigation.getParam('client')
 
     if (this.s3) {
-      billingData = this.s3._handleSubmit()
+      billingData = this.s3.getWrappedInstance()._handleSubmit()
     }
 
     this.setState(state => {
@@ -240,7 +245,7 @@ class AddClient extends Component {
         options: BUTTONS,
         cancelButtonIndex: 1,
         destructiveButtonIndex: 0,
-        title: "Delete this review?"
+        title: "Delete this client?"
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -266,6 +271,7 @@ class AddClient extends Component {
       subValues = {
         title: 'Add Client',
         rightBtnText: 'Submit',
+        rightBtnLoading: this.props.fetching,
         rightBtnPress: () => this._submitForm()
       }
     } else {
@@ -273,8 +279,9 @@ class AddClient extends Component {
       sCount = this.state.clientType === 'individual' ? 2 : 3
       subValues = {
         title: 'Edit Client',
-        rightBtnIcon: 'ios-trash',
-        rightBtnPress: () => this._showDeleteConfirm(),
+        rightBtnText: 'Submit',
+        rightBtnPress: () => this._submitForm(),
+        rightBtnLoading: this.props.fetching,
         leftBtnIcon: 'ios-arrow-back',
         leftBtnPress: () => this.props.navigation.goBack(null)
       }

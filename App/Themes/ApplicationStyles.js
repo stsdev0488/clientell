@@ -99,7 +99,8 @@ const ApplicationStyles = {
     upperContentText: {
       fontSize: 16,
       color: Colors.text,
-      textAlign: 'center'
+      textAlign: 'center',
+      fontWeight: 'bold'
     },
 
     topContentImage: {

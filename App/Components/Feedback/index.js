@@ -112,7 +112,7 @@ class Feedback extends Component {
     const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <View style={styles.header}>
           {this.renderLeftCol()}
           {this.renderRightCol()}

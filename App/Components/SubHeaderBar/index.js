@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { TouchableOpacity, Text, View } from 'react-native'
-import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon as NBIcon} from 'native-base'
+import {Header, Right, Left, Body, Title, Subtitle, Button, Text as NBText, Icon as NBIcon, Spinner} from 'native-base'
 import styles from './styles'
 import LinearGradient from 'react-native-linear-gradient'
 import {Colors} from 'Themes/'
@@ -38,9 +38,9 @@ export default class FullButton extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (newProps.rightBtnLoading && !this.props.rightBtnLoading) {
+    if (newProps.rightBtnLoading && !this.props.rightBtnLoading && this.rIcon) {
       this.rIcon.customPulse()
-    } else if (!newProps.rightBtnLoading && this.props.rightBtnLoading){
+    } else if (!newProps.rightBtnLoading && this.props.rightBtnLoading && this.rIcon){
       this.rIcon.stopAnimation()
     }
   }
@@ -90,8 +90,9 @@ export default class FullButton extends Component {
               <Button
                 style={styles.headerBtnItem}
                 onPress={rightBtnPress}
-                transparent
                 {...rightAdditional}
+                disabled={rightBtnLoading}
+                transparent
               >
                 {!!rightBtnIcon &&
                   <Icon
@@ -105,10 +106,12 @@ export default class FullButton extends Component {
                 }
 
                 {!!rightBtnText &&
-                  <NBText style={styles.btnText}>
+                  <NBText style={[styles.btnText, {paddingRight: rightBtnLoading ? 5 : 10}]}>
                     {rightBtnText}
                   </NBText>
                 }
+
+                {!!rightBtnLoading && !!rightBtnText && <Spinner style={{paddingRight: 10}} size='small' color='#ddd' />}
               </Button>
             }
             {
