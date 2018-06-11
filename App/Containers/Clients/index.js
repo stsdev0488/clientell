@@ -216,6 +216,8 @@ class Clients extends React.PureComponent {
           title={'Client List'}
           subTitle={this._clientCountDisplay()}
           scrollOffsetY={this.state.scrollOffsetY}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
           rightBtnIcon='search'
           rightBtnPress={() => this.props.navigation.navigate('SearchModal')}
         />

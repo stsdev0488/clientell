@@ -271,6 +271,8 @@ class AddClient extends Component {
       subValues = {
         title: 'Add Client',
         rightBtnText: 'Submit',
+        leftBtnIcon:'ios-menu',
+        leftBtnPress:() => this.props.openDrawer(),
         rightBtnLoading: this.props.fetching,
         rightBtnPress: () => this._submitForm()
       }

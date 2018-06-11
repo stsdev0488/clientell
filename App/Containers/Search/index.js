@@ -38,6 +38,8 @@ class Search extends Component {
 
         <SubHeaderBar
           title='Search'
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
         />
 
         <Content style={styles.mContainer}>

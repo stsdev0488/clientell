@@ -67,6 +67,8 @@ class Settings extends Component {
 
         <SubHeaderBar
           title={user.name}
+          leftBtnIcon='ios-menu'
+          leftBtnPress={() => this.props.openDrawer()}
         />
 
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>

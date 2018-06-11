@@ -12,7 +12,8 @@ export default StyleSheet.create({
     height: 90,
     width: 90,
     position: 'relative',
-    borderRadius: 45
+    borderRadius: 45,
+    alignSelf: 'center'
   },
 
   centered: {
@@ -24,6 +25,8 @@ export default StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
+    alignSelf: 'center',
+    overflow: 'hidden'
   },
 
   contactIcons: {
