@@ -66,9 +66,15 @@ export default StyleSheet.create({
   },
   section: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center', 
     justifyContent: 'space-between',
     marginBottom: 10,
+  },
+  sectionCol: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10
   },
   ratingText: {
     ...Fonts.style.normal,

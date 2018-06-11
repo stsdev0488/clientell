@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, TouchableOpacity, TextInput} from 'react-native'
+import {View, TouchableOpacity, TextInput, Image} from 'react-native'
 import {Container, Content, Text as NBText, Button, Icon, ActionSheet,Spinner} from 'native-base'
 import { connect } from 'react-redux'
 
@@ -14,7 +14,7 @@ import moment from 'moment'
 import StarRating from 'react-native-star-rating'
 import ThumbsRating from 'Components/ThumbsRating'
 // Styles
-import {Colors} from 'Themes'
+import {Colors, Images} from 'Themes'
 import styles from '../styles'
 
 import { parseClientAddress } from 'Lib/Utils'
@@ -128,8 +128,11 @@ class clientReview extends React.PureComponent {
 
   renderClientHeader = () => {
     return (
-      <View>
-        <NBText style={styles.upperTitle}>{this.client.display_name}</NBText>
+      <View style={{textAlign: 'center', alignItems: 'center', marginBottom: 25}}>
+        <Image source={Images.user} style={styles.topContentImage} />
+        <NBText uppercase style={styles.upperContentText}>
+          {this.client.display_name}
+        </NBText>
         <NBText style={styles.ratingText}>{parseClientAddress(this.client).toUpperCase()}</NBText>
       </View>
     )
@@ -150,8 +153,6 @@ class clientReview extends React.PureComponent {
           scrollOffsetY={this.state.scrollOffsetY}
         />
 
-        <View style={styles.contentUpperBG} />
-
         <SubHeaderBar
           // topTitle={this.review.id ? 'Edit Review for' : 'New Review'}
           title={this.review.id ? 'Edit Review' : 'New Review'}
@@ -162,10 +163,10 @@ class clientReview extends React.PureComponent {
           {...deleteReviewBtn}
         />
 
-        {this.renderClientHeader()}
-
         <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
-          <View style={[styles.section]}>
+          {this.renderClientHeader()}
+
+          <View style={[styles.sectionCol]}>
             <NBText style={[styles.formLabel]}>{`Overall rating`.toUpperCase()}</NBText>
             <StarRating
               disabled={false}
@@ -173,14 +174,16 @@ class clientReview extends React.PureComponent {
               starSize={35}
               rating={this.state.rating}
               selectedStar={rating => this.setState({rating})}
-              fullStarColor='#297fae'
-              emptyStarColor='#297fae'
+              emptyStar={Images.starGrey}
+              fullStar={Images.star}
+              halfStar={Images.starHalf}
+              starStyle={{marginRight: 2}}
               containerStyle={{marginTop: 5}}
               buttonStyle={{marginHorizontal: 2}}
             />
           </View>
 
-          <View style={styles.section}>
+          <View style={styles.sectionCol}>
             <DTPicker
               visible={this.state.datepickerVisible}
               date={this.state.date}
@@ -196,7 +199,7 @@ class clientReview extends React.PureComponent {
             />
           </View>
 
-          <View style={[styles.section]}>
+          <View style={[styles.sectionCol]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
                 <NBText style={styles.thumbRateLabel}>{`Payment Rating`.toUpperCase()}</NBText>
@@ -208,7 +211,7 @@ class clientReview extends React.PureComponent {
             </View>
           </View>
           
-          <View style={[styles.section]}>
+          <View style={[styles.sectionCol]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
                 <NBText style={styles.thumbRateLabel}>{`Character Rating`.toUpperCase()}</NBText>
@@ -221,7 +224,7 @@ class clientReview extends React.PureComponent {
             </View>
           </View>
           
-          <View style={[styles.section]}>
+          <View style={[styles.sectionCol]}>
             <View style={[styles.inlineField, styles.thumbRating]}>
               <View style={styles.labelBox}>
                 <NBText style={styles.thumbRateLabel}>{`Repeat Rating`.toUpperCase()}</NBText>
@@ -233,7 +236,7 @@ class clientReview extends React.PureComponent {
             </View>
           </View>
 
-          <View style={[styles.section, {flexDirection: 'column'}]}>
+          <View style={[styles.sectionCol, {flexDirection: 'column'}]}>
             <NBText style={[styles.formLabel, {alignSelf: 'flex-start', fontWeight: 'bold'}]}>{`Enter comment (${this.state.charRemaining} characters remaining)`.toUpperCase()}</NBText>
             <TextInput
               multiline
