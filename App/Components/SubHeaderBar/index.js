@@ -51,7 +51,7 @@ export default class FullButton extends Component {
 
     let height = 90
     if (topTitle) height += 20
-    if (subTitle) height += 20
+    // if (subTitle) height += 20
     const rightAdditional = {
       hasText: !!rightBtnText
     }

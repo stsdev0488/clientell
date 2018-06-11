@@ -49,6 +49,7 @@ class Search extends Component {
 
         <SubHeaderBar
           title='Search Results'
+          subTitle={this.navParams.searchKey}
           leftBtnIcon='ios-arrow-back'
           leftBtnPress={() => this.props.navigation.goBack(null)}
         />

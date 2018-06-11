@@ -57,7 +57,8 @@ import ChangePassword from 'Containers/Settings/Screens/changePassword'
  */
 import {
   UserProfileModal,
-  AlertModal
+  AlertModal,
+  SearchModal
 } from 'Modals/'
 
 /**
@@ -146,6 +147,9 @@ export default StackNavigator(
     },
     AlertModal: {
       screen: AlertModal
+    },
+    SearchModal: {
+      screen: SearchModal
     },
   },
   {

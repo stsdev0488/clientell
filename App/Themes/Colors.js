@@ -25,6 +25,8 @@ const colors = {
   banner: '#5F3E63',
   text: '#4b515f',
   text2: '#81858f',
+  text3: '#f4f4f5',
+  text4: '#cacbd0',
   errorOpacity: '#f8d7da',
   warningOpacity: '#856404',
   etext: '#721c24',

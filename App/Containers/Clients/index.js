@@ -39,12 +39,6 @@ class Clients extends React.PureComponent {
   }
 
   componentWillReceiveProps (newProps) {
-    if (!newProps.filtering && this.props.filtering) {
-      if (newProps.filteredData) {
-        this.setState({dataObjects: newProps.filteredData.data})
-      }
-    }
-
     if (!newProps.fetching && this.props.fetching) {
       if (newProps.clientsData && !newProps.error) {
         if (newProps.pagination.current_page === 1) {
@@ -114,7 +108,7 @@ class Clients extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
-    if (this.props.fetching || this.props.filtering) {
+    if (this.props.fetching) {
       return (
         <AlertMessage
           title='Fetching clients...'
@@ -179,7 +173,7 @@ class Clients extends React.PureComponent {
     if (displayLen < fullDataLen) {
       display = `Showing ${displayLen} of ${fullDataLen} clients`
     }
-    return <Subtitle style={{color: '#8e8f90'}}>{display}</Subtitle>
+    return display
   }
 
   _onRefresh = () => {
@@ -220,7 +214,10 @@ class Clients extends React.PureComponent {
       <View style={styles.container}>
         <SubHeaderBar
           title={'Client List'}
+          subTitle={this._clientCountDisplay()}
           scrollOffsetY={this.state.scrollOffsetY}
+          rightBtnIcon='search'
+          rightBtnPress={() => this.props.navigation.navigate('SearchModal')}
         />
 
         <View style={styles.mContainer}>
@@ -248,9 +245,6 @@ const mapStateToProps = (state) => {
     fetching: state.client.fetching,
     clientsData: state.client.data || {},
     pagination: state.client.pagination || null,
-    filteredData: state.search.filteredClient,
-    filtering: state.search.filtering,
-    filteredPagination: state.search.pagination || null,
     error: state.client.error
   }
 }

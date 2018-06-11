@@ -26,7 +26,8 @@ export default StyleSheet.create({
   },
 
   subTitle: {
-    fontSize: 15
+    fontSize: 14,
+    fontWeight: 'bold'
   },
 
   scrolledStyles: {
