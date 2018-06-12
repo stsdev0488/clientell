@@ -21,15 +21,23 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from '../styles'
 
 class ClientProfile extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: 'Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-people-outline'}
-        style={{color: tintColor, fontSize: 30}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-people-outline'}
+          style={{color: tintColor, fontSize: 30}}
+        />
+      ),
+      header: () => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   state = {
     scrollOffsetY: 0,
@@ -41,6 +49,18 @@ class ClientProfile extends React.PureComponent {
   componentDidMount () {
     const { client } = this.props.navigation.state.params
     this.props.getClient(client.id)
+
+    const rightButton = client.user_id === this.props.user.id ? {
+      rightBtnIcon: 'md-create',
+      rightBtnPress: () => this._showOptions()
+    } : {}
+
+    this.props.navigation.setParams({
+      title: 'Rating',
+      ...rightButton,
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
+    })
   }
 
   componentWillReceiveProps (newProps) {
@@ -219,28 +239,8 @@ class ClientProfile extends React.PureComponent {
     const { navigate } = this.props.navigation
     const { client } = this.state
 
-    const rightButton = client.user_id === this.props.user.id ? {
-      rightBtnIcon: 'md-create',
-      rightBtnPress: () => this._showOptions()
-    } : {}
-
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <SubHeaderBar
-          title={'Rating'}
-          {...rightButton}
-          leftBtnIcon='ios-arrow-back'
-          leftBtnPress={() => this.props.navigation.goBack(null)}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           <View style={{textAlign: 'center', alignItems: 'center'}}>
             <Image source={Images.user} style={styles.topContentImage} />
@@ -302,6 +302,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getClient: (id) => dispatch(ClientActions.getSpecificClient(id)),
+    deleteClient: (id) => {dispatch(ClientActions.deleteClient(id))},
     getClientReviews: (value) => dispatch(SearchActions.search2Request(value)),
     openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }

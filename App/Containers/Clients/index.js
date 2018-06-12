@@ -17,15 +17,23 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from './styles'
 
 class Clients extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: 'Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-people-outline'}
-        style={{color: tintColor, fontSize: 30}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-people-outline'}
+          style={{color: tintColor, fontSize: 30}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   state = {
     dataObjects: [],
@@ -36,6 +44,14 @@ class Clients extends React.PureComponent {
 
   componentDidMount () {
     this.props.clients()
+
+    this.props.navigation.setParams({
+      title: 'Client List',
+      leftBtnIcon: 'ios-menu',
+      leftBtnPress: () => this.props.openDrawer(),
+      rightBtnIcon: 'search',
+      rightBtnPress: () => this.props.navigation.navigate('SearchModal')
+    })
   }
 
   componentWillReceiveProps (newProps) {
@@ -48,16 +64,21 @@ class Clients extends React.PureComponent {
             this.props.clearFilter()
 
             this.dataBeforeFilter = state.dataObjects
+
+            // update header client count
+            this.props.navigation.setParams({subTitle: this._clientCountDisplay(newProps)})
             return state
           })
         } else {
           this.setState(state => {
             state.dataObjects = [...state.dataObjects, ...newProps.clientsData.data]
-
             this.dataBeforeFilter = state.dataObjects
+            // update header client count
+            this.props.navigation.setParams({subTitle: this._clientCountDisplay(newProps)})
             return state
           })
         }
+
       }
     }
   }
@@ -154,19 +175,19 @@ class Clients extends React.PureComponent {
     this.handleSearchInput('')
   }
 
-  _clientCountDisplay = () => {
+  _clientCountDisplay = (props) => {
     let fullDataLen = 0
 
-    if (this.props.pagination) {
-      fullDataLen = this.props.pagination.total
+    if (props.pagination) {
+      fullDataLen = props.pagination.total
     }
 
     let displayLen = 0
 
-    if (this.props.filteredPagination) {
-      displayLen = this.props.filteredPagination.total
-    } else if (this.props.pagination) {
-      displayLen = this.props.pagination.total
+    if (props.filteredPagination) {
+      displayLen = props.filteredPagination.total
+    } else if (props.pagination) {
+      displayLen = props.pagination.total
     }
 
     let display = `${fullDataLen} client${fullDataLen !== 1 ? 's' : ''}`
@@ -212,16 +233,6 @@ class Clients extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <SubHeaderBar
-          title={'Client List'}
-          subTitle={this._clientCountDisplay()}
-          scrollOffsetY={this.state.scrollOffsetY}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          rightBtnIcon='search'
-          rightBtnPress={() => this.props.navigation.navigate('SearchModal')}
-        />
-
         <View style={styles.mContainer}>
           <FlatList
             contentContainerStyle={[styles.listContent]}

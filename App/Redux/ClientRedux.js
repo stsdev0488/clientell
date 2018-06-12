@@ -16,7 +16,8 @@ const { Types, Creators } = createActions({
   deleteClient: ['id'],
   deleteClientSuccess: null,
   deleteClientFailure: null,
-  clientReset: null
+  clientReset: null,
+  clearFormErrors: null
 })
 
 export const ClientTypes = Types
@@ -109,6 +110,8 @@ export const deleteFailure = state =>
   state.merge({ deleting: false, deleteError: true })
 
 export const clientsReset = (state: Object) => INITIAL_STATE
+export const clearFormErrors = (state: Object) =>
+  state.merge({ addError: null })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -125,5 +128,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.DELETE_CLIENT]: deleteRequest,
   [Types.DELETE_CLIENT_SUCCESS]: deleteSuccess,
   [Types.DELETE_CLIENT_FAILURE]: deleteFailure,
-  [Types.CLIENT_RESET]: clientsReset
+  [Types.CLIENT_RESET]: clientsReset,
+  [Types.CLEAR_FORM_ERRORS]: clearFormErrors
 })

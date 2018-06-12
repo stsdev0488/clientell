@@ -14,16 +14,24 @@ import moment from 'moment'
 import {Call, Email, Text as SMSText, Web, Twitter, Facebook} from 'react-native-openanything'
 
 class Settings extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-home-outline'}
-        size={20}
-        style={{color: tintColor, fontSize: 25}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name={'ios-home-outline'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   state = {
     menuActive: false,
@@ -34,6 +42,14 @@ class Settings extends Component {
   //   super(props)
   //   this.state = {}
   // }
+  
+  componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Home',
+      leftBtnIcon: 'ios-menu',
+      leftBtnPress: () => this.props.openDrawer()
+    })
+  }
 
   _signOut = async () => {
     ActionSheet.show(
@@ -56,23 +72,12 @@ class Settings extends Component {
   render () {
     const {user} = this.props
     const avatar = user.avatar_path ? {uri: user.avatar_path} : Images.launch
+
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <SubHeaderBar
-          title={user.name}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-        />
-
         <Content onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           <View style={{alignItems: 'center'}}>
+            <Text style={[styles.subTitleText, {marginTop: 30}]}>{user.name}</Text>
             <View style={styles.centered}>
               <Image source={avatar} style={styles.logo} />
             </View>

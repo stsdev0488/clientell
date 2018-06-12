@@ -34,6 +34,8 @@ import { Colors, Images } from 'Themes/'
 class AddClient extends Component {
   static navigationOptions = (({navigation}) => {
     const client = navigation.getParam('client')
+    const params = navigation.state.params
+
     return {
       tabBarLabel: !client ? 'Add Clients' : 'Clients',
         tabBarIcon: ({ tintColor }) => {
@@ -43,6 +45,11 @@ class AddClient extends Component {
             size={20}
             style={{color: tintColor, fontSize: 30}}
           />
+        )
+      },
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
         )
       }
     }
@@ -58,8 +65,42 @@ class AddClient extends Component {
     }
   }
 
+  componentDidMount () {
+    const client = this.props.navigation.getParam('client')
+    this.props.clearFormErrors()
+
+    let subValues = {
+      title: 'Add Client'
+    }
+
+    if (!client) {
+      subValues = {
+        title: 'Add Client',
+        rightBtnText: 'Submit',
+        leftBtnIcon:'ios-menu',
+        rightBtnLoading: false,
+        leftBtnPress:() => this.props.openDrawer(),
+        rightBtnPress: () => this._submitForm()
+      }
+    } else {
+      subValues = {
+        title: 'Edit Client',
+        rightBtnText: 'Submit',
+        rightBtnPress: () => this._submitForm(),
+        rightBtnLoading: false,
+        leftBtnIcon: 'ios-arrow-back',
+        leftBtnPress: () => this.props.navigation.goBack(null)
+      }
+    }
+
+    this.props.navigation.setParams({
+      ...subValues
+    })
+  }
+
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
+      this.props.navigation.setParams({rightBtnLoading: false})
       if (!newProps.error) {
         const client = this.props.navigation.getParam('client')
         if (!client) {
@@ -134,7 +175,7 @@ class AddClient extends Component {
     }
   }
 
-  handleSubmit (initialRating) {
+  handleSubmit = (initialRating) => {
     Keyboard.dismiss()
 
     const client = this.props.navigation.getParam('client')
@@ -183,6 +224,7 @@ class AddClient extends Component {
       billingData = this.s3.getWrappedInstance()._handleSubmit()
     }
 
+    this.props.navigation.setParams({rightBtnLoading: true})
     this.setState(state => {
       state.clientData = {...state.clientData, ...personalData, ...addressData, ...billingData, ...ratingData}
 
@@ -261,47 +303,17 @@ class AddClient extends Component {
     const currentErrors = errors[this.state.currentPosition] || null
     let stepLabels
     let sCount
-    let subValues = {
-      title: 'Add Client'
-    }
 
     if (!client) {
       stepLabels = this.state.clientType === 'individual' ? labels : labelsOrg
       sCount = this.state.clientType === 'individual' ? 3 : 4
-      subValues = {
-        title: 'Add Client',
-        rightBtnText: 'Submit',
-        leftBtnIcon:'ios-menu',
-        leftBtnPress:() => this.props.openDrawer(),
-        rightBtnLoading: this.props.fetching,
-        rightBtnPress: () => this._submitForm()
-      }
     } else {
       stepLabels = this.state.clientType === 'individual' ? labelsEdit : labelsOrgEdit
       sCount = this.state.clientType === 'individual' ? 2 : 3
-      subValues = {
-        title: 'Edit Client',
-        rightBtnText: 'Submit',
-        rightBtnPress: () => this._submitForm(),
-        rightBtnLoading: this.props.fetching,
-        leftBtnIcon: 'ios-arrow-back',
-        leftBtnPress: () => this.props.navigation.goBack(null)
-      }
     }
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <SubHeaderBar
-          {...subValues}
-        />
-
         <Content style={[styles.mContainer]}innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={{textAlign: 'center', alignItems: 'center'}}>
             <Image source={Images.user} style={styles.topImage} />
@@ -363,6 +375,7 @@ const mapDispatchToProps = (dispatch) => {
     addClient: (data, edit) => dispatch(ClientActions.addClient(data, edit)),
     deleteClient: (id) => {dispatch(ClientActions.deleteClient(id))},
     clients: () => {dispatch(ClientActions.clientRequest())},
+    clearFormErrors: () => {dispatch(ClientActions.clearFormErrors())},
     openDrawer: () => dispatch(DrawerActions.drawerOpen())
   }
 }

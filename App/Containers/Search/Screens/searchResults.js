@@ -13,16 +13,24 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from '../styles'
 
 class Search extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Search Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-search'}
-        size={20}
-        style={{color: tintColor, fontSize: 25}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Search Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-search'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   navParams = this.props.navigation.state.params
 
@@ -36,24 +44,17 @@ class Search extends Component {
   // }
 
   componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Search Results',
+      subTitle: this.navParams.searchKey,
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
+    })
   }
 
   render () {
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-        />
-
-        <SubHeaderBar
-          title='Search Results'
-          subTitle={this.navParams.searchKey}
-          leftBtnIcon='ios-arrow-back'
-          leftBtnPress={() => this.props.navigation.goBack(null)}
-        />
-
         <Content style={{backgroundColor: 'transparent', marginTop: 10}}>
           {
             this.state.reviews.length < 1 &&

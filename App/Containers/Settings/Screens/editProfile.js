@@ -21,16 +21,24 @@ import styles from '../styles'
 import { Images } from 'Themes/'
 
 class Search extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-home-outline'}
-        size={20}
-        style={{color: tintColor, fontSize: 25}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name={'ios-home-outline'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   user = this.props.navigation.getParam('user')
 
@@ -48,6 +56,14 @@ class Search extends Component {
   //   super(props)
   //   this.state = {}
   // }
+
+  componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Edit Profile',
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
+    })
+  }
 
   componentWillReceiveProps (newProps) {
     if (!newProps.updatingAvatar && this.props.updatingAvatar) {
@@ -125,19 +141,6 @@ class Search extends Component {
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <SubHeaderBar
-          title={'Edit Profile'}
-          leftBtnIcon='ios-arrow-back'
-          leftBtnPress={() => this.props.navigation.goBack(null)}
-        />
-
         <Content style={styles.mContainer}>
           <View style={[styles.centered]}>
             <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()} style={{alignItems: 'center'}}>

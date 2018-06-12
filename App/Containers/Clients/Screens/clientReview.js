@@ -22,15 +22,23 @@ import { parseClientAddress } from 'Lib/Utils'
 const charLen = 300
 
 class clientReview extends React.PureComponent {
-  static navigationOptions = {
-    tabBarLabel: 'Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-people-outline'}
-        style={{color: tintColor, fontSize: 30}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-people-outline'}
+          style={{color: tintColor, fontSize: 30}}
+        />
+      ),
+      header: () => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   client = this.props.navigation.getParam('client')
   review = this.props.navigation.getParam('review', {})
@@ -45,6 +53,20 @@ class clientReview extends React.PureComponent {
     repeatRating: this.review.repeat_rating || null,
     comment: this.review.comment || '',
     charRemaining: charLen
+  }
+
+  componentDidMount = () => {
+    const deleteReviewBtn = this.review.id ? {
+      rightBtnIcon: 'ios-trash',
+      rightBtnPress: () => this._showDeleteConfirm()
+    } : {}
+
+    this.props.navigation.setParams({
+      title: this.review.id ? 'Edit Review' : 'New Review',
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null),
+      ...deleteReviewBtn
+    })
   }
 
   componentWillReceiveProps (newProps) {
@@ -146,23 +168,6 @@ class clientReview extends React.PureComponent {
 
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-          scrollOffsetY={this.state.scrollOffsetY}
-        />
-
-        <SubHeaderBar
-          // topTitle={this.review.id ? 'Edit Review for' : 'New Review'}
-          title={this.review.id ? 'Edit Review' : 'New Review'}
-          // subTitle={parseClientAddress(this.client)}
-          leftBtnIcon='ios-arrow-back'
-          leftBtnPress={() => this.props.navigation.goBack(null)}
-          scrollOffsetY={this.state.scrollOffsetY}
-          {...deleteReviewBtn}
-        />
-
         <Content extraHeight={120} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})} style={styles.mContainer}>
           {this.renderClientHeader()}
 

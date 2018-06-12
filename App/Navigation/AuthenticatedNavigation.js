@@ -1,5 +1,7 @@
+import React from 'react'
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Easing, Animated } from 'react-native'
+import Header from 'Components/SubHeaderBar'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -154,8 +156,8 @@ export default StackNavigator(
   },
   {
     mode: 'modal',
-    headerMode: 'none',
     navigationOptions: {
+      title: 'Clientell',
       gesturesEnabled: false
     },
     cardStyle: {
