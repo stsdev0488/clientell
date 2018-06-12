@@ -1,3 +1,53 @@
+import React from 'react'
+import {ActionSheet} from 'native-base'
+
+export const formDiscardHandler = ({previousScene, scene, jumpToIndex}) => {
+  if (previousScene.key === 'AddClient') {
+    if (previousScene.params && previousScene.params.formTouched) {
+      const BUTTONS = ["Discard", "No"]
+      ActionSheet.show(
+        {
+          options: BUTTONS,
+          cancelButtonIndex: 1,
+          destructiveButtonIndex: 0,
+          title: "Do you want to cancel adding this client? Any information you entered will be lost."
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            previousScene.params.resetter()
+            jumpToIndex(scene.index)
+          }
+        }
+      )
+    } else {
+      jumpToIndex(scene.index)
+    }
+  } else if (previousScene.key === 'Clients') {
+    const ch = previousScene.routes[previousScene.index]
+    if (ch.params && ch.params.formTouched) {
+      const BUTTONS = ["Discard", "No"]
+      ActionSheet.show(
+        {
+          options: BUTTONS,
+          cancelButtonIndex: 1,
+          destructiveButtonIndex: 0,
+          title: "Do you want to cancel editing this client? Any changes you made will be lost."
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            ch.params.resetter()
+            jumpToIndex(scene.index)
+          }
+        }
+      )
+    } else {
+      jumpToIndex(scene.index)
+    }
+  } else {
+    jumpToIndex(scene.index)
+  }
+}
+
 export const capitalize = str => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

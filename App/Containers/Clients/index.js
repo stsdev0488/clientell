@@ -1,12 +1,13 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
-import { Body, Subtitle, Item, Input, ListItem, Text as NBText } from 'native-base'
+import { Body, Subtitle, Item, Input, ListItem, Text as NBText, ActionSheet } from 'native-base'
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import { Images } from 'Themes/'
 import StarRating from 'react-native-star-rating'
 import AlertMessage from 'Components/AlertMessage'
 import SubHeaderBar from 'Components/SubHeaderBar'
+import {formDiscardHandler} from 'Lib/Utils'
 
 // Redux
 import ClientActions from 'Redux/ClientRedux'
@@ -20,6 +21,7 @@ class Clients extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

@@ -37,8 +37,60 @@ class AddClient extends Component {
     const params = navigation.state.params
 
     return {
+      tabBarOnPress: ({previousScene, scene, jumpToIndex}) => {
+        if (scene.route && scene.route.params) {
+          if (scene.route.params.clearErrors) {
+            scene.route.params.clearErrors()
+          }
+        }
+
+        if (previousScene.key === 'AddClient') {
+          if (previousScene.params && previousScene.params.formTouched) {
+            const BUTTONS = ["Discard", "No"]
+            ActionSheet.show(
+              {
+                options: BUTTONS,
+                cancelButtonIndex: 1,
+                destructiveButtonIndex: 0,
+                title: "Do you want to cancel adding this client? Any information you entered will be lost."
+              },
+              buttonIndex => {
+                if (buttonIndex === 0) {
+                  previousScene.params.resetter()
+                  jumpToIndex(scene.index)
+                }
+              }
+            )
+          } else {
+            jumpToIndex(scene.index)
+          }
+        } else if (previousScene.key === 'Clients') {
+          const ch = previousScene.routes[previousScene.index]
+          if (ch.params && ch.params.formTouched) {
+            const BUTTONS = ["Discard", "No"]
+            ActionSheet.show(
+              {
+                options: BUTTONS,
+                cancelButtonIndex: 1,
+                destructiveButtonIndex: 0,
+                title: "Do you want to cancel editing this client? Any changes you made will be lost."
+              },
+              buttonIndex => {
+                if (buttonIndex === 0) {
+                  ch.params.resetter()
+                  jumpToIndex(scene.index)
+                }
+              }
+            )
+          } else {
+            jumpToIndex(scene.index)
+          }
+        } else {
+          jumpToIndex(scene.index)
+        }
+      },
       tabBarLabel: !client ? 'Add Clients' : 'Clients',
-        tabBarIcon: ({ tintColor }) => {
+      tabBarIcon: ({ tintColor }) => {
         return (
           <Icon
             name={!client ? 'ios-person-add-outline' : 'ios-people-outline'}
@@ -94,7 +146,8 @@ class AddClient extends Component {
     }
 
     this.props.navigation.setParams({
-      ...subValues
+      ...subValues,
+      clearErrors: () => this.props.clearFormErrors()
     })
   }
 
@@ -136,6 +189,23 @@ class AddClient extends Component {
   }
 
   _resetForm = () => {
+    const client = this.props.navigation.getParam('client')
+
+    if (client) {
+      this.props.navigation.setParams({
+        formTouched: false
+      })
+      this.props.navigation.goBack(null)
+      return
+    }
+
+    this.s1 && this.s1.getWrappedInstance()._reset()
+    this.s2 && this.s2.getWrappedInstance()._reset()
+    this.s4 && this.s4.getWrappedInstance()._reset()
+    if (this.s3) {
+      this.s3.getWrappedInstance()._reset()
+    }
+
     return {
       clientType: 'individual',
       scrollOffsetY: 0,
@@ -247,6 +317,8 @@ class AddClient extends Component {
         <Animatable.View animation='fadeInUp' duration={400}>
           <BillingStep
             ref={r => this.s3 = r}
+            resetForm={this._resetForm}
+            navigation={this.props.navigation}
             initialData={this.state.billingData}
             submitInfo={
               (d) => {
@@ -266,6 +338,8 @@ class AddClient extends Component {
       <Animatable.View animation='fadeInUp' duration={400}>
         <RatingStep
           ref={r => this.s4 = r}
+          resetForm={this._resetForm}
+          navigation={this.props.navigation}
           initialData={this.state.ratingData}
           submitInfo={
                 (d) => {
@@ -327,6 +401,8 @@ class AddClient extends Component {
           <Animatable.View animation='fadeInUp' duration={400}>
             <PersonalInfoStep
               ref={r => this.s1 = r}
+              resetForm={this._resetForm}
+              navigation={this.props.navigation}
               clientTypeChanged={ct => this.setState({clientType: ct})}
               initialData={{...this.state.personalData, client_type: this.state.clientType}}
               submitInfo={
@@ -341,6 +417,8 @@ class AddClient extends Component {
           <Animatable.View animation='fadeInUp' duration={400}>
             <AddressStep
               ref={r => this.s2 = r}
+              resetForm={this._resetForm}
+              navigation={this.props.navigation}
               initialData={this.state.addressData}
               submitInfo={
                 (d) => {

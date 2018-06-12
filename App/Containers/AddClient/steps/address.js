@@ -16,12 +16,34 @@ class AddressStep extends Component {
     ...this.props.initialData
   }
 
+  _reset = () => {
+    this.setState(state => {
+      state = {
+        street_address: '',
+        street_address2: '',
+        country_id: 840,
+        city: '',
+        state: '',
+        postal_code: ''
+      }
+      return state
+    })
+  }
+
   _handleSubmit () {
     Keyboard.dismiss()
 
     const {countries, ...info} = this.state
 
     return info
+  }
+
+  _onTextChange = (a) => {
+    this.props.navigation.setParams({
+      formTouched: true,
+      sample: this.props.resetForm
+    })
+    this.setState({...a})
   }
 
   componentDidMount () {
@@ -84,7 +106,7 @@ class AddressStep extends Component {
               <Label style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Label>
               <Input
                 defaultValue={street_address}
-                onChangeText={street_address => this.setState({ street_address })}
+                onChangeText={street_address => this._onTextChange({ street_address })}
                 onSubmitEditing={() => {this.address2._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -98,7 +120,7 @@ class AddressStep extends Component {
               <Input
                 ref={ref => {this.address2 = ref}}
                 defaultValue={street_address2}
-                onChangeText={street_address2 => this.setState({ street_address2 })}
+                onChangeText={street_address2 => this._onTextChange({ street_address2 })}
                 onSubmitEditing={() => {this.cityInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -113,7 +135,7 @@ class AddressStep extends Component {
                 ref={ref => {this.cityInput = ref}}
                 style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
                 defaultValue={city}
-                onChangeText={city => this.setState({ city })}
+                onChangeText={city => this._onTextChange({ city })}
                 returnKeyType='next'
               />
             </Item>
@@ -156,7 +178,7 @@ class AddressStep extends Component {
                 ref={ref => {this.postalInput = ref}}
                 style={styles.textarea}
                 defaultValue={postal}
-                onChangeText={postal_code => this.setState({ postal_code })}
+                onChangeText={postal_code => this._onTextChange({ postal_code })}
                 onSubmitEditing={() => this.props.submitInfo(this.state)}
                 returnKeyType='go'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}

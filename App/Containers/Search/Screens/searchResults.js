@@ -6,6 +6,7 @@ import Feedback from 'Components/Feedback'
 import AlertMessage from 'Components/AlertMessage'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
+import {formDiscardHandler} from 'Lib/Utils'
 
 import DrawerActions from 'Redux/DrawerRedux'
 
@@ -16,6 +17,7 @@ class Search extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Search Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

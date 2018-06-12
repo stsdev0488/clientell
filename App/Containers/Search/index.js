@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text } from 'native-base'
+import { Content, Icon, Button, Text, ActionSheet } from 'native-base'
+import {formDiscardHandler} from 'Lib/Utils'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -15,6 +16,7 @@ class Search extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Search Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

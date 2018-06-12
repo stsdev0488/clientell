@@ -6,6 +6,7 @@ import StarRating from 'react-native-star-rating'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import DrawerActions from 'Redux/DrawerRedux'
+import {formDiscardHandler} from 'Lib/Utils'
 
 // Styles
 import styles from './styles'
@@ -17,6 +18,7 @@ class Settings extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
         <Icon
