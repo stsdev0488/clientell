@@ -14,6 +14,9 @@ import styles2 from 'Containers/Clients/styles'
 import { Images } from 'Themes/'
 
 class SearchModal extends Component {
+  static navigationOptions = {
+    header: null
+  }
   // constructor (props) {
   //   super(props)
   //   this.state = {}

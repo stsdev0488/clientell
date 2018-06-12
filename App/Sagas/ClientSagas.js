@@ -82,6 +82,9 @@ export function * deleteClient ({ id }) {
     if (response.ok) {
       yield put(ClientActions.deleteClientSuccess(response.data))
       yield put(ClientActions.clientRequest())
+
+      // go back to clients listings on successful delete
+      yield put(NavigationActions.back())
     } else {
       yield put(ClientActions.deleteClientFailure(response.data))
     }

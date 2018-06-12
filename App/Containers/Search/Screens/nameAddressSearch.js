@@ -15,16 +15,24 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from '../styles'
 
 class Search extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Search Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-search'}
-        size={20}
-        style={{color: tintColor, fontSize: 25}}
-      />
-    )
-  }
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Search Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-search'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
 
   state = {
     first_name: '',
@@ -40,8 +48,20 @@ class Search extends Component {
   //   this.state = {}
   // }
 
+  componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Search',
+      rightBtnIcon: 'ios-search',
+      rightBtnPress: () => this._executeSearch(),
+      rightBtnLoading: false,
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
+    })
+  }
+
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
+      this.props.navigation.setParams({rightBtnLoading: false})
       if (!newProps.error) {
         if (newProps.data) {
           if (newProps.data.data.length > 0) {
@@ -59,6 +79,7 @@ class Search extends Component {
     const { first_name, last_name, city, state, address: street_address } = this.state
 
     this.setState({error: null})
+    this.props.navigation.setParams({rightBtnLoading: true})
     this.props.searchClient(
       {
         search_by: 'name and address',
@@ -74,21 +95,6 @@ class Search extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-        />
-
-        <SubHeaderBar
-          title='Search'
-          rightBtnIcon='ios-search'
-          rightBtnPress={() => this._executeSearch()}
-          rightBtnLoading={this.props.fetching}
-          leftBtnIcon='ios-arrow-back'
-          leftBtnPress={() => this.props.navigation.goBack(null)}
-        />
-
         <Content style={styles.mContainer}>
           <View style={styles.section}>
             <ErrorRenderer error={this.props.error || this.state.error} />

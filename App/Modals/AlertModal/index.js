@@ -12,6 +12,9 @@ import styles from './styles'
 import { Images } from 'Themes/'
 
 class UserProfileModal extends Component {
+  static navigationOptions = {
+    header: null
+  }
   // constructor (props) {
   //   super(props)
   //   this.state = {}

@@ -23,7 +23,7 @@ Animatable.initializeRegistryWithDefinitions({
 });
 const Icon = Animatable.createAnimatableComponent(NBIcon)
 
-export default class FullButton extends Component {
+export default class SubHeaderBar extends Component {
   static propTypes = {
     title: PropTypes.string,
     topTitle: PropTypes.string,
@@ -46,7 +46,21 @@ export default class FullButton extends Component {
   }
 
   render () {
-    const {containerStyles, title, subTitle, topTitle, titleStyles, rightBtnPress, rightBtnIcon, rightBtnText, rightBtnLoading, leftBtnPress, leftBtnIcon, scrollOffsetY} = this.props
+    const {
+      containerStyles,
+      title,
+      subTitle,
+      topTitle,
+      titleStyles,
+      rightBtnPress,
+      rightBtnIcon,
+      rightBtnText,
+      rightBtnLoading,
+      leftBtnPress,
+      leftBtnIcon,
+      scrollOffsetY
+    } = this.props
+
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
     let height = 90

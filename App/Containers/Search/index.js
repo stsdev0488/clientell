@@ -12,36 +12,36 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from './styles'
 
 class Search extends Component {
-  static navigationOptions = {
-    tabBarLabel: 'Search Clients',
-    tabBarIcon: ({ tintColor }) => (
-      <Icon
-        name={'ios-search'}
-        size={20}
-        style={{color: tintColor, fontSize: 25}}
-      />
-    )
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Search Clients',
+      tabBarIcon: ({tintColor}) => (
+        <Icon
+          name={'ios-search'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
+
+  componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Search',
+      leftBtnIcon: 'ios-menu',
+      leftBtnPress: () => this.props.openDrawer()
+    })
   }
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {}
-  // }
 
   render () {
     return (
       <View style={styles.container}>
-        <HeaderBar
-          title={''}
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-        />
-
-        <SubHeaderBar
-          title='Search'
-          leftBtnIcon='ios-menu'
-          leftBtnPress={() => this.props.openDrawer()}
-        />
-
         <Content style={styles.mContainer}>
           <View style={styles.screenTopContent}>
             <Icon name='ios-search-outline' style={styles.topContentIcon} />
