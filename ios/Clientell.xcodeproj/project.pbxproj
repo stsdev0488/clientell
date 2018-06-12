@@ -1605,6 +1605,7 @@
 				PRODUCT_NAME = Clientell;
 				PROVISIONING_PROFILE = "d58b9818-0677-40fa-a4ce-1e989e850689";
 				PROVISIONING_PROFILE_SPECIFIER = Clinetell_AppStore;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1638,6 +1639,7 @@
 				PRODUCT_NAME = Clientell;
 				PROVISIONING_PROFILE = "d58b9818-0677-40fa-a4ce-1e989e850689";
 				PROVISIONING_PROFILE_SPECIFIER = Clinetell_AppStore;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
