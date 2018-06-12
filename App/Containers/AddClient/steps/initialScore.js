@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import {Button, Text, Spinner, Icon} from 'native-base'
+import { Images } from 'Themes/'
 
 import StarRating from 'react-native-star-rating'
 // Styles
@@ -12,8 +13,25 @@ class RatingStep extends Component {
     ...this.props.initialData
   }
 
+  _reset = () => {
+    this.setState(state => {
+      state = {
+        initial_star_rating: 4
+      }
+      return state
+    })
+  }
+
   _handleSubmit = () => {
-    return {ratingData: this.state.initial_star_rating}
+    return {initial_star_rating: this.state.initial_star_rating}
+  }
+
+  _onTextChange = (a) => {
+    this.props.navigation.setParams({
+      formTouched: true,
+      sample: this.props.resetForm
+    })
+    this.setState({...a})
   }
 
   render () {
@@ -33,10 +51,12 @@ class RatingStep extends Component {
               starSize={40}
               maxStars={5}
               rating={this.state.initial_star_rating}
-              fullStarColor='#FFD700'
-              emptyStarColor='#D6D6D6'
               containerStyle={{}}
-              selectedStar={(initial_star_rating) => this.setState({initial_star_rating})}
+              selectedStar={(initial_star_rating) => this._onTextChange({initial_star_rating})}
+              emptyStar={Images.starGrey}
+              fullStar={Images.star}
+              halfStar={Images.starHalf}
+              starStyle={{marginRight: 3}}
             />
           </View>
         </View>

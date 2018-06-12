@@ -3,6 +3,7 @@ import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Item, Input, Text, Spinner, Label } from 'native-base'
 import ErrorRenderer from 'Components/ErrorRenderer'
+import {formDiscardHandler} from 'Lib/Utils'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -18,6 +19,7 @@ class Search extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Search Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

@@ -4,6 +4,7 @@ import {Container, Content, Text as NBText, Button, ActionSheet} from 'native-ba
 import { connect } from 'react-redux'
 import { Icon } from 'native-base'
 import { Images } from 'Themes/'
+import {formDiscardHandler} from 'Lib/Utils'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -24,6 +25,7 @@ class ClientProfile extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

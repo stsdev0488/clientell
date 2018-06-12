@@ -2,6 +2,7 @@ import React from 'react'
 import {View, TouchableOpacity, TextInput, Image} from 'react-native'
 import {Container, Content, Text as NBText, Button, Icon, ActionSheet,Spinner} from 'native-base'
 import { connect } from 'react-redux'
+import {formDiscardHandler} from 'Lib/Utils'
 
 // Redux actions
 import ReviewActions from 'Redux/ReviewRedux'
@@ -25,6 +26,7 @@ class clientReview extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
+      tabBarOnPress: formDiscardHandler,
       tabBarLabel: 'Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

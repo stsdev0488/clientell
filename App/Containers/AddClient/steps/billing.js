@@ -14,15 +14,41 @@ class BillingStep extends Component {
     ...this.props.initialData
   }
 
+  _reset = () => {
+    this.setState(state => {
+      state = {
+        billing_first_name: '',
+        billing_middle_name: '',
+        billing_last_name: '',
+        billing_street_address: '',
+        billing_street_address2: '',
+        billing_city: '',
+        billing_state: '',
+        billing_postal_code: '',
+        billing_phone_number: '',
+        billing_phone_number_ext: ''
+      }
+      return state
+    })
+  }
+
   _handleSubmit () {
     Keyboard.dismiss()
-    const phone = this.phone.getValue();
+    // const phone = this.phone.getValue();
     let finalData = {...this.state}
 
     // finalData.billing_phone_number_ext = getPhoneExtension(phone)
-    finalData.billing_phone_number = phone
+    // finalData.billing_phone_number = phone
 
     return finalData
+  }
+
+  _onTextChange = (a) => {
+    this.props.navigation.setParams({
+      formTouched: true,
+      sample: this.props.resetForm
+    })
+    this.setState({...a})
   }
 
   _validateForm = () => {
@@ -61,7 +87,7 @@ class BillingStep extends Component {
               <Label style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Label>
               <Input
                 defaultValue={first_name}
-                onChangeText={billing_first_name => this.setState({ billing_first_name })}
+                onChangeText={billing_first_name => this._onTextChange({ billing_first_name })}
                 onSubmitEditing={() => {this.middleName._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -75,7 +101,7 @@ class BillingStep extends Component {
               <Input
                 ref={ref => {this.middleName = ref}}
                 defaultValue={middle_name}
-                onChangeText={billing_middle_name => this.setState({ billing_middle_name })}
+                onChangeText={billing_middle_name => this._onTextChange({ billing_middle_name })}
                 onSubmitEditing={() => {this.lastName._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -89,7 +115,7 @@ class BillingStep extends Component {
               <Input
                 ref={ref => {this.lastName = ref}}
                 defaultValue={last_name}
-                onChangeText={billing_last_name => this.setState({ billing_last_name })}
+                onChangeText={billing_last_name => this._onTextChange({ billing_last_name })}
                 onSubmitEditing={() => {this.phone.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -102,12 +128,23 @@ class BillingStep extends Component {
               <View>
                 <Label style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Label>
               </View>
-              <PhoneInput
-                ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8, flex: 1}}
-                flagStyle={{width: 0, height: 0}}
-                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+              {
+                // <PhoneInput
+                //   ref={ref => { this.phone = ref }}
+                //   style={{paddingHorizontal: 8, flex: 1}}
+                //   flagStyle={{width: 0, height: 0}}
+                //   textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                //   value={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+                // />
+              }
+
+              <Input
+                ref={ref => {this.phone = ref}}
+                defaultValue={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+                onChangeText={billing_phone_number => this._onTextChange({ billing_phone_number })}
+                onSubmitEditing={() => {this.phone.focus()}}
+                returnKeyType='next'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
@@ -117,7 +154,7 @@ class BillingStep extends Component {
               <Label style={styles.sectionText}>Billing Phone number ext</Label>
               <Input
                 defaultValue={this.state.billing_phone_number_ext}
-                onChangeText={billing_phone_number_ext => this.setState({ billing_phone_number_ext })}
+                onChangeText={billing_phone_number_ext => this._onTextChange({ billing_phone_number_ext })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => this.address._root.focus()}
                 returnKeyType='next'
@@ -133,7 +170,7 @@ class BillingStep extends Component {
               <Input
                 ref={ref => {this.address = ref}}
                 defaultValue={street_address}
-                onChangeText={street_address => this.setState({ billing_street_address: street_address })}
+                onChangeText={street_address => this._onTextChange({ billing_street_address: street_address })}
                 onSubmitEditing={() => {this.address2._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -147,7 +184,7 @@ class BillingStep extends Component {
               <Input
                 ref={ref => {this.address2 = ref}}
                 defaultValue={street_address2}
-                onChangeText={street_address2 => this.setState({ billing_street_address2: street_address2 })}
+                onChangeText={street_address2 => this._onTextChange({ billing_street_address2: street_address2 })}
                 onSubmitEditing={() => {this.cityInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -162,7 +199,7 @@ class BillingStep extends Component {
                 ref={ref => {this.cityInput = ref}}
                 style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
                 defaultValue={city}
-                onChangeText={billing_city => this.setState({ billing_city })}
+                onChangeText={billing_city => this._onTextChange({ billing_city })}
                 onSubmitEditing={() => {this.stateInput._root.focus()}}
                 returnKeyType='next'
               />
@@ -176,7 +213,7 @@ class BillingStep extends Component {
                 ref={ref => {this.stateInput = ref}}
                 style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
                 defaultValue={state}
-                onChangeText={billing_state => this.setState({ billing_state })}
+                onChangeText={billing_state => this._onTextChange({ billing_state })}
                 onSubmitEditing={() => {this.postalInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -185,14 +222,13 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionText}>Postal code</Text>
             <Item fixedLabel>
               <Label style={styles.sectionText}>Postal code</Label>
               <Input
                 ref={ref => {this.postalInput = ref}}
                 style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
                 defaultValue={postal}
-                onChangeText={billing_postal_code => this.setState({ billing_postal_code })}
+                onChangeText={billing_postal_code => this._onTextChange({ billing_postal_code })}
                 onSubmitEditing={() => this.props.submitInfo(this.state)}
                 returnKeyType='go'
               />

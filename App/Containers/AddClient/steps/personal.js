@@ -13,6 +13,29 @@ import styles from '../styles'
 class PersonalInfoStep extends Component {
   state = {...this.props.initialData}
 
+  _reset = () => {
+    this.setState(state => {
+      state = {
+        client_type: 'individual',
+        organization_name: '',
+        first_name: '',
+        last_name: '',
+        middle_name: '',
+        email: '',
+        phone_number: '+1',
+        phone_number_ext: '',
+        alt_phone_number: '+1',
+        alt_phone_number_ext: ''
+      }
+
+      this.props.navigation.setParams({
+        formTouched: false
+      })
+
+      return state
+    })
+  }
+
   handleSubmit () {
     Keyboard.dismiss()
   }
@@ -30,7 +53,7 @@ class PersonalInfoStep extends Component {
             <Input
               ref={ref => {this.orgInput = ref}}
               defaultValue={this.state.organization_name}
-              onChangeText={organization_name => this.setState({ organization_name })}
+              onChangeText={organization_name => this._onTextChange({ organization_name })}
               style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
             />
           </Item>
@@ -42,14 +65,14 @@ class PersonalInfoStep extends Component {
   _submitDetails = () => {
     Keyboard.dismiss()
     let finalData = {...this.state}
-    const phone = this.phone.getValue();
-    const alt_phone = this.phone_alternate.getValue()
+    // const phone = this.phone.getValue();
+    // const alt_phone = this.phone_alternate.getValue()
 
-    finalData.phone_number = phone
+    // finalData.phone_number = phone
     // finalData.phone_number_ext = getPhoneExtension(phone)
 
-    const altPhonePrefix = '+' + this.phone_alternate.getCountryCode()
-    finalData.alt_phone_number = alt_phone !== altPhonePrefix ? alt_phone : ''
+    // const altPhonePrefix = '+' + this.phone_alternate.getCountryCode()
+    // finalData.alt_phone_number = alt_phone !== altPhonePrefix ? alt_phone : ''
     // finalData.alt_phone_number_ext = getPhoneExtension(alt_phone)
 
     // this.props.submitInfo(finalData)
@@ -58,8 +81,15 @@ class PersonalInfoStep extends Component {
 
   _onChangetype = (a) => {
     this.setState({client_type: a})
-
     this.props.clientTypeChanged(a)
+  }
+
+  _onTextChange = (a) => {
+    this.props.navigation.setParams({
+      formTouched: true,
+      resetter: this.props.resetForm
+    })
+    this.setState({...a})
   }
 
   _validateForm = () => {
@@ -107,7 +137,7 @@ class PersonalInfoStep extends Component {
               <Input
                 ref={ref => {this.fnameInput = ref}}
                 defaultValue={this.state.first_name}
-                onChangeText={first_name => this.setState({ first_name })}
+                onChangeText={first_name => this._onTextChange({ first_name })}
                 onSubmitEditing={() => {this.mnameInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -121,7 +151,7 @@ class PersonalInfoStep extends Component {
               <Input
                 ref={ref => {this.mnameInput = ref}}
                 defaultValue={this.state.middle_name}
-                onChangeText={middle_name => this.setState({ middle_name })}
+                onChangeText={middle_name => this._onTextChange({ middle_name })}
                 onSubmitEditing={() => {this.lnameInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -135,7 +165,7 @@ class PersonalInfoStep extends Component {
               <Input
                 ref={ref => {this.lnameInput = ref}}
                 defaultValue={this.state.last_name}
-                onChangeText={last_name => this.setState({ last_name })}
+                onChangeText={last_name => this._onTextChange({ last_name })}
                 onSubmitEditing={() => {this.emailInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -149,7 +179,7 @@ class PersonalInfoStep extends Component {
               <Input
                 ref={ref => {this.emailInput = ref}}
                 defaultValue={this.state.email}
-                onChangeText={email => this.setState({ email })}
+                onChangeText={email => this._onTextChange({ email })}
                 keyboardType='email-address'
                 onSubmitEditing={() => {this.phone.focus()}}
                 returnKeyType='next'
@@ -164,12 +194,24 @@ class PersonalInfoStep extends Component {
               <View>
                 <Label style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></Label>
               </View>
-              <PhoneInput
-                ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8, flex: 1}}
-                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                flagStyle={{width: 0, height: 0}}
-                value={this.state.phone_number ? this.state.phone_number : '+1'}
+              {
+              // <PhoneInput
+              //   ref={ref => { this.phone = ref }}
+              //   style={{paddingHorizontal: 8, flex: 1}}
+              //   textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              //   flagStyle={{width: 0, height: 0}}
+              //   value={this.state.phone_number ? this.state.phone_number : '+1'}
+              // />
+              }
+              <Input
+                ref={ref => {this.phone = ref}}
+                defaultValue={this.state.phone_number ? this.state.phone_number : '+1'}
+                onChangeText={phone_number => this._onTextChange({ phone_number })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                returnKeyType='next'
+                autoCapitalize='none'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
             </Item>
           </View>
@@ -180,7 +222,7 @@ class PersonalInfoStep extends Component {
               <Input
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.phone_number_ext}
-                onChangeText={phone_number_ext => this.setState({ phone_number_ext })}
+                onChangeText={phone_number_ext => this._onTextChange({ phone_number_ext })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => {this.phone_alternate.focus()}}
                 returnKeyType='next'
@@ -193,14 +235,26 @@ class PersonalInfoStep extends Component {
           <View style={styles.section}>
             <Item  fixedLabel>
               <Label style={styles.sectionText}>Alternate Phone number</Label>
-              <PhoneInput
-                ref={ref => { this.phone_alternate = ref }}
-                style={{paddingHorizontal: 8, flex: 1}}
-                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                flagStyle={{width: 0, height: 0}}
-                value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
-              />
+              {
+              // <PhoneInput
+              //   ref={ref => { this.phone_alternate = ref }}
+              //   style={{paddingHorizontal: 8, flex: 1}}
+              //   textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              //   flagStyle={{width: 0, height: 0}}
+              //   value={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
+              // />
+              }
 
+              <Input
+                ref={ref => {this.phone_alternate = ref}}
+                defaultValue={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
+                onChangeText={alt_phone_number => this._onTextChange({ alt_phone_number })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                returnKeyType='next'
+                autoCapitalize='none'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+              />
             </Item>
           </View>
 
@@ -210,7 +264,7 @@ class PersonalInfoStep extends Component {
               <Input
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.alt_phone_number_ext}
-                onChangeText={alt_phone_number_ext => this.setState({ alt_phone_number_ext })}
+                onChangeText={alt_phone_number_ext => this._onTextChange({ alt_phone_number_ext })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => this._submitDetails()}
                 returnKeyType='go'
