@@ -63,8 +63,8 @@ class Search extends Component {
       this.props.navigation.setParams({rightBtnLoading: false})
       if (!newProps.error) {
         if (newProps.data) {
-          if (newProps.data.data.length > 0) {
-            this.props.navigation.navigate('SearchResults', {results: newProps.data.data, searchKey: this.state.email})
+          if (newProps.data.results.length > 0 || newProps.data.resultsNoReview.length > 0) {
+            this.props.navigation.navigate('SearchResults', {data: newProps.data, searchKey: this.state.email})
           } else {
             this.setState({error: {message: 'Your search did not yield any results.'}})
           }

@@ -37,7 +37,8 @@ class Search extends Component {
   navParams = this.props.navigation.state.params
 
   state = {
-    reviews: this.navParams.results || []
+    reviews: this.navParams.data.results || [],
+    noReviews: this.navParams.data.resultsNoReview || []
   }
 
   // constructor (props) {
@@ -59,7 +60,7 @@ class Search extends Component {
       <View style={styles.container}>
         <Content style={{backgroundColor: 'transparent', marginTop: 10}}>
           {
-            this.state.reviews.length < 1 &&
+            this.state.reviews.length < 1 && this.state.noReviews.length < 1 &&
             <AlertMessage
               title='You search did not yield any result'
             />
@@ -69,6 +70,14 @@ class Search extends Component {
             this.state.reviews.map((item, i) => {
               return (
                 <Feedback key={i} noEdit data={item} />
+              )
+            })
+          }
+
+          {
+            this.state.noReviews.map((item, i) => {
+              return (
+                <Feedback key={i} noEdit data={item} initialRatingOnly />
               )
             })
           }
