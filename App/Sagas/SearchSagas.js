@@ -9,7 +9,9 @@ export function * getSearchResults ({ data }) {
 
     // success?
     if (response.ok) {
-      yield put(SearchActions.searchSuccess(response.data))
+      const {data, meta} = response.data
+
+      yield put(SearchActions.searchSuccess({results: data, resultsNoReview: meta.clients_with_no_reviews}))
     } else {
       yield put(SearchActions.searchFailure(response.data))
     }

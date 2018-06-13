@@ -16,9 +16,9 @@ class Feedback extends Component {
   }
 
   renderLeftCol () {
-    const {data} = this.props
+    const {data, initialRatingOnly} = this.props
     const user = data.user.data || data.user
-    const client = data.client.data || data.client
+    const client = initialRatingOnly ? data : (data.client.data || data.client)
 
     return (
       <View style={styles.left}>
@@ -28,7 +28,7 @@ class Feedback extends Component {
           disabled
           starSize={20}
           maxStars={5}
-          rating={data.star_rating}
+          rating={initialRatingOnly ? data.initial_star_rating : data.star_rating}
           emptyStar={Images.starGrey}
           fullStar={Images.star}
           halfStar={Images.starHalf}
@@ -78,9 +78,9 @@ class Feedback extends Component {
   }
 
   renderRightCol () {
-    const {data} = this.props
-    const user = data.user.data || data.user
-    const client = data.client.data || data.client
+    const {data, initialRatingOnly} = this.props
+    const user = initialRatingOnly ? data.user : (data.user.data || data.user)
+    const client = initialRatingOnly ? data : (data.client.data || data.client)
     const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
 
     return (
@@ -105,9 +105,9 @@ class Feedback extends Component {
   }
 
   render () {
-    const {data} = this.props
-    const user = data.user.data || data.user
-    const client = data.client.data || data.client
+    const {data, initialRatingOnly} = this.props
+    const user = initialRatingOnly ? data.user : (data.user.data || data.user)
+    const client = initialRatingOnly ? data : (data.client.data || data.client)
 
     const name = this.props.currentUser.id === this.props.data.user_id ? 'You' : user.name
 
@@ -118,12 +118,19 @@ class Feedback extends Component {
           {this.renderRightCol()}
         </View>
 
-        {this.renderRatings()}
+        {!initialRatingOnly &&
+          <React.Fragment>
+            {this.renderRatings()}
 
+            <NBText style={styles.feedback}>{data.comment}</NBText>
 
-        <NBText style={styles.feedback}>{data.comment}</NBText>
+            {this.renderAuthorBtn(name, client, data)}
+          </React.Fragment>
+        }
 
-        {this.renderAuthorBtn(name, client, data)}
+        {initialRatingOnly &&
+          <NBText style={styles.feedback}>No reviews from this user</NBText>
+        }
       </View>
     )
   }
