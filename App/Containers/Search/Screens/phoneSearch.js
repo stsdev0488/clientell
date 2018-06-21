@@ -76,8 +76,18 @@ class Search extends Component {
 
   _executeSearch = () => {
     this.setState({error: null})
-    this.props.navigation.setParams({rightBtnLoading: true})
-    this.props.searchClient({search_by: 'phone number', phone_number: this.state.phone})
+
+    const phone = this.state.phone.replace('+1', '')
+    var phoneRegex = /^(?:\(?([0-9]{3})\)?[-. ]?)?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+    if (phoneRegex.test(phone)) {
+      var formattedPhoneNumber = phone.replace(phoneRegex, "($1) $2-$3")
+
+      this.props.navigation.setParams({rightBtnLoading: true})
+      this.props.searchClient({search_by: 'phone number', phone_number: this.state.phone})
+    } else {
+      this.setState({error: {message: 'You have entered an invalid phone number.'}})
+    }
   }
 
   render () {
@@ -98,14 +108,27 @@ class Search extends Component {
               <View>
                 <Label style={styles.sectionText}>Phone number <Text uppercase style={styles.sup}>*</Text></Label>
               </View>
+              {
+                // <PhoneInput
+                //   ref={ref => { this.phone = ref }}
+                //   style={{paddingHorizontal: 8, flex: 1}}
+                //   textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                //   flagStyle={{width: 0, height: 0}}
+                //   onChangePhoneNumber={num => this.setState({phone: num})}
+                // />
+              }
 
-              <PhoneInput
-                ref={ref => { this.phone = ref }}
-                style={{paddingHorizontal: 8, flex: 1}}
-                textStyle={{height: 50, textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                flagStyle={{width: 0, height: 0}}
-                onChangePhoneNumber={num => this.setState({phone: num})}
+              <Input
+                ref={ref => {this.phone = ref}}
+                defaultValue={this.state.phone ? this.state.phone : ''}
+                onChangeText={phone => this.setState({ phone })}
+                keyboardType='phone-pad'
+                onSubmitEditing={() => this._executeSearch()}
+                returnKeyType='go'
+                autoCapitalize='none'
+                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
               />
+
             </Item>
           </View>
         </Content>
