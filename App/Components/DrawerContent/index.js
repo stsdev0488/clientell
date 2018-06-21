@@ -58,6 +58,15 @@ class DrawerContent extends Component {
           <ListItem
             onPress={() => {
               this.props.drawer.closeDrawer()
+              this.props.navigate('Settings', {user: this.props.user})
+            }}
+          >
+            <Text>My Profile</Text>
+          </ListItem>
+
+          <ListItem
+            onPress={() => {
+              this.props.drawer.closeDrawer()
               this.props.navigate('EditProfile', {user: this.props.user})
             }}
           >

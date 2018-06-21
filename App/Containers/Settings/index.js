@@ -47,9 +47,9 @@ class Settings extends Component {
   
   componentDidMount () {
     this.props.navigation.setParams({
-      title: 'Home',
-      leftBtnIcon: 'ios-menu',
-      leftBtnPress: () => this.props.openDrawer()
+      title: 'My Profile',
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
     })
   }
 

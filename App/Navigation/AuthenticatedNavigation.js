@@ -12,6 +12,7 @@ import Clients from 'Containers/Clients'
 import AddClient from 'Containers/AddClient'
 import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
+import Unreviewed from 'Containers/Clients/unreviewed'
 
 
 /**
@@ -24,6 +25,23 @@ import ClientReview from 'Containers/Clients/Screens/clientReview'
 const ClientStack = StackNavigator(
   {
     Clients: { screen: Clients },
+    ClientProfile: { screen: ClientProfile },
+    ClientReview: { screen: ClientReview },
+    ClientEditProfile: { screen: AddClient }
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * UNREVIEWED CLIENTS SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+const UnreviewedStack = StackNavigator(
+  {
+    Unreviewed: { screen: Unreviewed },
     ClientProfile: { screen: ClientProfile },
     ClientReview: { screen: ClientReview },
     ClientEditProfile: { screen: AddClient }
@@ -102,10 +120,10 @@ const SettingsStack = StackNavigator({
  * ---------------------------------------------------------------------------------------
  */
 const TabNav = TabNavigator({
-  Settings: { screen: SettingsStack },
+  Search: { screen: SearchStack },
   Clients: { screen: ClientStack },
   AddClient: { screen: AddClient },
-  Search: { screen: SearchStack }
+  Unreviewed: { screen: UnreviewedStack }
 }, {
   ...TabNavigator.Presets.iOSBottomTabs,
   animationEnabled: true,
@@ -134,6 +152,19 @@ const TabNav = TabNavigator({
   }
 });
 
+
+const StackedApp = StackNavigator({
+  MainStack: { screen: TabNav },
+  Settings: { screen: Settings },
+  EditProfile: { screen: EditProfile },
+  EditMyContactInfo: { screen: EditContactInfo },
+  ChangePassword: { screen: ChangePassword }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  initialRouteName: 'MainStack'
+});
+
 /**
  * ---------------------------------------------------------------------------------------
  * ROOT NAVIGATOR FOR TAB AND MODALS
@@ -142,7 +173,7 @@ const TabNav = TabNavigator({
 export default StackNavigator(
   {
     Main: {
-      screen: TabNav
+      screen: StackedApp
     },
     ProfileModal: {
       screen: UserProfileModal
