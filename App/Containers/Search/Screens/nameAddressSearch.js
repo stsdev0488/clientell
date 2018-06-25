@@ -51,6 +51,7 @@ class Search extends Component {
   // }
 
   componentDidMount () {
+    this.props.clearErrors()
     this.props.navigation.setParams({
       title: 'Search',
       rightBtnIcon: 'ios-search',
@@ -109,10 +110,6 @@ class Search extends Component {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
-          <View style={styles.section}>
-            <ErrorRenderer error={this.props.error || this.state.error} />
-          </View>
-
           <View style={styles.screenTopContent}>
             <Icon name='ios-search-outline' style={styles.topContentIcon} />
             <Text style={styles.upperContentText} uppercase>By name and address</Text>
@@ -191,6 +188,20 @@ class Search extends Component {
               />
             </Item>
           </View>
+
+          <View style={styles.section}>
+            <ErrorRenderer error={this.props.error || this.state.error} />
+          </View>
+
+          <View style={styles.section}>
+            <Button
+              onPress={() => this._executeSearch()}
+              style={{alignSelf: 'flex-end'}}
+              disabled={this.props.fetching}
+            >
+              <Text>Search</Text>
+            </Button>
+          </View>
         </Content>
       </View>
     )
@@ -208,7 +219,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     searchClient: (value) => dispatch(SearchAction.searchRequest(value)),
-    openDrawer: () => dispatch(DrawerActions.drawerOpen())
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
+    clearErrors: () => dispatch(SearchAction.searchReset())
   }
 }
 
