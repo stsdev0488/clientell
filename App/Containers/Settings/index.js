@@ -95,51 +95,55 @@ class Settings extends Component {
             <Text style={styles.sectionText}>{user.email || ''}</Text>
           </View>
 
-          <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
-            {
-              user.phone_number &&
-              <TouchableOpacity onPress={() => { Call(user.phone_number).catch(err => console.tron.log(err)) }}>
-                <Icon name='md-call' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
+          {
+            // <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
+            //   {
+            //     user.phone_number &&
+            //     <TouchableOpacity onPress={() => { Call(user.phone_number).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='md-call' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            //
+            //   {
+            //     user.phone_number &&
+            //     <TouchableOpacity onPress={() => { SMSText(user.phone_number).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='md-text' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            //
+            //   {
+            //     user.email &&
+            //     <TouchableOpacity onPress={() => { Email(user.email).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='md-mail' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            //
+            //   {
+            //     user.business_url &&
+            //     <TouchableOpacity onPress={() => { Web(user.business_url).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='md-globe' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            // </View>
+          }
 
-            {
-              user.phone_number &&
-              <TouchableOpacity onPress={() => { SMSText(user.phone_number).catch(err => console.tron.log(err)) }}>
-                <Icon name='md-text' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
-
-            {
-              user.email &&
-              <TouchableOpacity onPress={() => { Email(user.email).catch(err => console.tron.log(err)) }}>
-                <Icon name='md-mail' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
-
-            {
-              user.business_url &&
-              <TouchableOpacity onPress={() => { Web(user.business_url).catch(err => console.tron.log(err)) }}>
-                <Icon name='md-globe' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
-          </View>
-
-          <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
-            {
-              user.facebook_url &&
-              <TouchableOpacity onPress={() => { Web(user.facebook_url).catch(err => console.tron.log(err)) }}>
-                <Icon name='logo-facebook' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
-
-            {
-              user.twitter_url &&
-              <TouchableOpacity onPress={() => { Web(user.twitter_url).catch(err => console.tron.log(err)) }}>
-                <Icon name='logo-twitter' style={styles.contactIcon} />
-              </TouchableOpacity>
-            }
-          </View>
+          {
+            // <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
+            //   {
+            //     user.facebook_url &&
+            //     <TouchableOpacity onPress={() => { Web(user.facebook_url).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='logo-facebook' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            //
+            //   {
+            //     user.twitter_url &&
+            //     <TouchableOpacity onPress={() => { Web(user.twitter_url).catch(err => console.tron.log(err)) }}>
+            //       <Icon name='logo-twitter' style={styles.contactIcon} />
+            //     </TouchableOpacity>
+            //   }
+            // </View>
+          }
 
           {
             user.desciption &&
