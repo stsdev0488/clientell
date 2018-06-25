@@ -80,18 +80,29 @@ class Search extends Component {
   _executeSearch = () => {
     const { first_name, last_name, city, state, address: street_address } = this.state
 
-    this.setState({error: null})
-    this.props.navigation.setParams({rightBtnLoading: true})
-    this.props.searchClient(
-      {
-        search_by: 'name and address',
-        first_name,
-        last_name,
-        city,
-        state,
-        street_address
-      }
-    )
+    if(first_name && last_name && city && state) {
+      this.setState({error: null})
+      this.props.navigation.setParams({rightBtnLoading: true})
+      this.props.searchClient(
+        {
+          search_by: 'name and address',
+          first_name,
+          last_name,
+          city,
+          state,
+          street_address
+        }
+      )
+    } else {
+      let e = []
+
+      if (!first_name) e.push('First Name is required')
+      if (!last_name) e.push('Last Name is required')
+      if (!city) e.push('City is required')
+      if (!state) e.push('State is required')
+
+      this.setState({error: e})
+    }
   }
 
   render () {
@@ -117,6 +128,7 @@ class Search extends Component {
                 onSubmitEditing={() => {this.fnameInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                error={this.state.error && !this.state.last_name}
               />
             </Item>
           </View>
@@ -131,6 +143,7 @@ class Search extends Component {
                 onSubmitEditing={() => {this.cityInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                error={this.state.error && !this.state.first_name}
               />
             </Item>
           </View>
@@ -145,6 +158,7 @@ class Search extends Component {
                 onSubmitEditing={() => {this.stateInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                error={this.state.error && !this.state.city}
               />
             </Item>
           </View>
@@ -159,6 +173,7 @@ class Search extends Component {
                 onSubmitEditing={() => {this.streetInput._root.focus()}}
                 returnKeyType='next'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                error={this.state.error && !this.state.state}
               />
             </Item>
           </View>
