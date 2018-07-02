@@ -27,7 +27,7 @@ class clientReview extends React.PureComponent {
     const params = navigation.state.params
     return {
       tabBarOnPress: formDiscardHandler,
-      tabBarLabel: 'Clients',
+      tabBarLabel: 'My Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon
           name={'ios-people-outline'}
