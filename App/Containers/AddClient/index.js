@@ -89,7 +89,7 @@ class AddClient extends Component {
           jumpToIndex(scene.index)
         }
       },
-      tabBarLabel: !client ? 'Add Clients' : (params && params.unreviewed ? 'Unreviewed' : 'Clients'),
+      tabBarLabel: !client ? 'Add Clients' : (params && params.unreviewed ? 'Unreviewed' : 'My Clients'),
       tabBarIcon: ({ tintColor }) => {
         if (params && params.unreviewed) {
           return (
