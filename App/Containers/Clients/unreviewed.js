@@ -146,7 +146,7 @@ class Clients extends React.PureComponent {
     } else {
       return (
         <AlertMessage
-          title='No clients available'
+          title='You’re up to date!'
         />
       )
     }
