@@ -123,7 +123,7 @@ class SearchModal extends Component {
         <View style={styles.searchBar}>
           <Item style={styles.searchbar}>
             <Icon name="ios-search" style={{color: '#fff'}} />
-            <Input style={styles.searchInput} placeholder="Search" placeholderTextColor="#fff" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
+            <Input autoFocus style={styles.searchInput} placeholder="Search" placeholderTextColor="#fff" autoCapitalize='none' value={this.state.searchKey} onEndEditing={this._handleOnEndSearhInput} onChangeText={this.handleSearchInput.bind(this)} />
             {
               this.state.searchKey !== '' &&
               <TouchableOpacity onPress={this._clearSearchInput.bind(this)}>
