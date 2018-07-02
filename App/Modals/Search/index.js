@@ -140,7 +140,6 @@ class SearchModal extends Component {
             renderItem={this.renderRow.bind(this)}
             keyExtractor={this.keyExtractor}
             initialNumToRender={this.oneScreensWorth}
-            ListEmptyComponent={this.renderEmpty}
             refreshing={this.props.fetching || false}
             onRefresh={this._onRefresh}
             onEndReached={this._onEndReached}
