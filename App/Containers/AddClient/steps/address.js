@@ -173,7 +173,7 @@ class AddressStep extends Component {
 
           <View style={styles.section}>
             <Item fixedLabel>
-              <Label style={styles.sectionText}>Postal code</Label>
+              <Label style={styles.sectionText}>Zip code</Label>
               <Input
                 ref={ref => {this.postalInput = ref}}
                 style={styles.textarea}
