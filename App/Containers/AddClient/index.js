@@ -158,7 +158,7 @@ class AddClient extends Component {
         const client = this.props.navigation.getParam('client')
         if (!client) {
           this.setState(state => {
-            state = this._resetForm()
+            state = this._resetForm(true)
             return state
           })
           this.props.clients()
@@ -188,14 +188,17 @@ class AddClient extends Component {
     }
   }
 
-  _resetForm = () => {
+  _resetForm = (noBack) => {
     const client = this.props.navigation.getParam('client')
 
     if (client) {
       this.props.navigation.setParams({
         formTouched: false
       })
-      this.props.navigation.goBack(null)
+
+      if (!noBack)
+        this.props.navigation.goBack(null)
+
       return
     }
 
@@ -317,7 +320,7 @@ class AddClient extends Component {
         <Animatable.View animation='fadeInUp' duration={400}>
           <BillingStep
             ref={r => this.s3 = r}
-            resetForm={this._resetForm}
+            resetForm={() => this._resetForm()}
             navigation={this.props.navigation}
             initialData={this.state.billingData}
             submitInfo={
@@ -338,7 +341,7 @@ class AddClient extends Component {
       <Animatable.View animation='fadeInUp' duration={400}>
         <RatingStep
           ref={r => this.s4 = r}
-          resetForm={this._resetForm}
+          resetForm={() => this._resetForm()}
           navigation={this.props.navigation}
           initialData={this.state.ratingData}
           submitInfo={
@@ -401,7 +404,7 @@ class AddClient extends Component {
           <Animatable.View animation='fadeInUp' duration={400}>
             <PersonalInfoStep
               ref={r => this.s1 = r}
-              resetForm={this._resetForm}
+              resetForm={() => this._resetForm()}
               navigation={this.props.navigation}
               clientTypeChanged={ct => this.setState({clientType: ct})}
               initialData={{...this.state.personalData, client_type: this.state.clientType}}
@@ -417,7 +420,7 @@ class AddClient extends Component {
           <Animatable.View animation='fadeInUp' duration={400}>
             <AddressStep
               ref={r => this.s2 = r}
-              resetForm={this._resetForm}
+              resetForm={() => this._resetForm()}
               navigation={this.props.navigation}
               initialData={this.state.addressData}
               submitInfo={
