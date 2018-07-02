@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Text } from 'native-base'
+import { Content, Icon, Button, Text, Label, Input, Item, Form } from 'native-base'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
-
-import Input from 'Components/Input'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
 // Redux actions
@@ -72,37 +70,45 @@ class Search extends Component {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>New Password</Text>
-            <Input
-              bref={ref => this.passwordInput = ref}
-              placeholder=''
-              secureTextEntry
-              onChangeText={password => this.setState({password})}
-              onSubmitEditing={() => this.confirmPassInput._root.focus()}
-              returnKeyType='next'
-            />
-          </View>
+          <Form style={{paddingHorizontal: 15, paddingVertical: 20}}>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>New Password</Label>
+                <Input
+                  bref={ref => this.passwordInput = ref}
+                  placeholder=''
+                  secureTextEntry
+                  onChangeText={password => this.setState({password})}
+                  onSubmitEditing={() => this.confirmPassInput._root.focus()}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Confirm New Password</Text>
-            <Input
-              bref={ref => this.confirmPassInput = ref}
-              placeholder=''
-              secureTextEntry
-              onChangeText={password_confirmation => this.setState({password_confirmation})}
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Confirm New Password</Label>
+                <Input
+                  bref={ref => this.confirmPassInput = ref}
+                  placeholder=''
+                  secureTextEntry
+                  onChangeText={password_confirmation => this.setState({password_confirmation})}
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <ErrorRenderer error={error.errors} />
-          </View>
+            <View style={styles.section}>
+              <ErrorRenderer error={error.errors} />
+            </View>
 
-          <View style={styles.section}>
-            <Button primary block onPress={() => this._submit()} disabled={saving}>
-              <Text>Submit</Text>
-            </Button>
-          </View>
+            <View style={styles.section}>
+              <Button primary block onPress={() => this._submit()} disabled={saving}>
+                <Text>Submit</Text>
+              </Button>
+            </View>
+          </Form>
         </Content>
       </View>
     )
