@@ -136,7 +136,7 @@ class Search extends Component {
           <View style={styles.section}>
             <Button
               onPress={() => this._executeSearch()}
-              style={{alignSelf: 'flex-end'}}
+              block
               disabled={this.props.fetching}
             >
               <Text>Search</Text>
