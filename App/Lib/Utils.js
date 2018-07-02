@@ -73,9 +73,9 @@ export const parseEditClient = client => {
       last_name,
       middle_name,
       email,
-      phone_number,
+      phone_number: phone_number ? phone_number.replace('+1', '') : '',
       phone_number_ext,
-      alt_phone_number,
+      alt_phone_number: alt_phone_number ? alt_phone_number.replace('+1', '') : '',
       alt_phone_number_ext
     },
     addressData: {
@@ -95,7 +95,7 @@ export const parseEditClient = client => {
       billing_city,
       billing_state,
       billing_postal_code,
-      billing_phone_number,
+      billing_phone_number: billing_phone_number ? billing_phone_number.replace('+1', '') : '',
       billing_phone_number_ext
     },
     ratingData: {

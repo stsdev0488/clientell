@@ -22,9 +22,9 @@ class PersonalInfoStep extends Component {
         last_name: '',
         middle_name: '',
         email: '',
-        phone_number: '+1',
+        phone_number: '',
         phone_number_ext: '',
-        alt_phone_number: '+1',
+        alt_phone_number: '',
         alt_phone_number_ext: ''
       }
 
@@ -205,7 +205,7 @@ class PersonalInfoStep extends Component {
               }
               <Input
                 ref={ref => {this.phone = ref}}
-                defaultValue={this.state.phone_number ? this.state.phone_number : '+1'}
+                defaultValue={this.state.phone_number ? this.state.phone_number : ''}
                 onChangeText={phone_number => this._onTextChange({ phone_number })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => {this.phone_alternate.focus()}}
@@ -247,7 +247,7 @@ class PersonalInfoStep extends Component {
 
               <Input
                 ref={ref => {this.phone_alternate = ref}}
-                defaultValue={this.state.alt_phone_number ? this.state.alt_phone_number : '+1'}
+                defaultValue={this.state.alt_phone_number ? this.state.alt_phone_number : ''}
                 onChangeText={alt_phone_number => this._onTextChange({ alt_phone_number })}
                 keyboardType='phone-pad'
                 onSubmitEditing={() => {this.phone_alternate.focus()}}
