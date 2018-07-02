@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text } from 'react-native'
-import { Item } from 'native-base'
+import { Item, Input, Label } from 'native-base'
 import PhoneInput from 'react-native-phone-input'
 import styles from './styles'
 
@@ -16,8 +16,12 @@ export default class PhoneInputC extends Component {
   //   someSetting: false
   // }
 
-  state = {
-    phone_number: ''
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      phone_number: props.value
+    }
   }
 
   getCountryCode = () => {
@@ -25,20 +29,20 @@ export default class PhoneInputC extends Component {
   }
 
   getPhoneNumber = () => {
-    return this.phone.getValue()
+    return this.state.phone_number
   }
 
   render () {
     return (
-      <Item regular>
-        <PhoneInput
-          ref={ref => { this.phone = ref }}
-          style={{paddingHorizontal: 8}}
-          textStyle={{height: 50}}
-          flagStyle={{width: 0, height: 0}}
-          value={this.props.value}
-        />
-      </Item>
+      <Input
+        ref={ref => {this.phone = ref}}
+        defaultValue={this.state.phone_number ? this.state.phone_number : '+1'}
+        onChangeText={phone_number => this.setState({ phone_number })}
+        keyboardType='phone-pad'
+        returnKeyType='next'
+        autoCapitalize='none'
+        style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+      />
     )
   }
 }

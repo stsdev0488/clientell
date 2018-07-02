@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text } from 'native-base'
+import { Content, Icon, Button, Text, Label, Input, Item, Form } from 'native-base'
 import Picker from 'Lib/CustomPicker'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -12,7 +12,6 @@ import Secrets from 'react-native-config'
 import UserActions from 'Redux/UserRedux'
 import DrawerActions from 'Redux/DrawerRedux'
 
-import Input from 'Components/Input'
 import PhoneInput from 'Components/PhoneInput'
 import ErrorRenderer from 'Components/ErrorRenderer'
 
@@ -86,9 +85,9 @@ class Search extends Component {
     formData.append('postal_code', this.state.postal_code)
     formData.append('email', this.state.email)
     formData.append('phone_number', this.main_phone.getPhoneNumber())
-    formData.append('phone_number_ext', this.main_phone.getCountryCode())
+    // formData.append('phone_number_ext', this.main_phone.getCountryCode())
     formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
-    formData.append('alt_phone_number_ext', this.alt_phone.getCountryCode())
+    // formData.append('alt_phone_number_ext', this.alt_phone.getCountryCode())
 
     if (this.state.country_id)
       formData.append('country_id', this.state.country_id)
@@ -119,7 +118,7 @@ class Search extends Component {
       <View style={styles.container}>
         <Content style={styles.mContainer}>
           {
-            // <View style={styles.section}>
+            // <View style={styles.sectionForm}>
             //   <Text style={styles.sectionText}>Country <Text style={styles.sup}>*</Text></Text>
             //   <TouchableOpacity
             //     style={{height: 50}}
@@ -131,134 +130,166 @@ class Search extends Component {
             //   </TouchableOpacity>
             // </View>
           }
+          <Form style={{paddingVertical: 20, paddingHorizontal: 15}}>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Phone Number</Label>
+                <PhoneInput
+                  ref={ref => { this.main_phone = ref }}
+                  value={user.phone_number ? user.phone_number : '+1'}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Phone Number</Text>
-            <PhoneInput
-              ref={ref => { this.main_phone = ref }}
-              value={user.phone_number ? user.phone_number : '+1'}
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Alternate Phone Number</Label>
+                <PhoneInput
+                  ref={ref => { this.alt_phone = ref }}
+                  value={user.alt_phone_number ? user.alt_phone_number : '+1'}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Alternate Phone Number</Text>
-            <PhoneInput
-              ref={ref => { this.alt_phone = ref }}
-              value={user.alt_phone_number ? user.alt_phone_number : '+1'}
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Street address</Label>
+                <Input
+                  bref={ref => this.streetInput = ref}
+                  defaultValue={user.street_address || ''}
+                  onChangeText={street_address => this.setState({street_address})}
+                  required
+                  onSubmitEditing={() => {this.street2Input._root.focus()}}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Street address</Text>
-            <Input
-              bref={ref => this.streetInput = ref}
-              defaultValue={user.street_address || ''}
-              onChangeText={street_address => this.setState({street_address})}
-              required
-              onSubmitEditing={() => {this.street2Input._root.focus()}}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Street address 2</Label>
+                <Input
+                  bref={ref => this.street2Input = ref}
+                  defaultValue={user.street_address2 || ''}
+                  onChangeText={street_address2 => this.setState({street_address2})}
+                  onSubmitEditing={() => {this.cityInput._root.focus()}}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Street address 2</Text>
-            <Input
-              bref={ref => this.street2Input = ref}
-              defaultValue={user.street_address2 || ''}
-              onChangeText={street_address2 => this.setState({street_address2})}
-              onSubmitEditing={() => {this.cityInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>City</Label>
+                <Input
+                  bref={ref => this.cityInput = ref}
+                  defaultValue={user.city || ''}
+                  onChangeText={city => this.setState({city})}
+                  onSubmitEditing={() => {this.stateInput._root.focus()}}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>City</Text>
-            <Input
-              bref={ref => this.cityInput = ref}
-              defaultValue={user.city || ''}
-              onChangeText={city => this.setState({city})}
-              onSubmitEditing={() => {this.stateInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>State</Label>
+                <Input
+                  bref={ref => this.stateInput = ref}
+                  defaultValue={user.state || ''}
+                  onChangeText={state => this.setState({state})}
+                  onSubmitEditing={() => {this.postalInput._root.focus()}}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>State</Text>
-            <Input
-              bref={ref => this.stateInput = ref}
-              defaultValue={user.state || ''}
-              onChangeText={state => this.setState({state})}
-              onSubmitEditing={() => {this.postalInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Postal Code</Label>
+                <Input
+                  bref={ref => this.postalInput = ref}
+                  defaultValue={user.postal_code || ''}
+                  onChangeText={postal_code => this.setState({postal_code})}
+                  onSubmitEditing={() => {this.emailInput._root.focus()}}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Postal Code</Text>
-            <Input
-              bref={ref => this.postalInput = ref}
-              defaultValue={user.postal_code || ''}
-              onChangeText={postal_code => this.setState({postal_code})}
-              onSubmitEditing={() => {this.emailInput._root.focus()}}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Email</Label>
+                <Input
+                  bref={ref => this.emailInput = ref}
+                  defaultValue={user.email || ''}
+                  onChangeText={email => this.setState({email})}
+                  onSubmitEditing={() => {this.businessInput._root.focus()}}
+                  returnKeyType='next'
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Email</Text>
-            <Input
-              bref={ref => this.emailInput = ref}
-              defaultValue={user.email || ''}
-              onChangeText={email => this.setState({email})}
-              onSubmitEditing={() => {this.businessInput._root.focus()}}
-              returnKeyType='next'
-              autoCapitalize='none'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Business URL</Label>
+                <Input
+                  bref={ref => this.businessInput = ref}
+                  defaultValue={user.business_url || ''}
+                  onChangeText={business_url => this.setState({business_url})}
+                  onSubmitEditing={() => {this.fbInput._root.focus()}}
+                  returnKeyType='next'
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Business URL</Text>
-            <Input
-              bref={ref => this.businessInput = ref}
-              defaultValue={user.business_url || ''}
-              onChangeText={business_url => this.setState({business_url})}
-              onSubmitEditing={() => {this.fbInput._root.focus()}}
-              returnKeyType='next'
-              autoCapitalize='none'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Facebook URL</Label>
+                <Input
+                  bref={ref => this.fbInput = ref}
+                  defaultValue={user.facebook_url || ''}
+                  onChangeText={facebook_url => this.setState({facebook_url})}
+                  onSubmitEditing={() => {this.twitterInput._root.focus()}}
+                  returnKeyType='next'
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Facebook URL</Text>
-            <Input
-              bref={ref => this.fbInput = ref}
-              defaultValue={user.facebook_url || ''}
-              onChangeText={facebook_url => this.setState({facebook_url})}
-              onSubmitEditing={() => {this.twitterInput._root.focus()}}
-              returnKeyType='next'
-              autoCapitalize='none'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Twitter URL</Label>
+                <Input
+                  bref={ref => this.twitterInput = ref}
+                  defaultValue={user.twitter_url || ''}
+                  onChangeText={twitter_url => this.setState({twitter_url})}
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Twitter URL</Text>
-            <Input
-              bref={ref => this.twitterInput = ref}
-              defaultValue={user.twitter_url || ''}
-              onChangeText={twitter_url => this.setState({twitter_url})}
-              autoCapitalize='none'
-            />
-          </View>
+            <View style={styles.section}>
+              <ErrorRenderer error={error} />
+            </View>
 
-          <View style={styles.section}>
-            <ErrorRenderer error={error} />
-          </View>
-
-          <View style={styles.section}>
-            <Button primary block onPress={() => this._submitChanges()}>
-              <Text>Update</Text>
-            </Button>
-          </View>
+            <View style={styles.section}>
+              <Button primary block onPress={() => this._submitChanges()}>
+                <Text>Update</Text>
+              </Button>
+            </View>
+          </Form>
 
           <Picker
             ref={ref => {
