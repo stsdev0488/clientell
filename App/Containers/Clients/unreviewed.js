@@ -145,9 +145,15 @@ class Clients extends React.PureComponent {
       )
     } else {
       return (
-        <AlertMessage
-          title='You’re up to date!'
-        />
+        <View style={{paddingHorizontal: 20}}>
+          <Image source={Images.logo} style={{width: 180, height: 180, alignSelf: 'center'}} />
+          <NBText style={[styles.wText, {fontWeight: 'bold'}]}>Welcome to Clientell!</NBText>
+          <NBText style={styles.wText}>
+            You can add clients to your list using the
+            <NBText style={[styles.wText, {fontWeight: 'bold'}]}> Add Clients </NBText>
+            screen, or by importing them using the web portal.
+          </NBText>
+        </View>
       )
     }
   }
@@ -244,7 +250,7 @@ class Clients extends React.PureComponent {
         <View style={styles.mContainer}>
           <FlatList
             contentContainerStyle={[styles.listContent]}
-            data={this.state.dataObjects || []}
+            data={[]}
             renderItem={this.renderRow.bind(this)}
             keyExtractor={this.keyExtractor}
             initialNumToRender={this.oneScreensWorth}

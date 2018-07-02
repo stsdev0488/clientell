@@ -191,5 +191,11 @@ export default StyleSheet.create({
   reviewItem: {
     shadowColor: '#fff',
     backgroundColor: Colors.scheme3
+  },
+  wText: {
+    ...Fonts.style.normal,
+    color: Colors.text,
+    fontSize: 22,
+    textAlign: 'center'
   }
 })
