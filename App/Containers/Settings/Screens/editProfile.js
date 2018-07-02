@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text, Spinner } from 'native-base'
+import { Content, Icon, Input, Button, Text, Spinner, Item, Label, Form } from 'native-base'
 import ImagePicker from 'react-native-image-picker'
 import mimes from 'react-native-mime-types'
 import HeaderBar from 'Components/HeaderBar'
@@ -11,7 +11,6 @@ import SubHeaderBar from 'Components/SubHeaderBar'
 import UserActions from 'Redux/UserRedux'
 import DrawerActions from 'Redux/DrawerRedux'
 
-import Input from 'Components/Input'
 import Picker from 'Components/Picker'
 import Image from 'Components/Image'
 import ErrorRenderer from 'Components/ErrorRenderer'
@@ -142,86 +141,105 @@ class Search extends Component {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
-          <View style={[styles.centered]}>
-            <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()} style={{alignItems: 'center'}}>
-              <View style={styles.logo}>
-                <Image source={this.state.image || Images.launch} />
-                {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
+          <Form style={{paddingHorizontal: 15}}>
+            <View style={[styles.centered]}>
+              <TouchableWithoutFeedback onPress={() => this._updateProfilePicture()} style={{alignItems: 'center'}}>
+                <View style={styles.logo}>
+                  <Image source={this.state.image || Images.launch} />
+                  {this.props.updatingAvatar && <Spinner style={styles.avatarSpinner} color='#000' />}
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>First name</Text>
-            <Input
-              bref={ref => this.fnameInput = ref}
-              defaultValue={user.first_name || ''}
-              onChangeText={first_name => this.setState({first_name})}
-              required
-              onSubmitEditing={() => this.mnameInput._root.focus()}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>First Name</Label>
+                <Input
+                  bref={ref => this.fnameInput = ref}
+                  defaultValue={user.first_name || ''}
+                  onChangeText={first_name => this.setState({first_name})}
+                  required
+                  onSubmitEditing={() => this.mnameInput._root.focus()}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Middle name / initial</Text>
-            <Input
-              bref={ref => this.mnameInput = ref}
-              defaultValue={user.middle_name || ''}
-              onChangeText={middle_name => this.setState({middle_name})}
-              onSubmitEditing={() => this.lnameInput._root.focus()}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Middle name / initial</Label>
+                <Input
+                  bref={ref => this.mnameInput = ref}
+                  defaultValue={user.middle_name || ''}
+                  onChangeText={middle_name => this.setState({middle_name})}
+                  onSubmitEditing={() => this.lnameInput._root.focus()}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Last name</Text>
-            <Input
-              bref={ref => this.lnameInput = ref}
-              defaultValue={user.last_name || ''}
-              onChangeText={last_name => this.setState({last_name})}
-              required
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Last Name</Label>
+                <Input
+                  bref={ref => this.lnameInput = ref}
+                  defaultValue={user.last_name || ''}
+                  onChangeText={last_name => this.setState({last_name})}
+                  required
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Type</Text>
-            <Picker
-              defaultValue={this.state.account_type}
-              options={['individual', 'company']}
-              onSelect={account_type => this.setState({account_type})}
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Type</Label>
+                <Picker
+                  defaultValue={this.state.account_type}
+                  options={['individual', 'company']}
+                  onSelect={account_type => this.setState({account_type})}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Company name</Text>
-            <Input
-              bref={ref => this.companyInput = ref}
-              defaultValue={user.company_name || ''}
-              onChangeText={company_name => this.setState({company_name})}
-              onSubmitEditing={() => this.descInput._root.focus()}
-              returnKeyType='next'
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Company name</Label>
+                <Input
+                  bref={ref => this.companyInput = ref}
+                  defaultValue={user.company_name || ''}
+                  onChangeText={company_name => this.setState({company_name})}
+                  onSubmitEditing={() => this.descInput._root.focus()}
+                  returnKeyType='next'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionText}>Description</Text>
-            <Input
-              bref={ref => this.descInput = ref}
-              defaultValue={user.description || ''}
-              onChangeText={description => this.setState({description})}
-            />
-          </View>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel>
+                <Label style={styles.sectionFormText}>Description</Label>
+                <Input
+                  bref={ref => this.descInput = ref}
+                  defaultValue={user.description || ''}
+                  onChangeText={description => this.setState({description})}
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
 
-          <View style={styles.section}>
-            <ErrorRenderer error={error} />
-          </View>
+            <View style={styles.sectionForm}>
+              <ErrorRenderer error={error} />
+            </View>
 
-          <View style={styles.section}>
-            <Button primary block onPress={() => this._submitChanges()}>
-              <Text>Update</Text>
-            </Button>
-          </View>
+            <View style={[styles.sectionForm, {marginTop: 30, alignSelf: 'center'}]}>
+              <Button primary block onPress={() => this._submitChanges()}>
+                <Text>Update</Text>
+              </Button>
+            </View>
+          </Form>
         </Content>
       </View>
     )

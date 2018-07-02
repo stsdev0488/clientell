@@ -68,5 +68,23 @@ export default StyleSheet.create({
   editIcon: {
     fontSize: 30,
     color: Colors.snow
-  }
+  },
+
+  sectionForm: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+
+  sectionFormText: {
+    flex: 0,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 8,
+    color: Colors.text,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 })

@@ -40,7 +40,7 @@ export default class PickerC extends Component {
           style={{height: 50}}
           onPress={() => this.picker.show()}
         >
-          <Text style={{textAlign: 'left', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10, borderWidth: 1, borderColor: '#ddd'}}>
+          <Text style={{textAlign: 'right', fontSize: 20, paddingHorizontal: 8, paddingVertical: 10}}>
             {capitalize(this.state.selected)}
           </Text>
         </TouchableOpacity>
