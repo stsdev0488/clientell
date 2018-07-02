@@ -137,6 +137,8 @@ class Clients extends React.PureComponent {
 
   // Show this when data is empty
   renderEmpty = () => {
+    const { clientsData } = this.props
+
     if (this.props.fetching) {
       return (
         <AlertMessage
@@ -144,15 +146,30 @@ class Clients extends React.PureComponent {
         />
       )
     } else {
+      if (!clientsData.data) return null
+
       return (
         <View style={{paddingHorizontal: 20}}>
           <Image source={Images.logo} style={{width: 180, height: 180, alignSelf: 'center'}} />
-          <NBText style={[styles.wText, {fontWeight: 'bold'}]}>Welcome to Clientell!</NBText>
-          <NBText style={styles.wText}>
-            You can add clients to your list using the
-            <NBText style={[styles.wText, {fontWeight: 'bold'}]}> Add Clients </NBText>
-            screen, or by importing them using the web portal.
-          </NBText>
+          {!clientsData.data.length &&
+            <React.Fragment>
+              <NBText style={[styles.wText, {fontWeight: 'bold'}]}>Welcome to Clientell!</NBText>
+              <NBText style={styles.wText}>
+                You can add clients to your list using the
+                <NBText style={[styles.wText, {fontWeight: 'bold'}]}> Add Clients </NBText>
+                screen, or by importing them using the web portal.
+              </NBText>
+            </React.Fragment>
+          }
+
+          {clientsData.data.length > 0 &&
+            <React.Fragment>
+              <NBText style={[styles.wText, {fontWeight: 'bold'}]}>You're up to date!</NBText>
+              <NBText style={styles.wText}>
+                You've written reviews for all the clients in your list.
+              </NBText>
+            </React.Fragment>
+          }
         </View>
       )
     }
@@ -216,9 +233,8 @@ class Clients extends React.PureComponent {
   }
 
   _onEndReached = () => {
-    if (!this.props.filteredData) {
+    if (!this.props.filteredData && this.props.pagination) {
       const {current_page, total_pages, links} = this.props.pagination
-
       if (current_page < total_pages) {
         this.props.clients(links.next)
       }
@@ -250,7 +266,7 @@ class Clients extends React.PureComponent {
         <View style={styles.mContainer}>
           <FlatList
             contentContainerStyle={[styles.listContent]}
-            data={[]}
+            data={this.state.dataObjects || []}
             renderItem={this.renderRow.bind(this)}
             keyExtractor={this.keyExtractor}
             initialNumToRender={this.oneScreensWorth}

@@ -107,6 +107,7 @@ export function * reviewClient ({ id, data }) {
       yield put(ReviewActions.reviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(id))
       yield put(UserActions.userRequest())
+      yield put(ClientActions.clientRequest())
     } else {
       yield put(ReviewActions.reviewFailure(response.data))
     }
