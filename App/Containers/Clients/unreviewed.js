@@ -65,7 +65,7 @@ class Clients extends React.PureComponent {
         if (newProps.pagination.current_page === 1) {
           this.setState(state => {
             const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
-            state.dataObjects = filteredReviews
+            state.dataObjects = newProps.clientsData.data
             state.searchKey = ''
             this.props.clearFilter()
 
@@ -80,7 +80,7 @@ class Clients extends React.PureComponent {
             const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
 
             state.dataObjects = [...state.dataObjects, ...filteredReviews]
-            this.dataBeforeFilter = state.dataObjects
+            this.dataBeforeFilter = newProps.clientsData.data
             // update header client count
             // this.props.navigation.setParams({subTitle: this._clientCountDisplay(newProps)})
             return state
@@ -94,7 +94,7 @@ class Clients extends React.PureComponent {
   renderRow ({item}) {
     return (
       <ListItem>
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('ClientProfile', {client: item})}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('UnreviewedProfile', {client: item, unreviewed: true})}>
           <Body>
           <View style={styles.listHeader}>
             <NBText style={styles.title}>{item.display_name}</NBText>

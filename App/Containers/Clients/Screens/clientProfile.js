@@ -26,13 +26,27 @@ class ClientProfile extends React.PureComponent {
     const params = navigation.state.params
     return {
       tabBarOnPress: formDiscardHandler,
-      tabBarLabel: 'My Clients',
-      tabBarIcon: ({tintColor}) => (
-        <Icon
-          name={'ios-people-outline'}
-          style={{color: tintColor, fontSize: 30}}
-        />
-      ),
+      tabBarLabel: params.unreviewed ? 'Unreviewed' : 'My Clients',
+      tabBarIcon: ({tintColor}) => {
+        if (params.unreviewed) {
+          return (
+            <View style={{flexDirection: 'row'}}>
+              <Icon
+                name={'ios-people-outline'}
+                style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
+              />
+              <NBText style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</NBText>
+            </View>
+          )
+        } else {
+          return (
+            <Icon
+              name={'ios-people-outline'}
+              style={{color: tintColor, fontSize: 30}}
+            />
+          )
+        }
+      },
       header: () => {
         return (
           <SubHeaderBar {...params} />
@@ -40,6 +54,8 @@ class ClientProfile extends React.PureComponent {
       }
     }
   })
+
+  unreviewed = this.props.navigation.getParam('unreviewed', false)
 
   state = {
     scrollOffsetY: 0,
@@ -228,7 +244,7 @@ class ClientProfile extends React.PureComponent {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          this.props.navigation.navigate('ClientEditProfile', {isEdit: true, client})
+          this.props.navigation.navigate(this.unreviewed ? 'UnreviewedEditProfile' : 'ClientEditProfile', {isEdit: true, client, unreviewed: this.unreviewed})
         }
         if (buttonIndex === 1) {
           this._showDeleteConfirm()
@@ -256,7 +272,7 @@ class ClientProfile extends React.PureComponent {
           {this.renderRating()}
 
           <TouchableOpacity
-            onPress={() => navigate('ClientReview', {client})}
+            onPress={() => navigate(this.unreviewed ? 'UnreviewedReview' : 'ClientReview', {client: client, unreviewed: this.unreviewed})}
             style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 20, marginBottom: 40}}
           >
             <Button
@@ -278,7 +294,7 @@ class ClientProfile extends React.PureComponent {
           {
             this.state.reviews.map((item, i) => {
               return (
-                <Feedback key={i} data={item} style={styles.reviewItem} />
+                <Feedback key={i} data={item} style={styles.reviewItem} unreviewed={this.unreviewed} />
               )
             })
           }

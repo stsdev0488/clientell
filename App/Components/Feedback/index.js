@@ -43,7 +43,7 @@ class Feedback extends Component {
     if (userName === 'You') {
       if (!this.props.noEdit) {
         return (
-          <Button small style={styles.appButton} onPress={() => this.props.navigate('ClientReview', {client, review})}>
+          <Button small style={styles.appButton} onPress={() => this.props.navigate(this.props.unreviewed ? 'UnreviewedReview' : 'ClientReview', {client, review, unreviewed: this.props.unreviewed})}>
             <NBText>Edit Review</NBText>
           </Button>
         )

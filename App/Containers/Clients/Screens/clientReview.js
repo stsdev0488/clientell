@@ -27,13 +27,27 @@ class clientReview extends React.PureComponent {
     const params = navigation.state.params
     return {
       tabBarOnPress: formDiscardHandler,
-      tabBarLabel: 'My Clients',
-      tabBarIcon: ({tintColor}) => (
-        <Icon
-          name={'ios-people-outline'}
-          style={{color: tintColor, fontSize: 30}}
-        />
-      ),
+      tabBarLabel: params.unreviewed ? 'Unreviewed' : 'My Clients',
+      tabBarIcon: ({tintColor}) => {
+        if (params.unreviewed) {
+          return (
+            <View style={{flexDirection: 'row'}}>
+              <Icon
+                name={'ios-people-outline'}
+                style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
+              />
+              <NBText style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</NBText>
+            </View>
+          )
+        } else {
+          return (
+            <Icon
+              name={'ios-people-outline'}
+              style={{color: tintColor, fontSize: 30}}
+            />
+          )
+        }
+      },
       header: () => {
         return (
           <SubHeaderBar {...params} />

@@ -22,7 +22,7 @@ export const formDiscardHandler = ({previousScene, scene, jumpToIndex}) => {
     } else {
       jumpToIndex(scene.index)
     }
-  } else if (previousScene.key === 'Clients') {
+  } else if (previousScene.key === 'Clients' || previousScene.key === 'Unreviewed') {
     const ch = previousScene.routes[previousScene.index]
     if (ch.params && ch.params.formTouched) {
       const BUTTONS = ["Discard", "No"]

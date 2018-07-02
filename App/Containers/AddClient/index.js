@@ -64,7 +64,7 @@ class AddClient extends Component {
           } else {
             jumpToIndex(scene.index)
           }
-        } else if (previousScene.key === 'Clients') {
+        } else if (previousScene.key === 'Clients' || previousScene.key === 'Unreviewed') {
           const ch = previousScene.routes[previousScene.index]
           if (ch.params && ch.params.formTouched) {
             const BUTTONS = ["Discard", "No"]
@@ -89,15 +89,27 @@ class AddClient extends Component {
           jumpToIndex(scene.index)
         }
       },
-      tabBarLabel: !client ? 'Add Clients' : 'Clients',
+      tabBarLabel: !client ? 'Add Clients' : (params && params.unreviewed ? 'Unreviewed' : 'Clients'),
       tabBarIcon: ({ tintColor }) => {
-        return (
-          <Icon
-            name={!client ? 'ios-person-add-outline' : 'ios-people-outline'}
-            size={20}
-            style={{color: tintColor, fontSize: 30}}
-          />
-        )
+        if (params && params.unreviewed) {
+          return (
+            <View style={{flexDirection: 'row'}}>
+              <Icon
+                name={'ios-people-outline'}
+                style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
+              />
+              <NBText style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</NBText>
+            </View>
+          )
+        } else {
+          return (
+            <Icon
+              name={!client ? 'ios-person-add-outline' : 'ios-people-outline'}
+              size={20}
+              style={{color: tintColor, fontSize: 30}}
+            />
+          )
+        }
       },
       header: (a) => {
         return (

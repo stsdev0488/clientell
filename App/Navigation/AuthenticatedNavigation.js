@@ -42,9 +42,9 @@ const ClientStack = StackNavigator(
 const UnreviewedStack = StackNavigator(
   {
     Unreviewed: { screen: Unreviewed },
-    ClientProfile: { screen: ClientProfile },
-    ClientReview: { screen: ClientReview },
-    ClientEditProfile: { screen: AddClient }
+    UnreviewedProfile: { screen: ClientProfile },
+    UnreviewedReview: { screen: ClientReview },
+    UnreviewedEditProfile: { screen: AddClient }
   },
   {
     headerMode: 'none',
