@@ -117,7 +117,7 @@ class Search extends Component {
 
           <View style={[styles.section, {marginTop: 25}]}>
             <Item fixedLabel>
-              <Label style={styles.sectionText}>Last name</Label>
+              <Label style={styles.sectionText}>Last name <Text uppercase style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => this.lnameInput = ref}
                 placeholder=''
@@ -132,7 +132,7 @@ class Search extends Component {
 
           <View style={styles.section}>
             <Item fixedLabel>
-              <Label style={styles.sectionText}>First name</Label>
+              <Label style={styles.sectionText}>First name <Text uppercase style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => this.fnameInput = ref}
                 placeholder=''
@@ -147,7 +147,7 @@ class Search extends Component {
 
           <View style={styles.section}>
             <Item fixedLabel>
-              <Label style={styles.sectionText}>City</Label>
+              <Label style={styles.sectionText}>City <Text uppercase style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => this.cityInput = ref}
                 placeholder=''
@@ -162,7 +162,7 @@ class Search extends Component {
 
           <View style={styles.section}>
             <Item fixedLabel>
-              <Label style={styles.sectionText}>State</Label>
+              <Label style={styles.sectionText}>State <Text uppercase style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => this.stateInput = ref}
                 placeholder=''

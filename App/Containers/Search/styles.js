@@ -25,6 +25,10 @@ export default StyleSheet.create({
     alignSelf: 'center'
   },
 
+  sup: {
+    color: Colors.fire
+  },
+
   topImage: {
     width: 180,
     height: 180
