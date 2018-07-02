@@ -65,7 +65,7 @@ class Clients extends React.PureComponent {
         if (newProps.pagination.current_page === 1) {
           this.setState(state => {
             const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
-            state.dataObjects = newProps.clientsData.data
+            state.dataObjects = filteredReviews
             state.searchKey = ''
             this.props.clearFilter()
 
@@ -80,7 +80,7 @@ class Clients extends React.PureComponent {
             const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
 
             state.dataObjects = [...state.dataObjects, ...filteredReviews]
-            this.dataBeforeFilter = newProps.clientsData.data
+            this.dataBeforeFilter = filteredReviews
             // update header client count
             // this.props.navigation.setParams({subTitle: this._clientCountDisplay(newProps)})
             return state
