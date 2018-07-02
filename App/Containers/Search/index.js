@@ -3,6 +3,7 @@ import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Icon, Button, Text, ActionSheet } from 'native-base'
 import {formDiscardHandler} from 'Lib/Utils'
+import { Images } from 'Themes/'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -46,7 +47,7 @@ class Search extends Component {
       <View style={styles.container}>
         <Content style={styles.mContainer}>
           <View style={styles.screenTopContent}>
-            <Icon name='ios-search-outline' style={styles.topContentIcon} />
+            <Image source={Images.logo} style={styles.topImage} />
             <Text style={styles.upperContentText} uppercase>How would you like to search for a client?</Text>
           </View>
 

@@ -23,5 +23,10 @@ export default StyleSheet.create({
     marginBottom: 8,
     color: Colors.text,
     alignSelf: 'center'
+  },
+
+  topImage: {
+    width: 180,
+    height: 180
   }
 })
