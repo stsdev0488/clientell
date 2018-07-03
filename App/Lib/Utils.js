@@ -1,7 +1,10 @@
 import React from 'react'
 import {ActionSheet} from 'native-base'
+import { NavigationActions } from 'react-navigation'
 
-export const formDiscardHandler = ({previousScene, scene, jumpToIndex}) => {
+export const formDiscardHandler = (navigation, {previousScene, scene, jumpToIndex}) => {
+  const { route, focused, index } = scene
+
   if (previousScene.key === 'AddClient') {
     if (previousScene.params && previousScene.params.formTouched) {
       const BUTTONS = ["Discard", "No"]
@@ -15,12 +18,24 @@ export const formDiscardHandler = ({previousScene, scene, jumpToIndex}) => {
         buttonIndex => {
           if (buttonIndex === 0) {
             previousScene.params.resetter()
-            jumpToIndex(scene.index)
+            if (route.index > 0) {
+              const { routeName, key } = route.routes[1]
+              jumpToIndex(scene.index)
+              navigation.dispatch(NavigationActions.back({ key }))
+            } else {
+              jumpToIndex(scene.index)
+            }
           }
         }
       )
     } else {
-      jumpToIndex(scene.index)
+      if (route.index > 0) {
+        const { routeName, key } = route.routes[1]
+        jumpToIndex(scene.index)
+        navigation.dispatch(NavigationActions.back({ key }))
+      } else {
+        jumpToIndex(scene.index)
+      }
     }
   } else if (previousScene.key === 'Clients' || previousScene.key === 'Unreviewed') {
     const ch = previousScene.routes[previousScene.index]
@@ -36,15 +51,33 @@ export const formDiscardHandler = ({previousScene, scene, jumpToIndex}) => {
         buttonIndex => {
           if (buttonIndex === 0) {
             ch.params.resetter()
-            jumpToIndex(scene.index)
+            if (route.index > 0) {
+              const { routeName, key } = route.routes[1]
+              jumpToIndex(scene.index)
+              navigation.dispatch(NavigationActions.back({ key }))
+            } else {
+              jumpToIndex(scene.index)
+            }
           }
         }
       )
     } else {
-      jumpToIndex(scene.index)
+      if (route.index > 0) {
+        const { routeName, key } = route.routes[1]
+        jumpToIndex(scene.index)
+        navigation.dispatch(NavigationActions.back({ key }))
+      } else {
+        jumpToIndex(scene.index)
+      }
     }
   } else {
-    jumpToIndex(scene.index)
+    if (route.index > 0) {
+      const { routeName, key } = route.routes[1]
+      jumpToIndex(scene.index)
+      navigation.dispatch(NavigationActions.back({ key }))
+    } else {
+      jumpToIndex(scene.index)
+    }
   }
 }
 

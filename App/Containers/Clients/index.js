@@ -21,7 +21,7 @@ class Clients extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
-      tabBarOnPress: formDiscardHandler,
+      tabBarOnPress: t => formDiscardHandler(navigation, t),
       tabBarLabel: 'My Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon

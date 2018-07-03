@@ -25,7 +25,7 @@ class ClientProfile extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
-      tabBarOnPress: formDiscardHandler,
+      tabBarOnPress: t => formDiscardHandler(navigation, t),
       tabBarLabel: params.unreviewed ? 'Unreviewed' : 'My Clients',
       tabBarIcon: ({tintColor}) => {
         if (params.unreviewed) {

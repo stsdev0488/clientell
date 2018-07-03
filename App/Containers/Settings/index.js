@@ -18,7 +18,7 @@ class Settings extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
     return {
-      tabBarOnPress: formDiscardHandler,
+      tabBarOnPress: t => formDiscardHandler(navigation, t),
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
         <Icon
