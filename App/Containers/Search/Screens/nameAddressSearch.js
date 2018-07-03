@@ -20,7 +20,7 @@ class Search extends Component {
     const params = navigation.state.params
     return {
       tabBarOnPress: t => formDiscardHandler(navigation, t),
-      tabBarLabel: 'Search Clients',
+      tabBarLabel: 'Search Reviews',
       tabBarIcon: ({tintColor}) => (
         <Icon
           name={'ios-search'}
