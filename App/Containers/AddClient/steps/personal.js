@@ -52,7 +52,7 @@ class PersonalInfoStep extends Component {
             <Label style={styles.sectionText}>Organization name <NBText uppercase style={styles.sup}>*</NBText></Label>
             <Input
               ref={ref => {this.orgInput = ref}}
-              defaultValue={this.state.organization_name}
+              defaultValue={!this.state.organization_name || this.state.organization_name === 'null' ? '' : this.state.organization_name}
               onChangeText={organization_name => this._onTextChange({ organization_name })}
               style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
             />

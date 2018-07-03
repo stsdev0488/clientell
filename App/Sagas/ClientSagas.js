@@ -50,8 +50,18 @@ export function * addClient ({ data, edit }, fixtureAPI) {
     api = fixtureAPI
   }
 
+  let formData = new FormData()
+
+  Object.keys(data).forEach(key => {
+    formData.append(key, data[key])
+  })
+
+  if (edit) {
+    formData.append('_method', 'PUT')
+  }
+
   let apiCall = edit ? api.editClient : api.addClient
-  const toSubmit = edit ? { id: edit, data } : data
+  const toSubmit = edit ? { id: edit, data: formData } : formData
 
   try {
     const response = yield call(apiCall, toSubmit)

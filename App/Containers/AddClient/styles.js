@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Metrics, ApplicationStyles } from 'Themes/'
+import { Colors, Metrics, ApplicationStyles, Fonts } from 'Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -24,6 +24,41 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
+  },
+
+  sectionCol: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+
+  inlineField: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+
+  labelBox: {
+    justifyContent: 'center',
+    marginRight: Metrics.baseMargin
+  },
+  
+  thumbRateLabel: {
+    ...Fonts.style.normal,
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: Colors.text,
+    textAlign: 'right'
+  },
+
+  commentLabel: {
+    ...Fonts.style.normal,
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: Colors.text,
+    textAlign: 'left',
+    alignSelf: 'flex-start'
   },
 
   sectionText: {
@@ -70,6 +105,19 @@ export default StyleSheet.create({
   upperIcon: {
     fontSize: 20,
     color: Colors.app
+  },
+
+  commentField: {
+    ...Fonts.style.normal,
+    borderWidth: 1,
+    borderColor: Colors.steel,
+    fontSize: 15,
+    color: Colors.coal,
+    padding: Metrics.baseMargin,
+    minHeight: 60,
+    marginTop: Metrics.smallMargin,
+    flex: 1,
+    width: '100%'
   },
 
   upperText: {

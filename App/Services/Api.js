@@ -90,7 +90,7 @@ const create = (baseURL) => {
   }
 
   const editClient = ({id, data}) => {
-    return getToken().then((a) => api.post('client/' + id, {...data, _method: 'PUT'}, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.post('client/' + id, data, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const deleteClient = (id) => {

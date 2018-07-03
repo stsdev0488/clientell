@@ -140,7 +140,7 @@ class BillingStep extends Component {
 
               <Input
                 ref={ref => {this.phone = ref}}
-                defaultValue={this.state.billing_phone_number ? this.state.billing_phone_number : '+1'}
+                defaultValue={this.state.billing_phone_number ? this.state.billing_phone_number : ''}
                 onChangeText={billing_phone_number => this._onTextChange({ billing_phone_number })}
                 onSubmitEditing={() => {this.phone.focus()}}
                 returnKeyType='next'

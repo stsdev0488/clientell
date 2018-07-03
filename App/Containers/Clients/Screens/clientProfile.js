@@ -73,12 +73,14 @@ class ClientProfile extends React.PureComponent {
       rightBtnPress: () => this._showOptions()
     } : {}
 
-    this.props.navigation.setParams({
-      title: 'Rating',
-      ...rightButton,
-      leftBtnIcon: 'ios-arrow-back',
-      leftBtnPress: () => this.props.navigation.goBack(null)
-    })
+    setTimeout(() => {
+      this.props.navigation.setParams({
+        title: 'Rating',
+        ...rightButton,
+        leftBtnIcon: 'ios-arrow-back',
+        leftBtnPress: () => this.props.navigation.goBack(null)
+      })
+    }, 200)
   }
 
   componentWillReceiveProps (newProps) {

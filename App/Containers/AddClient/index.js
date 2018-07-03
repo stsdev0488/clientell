@@ -157,10 +157,12 @@ class AddClient extends Component {
       }
     }
 
-    this.props.navigation.setParams({
-      ...subValues,
-      clearErrors: () => this.props.clearFormErrors()
-    })
+    setTimeout(() => {
+      this.props.navigation.setParams({
+        ...subValues,
+        clearErrors: () => this.props.clearFormErrors()
+      })
+    }, 200)
   }
 
   componentWillReceiveProps (newProps) {
@@ -170,14 +172,16 @@ class AddClient extends Component {
         const client = this.props.navigation.getParam('client')
         if (!client) {
           this.setState(state => {
-            state = this._resetForm(true)
+            state = this._resetForm()
             return state
           })
           this.props.clients()
-          this.props.navigation.navigate('Clients')
         } else {
-          this.props.clients()
-          this.props.navigation.goBack()
+          const isEdit = this.props.navigation.getParam('isEdit')
+          if (isEdit) {
+            this.props.clients()
+            this.props.navigation.goBack()
+          }
         }
       } else if (newProps.error) {
         const errors = parseClientError(newProps.error.errors || {}, this.state.clientType)
@@ -200,25 +204,26 @@ class AddClient extends Component {
     }
   }
 
-  _resetForm = (noBack) => {
+  _resetForm = () => {
     const client = this.props.navigation.getParam('client')
-
-    if (client) {
+    const isEdit = this.props.navigation.getParam('isEdit')
+    if (client && isEdit) {
       this.props.navigation.setParams({
         formTouched: false
       })
 
-      if (!noBack)
-        this.props.navigation.goBack(null)
-
+      this.props.navigation.goBack(null)
       return
     }
 
     this.s1 && this.s1.getWrappedInstance()._reset()
     this.s2 && this.s2.getWrappedInstance()._reset()
-    this.s4 && this.s4.getWrappedInstance()._reset()
     if (this.s3) {
       this.s3.getWrappedInstance()._reset()
+    }
+
+    if (!client) {
+      this.s4 && this.s4.getWrappedInstance()._reset()
     }
 
     return {
@@ -300,18 +305,46 @@ class AddClient extends Component {
 
   _submitForm = () => {
     let billingData = {}
+    let ratingData = {}
     const personalData = this.s1.getWrappedInstance()._submitDetails()
     const addressData = this.s2.getWrappedInstance()._handleSubmit()
-    const ratingData = this.s4.getWrappedInstance()._handleSubmit()
     const client = this.props.navigation.getParam('client')
 
     if (this.s3) {
       billingData = this.s3.getWrappedInstance()._handleSubmit()
     }
 
+    if (!client) {
+      ratingData = this.s4.getWrappedInstance()._handleSubmit()
+    }
+
     this.props.navigation.setParams({rightBtnLoading: true})
     this.setState(state => {
-      state.clientData = {...state.clientData, ...personalData, ...addressData, ...billingData, ...ratingData}
+
+      if(personalData.client_type === 'individual') {
+        let filteredData = {}
+        const billingKeys = [
+          'billing_first_name',
+          'billing_middle_name',
+          'billing_last_name',
+          'billing_street_address',
+          'billing_street_address2',
+          'billing_city',
+          'billing_state',
+          'billing_postal_code',
+          'billing_phone_number_ext'
+        ]
+
+        Object.keys(state.clientData).forEach(key => {
+          if (!billingKeys.includes(key)) {
+            filteredData[key] = state.clientData[key]
+          }
+        })
+        
+        state.clientData = {...personalData, ...addressData, ...ratingData}
+      } else {
+        state.clientData = {...state.clientData, ...personalData, ...addressData, ...billingData}
+      }
 
       if (!client) {
         this.props.addClient({...state.clientData}, 0)
@@ -349,22 +382,25 @@ class AddClient extends Component {
   }
 
   _renderRating = () => {
-    return (
-      <Animatable.View animation='fadeInUp' duration={400}>
-        <RatingStep
-          ref={r => this.s4 = r}
-          resetForm={() => this._resetForm()}
-          navigation={this.props.navigation}
-          initialData={this.state.ratingData}
-          submitInfo={
-                (d) => {
-                  this.setState({ratingData: {initial_star_rating: d}})
-                  this.handleSubmit(d)
-                }
+    const client = this.props.navigation.getParam('client')
+    if (!client) {
+      return (
+        <Animatable.View animation='fadeInUp' duration={400}>
+          <RatingStep
+            ref={r => this.s4 = r}
+            resetForm={() => this._resetForm()}
+            navigation={this.props.navigation}
+            initialData={this.state.ratingData}
+            submitInfo={
+              (d) => {
+                this.setState({ratingData: {initial_star_rating: d}})
+                this.handleSubmit(d)
               }
-        />
-      </Animatable.View>
-    )
+            }
+          />
+        </Animatable.View>
+      )
+    }
   }
 
   _showDeleteConfirm = () => {
@@ -406,7 +442,7 @@ class AddClient extends Component {
         <Content style={[styles.mContainer]}innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
           <View style={{textAlign: 'center', alignItems: 'center'}}>
             <Image source={Images.user} style={styles.topImage} />
-            <NBText uppercase>Personal details</NBText>
+            <NBText uppercase>Client details</NBText>
           </View>
           
           <View style={[styles.section, {paddingVertical: 0, marginBottom: 0}]}>
