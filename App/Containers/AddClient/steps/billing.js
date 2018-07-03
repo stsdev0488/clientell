@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, Keyboard } from 'react-native'
+import { View, Text, Keyboard, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import {Container, Content, Icon, Form, Item, Input, Button, Label, Text as NBText} from 'native-base'
 import PhoneInput from 'react-native-phone-input'
+import Picker from 'Lib/CustomPicker'
+import { US_STATES, capitalize } from 'Lib/Utils'
 
 import { getPhoneExtension } from 'Lib/Utils'
 
@@ -62,6 +64,10 @@ class BillingStep extends Component {
     return errors
   }
 
+  _onChangeState = (a) => {
+    this.setState({billing_state: a})
+  }
+
   render () {
     const {
       billing_first_name: first_name,
@@ -73,6 +79,8 @@ class BillingStep extends Component {
       billing_state: state,
       billing_postal_code: postal} = this.state
     const fieldErrors = this._validateForm()
+
+    const stateName = US_STATES.find(ccc => ccc.id == state)
 
     return (
       <Form style={{marginTop: 20}}>
@@ -206,18 +214,32 @@ class BillingStep extends Component {
             </Item>
           </View>
 
+          {
+            // <View style={styles.section}>
+            //   <Item fixedLabel>
+            //     <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
+            //     <Input
+            //       ref={ref => {this.stateInput = ref}}
+            //       style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+            //       defaultValue={state}
+            //       onChangeText={billing_state => this._onTextChange({ billing_state })}
+            //       onSubmitEditing={() => {this.postalInput._root.focus()}}
+            //       returnKeyType='next'
+            //       style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+            //     />
+            //   </Item>
+            // </View>
+          }
+
           <View style={styles.section}>
             <Item fixedLabel>
               <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
-              <Input
-                ref={ref => {this.stateInput = ref}}
-                style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
-                defaultValue={state}
-                onChangeText={billing_state => this._onTextChange({ billing_state })}
-                onSubmitEditing={() => {this.postalInput._root.focus()}}
-                returnKeyType='next'
-                style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-              />
+              <TouchableOpacity
+                style={{flex: 1, justifyContent: 'center', height: 50}}
+                onPress={() => this.statePicker.show()}
+              >
+                <NBText style={styles.disabledInput}>{stateName ? stateName.name : 'Select state'}</NBText>
+              </TouchableOpacity>
             </Item>
           </View>
 
@@ -235,6 +257,15 @@ class BillingStep extends Component {
             </Item>
           </View>
         </View>
+
+        <Picker
+          ref={ref => {
+            this.statePicker = ref;
+          }}
+          selectedOption={state}
+          onSubmit={(a) => this._onChangeState(a)}
+          options={US_STATES}
+        />
       </Form>
     )
   }
