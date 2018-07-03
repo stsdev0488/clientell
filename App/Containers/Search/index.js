@@ -48,7 +48,7 @@ class Search extends Component {
         <Content style={styles.mContainer}>
           <View style={styles.screenTopContent}>
             <Image source={Images.logo} style={styles.topImage} />
-            <Text style={styles.upperContentText} uppercase>How would you like to search for a client?</Text>
+            <Text style={[styles.upperContentText, {fontSize: 26, fontWeight: 'normal'}]}>How would you like to search for a client?</Text>
           </View>
 
           <View style={[styles.section]}>
