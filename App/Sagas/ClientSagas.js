@@ -156,6 +156,7 @@ export function * deleteClientReview ({ id, client_id }) {
       yield put(ReviewActions.deleteReviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(client_id))
       yield put(UserActions.userRequest())
+      yield put(ClientActions.clientRequest())
     } else {
       yield put(ReviewActions.deleteReviewFailure(response.data))
     }

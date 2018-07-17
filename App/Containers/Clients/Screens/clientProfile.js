@@ -107,7 +107,7 @@ class ClientProfile extends React.PureComponent {
 
     if (this.props.fetchingReviews && !newProps.fetchingReviews) {
       if (!newProps.errorReviews) {
-        this.setState({reviews: newProps.reviews.data})
+        this.setState({reviews: (newProps.reviews && newProps.reviews.data) || []})
       }
     }
   }
