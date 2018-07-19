@@ -143,9 +143,10 @@ class RatingStep extends Component {
           </View>
 
           <View style={[styles.sectionCol, {flexDirection: 'column'}]}>
-            <Text style={styles.commentLabel}>{`Enter comment (${this.state.charRemaining} characters remaining)`.toUpperCase()}</Text>
+            <Text style={styles.commentLabel}  onPress={() => this.comment.focus()}>{`Enter comment (${this.state.charRemaining} characters remaining)`.toUpperCase()}</Text>
 
             <TextInput
+              ref={r => this.comment = r}
               multiline
               style={styles.commentField}
               onChangeText={this.handleCommentField.bind(this)}

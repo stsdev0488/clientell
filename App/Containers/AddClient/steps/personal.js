@@ -48,7 +48,7 @@ class PersonalInfoStep extends Component {
     if (this.state.client_type === 'organization') {
       return (
         <View style={styles.section}>
-          <Item  fixedLabel>
+          <Item  fixedLabel onPress={() => this.orgInput._root.focus()}>
             <Label style={styles.sectionText}>Organization name <NBText uppercase style={styles.sup}>*</NBText></Label>
             <Input
               ref={ref => {this.orgInput = ref}}
@@ -132,7 +132,7 @@ class PersonalInfoStep extends Component {
           {this._renderConditionalInputs()}
 
           <View style={styles.section}>
-            <Item  fixedLabel>
+            <Item  fixedLabel onPress={() => this.fnameInput._root.focus()}>
               <Label style={styles.sectionText}>First name <NBText uppercase style={styles.sup}>*</NBText></Label>
               <Input
                 ref={ref => {this.fnameInput = ref}}
@@ -146,7 +146,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.mnameInput._root.focus()}>
               <Label style={styles.sectionText}>Middle name</Label>
               <Input
                 ref={ref => {this.mnameInput = ref}}
@@ -160,7 +160,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.lnameInput._root.focus()}>
               <Label style={styles.sectionText}>Last name <NBText uppercase style={styles.sup}>*</NBText></Label>
               <Input
                 ref={ref => {this.lnameInput = ref}}
@@ -174,7 +174,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
               <Label style={styles.sectionText}>Email</Label>
               <Input
                 ref={ref => {this.emailInput = ref}}
@@ -190,7 +190,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel style={styles.fixedInput}>
+            <Item fixedLabel style={styles.fixedInput} onPress={() => this.phone._root.focus()}>
               <View>
                 <Label style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></Label>
               </View>
@@ -217,9 +217,10 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item  fixedLabel>
+            <Item  fixedLabel onPress={() => this.phone_ext._root.focus()}>
               <Label style={styles.sectionText}>Phone number extension</Label>
               <Input
+                ref={r => this.phone_ext = r}
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.phone_number_ext}
                 onChangeText={phone_number_ext => this._onTextChange({ phone_number_ext })}
@@ -233,7 +234,7 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item  fixedLabel>
+            <Item  fixedLabel onPress={() => this.phone_alternate._root.focus()}>
               <Label style={styles.sectionText}>Alternate Phone number</Label>
               {
               // <PhoneInput
@@ -259,9 +260,10 @@ class PersonalInfoStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item  fixedLabel>
+            <Item  fixedLabel onPress={() => this.alt_phone_ext._root.focus()}>
               <Label style={styles.sectionText}>Alternate Phone number extension</Label>
               <Input
+                ref={r => this.alt_phone_ext = r}
                 style={{textAlign: 'center'}}
                 defaultValue={this.state.alt_phone_number_ext}
                 onChangeText={alt_phone_number_ext => this._onTextChange({ alt_phone_number_ext })}

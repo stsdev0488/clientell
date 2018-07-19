@@ -42,6 +42,8 @@ class Search extends Component {
   user = this.props.navigation.getParam('user')
 
   state = {
+    phone_number: this.user.phone_number || '',
+    alt_phone_number: this.user.alt_phone_number || '',
     street_address: this.user.street_address || '',
     street_address2: this.user.street_address2 || '',
     city: this.user.city || '',
@@ -84,9 +86,9 @@ class Search extends Component {
     formData.append('state', this.state.state)
     formData.append('postal_code', this.state.postal_code)
     formData.append('email', this.state.email)
-    formData.append('phone_number', this.main_phone.getPhoneNumber())
+    formData.append('phone_number', this.state.phone_number)
     // formData.append('phone_number_ext', this.main_phone.getCountryCode())
-    formData.append('alt_phone_number', this.alt_phone.getPhoneNumber())
+    formData.append('alt_phone_number', this.state.alt_phone_number)
     // formData.append('alt_phone_number_ext', this.alt_phone.getCountryCode())
 
     if (this.state.country_id)
@@ -132,30 +134,56 @@ class Search extends Component {
           }
           <Form style={{paddingVertical: 20, paddingHorizontal: 15}}>
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.phone._root.focus()}>
                 <Label style={styles.sectionFormText}>Phone Number</Label>
-                <PhoneInput
-                  ref={ref => { this.main_phone = ref }}
-                  value={user.phone_number ? user.phone_number : '+1'}
+                {
+                  // <PhoneInput
+                  //   ref={ref => { this.main_phone = ref }}
+                  //   value={user.phone_number ? user.phone_number : '+1'}
+                  // />
+                }
+
+                <Input
+                  ref={ref => {this.phone = ref}}
+                  defaultValue={this.state.phone_number ? this.state.phone_number : ''}
+                  onChangeText={phone_number => this.setState({ phone_number })}
+                  keyboardType='phone-pad'
+                  onSubmitEditing={() => {this.phone_alternate.focus()}}
+                  returnKeyType='next'
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                 />
               </Item>
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.phone_alternate._root.focus()}>
                 <Label style={styles.sectionFormText}>Alternate Phone Number</Label>
-                <PhoneInput
-                  ref={ref => { this.alt_phone = ref }}
-                  value={user.alt_phone_number ? user.alt_phone_number : '+1'}
+                {
+                  // <PhoneInput
+                  //   ref={ref => { this.alt_phone = ref }}
+                  //   value={user.alt_phone_number ? user.alt_phone_number : '+1'}
+                  // />
+                }
+
+                <Input
+                  ref={ref => {this.phone_alternate = ref}}
+                  defaultValue={this.state.alt_phone_number ? this.state.alt_phone_number : ''}
+                  onChangeText={alt_phone_number => this.setState({ alt_phone_number })}
+                  keyboardType='phone-pad'
+                  onSubmitEditing={() => {this.phone_alternate.focus()}}
+                  returnKeyType='next'
+                  autoCapitalize='none'
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                 />
               </Item>
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.streetInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Street address</Label>
                 <Input
-                  bref={ref => this.streetInput = ref}
+                  ref={ref => this.streetInput = ref}
                   defaultValue={user.street_address || ''}
                   onChangeText={street_address => this.setState({street_address})}
                   required
@@ -167,10 +195,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.street2Input._root.focus()}>
                 <Label style={styles.sectionFormText}>Street address 2</Label>
                 <Input
-                  bref={ref => this.street2Input = ref}
+                  ref={ref => this.street2Input = ref}
                   defaultValue={user.street_address2 || ''}
                   onChangeText={street_address2 => this.setState({street_address2})}
                   onSubmitEditing={() => {this.cityInput._root.focus()}}
@@ -181,10 +209,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.cityInput._root.focus()}>
                 <Label style={styles.sectionFormText}>City</Label>
                 <Input
-                  bref={ref => this.cityInput = ref}
+                  ref={ref => this.cityInput = ref}
                   defaultValue={user.city || ''}
                   onChangeText={city => this.setState({city})}
                   onSubmitEditing={() => {this.stateInput._root.focus()}}
@@ -195,10 +223,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.stateInput._root.focus()}>
                 <Label style={styles.sectionFormText}>State</Label>
                 <Input
-                  bref={ref => this.stateInput = ref}
+                  ref={ref => this.stateInput = ref}
                   defaultValue={user.state || ''}
                   onChangeText={state => this.setState({state})}
                   onSubmitEditing={() => {this.postalInput._root.focus()}}
@@ -209,10 +237,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.postalInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Postal Code</Label>
                 <Input
-                  bref={ref => this.postalInput = ref}
+                  ref={ref => this.postalInput = ref}
                   defaultValue={user.postal_code || ''}
                   onChangeText={postal_code => this.setState({postal_code})}
                   onSubmitEditing={() => {this.emailInput._root.focus()}}
@@ -223,10 +251,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Email</Label>
                 <Input
-                  bref={ref => this.emailInput = ref}
+                  ref={ref => this.emailInput = ref}
                   defaultValue={user.email || ''}
                   onChangeText={email => this.setState({email})}
                   onSubmitEditing={() => {this.businessInput._root.focus()}}
@@ -238,10 +266,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.businessInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Business URL</Label>
                 <Input
-                  bref={ref => this.businessInput = ref}
+                  ref={ref => this.businessInput = ref}
                   defaultValue={user.business_url || ''}
                   onChangeText={business_url => this.setState({business_url})}
                   onSubmitEditing={() => {this.fbInput._root.focus()}}
@@ -253,10 +281,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.fbInput.focus()}>
                 <Label style={styles.sectionFormText}>Facebook URL</Label>
                 <Input
-                  bref={ref => this.fbInput = ref}
+                  ref={ref => this.fbInput = ref}
                   defaultValue={user.facebook_url || ''}
                   onChangeText={facebook_url => this.setState({facebook_url})}
                   onSubmitEditing={() => {this.twitterInput._root.focus()}}
@@ -268,10 +296,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.twitterInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Twitter URL</Label>
                 <Input
-                  bref={ref => this.twitterInput = ref}
+                  ref={ref => this.twitterInput = ref}
                   defaultValue={user.twitter_url || ''}
                   onChangeText={twitter_url => this.setState({twitter_url})}
                   autoCapitalize='none'

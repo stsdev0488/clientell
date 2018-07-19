@@ -72,10 +72,10 @@ class Search extends Component {
         <Content style={styles.mContainer}>
           <Form style={{paddingHorizontal: 15, paddingVertical: 20}}>
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.passwordInput._root.focus()}>
                 <Label style={styles.sectionFormText}>New Password</Label>
                 <Input
-                  bref={ref => this.passwordInput = ref}
+                  ref={ref => this.passwordInput = ref}
                   placeholder=''
                   secureTextEntry
                   onChangeText={password => this.setState({password})}
@@ -87,10 +87,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.confirmPassInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Confirm New Password</Label>
                 <Input
-                  bref={ref => this.confirmPassInput = ref}
+                  ref={ref => this.confirmPassInput = ref}
                   placeholder=''
                   secureTextEntry
                   onChangeText={password_confirmation => this.setState({password_confirmation})}

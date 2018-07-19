@@ -102,9 +102,10 @@ class AddressStep extends Component {
 
         <View style={styles.formWrapper}>
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.address1._root.focus()}>
               <Label style={styles.sectionText}>Address Line 1 <Text style={styles.sup}>*</Text></Label>
               <Input
+                ref={r => this.address1 = r}
                 defaultValue={street_address}
                 onChangeText={street_address => this._onTextChange({ street_address })}
                 onSubmitEditing={() => {this.address2._root.focus()}}
@@ -115,7 +116,7 @@ class AddressStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.address2._root.focus()}>
               <Label style={styles.sectionText}>Address Line 2</Label>
               <Input
                 ref={ref => {this.address2 = ref}}
@@ -129,7 +130,7 @@ class AddressStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.cityInput._root.focus()}>
               <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => {this.cityInput = ref}}
@@ -172,7 +173,7 @@ class AddressStep extends Component {
 
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.postalInput._root.focus()}>
               <Label style={styles.sectionText}>Zip code</Label>
               <Input
                 ref={ref => {this.postalInput = ref}}

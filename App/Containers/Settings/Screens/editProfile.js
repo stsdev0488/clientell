@@ -152,10 +152,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.fnameInput._root.focus()}>
                 <Label style={styles.sectionFormText}>First Name</Label>
                 <Input
-                  bref={ref => this.fnameInput = ref}
+                  ref={ref => this.fnameInput = ref}
                   defaultValue={user.first_name || ''}
                   onChangeText={first_name => this.setState({first_name})}
                   required
@@ -167,10 +167,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.mnameInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Middle name / initial</Label>
                 <Input
-                  bref={ref => this.mnameInput = ref}
+                  ref={ref => this.mnameInput = ref}
                   defaultValue={user.middle_name || ''}
                   onChangeText={middle_name => this.setState({middle_name})}
                   onSubmitEditing={() => this.lnameInput._root.focus()}
@@ -181,10 +181,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.lnameInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Last Name</Label>
                 <Input
-                  bref={ref => this.lnameInput = ref}
+                  ref={ref => this.lnameInput = ref}
                   defaultValue={user.last_name || ''}
                   onChangeText={last_name => this.setState({last_name})}
                   required
@@ -205,10 +205,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.companyInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Company name</Label>
                 <Input
-                  bref={ref => this.companyInput = ref}
+                  ref={ref => this.companyInput = ref}
                   defaultValue={user.company_name || ''}
                   onChangeText={company_name => this.setState({company_name})}
                   onSubmitEditing={() => this.descInput._root.focus()}
@@ -219,10 +219,10 @@ class Search extends Component {
             </View>
 
             <View style={styles.sectionForm}>
-              <Item fixedLabel>
+              <Item fixedLabel onPress={() => this.descInput._root.focus()}>
                 <Label style={styles.sectionFormText}>Description</Label>
                 <Input
-                  bref={ref => this.descInput = ref}
+                  ref={ref => this.descInput = ref}
                   defaultValue={user.description || ''}
                   onChangeText={description => this.setState({description})}
                   style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}

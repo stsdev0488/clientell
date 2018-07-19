@@ -91,9 +91,10 @@ class BillingStep extends Component {
 
         <View style={styles.formWrapper}>
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.firstName._root.focus()}>
               <Label style={styles.sectionText}>First Name <Text style={styles.sup}>*</Text></Label>
               <Input
+                ref={r => this.firstName = r}
                 defaultValue={first_name}
                 onChangeText={billing_first_name => this._onTextChange({ billing_first_name })}
                 onSubmitEditing={() => {this.middleName._root.focus()}}
@@ -104,7 +105,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.middleName._root.focus()}>
               <Label style={styles.sectionText}>Middle Name</Label>
               <Input
                 ref={ref => {this.middleName = ref}}
@@ -118,7 +119,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.lastName._root.focus()}>
               <Label style={styles.sectionText}>Last Name <Text style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => {this.lastName = ref}}
@@ -132,7 +133,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel style={styles.fixedInput}>
+            <Item fixedLabel style={styles.fixedInput} onPress={() => this.phone._root.focus()}>
               <View>
                 <Label style={styles.sectionText}>Billing Phone number <Text style={styles.sup}>*</Text></Label>
               </View>
@@ -172,7 +173,7 @@ class BillingStep extends Component {
             </Item>
           </View>
 
-          <View style={styles.section}>
+          <View style={styles.section} onPress={() => this.address._root.focus()}>
             <Item fixedLabel>
               <Label style={styles.sectionText}>Billing Address Line 1 <Text style={styles.sup}>*</Text></Label>
               <Input
@@ -187,7 +188,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.address2._root.focus()}>
               <Label style={styles.sectionText}>Billing Address Line 2</Label>
               <Input
                 ref={ref => {this.address2 = ref}}
@@ -201,7 +202,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.cityInput._root.focus()}>
               <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
               <Input
                 ref={ref => {this.cityInput = ref}}
@@ -244,7 +245,7 @@ class BillingStep extends Component {
           </View>
 
           <View style={styles.section}>
-            <Item fixedLabel>
+            <Item fixedLabel onPress={() => this.postalInput._root.focus()}>
               <Label style={styles.sectionText}>Postal code</Label>
               <Input
                 ref={ref => {this.postalInput = ref}}
