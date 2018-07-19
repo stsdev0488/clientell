@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import UserActions from '../Redux/UserRedux'
 import {connect} from 'react-redux'
+import SplashScreen from 'react-native-splash-screen'
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -22,6 +23,10 @@ class AuthLoadingScreen extends React.Component {
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     this.props.getAuthUser()
+
+    // hide splashscreen
+    SplashScreen.hide()
+
     this.props.navigation.navigate(userToken ? 'App' : 'Auth')
   }
 
