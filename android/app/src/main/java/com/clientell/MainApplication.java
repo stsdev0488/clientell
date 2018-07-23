@@ -17,9 +17,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
-// react-native-splash-screen >= 0.3.1
-import org.devio.rn.splashscreen.SplashScreen; // here
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,7 +59,6 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
-    SplashScreen.show(this);  // here
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }
