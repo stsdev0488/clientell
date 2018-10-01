@@ -1,6 +1,6 @@
 //
 //  CallDirectoryHandler.swift
-//  CallDetectionHandler
+//  CallDetectHandler
 //
 //  Created by Ian Jovein Yu on 24/09/2018.
 //  Copyright © 2018 Facebook. All rights reserved.
@@ -15,7 +15,7 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
   
     override func beginRequest(with context: CXCallDirectoryExtensionContext) {
         context.delegate = self
-        self.ud = UserDefaults(suiteName: "group.ClientellContactsGroup")
+        self.ud = UserDefaults(suiteName: "group.clientell.contacts.lists")
 
         // Check whether this is an "incremental" data request. If so, only provide the set of phone number blocking
         // and identification entries which have been added or removed since the last time this extension's data was loaded.

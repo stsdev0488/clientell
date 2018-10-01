@@ -12,7 +12,7 @@ import CallKit
 @objc(CallDetection)
 class CallDetection: NSObject {
 
-  let extensionIdentifer = "com.sourcetoad.clientell.CallDetectionHandler";
+  let extensionIdentifer = "com.sourcetoad.clientell.CallDetectHandler";
   
   @objc func addContacts(_ contacts: NSArray) -> Void {
     // Date is ready to use!
@@ -30,10 +30,10 @@ class CallDetection: NSObject {
       };
       
       let contactList : [String:String] = [
-        "63_917_307_8009":"Coolest Man on Earth"
+        "61416622681":"\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr"
       ]
       
-      if let ud = UserDefaults(suiteName: "group.ClientellContactsGroup") {
+      if let ud = UserDefaults(suiteName: "group.clientell.contacts.lists") {
         ud.setValue(contactList, forKey: "ContactList");
         ud.synchronize();
       

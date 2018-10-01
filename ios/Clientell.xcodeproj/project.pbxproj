@@ -47,7 +47,7 @@
 		341D0A95125644999485EB57 /* SanFranciscoText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 75F33EB95EF44F7E95A39B81 /* SanFranciscoText-Bold.otf */; };
 		3C1549872158EDA400B9DD5F /* CallDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1549862158EDA400B9DD5F /* CallDetection.swift */; };
 		3C15498F2158EF7400B9DD5F /* CallDirectoryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C15498E2158EF7400B9DD5F /* CallDirectoryHandler.swift */; };
-		3C1549932158EF7400B9DD5F /* CallDetectionHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3C15498C2158EF7400B9DD5F /* CallDetectionHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3C1549932158EF7400B9DD5F /* CallDetectHandler.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3C15498C2158EF7400B9DD5F /* CallDetectHandler.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3C1549992158F30B00B9DD5F /* CallDetectionBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1549982158F30B00B9DD5F /* CallDetectionBridge.m */; };
 		421F18B5F48F4353865EB1BE /* SanFranciscoText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4149A68EE7074272BF1AB59E /* SanFranciscoText-Regular.otf */; };
 		4604F0E493C04ED18013AB78 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 197ABD8A3BBA4FFBBFFC0622 /* Octicons.ttf */; };
@@ -179,7 +179,7 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 3C15498B2158EF7400B9DD5F;
-			remoteInfo = CallDetectionHandler;
+			remoteInfo = CallDetectHandler;
 		};
 		3C726E9420C93A5A00C9613E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -428,7 +428,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				3C1549932158EF7400B9DD5F /* CallDetectionHandler.appex in Embed App Extensions */,
+				3C1549932158EF7400B9DD5F /* CallDetectHandler.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,11 +466,11 @@
 		32F5B188A6E242E697B253EC /* SourceSansPro-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Light.otf"; path = "../Fonts/SourceSansPro-Light.otf"; sourceTree = "<group>"; };
 		34C0EE70449C423CA12AA8BB /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		3605AC40ED584A498ADD4399 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
-		3C0BA5872161F8220084B4C4 /* CallDetectionHandler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallDetectionHandler.entitlements; sourceTree = "<group>"; };
 		3C0BA5882161F8C60084B4C4 /* Clientell.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Clientell.entitlements; path = Clientell/Clientell.entitlements; sourceTree = "<group>"; };
+		3C0BA58B216213F30084B4C4 /* CallDetectHandler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallDetectHandler.entitlements; sourceTree = "<group>"; };
 		3C1549852158EDA300B9DD5F /* Clientell-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clientell-Bridging-Header.h"; sourceTree = "<group>"; };
 		3C1549862158EDA400B9DD5F /* CallDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDetection.swift; sourceTree = "<group>"; };
-		3C15498C2158EF7400B9DD5F /* CallDetectionHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CallDetectionHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C15498C2158EF7400B9DD5F /* CallDetectHandler.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CallDetectHandler.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C15498E2158EF7400B9DD5F /* CallDirectoryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallDirectoryHandler.swift; sourceTree = "<group>"; };
 		3C1549902158EF7400B9DD5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C1549982158F30B00B9DD5F /* CallDetectionBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallDetectionBridge.m; sourceTree = "<group>"; };
@@ -720,14 +720,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3C15498D2158EF7400B9DD5F /* CallDetectionHandler */ = {
+		3C15498D2158EF7400B9DD5F /* CallDetectHandler */ = {
 			isa = PBXGroup;
 			children = (
-				3C0BA5872161F8220084B4C4 /* CallDetectionHandler.entitlements */,
+				3C0BA58B216213F30084B4C4 /* CallDetectHandler.entitlements */,
 				3C15498E2158EF7400B9DD5F /* CallDirectoryHandler.swift */,
 				3C1549902158EF7400B9DD5F /* Info.plist */,
 			);
-			path = CallDetectionHandler;
+			path = CallDetectHandler;
 			sourceTree = "<group>";
 		};
 		3C726E9020C93A5A00C9613E /* Products */ = {
@@ -814,7 +814,7 @@
 				13B07FAE1A68108700A75B9A /* Clientell */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ClientellTests */,
-				3C15498D2158EF7400B9DD5F /* CallDetectionHandler */,
+				3C15498D2158EF7400B9DD5F /* CallDetectHandler */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E2365FB57FB7471DB2D5A5E7 /* Resources */,
@@ -832,7 +832,7 @@
 				00E356EE1AD99517003FC87E /* ClientellTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* Clientell-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Clientell-tvOSTests.xctest */,
-				3C15498C2158EF7400B9DD5F /* CallDetectionHandler.appex */,
+				3C15498C2158EF7400B9DD5F /* CallDetectHandler.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -996,9 +996,9 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* Clientell-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3C15498B2158EF7400B9DD5F /* CallDetectionHandler */ = {
+		3C15498B2158EF7400B9DD5F /* CallDetectHandler */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3C1549942158EF7400B9DD5F /* Build configuration list for PBXNativeTarget "CallDetectionHandler" */;
+			buildConfigurationList = 3C1549942158EF7400B9DD5F /* Build configuration list for PBXNativeTarget "CallDetectHandler" */;
 			buildPhases = (
 				3C1549882158EF7400B9DD5F /* Sources */,
 				3C1549892158EF7400B9DD5F /* Frameworks */,
@@ -1008,9 +1008,9 @@
 			);
 			dependencies = (
 			);
-			name = CallDetectionHandler;
-			productName = CallDetectionHandler;
-			productReference = 3C15498C2158EF7400B9DD5F /* CallDetectionHandler.appex */;
+			name = CallDetectHandler;
+			productName = CallDetectHandler;
+			productReference = 3C15498C2158EF7400B9DD5F /* CallDetectHandler.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -1025,11 +1025,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = T6YUYRD9KZ;
+						DevelopmentTeam = GFWL5Q42Q6;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = T6YUYRD9KZ;
+						DevelopmentTeam = GFWL5Q42Q6;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -1050,7 +1050,7 @@
 					};
 					3C15498B2158EF7400B9DD5F = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = T6YUYRD9KZ;
+						DevelopmentTeam = GFWL5Q42Q6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1151,7 +1151,7 @@
 				00E356ED1AD99517003FC87E /* ClientellTests */,
 				2D02E47A1E0B4A5D006451C7 /* Clientell-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* Clientell-tvOSTests */,
-				3C15498B2158EF7400B9DD5F /* CallDetectionHandler */,
+				3C15498B2158EF7400B9DD5F /* CallDetectHandler */,
 			);
 		};
 /* End PBXProject section */
@@ -1557,7 +1557,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1635,7 +1635,7 @@
 		};
 		3C1549922158EF7400B9DD5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3C15498B2158EF7400B9DD5F /* CallDetectionHandler */;
+			target = 3C15498B2158EF7400B9DD5F /* CallDetectHandler */;
 			targetProxy = 3C1549912158EF7400B9DD5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1658,7 +1658,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1700,7 +1700,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1745,7 +1745,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1789,7 +1789,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1993,19 +1993,20 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = CallDetectionHandler/CallDetectionHandler.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallDetectHandler/CallDetectHandler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = CallDetectionHandler/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CallDetectHandler/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectionHandler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2031,19 +2032,20 @@
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = CallDetectionHandler/CallDetectionHandler.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallDetectHandler/CallDetectHandler.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = T6YUYRD9KZ;
+				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = CallDetectionHandler/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CallDetectHandler/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectionHandler;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
@@ -2166,7 +2168,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3C1549942158EF7400B9DD5F /* Build configuration list for PBXNativeTarget "CallDetectionHandler" */ = {
+		3C1549942158EF7400B9DD5F /* Build configuration list for PBXNativeTarget "CallDetectHandler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3C1549952158EF7400B9DD5F /* Debug */,
