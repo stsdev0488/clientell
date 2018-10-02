@@ -17,19 +17,7 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
         context.delegate = self
         self.ud = UserDefaults(suiteName: "group.clientell.contacts.lists")
 
-        // Check whether this is an "incremental" data request. If so, only provide the set of phone number blocking
-        // and identification entries which have been added or removed since the last time this extension's data was loaded.
-        // But the extension must still be prepared to provide the full set of data at any time, so add all blocking
-        // and identification phone numbers if the request is not incremental.
-        if context.isIncremental {
-            addOrRemoveIncrementalBlockingPhoneNumbers(to: context)
-
-            addOrRemoveIncrementalIdentificationPhoneNumbers(to: context)
-        } else {
-            addAllBlockingPhoneNumbers(to: context)
-
-            addAllIdentificationPhoneNumbers(to: context)
-        }
+        addAllIdentificationPhoneNumbers(to: context)
 
         context.completeRequest()
     }
@@ -69,7 +57,6 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
         if let ud = self.ud {
           //remove all entries before adding new entries again
 //          context.removeAllIdentificationEntries()
-
           if ud.value(forKey: "ContactList") != nil {
             let contactList : [String:String] = ud.value(forKey: "ContactList") as! [String:String];
             

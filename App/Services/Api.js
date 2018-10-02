@@ -84,6 +84,10 @@ const create = (baseURL) => {
   /**
    * Clients API
    */
+  const fetchAllClients = () => {
+    const url = 'client?per_page=500'
+    return getToken().then((a) => api.get(url, {}, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
 
   const addClient = (data) => {
     return getToken().then((a) => api.post('client', data, {headers: {'Authorization': 'Bearer ' + a}}))
@@ -150,7 +154,8 @@ const create = (baseURL) => {
     clientFilter,
     addClientReview,
     editClientReview,
-    deleteClientReview
+    deleteClientReview,
+    fetchAllClients
   }
 }
 

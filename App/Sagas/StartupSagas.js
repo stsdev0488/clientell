@@ -1,13 +1,49 @@
-import { put, call } from 'redux-saga/effects'
+import { put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import AuthActions from '../Redux/AuthRedux'
 import { AsyncStorage } from 'react-native'
 import API from '../Services/Api'
 import Secrets from 'react-native-config'
+import { NativeModules } from 'react-native'
 
 // process STARTUP actions
 export function * startup (action) {
   yield put(AuthActions.authWatch())
+  const logined = yield call(AsyncStorage.getItem, '@LoginStore:token')
+
+  if (logined) {
+    const api = yield call(apiGet)
+    const a = yield call(api['fetchAllClients'])
+
+    if (a.ok) {
+      const {data} = a.data
+
+      if (data) {
+        let phoneNumbers = []
+        let phoneLabels = []
+
+        data.forEach(d => {
+          phoneNumbers.push(d.phone_number.replace('+', ''))
+
+          const avgRating = parseInt(d.avg_rating)
+          let stars = ''
+          Array.from(Array(avgRating)).forEach((n) => {
+            stars += `\u{2B50}`
+          })
+
+          phoneLabels.push(`${stars} ${d.name}`)
+        })
+
+        NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+
+        // debug numbers
+        // NativeModules.CallDetection.addContacts(
+        //   ['639173078009', '61416622681'],
+        //   [`\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Ian`, `\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr`]
+        // )
+      }
+    }
+  }
 }
 
 export function * apiGet () {

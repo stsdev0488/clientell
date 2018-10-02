@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StatusBar, NativeModules } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import ReduxNavigation from 'Navigation/ReduxNavigation'
 import { connect } from 'react-redux'
 import StartupActions from 'Redux/StartupRedux'
@@ -15,9 +15,6 @@ import styles from './styles'
 class RootContainer extends Component {
   componentDidMount () {
     this.props.startup()
-    console.tron.log(NativeModules.CallDetection)
-
-    NativeModules.CallDetection.addContacts(['639173031620'])
   }
 
   render () {

@@ -1,7 +1,7 @@
 import { call, put, fork, take } from 'redux-saga/effects'
 import AuthActions, {AuthTypes} from '../Redux/AuthRedux'
 import UserActions from '../Redux/UserRedux'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, NativeModules } from 'react-native'
 import {delay} from 'redux-saga'
 import { apiGet } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
@@ -118,6 +118,31 @@ export function * login (action, fixtureAPI) {
       // yield call(api.addPushToken, {
       //   device_type: Platform.OS
       // });
+
+      const a = yield call(api['fetchAllClients'])
+
+      if (a.ok) {
+        const {data} = a.data
+
+        if (data) {
+          let phoneNumbers = []
+          let phoneLabels = []
+
+          data.forEach(d => {
+            phoneNumbers.push(d.phone_number.replace('+', ''))
+
+            const avgRating = parseInt(d.avg_rating)
+            let stars = ''
+            Array.from(Array(avgRating)).forEach((n) => {
+              stars += `\u{2B50}`
+            })
+
+            phoneLabels.push(`${stars} ${d.name}`)
+          })
+
+          NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+        }
+      }
       return true
     } else {
       yield put(AuthActions.authFailure(response.data || {error: 'unknown', message: `Can't connect to server`}))

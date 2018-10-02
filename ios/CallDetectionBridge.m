@@ -11,6 +11,6 @@
 
 @interface RCT_EXTERN_MODULE(CallDetection, NSObject)
 
-RCT_EXTERN_METHOD(addContacts:(NSArray *)contacts)
+RCT_EXTERN_METHOD(addContacts:(NSArray *)contacts contactLabels:(NSArray *)contactLabels)
 
 @end

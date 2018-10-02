@@ -11,15 +11,12 @@ import CallKit
 
 @objc(CallDetection)
 class CallDetection: NSObject {
-
-  let extensionIdentifer = "com.sourcetoad.clientell.CallDetectHandler";
-  
-  @objc func addContacts(_ contacts: NSArray) -> Void {
+  @objc func addContacts(_ contacts: NSArray, contactLabels: NSArray) -> Void {
     // Date is ready to use!
     
     if #available(iOS 10.0, *) {
       let manager : CXCallDirectoryManager = CXCallDirectoryManager.sharedInstance;
-      manager.getEnabledStatusForExtension(withIdentifier: extensionIdentifer) { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
+      manager.getEnabledStatusForExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
         print("CXCallDirectoryManager status : \(status)");
         if let _ = error {
           print("\(String(describing: error?.localizedDescription))");
@@ -29,28 +26,26 @@ class CallDetection: NSObject {
         }
       };
       
-      let contactList : [String:String] = [
-        "61416622681":"\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr"
-      ]
+      var finalContactList = [String: String]()
+
+      for (String:phoneNumber, label) in zip(contacts, contactLabels) {
+        finalContactList["\(phoneNumber)"] = "\(label)"
+      }
       
       if let ud = UserDefaults(suiteName: "group.clientell.contacts.lists") {
-        ud.setValue(contactList, forKey: "ContactList");
+        ud.setValue(finalContactList, forKey: "ContactList");
         ud.synchronize();
       
         print("done synchronizing")
         
-        manager.reloadExtension(withIdentifier: self.extensionIdentifer, completionHandler: { error in
+        manager.reloadExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler", completionHandler: { error in
           if let _ = error{
             print("A error \(error?.localizedDescription as String!)");
           }
           
           let contactList : [String:String] = ud.value(forKey: "ContactList") as! [String:String];
           
-          if ud.value(forKey: "ContactList") != nil {
-            print("kaokaokey!")
-          }
-          
-          let allPhoneNumbers: [String] = contactList.keys.sorted()
+          let allPhoneNumbers: [String] = finalContactList.keys.sorted()
           for phoneNumber in allPhoneNumbers {
             print("Calling \(phoneNumber) with label \(contactList[phoneNumber])")
           }
