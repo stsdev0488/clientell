@@ -1051,7 +1051,7 @@
 					3C15498B2158EF7400B9DD5F = {
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = GFWL5Q42Q6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1743,7 +1743,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Sourcetoad, LLC. (GFWL5Q42Q6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 84;
+				CURRENT_PROJECT_VERSION = 85;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
@@ -1788,7 +1788,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Sourcetoad, LLC. (GFWL5Q42Q6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 84;
+				CURRENT_PROJECT_VERSION = 85;
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = (
@@ -1994,8 +1994,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = CallDetectHandler/CallDetectHandler.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				ENABLE_TESTABILITY = YES;
@@ -2006,7 +2006,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "5a3cfcc4-ec66-402b-8b99-94f3e3fc27ec";
+				PROVISIONING_PROFILE_SPECIFIER = "Clientell Dev Extension";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2033,8 +2034,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = CallDetectHandler/CallDetectHandler.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
@@ -2045,7 +2046,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell.CallDetectHandler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "5a3cfcc4-ec66-402b-8b99-94f3e3fc27ec";
+				PROVISIONING_PROFILE_SPECIFIER = "Clientell Dev Extension";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
