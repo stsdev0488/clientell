@@ -4,7 +4,20 @@ import AuthActions from '../Redux/AuthRedux'
 import { AsyncStorage } from 'react-native'
 import API from '../Services/Api'
 import Secrets from 'react-native-config'
-import { NativeModules } from 'react-native'
+import { NativeModules, Linking } from 'react-native'
+import { NavigationActions } from 'react-navigation'
+
+function checkDirectoryEnabled () {
+  return (new Promise((resolve) => {
+    try {
+      NativeModules.CallDetection.checkEnabled((err, data) => {
+        resolve(data)
+      })
+    } catch (err) {
+      resolve({enabled: false})
+    }
+  }))
+}
 
 // process STARTUP actions
 export function * startup (action) {
@@ -12,6 +25,12 @@ export function * startup (action) {
   const logined = yield call(AsyncStorage.getItem, '@LoginStore:token')
 
   if (logined) {
+    const b = yield call(checkDirectoryEnabled)
+
+    if (!b.enabled) {
+      yield put(NavigationActions.navigate({ routeName: 'CallDirectoryModal' }))
+    }
+
     const api = yield call(apiGet)
     const a = yield call(api['fetchAllClients'])
 
