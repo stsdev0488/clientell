@@ -118,31 +118,8 @@ export function * login (action, fixtureAPI) {
       // yield call(api.addPushToken, {
       //   device_type: Platform.OS
       // });
+      yield fork(callDirectorySync)
 
-      const a = yield call(api['fetchAllClients'])
-
-      if (a.ok) {
-        const {data} = a.data
-
-        if (data) {
-          let phoneNumbers = []
-          let phoneLabels = []
-
-          data.forEach(d => {
-            phoneNumbers.push(d.phone_number.replace('+', ''))
-
-            const avgRating = parseInt(d.avg_rating)
-            let stars = ''
-            Array.from(Array(avgRating)).forEach((n) => {
-              stars += `\u{2B50}`
-            })
-
-            phoneLabels.push(`${stars} ${d.name}`)
-          })
-
-          NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
-        }
-      }
       return true
     } else {
       yield put(AuthActions.authFailure(response.data || {error: 'unknown', message: `Can't connect to server`}))
@@ -179,6 +156,9 @@ export function * loginFB (action) {
       // yield call(api.addPushToken, {
       //   device_type: Platform.OS
       // });
+
+      yield fork(callDirectorySync)
+
       return true
     } else {
       let errorObj = response.data || {error: 'unknown', message: `Can't connect to server`}
@@ -203,5 +183,39 @@ function * logoutTask () {
     ])
   } catch (error) {
     console.tron.log(error)
+  }
+}
+
+function * callDirectorySync () {
+  let api = yield call(apiGet)
+  const a = yield call(api['fetchAllClients'])
+
+  if (a.ok) {
+    const {data} = a.data
+
+    if (data) {
+      let phoneNumbers = []
+      let phoneLabels = []
+
+      data.forEach(d => {
+        phoneNumbers.push(d.phone_number.replace('+', ''))
+
+        const avgRating = parseInt(d.avg_rating)
+        let stars = ''
+        Array.from(Array(avgRating)).forEach((n) => {
+          stars += `\u{2B50}`
+        })
+
+        phoneLabels.push(`${stars} ${d.name}`)
+      })
+
+      NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+
+      // debug numbers
+      // NativeModules.CallDetection.addContacts(
+      //   ['639173078009', '61416622681'],
+      //   [`\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Ian`, `\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr`]
+      // )
+    }
   }
 }

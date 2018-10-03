@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 // import PropTypes from 'prop-types';
-import { View, Image, TouchableOpacity, AsyncStorage } from 'react-native'
+import { View, Image, TouchableOpacity, AsyncStorage, NativeModules } from 'react-native'
 import styles from './styles'
 import { Content, List, ListItem, Text, ActionSheet } from 'native-base'
 import { Images } from 'Themes/'
@@ -42,6 +42,9 @@ class DrawerContent extends Component {
           this.props.clearClients()
           this.props.clearReviews()
           this.props.navigate('Auth')
+
+          // delete all contacts directory identities
+          NativeModules.CallDetection.addContacts([], [])
         }
       }
     )

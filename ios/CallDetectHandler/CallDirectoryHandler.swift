@@ -78,9 +78,9 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
       
         if let ud = self.ud {
           //remove all entries before adding new entries again
+          context.removeAllIdentificationEntries()
           
           if ud.value(forKey: "ContactList") != nil {
-            context.removeAllIdentificationEntries()
             let contactList : [String:String] = ud.value(forKey: "ContactList") as! [String:String];
             
             let allPhoneNumbers: [String] = contactList.keys.sorted()
