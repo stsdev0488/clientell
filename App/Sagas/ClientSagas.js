@@ -1,9 +1,44 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, fork } from 'redux-saga/effects'
 import ClientActions from 'Redux/ClientRedux'
 import ReviewActions from 'Redux/ReviewRedux'
 import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
+import { NativeModules } from 'react-native'
+
+function * callDirectorySync () {
+  let api = yield call(apiGet)
+  const a = yield call(api['fetchAllClients'])
+
+  if (a.ok) {
+    const {data} = a.data
+
+    if (data) {
+      let phoneNumbers = []
+      let phoneLabels = []
+
+      data.forEach(d => {
+        phoneNumbers.push(d.phone_number.replace('+', ''))
+
+        const avgRating = parseInt(d.avg_rating)
+        let stars = ''
+        Array.from(Array(avgRating)).forEach((n) => {
+          stars += `\u{2B50}`
+        })
+
+        phoneLabels.push(`${stars} ${d.name}`)
+      })
+
+      NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+
+      // debug numbers
+      // NativeModules.CallDetection.addContacts(
+      //   ['639173078009', '61416622681'],
+      //   [`\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Ian`, `\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr`]
+      // )
+    }
+  }
+}
 
 export function * getClients ({ data }, fixtureAPI) {
   let api
@@ -68,6 +103,7 @@ export function * addClient ({ data, edit }, fixtureAPI) {
 
     if (response.ok) {
       yield put(ClientActions.addClientSuccess(response.data))
+      yield fork(callDirectorySync)
 
       if (edit) {
         yield put(ClientActions.getSpecificClient(edit))
@@ -92,6 +128,7 @@ export function * deleteClient ({ id }) {
     if (response.ok) {
       yield put(ClientActions.deleteClientSuccess(response.data))
       yield put(ClientActions.clientRequest())
+      yield fork(callDirectorySync)
 
       // go back to clients listings on successful delete
       yield put(NavigationActions.back())
@@ -118,6 +155,7 @@ export function * reviewClient ({ id, data }) {
       yield put(ClientActions.getSpecificClient(id))
       yield put(UserActions.userRequest())
       yield put(ClientActions.clientRequest())
+      yield fork(callDirectorySync)
     } else {
       yield put(ReviewActions.reviewFailure(response.data))
     }
@@ -137,6 +175,7 @@ export function * editClientReview ({ id, data }) {
       yield put(ReviewActions.editReviewSuccess(response.data))
       yield put(ClientActions.getSpecificClient(response.data.client_id))
       yield put(UserActions.userRequest())
+      yield fork(callDirectorySync)
     } else {
       yield put(ReviewActions.editReviewFailure(response.data))
     }
@@ -157,6 +196,7 @@ export function * deleteClientReview ({ id, client_id }) {
       yield put(ClientActions.getSpecificClient(client_id))
       yield put(UserActions.userRequest())
       yield put(ClientActions.clientRequest())
+      yield fork(callDirectorySync)
     } else {
       yield put(ReviewActions.deleteReviewFailure(response.data))
     }

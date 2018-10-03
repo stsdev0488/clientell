@@ -113,7 +113,7 @@ export default class SubHeaderBar extends Component {
                     ref={a => this.rIcon = a}
                     animation="customPulse"
                     easing="ease-out"
-                    iterationCount={rightBtnLoading ? 'infinite' : 0}
+                    iterationCount={rightBtnLoading ? 'infinite' : 1}
                     style={styles.headerIcon}
                     name={rightBtnIcon ? rightBtnIcon : 'ios-help-circle'}
                   />

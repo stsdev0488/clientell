@@ -16,8 +16,12 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
     override func beginRequest(with context: CXCallDirectoryExtensionContext) {
         context.delegate = self
         self.ud = UserDefaults(suiteName: "group.clientell.contacts.lists")
-
-        addAllIdentificationPhoneNumbers(to: context)
+      
+        if context.isIncremental {
+          addOrRemoveIncrementalIdentificationPhoneNumbers(to: context)
+        } else {
+          addAllIdentificationPhoneNumbers(to: context)
+        }
 
         context.completeRequest()
     }
@@ -71,18 +75,20 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
     private func addOrRemoveIncrementalIdentificationPhoneNumbers(to context: CXCallDirectoryExtensionContext) {
         // Retrieve any changes to the set of phone numbers to identify (and their identification labels) from data store. For optimal performance and memory usage when there are many phone numbers,
         // consider only loading a subset of numbers at a given time and using autorelease pool(s) to release objects allocated during each batch of numbers which are loaded.
-//        let phoneNumbersToAdd: [CXCallDirectoryPhoneNumber] = [ 1_408_555_5678 ]
-//        let labelsToAdd = [ "New local business" ]
-//
-//        for (phoneNumber, label) in zip(phoneNumbersToAdd, labelsToAdd) {
-//            context.addIdentificationEntry(withNextSequentialPhoneNumber: phoneNumber, label: label)
-//        }
-//
-//        let phoneNumbersToRemove: [CXCallDirectoryPhoneNumber] = [ 1_888_555_5555 ]
-//
-//        for phoneNumber in phoneNumbersToRemove {
-//            context.removeIdentificationEntry(withPhoneNumber: phoneNumber)
-//        }
+      
+        if let ud = self.ud {
+          //remove all entries before adding new entries again
+          
+          if ud.value(forKey: "ContactList") != nil {
+            context.removeAllIdentificationEntries()
+            let contactList : [String:String] = ud.value(forKey: "ContactList") as! [String:String];
+            
+            let allPhoneNumbers: [String] = contactList.keys.sorted()
+            for phoneNumber in allPhoneNumbers {
+              context.addIdentificationEntry(withNextSequentialPhoneNumber: CXCallDirectoryPhoneNumber(phoneNumber)!, label: contactList[phoneNumber]!)
+            }
+          }
+        }
 
         // Record the most-recently loaded set of identification entries in data store for the next incremental load...
     }

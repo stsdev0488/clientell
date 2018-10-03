@@ -440,7 +440,7 @@ class AddClient extends Component {
     return (
       <View style={styles.container}>
         <Content style={[styles.mContainer]}innerRef={ref => { this.scrollBar = ref }} padder onScroll={ev => this.setState({scrollOffsetY: Math.round(ev.nativeEvent.contentOffset.y)})}>
-          <View style={{textAlign: 'center', alignItems: 'center'}}>
+          <View style={{alignItems: 'center'}}>
             <Image source={Images.user} style={styles.topImage} />
             <NBText uppercase>Client details</NBText>
           </View>
