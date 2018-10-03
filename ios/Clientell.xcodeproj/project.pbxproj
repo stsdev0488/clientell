@@ -1031,7 +1031,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = GFWL5Q42Q6;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -1740,10 +1740,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clientell/Clientell.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sourcetoad, LLC. (GFWL5Q42Q6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 84;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
@@ -1767,8 +1767,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell;
 				PRODUCT_NAME = Clientell;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "380148a1-f543-444f-83fb-82325d095da3";
+				PROVISIONING_PROFILE_SPECIFIER = Clinetell_AppStore;
 				SWIFT_OBJC_BRIDGING_HEADER = "Clientell-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1785,10 +1785,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clientell/Clientell.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sourcetoad, LLC. (GFWL5Q42Q6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 84;
 				DEVELOPMENT_TEAM = GFWL5Q42Q6;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				HEADER_SEARCH_PATHS = (
@@ -1811,8 +1811,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.sourcetoad.clientell;
 				PRODUCT_NAME = Clientell;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "380148a1-f543-444f-83fb-82325d095da3";
+				PROVISIONING_PROFILE_SPECIFIER = Clinetell_AppStore;
 				SWIFT_OBJC_BRIDGING_HEADER = "Clientell-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
