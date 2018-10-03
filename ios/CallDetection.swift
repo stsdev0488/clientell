@@ -11,6 +11,37 @@ import CallKit
 
 @objc(CallDetection)
 class CallDetection: NSObject {
+  @objc func checkEnabled(_ callback: @escaping (Any) -> ()) -> Void {
+    if #available(iOS 10.0, *) {
+      let manager : CXCallDirectoryManager = CXCallDirectoryManager.sharedInstance;
+      manager.getEnabledStatusForExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
+        print("CXCallDirectoryManager status : \(status)");
+        if let _ = error {
+          let resultsDict = [
+            "enabled" : false
+          ];
+          
+          callback([NSNull() ,resultsDict])
+        }
+        
+        if(status == CXCallDirectoryManager.EnabledStatus.enabled){
+          
+          let resultsDict = [
+            "enabled" : true
+          ];
+          
+          callback([NSNull() ,resultsDict])
+        } else {
+          let resultsDict = [
+            "enabled" : false
+          ];
+          
+          callback([NSNull() ,resultsDict])
+        }
+      };
+    }
+  }
+  
   @objc func addContacts(_ contacts: NSArray, contactLabels: NSArray) -> Void {
     // Date is ready to use!
     
@@ -41,13 +72,6 @@ class CallDetection: NSObject {
         manager.reloadExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler", completionHandler: { error in
           if let _ = error{
             print("A error \(error?.localizedDescription as String!)");
-          }
-          
-          let contactList : [String:String] = ud.value(forKey: "ContactList") as! [String:String];
-          
-          let allPhoneNumbers: [String] = finalContactList.keys.sorted()
-          for phoneNumber in allPhoneNumbers {
-            print("Calling \(phoneNumber) with label \(contactList[phoneNumber])")
           }
           
           print("done reloading")

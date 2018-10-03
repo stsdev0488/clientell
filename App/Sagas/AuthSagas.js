@@ -188,6 +188,12 @@ function * logoutTask () {
 
 function * callDirectorySync () {
   let api = yield call(apiGet)
+  const b = yield call(checkDirectoryEnabled)
+
+  if (!b.enabled) {
+    yield put(NavigationActions.navigate({ routeName: 'CallDirectoryModal' }))
+  }
+
   const a = yield call(api['fetchAllClients'])
 
   if (a.ok) {
@@ -218,4 +224,16 @@ function * callDirectorySync () {
       // )
     }
   }
+}
+
+function checkDirectoryEnabled () {
+  return (new Promise((resolve) => {
+    try {
+      NativeModules.CallDetection.checkEnabled((err, data) => {
+        resolve(data)
+      })
+    } catch (err) {
+      resolve({enabled: false})
+    }
+  }))
 }
