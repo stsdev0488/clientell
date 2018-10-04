@@ -17,11 +17,7 @@ class CallDetection: NSObject {
       manager.getEnabledStatusForExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
         print("CXCallDirectoryManager status : \(status)");
         if let _ = error {
-          let resultsDict = [
-            "enabled" : false
-          ];
-          
-          callback([NSNull() ,resultsDict])
+          print("Something went wrong")
         }
         
         if(status == CXCallDirectoryManager.EnabledStatus.enabled){
