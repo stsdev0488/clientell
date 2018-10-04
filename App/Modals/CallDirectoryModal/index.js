@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, TouchableOpacity, Linking } from 'react-native'
+import { View, Image, TouchableOpacity, Linking, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Content, Button, Text } from 'native-base'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -17,6 +17,11 @@ class Modal extends Component {
   //   super(props)
   //   this.state = {}
   // }
+
+  _enableSetting = () => {
+    Linking.openURL('App-Prefs:')
+    this.props.navigation.goBack()
+  }
 
   render () {
     return (
@@ -38,6 +43,10 @@ class Modal extends Component {
 
           <View style={[styles.section, {flexDirection: 'row', justifyContent: 'space-around', width: '100%'}]}>
             <Button error onPress={() => this.props.navigation.goBack()}><Text> Ok </Text></Button>
+
+            {Platform.OS === 'ios' &&
+              <Button success onPress={() => this._enableSetting()}><Text> Enable </Text></Button>
+            }
           </View>
         </View>
       </View>

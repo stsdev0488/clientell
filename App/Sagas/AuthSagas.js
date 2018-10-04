@@ -190,6 +190,8 @@ function * callDirectorySync () {
   if (!NativeModules.CallDetection) return
 
   let api = yield call(apiGet)
+
+  yield call(delay, 500)
   const b = yield call(checkDirectoryEnabled)
 
   if (!b.enabled) {
