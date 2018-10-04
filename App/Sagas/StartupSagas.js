@@ -28,6 +28,8 @@ export function * startup (action) {
     const b = yield call(checkDirectoryEnabled)
 
     if (!b.enabled) {
+      // delay 1 second to allow other preloaded tabs to set its navigation header values
+      yield call(delay, 500)
       yield put(NavigationActions.navigate({ routeName: 'CallDirectoryModal' }))
     }
 
