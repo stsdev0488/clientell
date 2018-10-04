@@ -16,7 +16,7 @@ const ErrorRenderer = ({error}) => {
         </View>
       )
     } else if (!Array.isArray(error)) {
-      const keys = (Object.keys(error))
+      let keys = (Object.keys(error))
 
       if (error.message) {
         return (
