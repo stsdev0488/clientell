@@ -187,6 +187,8 @@ function * logoutTask () {
 }
 
 function * callDirectorySync () {
+  if (!NativeModules.CallDetection) return
+
   let api = yield call(apiGet)
   const b = yield call(checkDirectoryEnabled)
 

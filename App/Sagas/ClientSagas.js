@@ -7,6 +7,8 @@ import { NavigationActions } from 'react-navigation'
 import { NativeModules } from 'react-native'
 
 function * callDirectorySync () {
+  if (!NativeModules.CallDetection) return
+
   let api = yield call(apiGet)
   const a = yield call(api['fetchAllClients'])
 

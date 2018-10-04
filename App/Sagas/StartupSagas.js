@@ -24,7 +24,7 @@ export function * startup (action) {
   yield put(AuthActions.authWatch())
   const logined = yield call(AsyncStorage.getItem, '@LoginStore:token')
 
-  if (logined) {
+  if (logined && NativeModules.CallDetection) {
     const b = yield call(checkDirectoryEnabled)
 
     if (!b.enabled) {
