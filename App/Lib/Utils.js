@@ -146,6 +146,10 @@ export const parseEditClient = client => {
 }
 
 export const parseClientError = (errors, clientType) => {
+  if (typeof errors !== 'object') {
+    return [['Something went wrong, while submitting data. Please try again.']]
+  }
+
   const personal = ['organization_name', 'first_name', 'last_name', 'middle_name', 'email', 'phone_number', 'phone_number_ext', 'alt_phone_number', 'alt_phone_number_ext']
   const address = ['street_address', 'street_address2', 'country_id', 'city', 'state', 'postal_code']
   const billing = ['billing_first_name', 'billing_middle_name', 'billing_last_name', 'billing_street_address', 'billing_street_address2', 'billing_city', 'billing_state', 'billing_postal_code', 'billing_phone_number', 'billing_phone_number_ext']
