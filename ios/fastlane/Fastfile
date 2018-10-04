@@ -36,6 +36,7 @@ platform :ios do
     increment_build_number(
       build_number: buildnumber
     )
+    set_info_plist_value(path: "./CallDetectHandler/Info.plist", key: "CFBundleVersion", value: buildnumber)
     gym(scheme: "Clientell",
       clean: true,
       include_symbols: true,
