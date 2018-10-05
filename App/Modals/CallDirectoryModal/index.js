@@ -37,16 +37,12 @@ class Modal extends Component {
             </Text>
 
             <Text style={[styles.screenText, {marginTop: 10}]}>
-              You can enable this via <Text style={{fontWeight: 'bold', color: '#37b2ea'}}>Settings > Phone > Call Blocking & Identification</Text>, and then toggle on "Clientell"
+              You can enable this via <Text style={{fontWeight: 'bold', color: '#37b2ea'}} onPress={() => this._enableSetting()}>Settings > Phone > Call Blocking & Identification</Text>, and then toggle on "Clientell"
             </Text>
           </View>
 
           <View style={[styles.section, {flexDirection: 'row', justifyContent: 'space-around', width: '100%'}]}>
             <Button error onPress={() => this.props.navigation.goBack()}><Text> Ok </Text></Button>
-
-            {Platform.OS === 'ios' &&
-              <Button success onPress={() => this._enableSetting()}><Text> Enable </Text></Button>
-            }
           </View>
         </View>
       </View>
