@@ -14,7 +14,7 @@ export function * getUser (action, fixtureAPI) {
   }
 
   // success?
-  if (response.ok) {
+  if (response && response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(UserActions.userSuccess(response.data))

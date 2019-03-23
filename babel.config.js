@@ -17,7 +17,8 @@ module.exports = {
           "Images": "./App/Images",
           "Config": "./App/Config",
           "Navigation": "./App/Navigation",
-          "Modals": "./App/Modals"
+          "Modals": "./App/Modals",
+          "Hooks": "./App/Hooks"
         },
         "extensions": [".js", ".ios.js", ".android.js"]
       }
