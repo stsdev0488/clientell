@@ -204,7 +204,7 @@ class Clients extends React.PureComponent {
   }
 
   _onEndReached = () => {
-    if (!this.props.filteredData) {
+    if (!this.props.filteredData && this.props.pagination) {
       const {current_page, total_pages, links} = this.props.pagination
 
       if (current_page < total_pages) {
