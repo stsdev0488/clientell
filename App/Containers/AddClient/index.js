@@ -95,7 +95,7 @@ class AddClient extends Component {
           return (
             <View style={{flexDirection: 'row'}}>
               <Icon
-                name={'ios-people-outline'}
+                name={'ios-people'}
                 style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
               />
               <NBText style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</NBText>
@@ -104,7 +104,7 @@ class AddClient extends Component {
         } else {
           return (
             <Icon
-              name={!client ? 'ios-person-add-outline' : 'ios-people-outline'}
+              name={!client ? 'ios-person-add' : 'ios-people'}
               size={20}
               style={{color: tintColor, fontSize: 30}}
             />

@@ -32,7 +32,7 @@ class ClientProfile extends React.PureComponent {
           return (
             <View style={{flexDirection: 'row'}}>
               <Icon
-                name={'ios-people-outline'}
+                name={'ios-people'}
                 style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
               />
               <NBText style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</NBText>
@@ -41,7 +41,7 @@ class ClientProfile extends React.PureComponent {
         } else {
           return (
             <Icon
-              name={'ios-people-outline'}
+              name={'ios-people'}
               style={{color: tintColor, fontSize: 30}}
             />
           )

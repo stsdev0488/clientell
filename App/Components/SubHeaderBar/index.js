@@ -6,6 +6,7 @@ import styles from './styles'
 import LinearGradient from 'react-native-linear-gradient'
 import {Colors} from 'Themes/'
 import * as Animatable from 'react-native-animatable'
+import {isIphoneX} from "react-native-iphone-x-helper";
 
 
 Animatable.initializeRegistryWithDefinitions({
@@ -63,7 +64,7 @@ export default class SubHeaderBar extends Component {
 
     const scrolledStyles = scrollOffsetY && scrollOffsetY > 0 ? styles.scrolledStyles : {}
 
-    let height = 90
+    let height = isIphoneX() ? 113: 90
     if (topTitle) height += 20
     // if (subTitle) height += 20
     const rightAdditional = {
