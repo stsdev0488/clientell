@@ -54,10 +54,12 @@ class SignUpScreen extends Component {
   _submit = async () => {
     if (!this.isValid()) {
       Alert.alert('Please fill up all required fields')
+      return
     }
 
     if (!this.state.agree) {
       Alert.alert('You need to agree to privacy policy and terms of use')
+      return
     }
 
     const {

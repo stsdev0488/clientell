@@ -78,6 +78,7 @@ class PostSignUpScreen extends Component {
   _submit = async () => {
     if (!this.isValid()) {
       Alert.alert('Please fill up all required fields')
+      return
     }
 
     const {
