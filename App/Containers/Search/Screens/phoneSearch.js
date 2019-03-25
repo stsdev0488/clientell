@@ -96,7 +96,7 @@ class Search extends Component {
       <View style={styles.container}>
         <Content style={styles.mContainer}>
           <View style={styles.screenTopContent}>
-            <Icon name='ios-search-outline' style={styles.topContentIcon} />
+            <Icon name='ios-search' style={styles.topContentIcon} />
             <Text style={styles.upperContentText} uppercase>By phone number</Text>
           </View>
 

@@ -1,4 +1,5 @@
 import { call, put } from 'redux-saga/effects'
+import {delay} from 'redux-saga'
 import UserActions from '../Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
@@ -14,9 +15,15 @@ export function * getUser (action, fixtureAPI) {
   }
 
   // success?
-  if (response.ok) {
+  if (response && response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
+
+    if (!response.data.finished_signup) {
+      yield call(delay, 500)
+      yield put(NavigationActions.back())
+      yield put(NavigationActions.navigate({ routeName: 'PostSignUp', params: {user: response.data} }))
+    }
     yield put(UserActions.userSuccess(response.data))
   } else {
     yield put(UserActions.userFailure())

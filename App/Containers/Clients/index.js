@@ -25,7 +25,7 @@ class Clients extends React.PureComponent {
       tabBarLabel: 'My Clients',
       tabBarIcon: ({tintColor}) => (
         <Icon
-          name={'ios-people-outline'}
+          name={'ios-people'}
           style={{color: tintColor, fontSize: 30}}
         />
       ),
@@ -204,7 +204,7 @@ class Clients extends React.PureComponent {
   }
 
   _onEndReached = () => {
-    if (!this.props.filteredData) {
+    if (!this.props.filteredData && this.props.pagination) {
       const {current_page, total_pages, links} = this.props.pagination
 
       if (current_page < total_pages) {

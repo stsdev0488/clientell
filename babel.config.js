@@ -1,6 +1,6 @@
-{
-  "presets": ["react-native"],
-  "plugins": [
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
     [
       "module-resolver",
       {
@@ -17,15 +17,16 @@
           "Images": "./App/Images",
           "Config": "./App/Config",
           "Navigation": "./App/Navigation",
-          "Modals": "./App/Modals"
+          "Modals": "./App/Modals",
+          "Hooks": "./App/Hooks"
         },
         "extensions": [".js", ".ios.js", ".android.js"]
       }
     ]
   ],
-  "env": {
+  env: {
     "production": {
       "plugins": ["ignite-ignore-reactotron"]
     }
   }
-}
+};

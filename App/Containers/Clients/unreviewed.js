@@ -26,7 +26,7 @@ class Clients extends React.PureComponent {
       tabBarIcon: ({tintColor}) => (
         <View style={{flexDirection: 'row'}}>
           <Icon
-            name={'ios-people-outline'}
+            name={'ios-people'}
             style={{color: tintColor, fontSize: 30, alignSelf: 'center'}}
           />
           <Text style={{color: tintColor, fontSize: 20, alignSelf: 'center'}}>?</Text>

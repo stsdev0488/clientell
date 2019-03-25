@@ -69,6 +69,7 @@ import SearchResults from 'Containers/Search/Screens/searchResults'
 import EditProfile from 'Containers/Settings/Screens/editProfile'
 import EditContactInfo from 'Containers/Settings/Screens/editContactInfo'
 import ChangePassword from 'Containers/Settings/Screens/changePassword'
+import PostSignUp from 'Containers/Settings/Screens/postSignup'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -108,7 +109,8 @@ const SettingsStack = StackNavigator({
   Settings: { screen: Settings },
   EditProfile: { screen: EditProfile },
   EditMyContactInfo: { screen: EditContactInfo },
-  ChangePassword: { screen: ChangePassword }
+  ChangePassword: { screen: ChangePassword },
+  PostSignUp: { screen: PostSignUp }
 }, {
   // Default config for all screens
   headerMode: 'none',
@@ -159,7 +161,8 @@ const StackedApp = StackNavigator({
   Settings: { screen: Settings },
   EditProfile: { screen: EditProfile },
   EditMyContactInfo: { screen: EditContactInfo },
-  ChangePassword: { screen: ChangePassword }
+  ChangePassword: { screen: ChangePassword },
+  PostSignUp: { screen: PostSignUp }
 }, {
   // Default config for all screens
   headerMode: 'none',

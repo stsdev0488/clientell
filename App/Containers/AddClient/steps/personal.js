@@ -112,7 +112,7 @@ class PersonalInfoStep extends Component {
     return (
       <Form style={{marginTop: 20}}>
         <View style={styles.formUpper}>
-          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <Icon style={styles.upperIcon} name='ios-list-box' />
           <NBText style={styles.upperText} uppercase>Basic info</NBText>
         </View>
         
