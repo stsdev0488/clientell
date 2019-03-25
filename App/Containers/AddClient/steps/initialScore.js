@@ -81,7 +81,7 @@ class RatingStep extends Component {
     return (
       <View style={{marginTop: 20, marginBottom: 40}}>
         <View style={styles.formUpper}>
-          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <Icon style={styles.upperIcon} name='ios-list-box' />
           <Text style={styles.upperText} uppercase>Review</Text>
         </View>
 

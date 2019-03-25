@@ -89,11 +89,6 @@ export default StyleSheet.create({
   },
 
   formWrapper: {
-    borderLeftWidth: 1,
-    borderColor: '#cfcfcf',
-    marginLeft: 7.5,
-    paddingLeft: 7.5,
-    marginBottom: 25
   },
 
   formUpper: {

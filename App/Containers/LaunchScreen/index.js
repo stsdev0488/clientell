@@ -100,6 +100,10 @@ class LaunchScreen extends Component {
               <Text>Sign in</Text>
             </Button>
 
+            <Button block bordered primary style={styles.loginButton} onPress={() => this.props.navigation.navigate('SignUpScreen')}>
+              <Text>Sign up for a ClienTell account</Text>
+            </Button>
+
             <Button transparent primary style={[ styles.forgotPassword]} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
               <Text>Forgot password?</Text>
             </Button>

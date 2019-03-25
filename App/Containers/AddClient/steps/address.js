@@ -96,7 +96,7 @@ class AddressStep extends Component {
         }
 
         <View style={styles.formUpper}>
-          <Icon style={styles.upperIcon} name='ios-list-box-outline' />
+          <Icon style={styles.upperIcon} name='ios-list-box' />
           <NBText style={styles.upperText} uppercase>Address</NBText>
         </View>
 

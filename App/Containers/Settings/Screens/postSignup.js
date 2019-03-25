@@ -1,17 +1,38 @@
 import React, { Component } from 'react'
-import {View, AsyncStorage, TouchableOpacity, Alert, Text} from 'react-native'
+import {View, TouchableOpacity, Alert, Text} from 'react-native'
 import { connect } from 'react-redux'
 import {Content, Form, Item, Input, Button, Icon, Text as NBText, Label, CheckBox, ListItem} from 'native-base'
 import Picker from 'Lib/CustomPicker'
 import { Colors } from 'Themes'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import { US_STATES, capitalize } from 'Lib/Utils'
-import AuthActions from 'Redux/AuthRedux'
+import UserActions from 'Redux/UserRedux'
 
 // Styles
 import styles from './styles'
 
-class SignUpScreen extends Component {
+class PostSignUpScreen extends Component {
+  static navigationOptions = (({navigation}) => {
+    const params = navigation.state.params
+    return {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon
+          name={'ios-home-outline'}
+          size={20}
+          style={{color: tintColor, fontSize: 25}}
+        />
+      ),
+      header: (a) => {
+        return (
+          <SubHeaderBar {...params} />
+        )
+      }
+    }
+  })
+
+  user = this.props.navigation.getParam('user')
+
   // state = {
   //   password: '',
   //   confirm_password: '',
@@ -35,19 +56,16 @@ class SignUpScreen extends Component {
   // }
 
   state = {
-    password: '123456',
-    confirm_password: '123456',
     client_type: 'individual',
     organization_name: '',
     first_name: 'Ian',
     last_name: 'Me',
     middle_name: 'D',
-    email: 'ian@me.com',
+    email: this.user.email,
     phone_number: '2015550123',
     phone_number_ext: '',
     alt_phone_number: '',
     alt_phone_number_ext: '',
-    agree: false,
     street_address: 'test address suite 12',
     street_address2: '',
     city: 'Las Vegas',
@@ -55,19 +73,27 @@ class SignUpScreen extends Component {
     postal_code: '61110'
   }
 
-  capitalize(str){
+  componentDidMount () {
+    this.props.navigation.setParams({
+      title: 'Update Profile',
+      rightBtnPress: this._submit,
+      rightBtnText: 'Submit'
+    })
+  }
+
+  capitalize (str){
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   isValid = () => {
     const {
-      email, password, confirm_password, first_name, last_name, state, city, postal_code, phone_number
+      email, first_name, last_name, state, city, postal_code, phone_number
     } = this.state
-    
-    if (email && password && confirm_password && first_name && last_name && state && city && postal_code && phone_number) {
+
+    if (email && first_name && last_name && state && city && postal_code && phone_number) {
       return true
     }
-    
+
     return false
   }
 
@@ -76,31 +102,25 @@ class SignUpScreen extends Component {
       Alert.alert('Please fill up all required fields')
     }
 
-    if (!this.state.agree) {
-      Alert.alert('You need to agree to privacy policy and terms of use')
-    }
-
     const {
-      email, password, confirm_password, first_name, last_name, state, city, postal_code, phone_number,
+      email, first_name, last_name, state, city, postal_code, phone_number,
       street_address, street_address2, alt_phone_number, middle_name
     } = this.state
+    const formData = new FormData()
 
-    this.props.signUp({
-      account_type: 'individual',
-      email,
-      password,
-      password_confirmation: confirm_password,
-      first_name,
-      last_name,
-      middle_name: middle_name,
-      phone_number,
-      alt_phone_number,
-      street_address,
-      street_address2,
-      city,
-      state,
-      postal_code
-    })
+    formData.append('first_name', first_name)
+    formData.append('middle_name', middle_name)
+    formData.append('last_name', last_name)
+    formData.append('account_type', 'individual')
+    formData.append('street_address', street_address)
+    formData.append('street_address2', street_address2)
+    formData.append('email', email)
+    formData.append('phone_number', phone_number)
+    formData.append('city', city)
+    formData.append('state', state)
+    formData.append('postal_code', postal_code)
+
+    this.props.update(formData)
   }
 
   _onChangetype = (a) => {
@@ -121,83 +141,8 @@ class SignUpScreen extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        <SubHeaderBar
-          title={'Register'}
-          leftBtnIcon={'arrow-back'}
-          leftBtnPress={() => {
-            this.props.navigation.goBack()
-          }}
-          rightBtnPress={this._submit}
-          rightBtnText={'Submit'}
-        />
-
         <Content style={styles.container}>
-          <Form style={{marginTop: 20, paddingHorizontal: 20, paddingBottom: 50}}>
-            <View style={styles.formUpper}>
-              <Icon style={styles.upperIcon} name='ios-list-box' />
-              <NBText style={styles.upperText} uppercase>Login Details</NBText>
-            </View>
-
-            <View style={styles.formWrapper}>
-              <View style={styles.groupDescription}>
-                <NBText style={styles.groupDescriptionText}>
-                  Enter your email address and make a password. You'll use them to log into the ClienTell app and web site. Any info marked with * is mandatory.
-                </NBText>
-              </View>
-
-              <View style={styles.section}>
-                <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
-                  <Label style={styles.sectionText}>Email <NBText uppercase style={styles.sup}>*</NBText></Label>
-                  <Input
-                    ref={ref => {this.emailInput = ref}}
-                    defaultValue={this.state.email}
-                    onChangeText={email => this._onTextChange({ email })}
-                    onSubmitEditing={() => {this.phone.focus()}}
-                    returnKeyType='next'
-                    autoCapitalize='none'
-                    style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                  />
-                </Item>
-              </View>
-
-              <View style={styles.section}>
-                <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
-                  <Label style={styles.sectionText}>Password <NBText uppercase style={styles.sup}>*</NBText></Label>
-                  <Input
-                    ref={ref => {this.password = ref}}
-                    defaultValue={this.state.password}
-                    onChangeText={password => this._onTextChange({ password })}
-                    onSubmitEditing={() => {this.confirmPassword.focus()}}
-                    returnKeyType='next'
-                    autoCapitalize='none'
-                    style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                    secureTextEntry
-                  />
-                </Item>
-              </View>
-
-              <View style={styles.section}>
-                <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
-                  <Label style={styles.sectionText}>Confirm Password <NBText uppercase style={styles.sup}>*</NBText></Label>
-                  <Input
-                    ref={ref => {this.confirmPassword = ref}}
-                    defaultValue={this.state.confirm_password}
-                    onChangeText={confirm_password => this._onTextChange({ confirm_password })}
-                    returnKeyType='next'
-                    autoCapitalize='none'
-                    style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
-                    secureTextEntry
-                  />
-                </Item>
-              </View>
-
-            </View>
-
-            <View style={styles.formUpper}>
-              <Icon style={styles.upperIcon} name='ios-list-box' />
-              <NBText style={styles.upperText} uppercase>Contact Details</NBText>
-            </View>
-
+          <Form style={{marginTop: 20, paddingLeft: 15, paddingRight: 20, paddingBottom: 50}}>
             <View style={styles.formWrapper}>
               <View style={styles.groupDescription}>
                 <NBText style={styles.groupDescriptionText}>
@@ -404,27 +349,6 @@ class SignUpScreen extends Component {
               </View>
             </View>
 
-            <View style={styles.formUpper}>
-              <Icon style={styles.upperIcon} name='ios-list-box' />
-              <NBText style={styles.upperText} uppercase>Privacy Policy / Terms of Use</NBText>
-            </View>
-
-            <View style={styles.formWrapper}>
-              <View style={styles.groupDescription}>
-                <NBText style={styles.groupDescriptionText}>
-                  At ClienTell, we respect your right to privacy. Please read our <NBText style={styles.link}>privacy policy</NBText> and <NBText style={styles.link}>terms and conditions</NBText> and check the box below to confirm that you agree:
-                </NBText>
-              </View>
-
-              <ListItem iconLeft>
-                <CheckBox checked={this.state.agree} color={Colors.scheme2} onPress={() => this.setState({agree: !this.state.agree})} />
-
-                <NBText style={[styles.sectionText, {paddingLeft: 8}]}>
-                  I have read the privacy policy and agree to the terms of use.
-                </NBText>
-              </ListItem>
-            </View>
-
             <Picker
               ref={ref => {
                 this.statePicker = ref;
@@ -447,8 +371,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUp: (data) => dispatch(AuthActions.register(data))
+    update: (data) => dispatch(UserActions.userUpdateRequest(data)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(PostSignUpScreen)

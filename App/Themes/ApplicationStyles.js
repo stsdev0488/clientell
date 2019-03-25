@@ -76,6 +76,12 @@ const ApplicationStyles = {
       color: Colors.text,
       textAlign: 'center'
     },
+    link: {
+      ...Fonts.style.normal,
+      color: Colors.scheme2,
+      fontSize: 14,
+      fontWeight: '900'
+    },
     subtitle: {
       color: Colors.snow,
       padding: Metrics.smallMargin,
