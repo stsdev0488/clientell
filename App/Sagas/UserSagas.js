@@ -19,7 +19,7 @@ export function * getUser (action, fixtureAPI) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
 
-    if (response.data.finished_signup) {
+    if (!response.data.finished_signup) {
       yield call(delay, 500)
       yield put(NavigationActions.back())
       yield put(NavigationActions.navigate({ routeName: 'PostSignUp', params: {user: response.data} }))

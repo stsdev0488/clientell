@@ -33,44 +33,22 @@ class PostSignUpScreen extends Component {
 
   user = this.props.navigation.getParam('user')
 
-  // state = {
-  //   password: '',
-  //   confirm_password: '',
-  //   client_type: 'individual',
-  //   organization_name: '',
-  //   first_name: '',
-  //   last_name: '',
-  //   middle_name: '',
-  //   email: '',
-  //   phone_number: '',
-  //   phone_number_ext: '',
-  //   alt_phone_number: '',
-  //   alt_phone_number_ext: '',
-  //   agree: false,
-  //   street_address: '',
-  //   street_address2: '',
-  //   country_id: 840,
-  //   city: '',
-  //   state: '',
-  //   postal_code: ''
-  // }
-
   state = {
     client_type: 'individual',
     organization_name: '',
-    first_name: 'Ian',
-    last_name: 'Me',
-    middle_name: 'D',
+    first_name: '',
+    last_name: '',
+    middle_name: '',
     email: this.user.email,
-    phone_number: '2015550123',
+    phone_number: '',
     phone_number_ext: '',
     alt_phone_number: '',
     alt_phone_number_ext: '',
-    street_address: 'test address suite 12',
+    street_address: '',
     street_address2: '',
-    city: 'Las Vegas',
-    state: 'MI',
-    postal_code: '61110'
+    city: '',
+    state: '',
+    postal_code: ''
   }
 
   componentDidMount () {

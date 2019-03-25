@@ -7,52 +7,32 @@ import { Colors } from 'Themes'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import { US_STATES, capitalize } from 'Lib/Utils'
 import AuthActions from 'Redux/AuthRedux'
+import ErrorRenderer from 'Components/ErrorRenderer'
 
 // Styles
 import styles from './styles'
 
 class SignUpScreen extends Component {
-  // state = {
-  //   password: '',
-  //   confirm_password: '',
-  //   client_type: 'individual',
-  //   organization_name: '',
-  //   first_name: '',
-  //   last_name: '',
-  //   middle_name: '',
-  //   email: '',
-  //   phone_number: '',
-  //   phone_number_ext: '',
-  //   alt_phone_number: '',
-  //   alt_phone_number_ext: '',
-  //   agree: false,
-  //   street_address: '',
-  //   street_address2: '',
-  //   country_id: 840,
-  //   city: '',
-  //   state: '',
-  //   postal_code: ''
-  // }
-
   state = {
-    password: '123456',
-    confirm_password: '123456',
+    password: '',
+    confirm_password: '',
     client_type: 'individual',
     organization_name: '',
-    first_name: 'Ian',
-    last_name: 'Me',
-    middle_name: 'D',
-    email: 'ian@me.com',
-    phone_number: '2015550123',
+    first_name: '',
+    last_name: '',
+    middle_name: '',
+    email: '',
+    phone_number: '',
     phone_number_ext: '',
     alt_phone_number: '',
     alt_phone_number_ext: '',
     agree: false,
-    street_address: 'test address suite 12',
+    street_address: '',
     street_address2: '',
-    city: 'Las Vegas',
-    state: 'MI',
-    postal_code: '61110'
+    country_id: 840,
+    city: '',
+    state: '',
+    postal_code: ''
   }
 
   capitalize(str){
@@ -129,6 +109,7 @@ class SignUpScreen extends Component {
           }}
           rightBtnPress={this._submit}
           rightBtnText={'Submit'}
+          rightBtnLoading={this.props.fetching}
         />
 
         <Content style={styles.container}>
@@ -416,13 +397,17 @@ class SignUpScreen extends Component {
                 </NBText>
               </View>
 
-              <ListItem iconLeft>
+              <ListItem iconLeft style={{alignItems: 'flex-start'}}>
                 <CheckBox checked={this.state.agree} color={Colors.scheme2} onPress={() => this.setState({agree: !this.state.agree})} />
 
-                <NBText style={[styles.sectionText, {paddingLeft: 8}]}>
+                <NBText style={[styles.sectionText, {paddingLeft: 14}]}>
                   I have read the privacy policy and agree to the terms of use.
                 </NBText>
               </ListItem>
+            </View>
+
+            <View style={[styles.section, {paddingVertical: 0, marginBottom: 0}]}>
+              <ErrorRenderer error={this.props.error && this.props.error.errors ? this.props.error.errors : this.props.error} />
             </View>
 
             <Picker
@@ -442,6 +427,8 @@ class SignUpScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.auth.registering,
+    error: state.auth.registrationError
   }
 }
 
