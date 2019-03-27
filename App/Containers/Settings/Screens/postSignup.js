@@ -7,6 +7,7 @@ import { Colors } from 'Themes'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import { US_STATES, capitalize } from 'Lib/Utils'
 import UserActions from 'Redux/UserRedux'
+import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 
 // Styles
 import styles from './styles'
@@ -57,6 +58,43 @@ class PostSignUpScreen extends Component {
       rightBtnPress: this._submit,
       rightBtnText: 'Submit'
     })
+
+    // Create a graph request asking for user's profile
+    const fetchProfileRequest = new GraphRequest(
+      '/me',
+      {
+        parameters: {
+          fields: {
+            string: 'email,name,first_name,last_name' // what you want to get
+          }
+        }
+      },
+      (error, result) => {
+        if (error) {
+          alert('Error making request.');
+        } else {
+          // Data from request is in result
+          this.setState(state => {
+            if (result.first_name && !state.first_name) {
+              state.first_name = result.first_name
+            }
+
+            if (result.last_name && !state.last_name) {
+              state.last_name = result.last_name
+            }
+
+            if (result.email && !state.email) {
+              state.email = result.email
+            }
+
+            return state
+          })
+        }
+      }
+    )
+
+    // Start the graph request.
+    new GraphRequestManager().addRequest(fetchProfileRequest).start()
   }
 
   capitalize (str){
