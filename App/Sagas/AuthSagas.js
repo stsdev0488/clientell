@@ -228,7 +228,7 @@ function * callDirectorySync () {
       if (Platform.OS === 'ios') {
         NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
       } else {
-        NativeModules.CallDetection.addContacts([])
+        NativeModules.CallDetection.addContacts(androidEntries)
       }
 
       // debug numbers
