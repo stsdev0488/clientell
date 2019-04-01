@@ -62,7 +62,7 @@ class Clients extends React.PureComponent {
   componentWillReceiveProps (newProps) {
     if (!newProps.fetching && this.props.fetching) {
       if (newProps.clientsData && !newProps.error) {
-        if (newProps.pagination.current_page === 1) {
+        if (newProps.pagination && newProps.pagination.current_page === 1) {
           this.setState(state => {
             const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
             state.dataObjects = filteredReviews

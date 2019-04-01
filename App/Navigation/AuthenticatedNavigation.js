@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabNavigator, StackNavigator } from 'react-navigation';
-import { Easing, Animated } from 'react-native'
+import { Easing, Animated, Platform } from 'react-native'
 import Header from 'Components/SubHeaderBar'
 
 /**
@@ -129,7 +129,7 @@ const TabNav = TabNavigator({
   Unreviewed: { screen: UnreviewedStack }
 }, {
   ...TabNavigator.Presets.iOSBottomTabs,
-  animationEnabled: true,
+  animationEnabled: Platform.OS === 'ios',
   tabBarPosition: 'bottom',
   lazy: false,
   swipeEnabled: false,

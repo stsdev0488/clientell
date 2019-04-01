@@ -4,7 +4,7 @@ import ReviewActions from 'Redux/ReviewRedux'
 import UserActions from 'Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
-import { NativeModules } from 'react-native'
+import {NativeModules, Platform} from 'react-native'
 
 function * callDirectorySync () {
   if (!NativeModules.CallDetection) return
@@ -18,6 +18,7 @@ function * callDirectorySync () {
     if (data) {
       let phoneNumbers = []
       let phoneLabels = []
+      let androidEntries = []
 
       data.forEach(d => {
         phoneNumbers.push(d.phone_number.replace('+', ''))
@@ -29,9 +30,18 @@ function * callDirectorySync () {
         })
 
         phoneLabels.push(`${stars} ${d.name}`)
+        androidEntries.push({
+          rating: stars,
+          name: `${d.name}`,
+          phone: d.phone_number.replace('+', '')
+        })
       })
 
-      NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+      if (Platform.OS === 'ios') {
+        NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+      } else {
+        NativeModules.CallDetection.addContacts(androidEntries)
+      }
 
       // debug numbers
       // NativeModules.CallDetection.addContacts(

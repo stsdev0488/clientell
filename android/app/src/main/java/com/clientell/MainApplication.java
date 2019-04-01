@@ -16,6 +16,7 @@ import com.facebook.soloader.SoLoader;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.clientell.utils.CallDetectionPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CallDetectionPackage(),
             new SplashScreenReactPackage(),
             new SvgPackage(),
             new LinearGradientPackage(),
