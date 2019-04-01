@@ -1,7 +1,7 @@
 import { put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import AuthActions from '../Redux/AuthRedux'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import API from '../Services/Api'
 import Secrets from 'react-native-config'
 import { NativeModules, Linking } from 'react-native'
@@ -10,9 +10,16 @@ import { NavigationActions } from 'react-navigation'
 function checkDirectoryEnabled () {
   return (new Promise((resolve) => {
     try {
-      NativeModules.CallDetection.checkEnabled((err, data) => {
-        resolve(data)
-      })
+      if (Platform.OS !== 'android') {
+        NativeModules.CallDetection.checkEnabled((err, data) => {
+          resolve(data)
+        })
+      } else {
+        NativeModules.CallDetection.checkEnabled((data) => {
+          console.tron.log(data)
+          resolve(data)
+        })
+      }
     } catch (err) {
       resolve({enabled: false})
     }
@@ -21,6 +28,13 @@ function checkDirectoryEnabled () {
 
 // process STARTUP actions
 export function * startup (action) {
+  // const b = yield call(checkDirectoryEnabled)
+  // if (!b.enabled) {
+  //   // delay 1 second to allow other preloaded tabs to set its navigation header values
+  //   yield call(delay, 500)
+  //   yield put(NavigationActions.navigate({ routeName: 'CallDirectoryModal' }))
+  // }
+
   yield put(AuthActions.authWatch())
   const logined = yield call(AsyncStorage.getItem, '@LoginStore:token')
 
@@ -42,6 +56,7 @@ export function * startup (action) {
       if (data) {
         let phoneNumbers = []
         let phoneLabels = []
+        let androidEntries = []
 
         data.forEach(d => {
           phoneNumbers.push(d.phone_number.replace('+', ''))
@@ -53,15 +68,31 @@ export function * startup (action) {
           })
 
           phoneLabels.push(`${stars} ${d.name}`)
+          androidEntries.push({
+            rating: stars,
+            name: `${d.name}`,
+            phone: d.phone_number.replace('+', '')
+          })
         })
 
-        NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+        if (Platform.OS === 'ios') {
+          NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+        } else {
+          NativeModules.CallDetection.addContacts(androidEntries)
+        }
 
         // debug numbers
-        // NativeModules.CallDetection.addContacts(
+        // NativeModules.CallDetection.addßContacts(
         //   ['639173078009', '61416622681'],
         //   [`\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Ian`, `\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr`]
         // )
+        // NativeModules.CallDetection.addContacts([
+        //   {
+        //     rating: '\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50}',
+        //     phone: '6505551212',
+        //     name: 'Ian'
+        //   }
+        // ])
       }
     }
   }

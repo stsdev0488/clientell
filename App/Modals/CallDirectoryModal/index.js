@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, TouchableOpacity, Linking, Platform } from 'react-native'
+import { View, NativeModules, Linking, Platform, PermissionsAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import { Icon, Content, Button, Text } from 'native-base'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -18,9 +18,85 @@ class Modal extends Component {
   //   this.state = {}
   // }
 
-  _enableSetting = () => {
-    Linking.openURL('App-Prefs:')
-    this.props.navigation.goBack()
+  _enableSetting = async () => {
+    if (Platform.OS === 'ios') {
+      Linking.openURL('App-Prefs:')
+      this.props.navigation.goBack()
+    } else {
+      NativeModules.CallDetection.overlayPermission(async (data) => {
+        if (data.enabled) {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+            {
+              title: 'ClienTell Read Phone Permission',
+              message:
+                'ClienTell would like to read incoming phone calls ' +
+                'so we could display client related from your contact list',
+              buttonNeutral: 'Ask Me Later',
+              buttonNegative: 'Cancel',
+              buttonPositive: 'OK',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the camera');
+          } else {
+            console.log('Camera permission denied');
+          }
+        }
+      })
+    }
+  }
+
+  _onOk = () => {
+    if (Platform.OS === 'ios') {
+      this.props.navigation.goBack()
+    } else {
+      NativeModules.CallDetection.checkEnabled(async (data) => {
+        if (data.enabled) {
+          const check = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE)
+
+          if (!check) {
+            const granted = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
+              {
+                title: 'ClienTell Read Phone State',
+                message:
+                  'ClienTell would like to read incoming phone calls ' +
+                  'so we could display client related from your contact list',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              },
+            );
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+              this.props.navigation.goBack()
+            } else {
+              this.props.navigation.goBack()
+            }
+          } else {
+            this.props.navigation.goBack()
+          }
+        } else {
+          this.props.navigation.goBack()
+        }
+      })
+    }
+  }
+
+  _renderIdentificationMsg = () => {
+    if (Platform.OS === 'ios') {
+      return (
+        <Text style={[styles.screenText, {marginTop: 10}]}>
+          You can enable this via <Text style={{fontWeight: 'bold', color: '#37b2ea'}} onPress={() => this._enableSetting()}>Settings > Phone > Call Blocking & Identification</Text>, and then toggle on "Clientell"
+        </Text>
+      )
+    } else {
+      return (
+        <Text style={[styles.screenText, {marginTop: 10}]}>
+          You can enable this <Text style={{fontWeight: 'bold', color: '#37b2ea'}} onPress={() => this._enableSetting()}>HERE</Text>
+        </Text>
+      )
+    }
   }
 
   render () {
@@ -36,13 +112,11 @@ class Modal extends Component {
               App detected that your call identification setting is disabled, enabling this will allow the app to identify potential clients in your list and show their rating on the call screen.
             </Text>
 
-            <Text style={[styles.screenText, {marginTop: 10}]}>
-              You can enable this via <Text style={{fontWeight: 'bold', color: '#37b2ea'}} onPress={() => this._enableSetting()}>Settings > Phone > Call Blocking & Identification</Text>, and then toggle on "Clientell"
-            </Text>
+            {this._renderIdentificationMsg()}
           </View>
 
           <View style={[styles.section, {flexDirection: 'row', justifyContent: 'space-around', width: '100%'}]}>
-            <Button error onPress={() => this.props.navigation.goBack()}><Text> Ok </Text></Button>
+            <Button error onPress={() => this._onOk()}><Text> Ok </Text></Button>
           </View>
         </View>
       </View>

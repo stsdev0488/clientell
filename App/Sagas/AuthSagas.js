@@ -1,7 +1,7 @@
 import { call, put, fork, take } from 'redux-saga/effects'
 import AuthActions, {AuthTypes} from '../Redux/AuthRedux'
 import UserActions from '../Redux/UserRedux'
-import { AsyncStorage, NativeModules } from 'react-native'
+import {AsyncStorage, NativeModules, Platform} from 'react-native'
 import {delay} from 'redux-saga'
 import { apiGet } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
@@ -206,6 +206,7 @@ function * callDirectorySync () {
     if (data) {
       let phoneNumbers = []
       let phoneLabels = []
+      let androidEntries = []
 
       data.forEach(d => {
         phoneNumbers.push(d.phone_number.replace('+', ''))
@@ -217,15 +218,31 @@ function * callDirectorySync () {
         })
 
         phoneLabels.push(`${stars} ${d.name}`)
+        androidEntries.push({
+          rating: stars,
+          name: `${d.name}`,
+          phone: d.phone_number.replace('+', '')
+        })
       })
 
-      NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+      if (Platform.OS === 'ios') {
+        NativeModules.CallDetection.addContacts(phoneNumbers, phoneLabels)
+      } else {
+        NativeModules.CallDetection.addContacts([])
+      }
 
       // debug numbers
       // NativeModules.CallDetection.addContacts(
       //   ['639173078009', '61416622681'],
       //   [`\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Ian`, `\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50} Aaron Darr`]
       // )
+      // NativeModules.CallDetection.addContacts([
+      //   {
+      //     rating: '\u{2B50}\u{2B50}\u{2B50}\u{2B50}\u{2B50}',
+      //     phone: '6505551212',
+      //     name: 'Ian'
+      //   }
+      // ])
     }
   }
 }
@@ -233,9 +250,16 @@ function * callDirectorySync () {
 function checkDirectoryEnabled () {
   return (new Promise((resolve) => {
     try {
-      NativeModules.CallDetection.checkEnabled((err, data) => {
-        resolve(data)
-      })
+      if (Platform.OS !== 'android') {
+        NativeModules.CallDetection.checkEnabled((err, data) => {
+          resolve(data)
+        })
+      } else {
+        NativeModules.CallDetection.checkEnabled((data) => {
+          console.tron.log(data)
+          resolve(data)
+        })
+      }
     } catch (err) {
       resolve({enabled: false})
     }
