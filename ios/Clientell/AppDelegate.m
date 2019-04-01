@@ -12,7 +12,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "SplashScreen.h"  // here
+#import "RNSplashScreen.h"  // here
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -41,7 +41,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  [SplashScreen show];  // here
+  [RNSplashScreen show];  // here
   return handled;
 }
   
