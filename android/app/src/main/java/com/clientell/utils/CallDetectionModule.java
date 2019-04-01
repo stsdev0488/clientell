@@ -65,6 +65,7 @@ public class CallDetectionModule extends ReactContextBaseJavaModule {
                 /** if not construct intent to request permission */
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + context.getPackageName()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 /** request permission via start activity for result */
                 context.startActivity(intent);
 
