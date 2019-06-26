@@ -230,7 +230,7 @@ class PostSignUpScreen extends Component {
                     ref={ref => {this.address2 = ref}}
                     defaultValue={street_address2}
                     onChangeText={street_address2 => this._onTextChange({ street_address2 })}
-                    onSubmitEditing={() => {this.cityInput._root.focus()}}
+                    onSubmitEditing={() => {this.postalInput._root.focus()}}
                     returnKeyType='next'
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                   />
@@ -252,14 +252,14 @@ class PostSignUpScreen extends Component {
 
               <View style={styles.section}>
                 <Item fixedLabel onPress={() => this.postalInput._root.focus()}>
-                  <Label style={styles.sectionText}>Zip code</Label>
+                  <Label style={styles.sectionText}>Zip code <Text style={styles.sup}>*</Text></Label>
                   <Input
                     ref={ref => {this.postalInput = ref}}
                     style={styles.textarea}
                     defaultValue={postal}
                     onChangeText={postal_code => this._onTextChange({ postal_code })}
-                    onSubmitEditing={() => this.props.submitInfo(this.state)}
-                    returnKeyType='go'
+                    onSubmitEditing={() => {this.cityInput._root.focus()}}
+                    returnKeyType='next'
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                   />
                 </Item>
