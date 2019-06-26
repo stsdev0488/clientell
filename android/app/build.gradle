@@ -103,11 +103,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.clientell"
+        applicationId "app.clientell.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 32
+        versionName "1.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
