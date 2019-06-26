@@ -26,6 +26,7 @@ class LaunchScreen extends Component {
   }
 
   handleFbLogin = () => {
+    LoginManager.logOut()
     LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_birthday']).then(
       (result) => {
         if (result.isCancelled) {
