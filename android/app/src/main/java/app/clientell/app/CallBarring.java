@@ -1,6 +1,6 @@
-package com.clientell;
-import com.clientell.db.Contact;
-import com.clientell.db.DatabaseHandler;
+package app.clientell.app;
+import app.clientell.app.db.Contact;
+import app.clientell.app.db.DatabaseHandler;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -47,9 +47,11 @@ public class CallBarring extends BroadcastReceiver {
             number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
             DatabaseHandler db = new DatabaseHandler(context);
-            Contact ctx = db.getContact(number);
+            Contact ctx = db.getContact(number.replace("+", ""));
 
             // check first if it exists on the current database of contacts
+
+
             if (ctx.getID() != 0 ) {
                 if(dialog == null){
                     dialog = new CustomDialog(context);
@@ -121,11 +123,11 @@ public class CallBarring extends BroadcastReceiver {
             setContentView(R.layout.caller_dialog);
 
             DatabaseHandler db = new DatabaseHandler(context);
-            Contact ctx = db.getContact(number);
+            Contact ctx = db.getContact(number.replace("+", ""));
 
             if (ctx.getID() != 0) {
                 Log.i(TAG, ctx.getName());
-                Log.i(TAG, "someones calling");
+                Log.i(TAG, "someones calling: "+ number);
 
                 TextView ratingText = (TextView) findViewById(R.id.ratingView);
                 TextView phoneText = (TextView) findViewById(R.id.phoneView);

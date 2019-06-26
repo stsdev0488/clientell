@@ -1,4 +1,4 @@
-package com.clientell.utils;
+package app.clientell.app.utils;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

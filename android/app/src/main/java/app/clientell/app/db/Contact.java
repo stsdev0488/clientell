@@ -1,4 +1,4 @@
-package com.clientell.db;
+package app.clientell.app.db;
 
 public class Contact {
     int _id;

@@ -1,8 +1,8 @@
-package com.clientell.utils;
+package app.clientell.app.utils;
 
 
-import com.clientell.db.Contact;
-import com.clientell.db.DatabaseHandler;
+import app.clientell.app.db.Contact;
+import app.clientell.app.db.DatabaseHandler;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
