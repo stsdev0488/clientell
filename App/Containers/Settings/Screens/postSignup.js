@@ -8,6 +8,7 @@ import SubHeaderBar from 'Components/SubHeaderBar'
 import { US_STATES, capitalize } from 'Lib/Utils'
 import UserActions from 'Redux/UserRedux'
 import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
+import { parsePhoneNumberFromString as parseMin } from 'libphonenumber-js'
 
 // Styles
 import styles from './styles'
@@ -49,7 +50,9 @@ class PostSignUpScreen extends Component {
     street_address2: '',
     city: '',
     state: '',
-    postal_code: ''
+    postal_code: '',
+    validPhoneNumber: false,
+    validAltPhoneNumber: false
   }
 
   componentDidMount () {
@@ -103,10 +106,18 @@ class PostSignUpScreen extends Component {
 
   isValid = () => {
     const {
-      email, first_name, last_name, state, city, postal_code, phone_number
+      email, first_name, last_name, state, city, postal_code, phone_number, alt_phone_number
     } = this.state
 
     if (email && first_name && last_name && state && city && postal_code && phone_number) {
+      if (!(parseMin(phone_number, 'US') && parseMin(phone_number, 'US').isValid())) {
+        return false
+      }
+
+      if (alt_phone_number && !(parseMin(alt_phone_number, 'US') && parseMin(alt_phone_number, 'US').isValid())) {
+        return false
+      }
+
       return true
     }
 
@@ -150,6 +161,10 @@ class PostSignUpScreen extends Component {
 
   _onChangeState = (a) => {
     this.setState({state: a})
+  }
+
+  isValidPhoneNumber = (phone) => {
+    return !!(parseMin(phone, 'US') && parseMin(phone, 'US').isValid())
   }
 
   render () {
@@ -278,7 +293,7 @@ class PostSignUpScreen extends Component {
                 </Item>
               </View>
 
-              <View style={styles.section}>
+              <View style={[styles.section, {flexDirection: 'column'}]}>
                 <Item fixedLabel style={styles.fixedInput} onPress={() => this.phone._root.focus()}>
                   <View>
                     <Label style={styles.sectionText}>Phone number <NBText uppercase style={styles.sup}>*</NBText></Label>
@@ -303,6 +318,10 @@ class PostSignUpScreen extends Component {
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                   />
                 </Item>
+
+                {!!this.state.phone_number.length && !this.isValidPhoneNumber(this.state.phone_number) &&
+                  <Text style={{paddingLeft: 20, alignSelf: 'flex-start', color: Colors.etext}}>Invalid phone number</Text>
+                }
               </View>
 
               <View style={styles.section}>
@@ -322,7 +341,7 @@ class PostSignUpScreen extends Component {
                 </Item>
               </View>
 
-              <View style={styles.section}>
+              <View style={[styles.section, {flexDirection: 'column'}]}>
                 <Item  fixedLabel onPress={() => this.phone_alternate._root.focus()}>
                   <Label style={styles.sectionText}>Alternate Phone number</Label>
                   {
@@ -346,6 +365,11 @@ class PostSignUpScreen extends Component {
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                   />
                 </Item>
+
+
+                {!!this.state.alt_phone_number.length && !this.isValidPhoneNumber(this.state.alt_phone_number) &&
+                 <Text style={{paddingLeft: 20, alignSelf: 'flex-start', color: Colors.etext}}>Invalid phone number</Text>
+                }
               </View>
 
               <View style={styles.section}>
