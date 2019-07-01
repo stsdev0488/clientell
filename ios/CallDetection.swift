@@ -14,7 +14,7 @@ class CallDetection: NSObject {
   @objc func checkEnabled(_ callback: @escaping (Any) -> ()) -> Void {
     if #available(iOS 10.0, *) {
       let manager : CXCallDirectoryManager = CXCallDirectoryManager.sharedInstance;
-      manager.getEnabledStatusForExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
+      manager.getEnabledStatusForExtension(withIdentifier: "app.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
         print("CXCallDirectoryManager status : \(status)");
         if let _ = error {
           print("Something went wrong")
@@ -43,7 +43,7 @@ class CallDetection: NSObject {
     
     if #available(iOS 10.0, *) {
       let manager : CXCallDirectoryManager = CXCallDirectoryManager.sharedInstance;
-      manager.getEnabledStatusForExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
+      manager.getEnabledStatusForExtension(withIdentifier: "app.clientell.CallDetectHandler") { (status:CXCallDirectoryManager.EnabledStatus, error:Error?) in
         print("CXCallDirectoryManager status : \(status)");
         if let _ = error {
           print("\(String(describing: error?.localizedDescription))");
@@ -59,13 +59,13 @@ class CallDetection: NSObject {
         finalContactList["\(phoneNumber)"] = "\(label)"
       }
       
-      if let ud = UserDefaults(suiteName: "group.clientell.contacts.lists") {
+      if let ud = UserDefaults(suiteName: "group.clientell.app.CallDetectHandler") {
         ud.setValue(finalContactList, forKey: "ContactList");
         ud.synchronize();
       
         print("done synchronizing")
         
-        manager.reloadExtension(withIdentifier: "com.sourcetoad.clientell.CallDetectHandler", completionHandler: { error in
+        manager.reloadExtension(withIdentifier: "app.clientell.CallDetectHandler", completionHandler: { error in
           if let _ = error{
             print("A error \(error?.localizedDescription as String!)");
           }
