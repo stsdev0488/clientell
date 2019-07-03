@@ -15,7 +15,7 @@ class CallDirectoryHandler: CXCallDirectoryProvider {
   
     override func beginRequest(with context: CXCallDirectoryExtensionContext) {
         context.delegate = self
-        self.ud = UserDefaults(suiteName: "group.clientell.contacts.lists")
+        self.ud = UserDefaults(suiteName: "group.clientell.app.CallDetectHandler")
       
         if context.isIncremental {
           addOrRemoveIncrementalIdentificationPhoneNumbers(to: context)
