@@ -181,7 +181,7 @@ class PersonalInfoStep extends Component {
                 defaultValue={this.state.email}
                 onChangeText={email => this._onTextChange({ email })}
                 keyboardType='email-address'
-                onSubmitEditing={() => {this.phone.focus()}}
+                onSubmitEditing={() => {this.phone._root.focus()}}
                 returnKeyType='next'
                 autoCapitalize='none'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -208,7 +208,7 @@ class PersonalInfoStep extends Component {
                 defaultValue={this.state.phone_number ? this.state.phone_number : ''}
                 onChangeText={phone_number => this._onTextChange({ phone_number })}
                 keyboardType='phone-pad'
-                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                onSubmitEditing={() => {this.phone_alternate._root.focus()}}
                 returnKeyType='next'
                 autoCapitalize='none'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -225,7 +225,7 @@ class PersonalInfoStep extends Component {
                 defaultValue={this.state.phone_number_ext}
                 onChangeText={phone_number_ext => this._onTextChange({ phone_number_ext })}
                 keyboardType='phone-pad'
-                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                onSubmitEditing={() => {this.phone_alternate._root.focus()}}
                 returnKeyType='next'
                 placeholder='ext'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -251,7 +251,7 @@ class PersonalInfoStep extends Component {
                 defaultValue={this.state.alt_phone_number ? this.state.alt_phone_number : ''}
                 onChangeText={alt_phone_number => this._onTextChange({ alt_phone_number })}
                 keyboardType='phone-pad'
-                onSubmitEditing={() => {this.phone_alternate.focus()}}
+                onSubmitEditing={() => {this.alt_phone_ext._root.focus()}}
                 returnKeyType='next'
                 autoCapitalize='none'
                 style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
