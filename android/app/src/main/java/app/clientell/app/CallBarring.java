@@ -46,13 +46,19 @@ public class CallBarring extends BroadcastReceiver {
             // Fetch the number of incoming call
             number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
+            if (number == null) {
+                number = "";
+            }
+
+            Log.i(TAG, "someones calling: "+ number);
+
             DatabaseHandler db = new DatabaseHandler(context);
             Contact ctx = db.getContact(number.replace("+", ""));
 
             // check first if it exists on the current database of contacts
 
 
-            if (ctx.getID() != 0 ) {
+            if (ctx.getID() != 0) {
                 if(dialog == null){
                     dialog = new CustomDialog(context);
                     Window window = dialog.getWindow();

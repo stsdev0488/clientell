@@ -28,20 +28,28 @@ class Modal extends Component {
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
             {
-              title: 'ClienTell Read Phone Permission',
+              title: 'Clientell Read Phone Permission',
               message:
                 'ClienTell would like to read incoming phone calls ' +
                 'so we could display client related from your contact list',
               buttonNeutral: 'Ask Me Later',
               buttonNegative: 'Cancel',
               buttonPositive: 'OK',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the camera');
-          } else {
-            console.log('Camera permission denied');
-          }
+            }
+          )
+
+          const granted2 = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+            {
+              title: 'Clientell Read Call Log Permission',
+              message:
+                'Clientell would like to read your call log ' +
+                'so we could display client related from your contact list',
+              buttonNeutral: 'Ask Me Later',
+              buttonNegative: 'Cancel',
+              buttonPositive: 'OK',
+            }
+          )
         }
       })
     }
@@ -59,16 +67,30 @@ class Modal extends Component {
             const granted = await PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
               {
-                title: 'ClienTell Read Phone State',
+                title: 'Clientell Read Phone State',
                 message:
-                  'ClienTell would like to read incoming phone calls ' +
+                  'Clientell would like to read incoming phone calls ' +
                   'so we could display client related from your contact list',
                 buttonNeutral: 'Ask Me Later',
                 buttonNegative: 'Cancel',
                 buttonPositive: 'OK',
               },
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            )
+
+            const granted2 = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.READ_CALL_LOG,
+              {
+                title: 'Clientell Read Call Log Permission',
+                message:
+                  'Clientell would like to read your call log ' +
+                  'so we could display client related from your contact list',
+                buttonNeutral: 'Ask Me Later',
+                buttonNegative: 'Cancel',
+                buttonPositive: 'OK',
+              }
+            )
+
+            if (granted === PermissionsAndroid.RESULTS.GRANTED && granted2 === PermissionsAndroid.RESULTS.GRANTED) {
               this.props.navigation.goBack()
             } else {
               this.props.navigation.goBack()
