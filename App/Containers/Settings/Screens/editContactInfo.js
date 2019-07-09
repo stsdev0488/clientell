@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text, Label, Input, Item, Form } from 'native-base'
+import {Content, Icon, Button, Text, Label, Input, Item, Form} from 'native-base'
 import Picker from 'Lib/CustomPicker'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -135,7 +135,7 @@ class Search extends Component {
           <Form style={{paddingVertical: 20, paddingHorizontal: 15}}>
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.phone._root.focus()}>
-                <Label style={styles.sectionFormText}>Phone Number</Label>
+                <Label style={styles.sectionFormText}>Phone Number <Text uppercase style={styles.sup}>*</Text></Label>
                 {
                   // <PhoneInput
                   //   ref={ref => { this.main_phone = ref }}
@@ -181,7 +181,7 @@ class Search extends Component {
 
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.streetInput._root.focus()}>
-                <Label style={styles.sectionFormText}>Street address</Label>
+                <Label style={styles.sectionFormText}>Street address <Text uppercase style={styles.sup}>*</Text></Label>
                 <Input
                   ref={ref => this.streetInput = ref}
                   defaultValue={user.street_address || ''}
@@ -210,7 +210,7 @@ class Search extends Component {
 
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.cityInput._root.focus()}>
-                <Label style={styles.sectionFormText}>City</Label>
+                <Label style={styles.sectionFormText}>City <Text uppercase style={styles.sup}>*</Text></Label>
                 <Input
                   ref={ref => this.cityInput = ref}
                   defaultValue={user.city || ''}
@@ -224,7 +224,7 @@ class Search extends Component {
 
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.stateInput._root.focus()}>
-                <Label style={styles.sectionFormText}>State</Label>
+                <Label style={styles.sectionFormText}>State <Text uppercase style={styles.sup}>*</Text></Label>
                 <Input
                   ref={ref => this.stateInput = ref}
                   defaultValue={user.state || ''}
@@ -238,7 +238,7 @@ class Search extends Component {
 
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.postalInput._root.focus()}>
-                <Label style={styles.sectionFormText}>Postal Code</Label>
+                <Label style={styles.sectionFormText}>Postal Code <Text uppercase style={styles.sup}>*</Text></Label>
                 <Input
                   ref={ref => this.postalInput = ref}
                   defaultValue={user.postal_code || ''}
@@ -252,7 +252,7 @@ class Search extends Component {
 
             <View style={styles.sectionForm}>
               <Item fixedLabel onPress={() => this.emailInput._root.focus()}>
-                <Label style={styles.sectionFormText}>Email</Label>
+                <Label style={styles.sectionFormText}>Email <Text uppercase style={styles.sup}>*</Text></Label>
                 <Input
                   ref={ref => this.emailInput = ref}
                   defaultValue={user.email || ''}
