@@ -22,6 +22,7 @@ export function * getUser (action, fixtureAPI) {
     if (!response.data.finished_signup) {
       yield call(delay, 500)
       yield put(NavigationActions.back())
+      yield call(delay, 350)
       yield put(NavigationActions.navigate({ routeName: 'PostSignUp', params: {user: response.data} }))
     }
     yield put(UserActions.userSuccess(response.data))
