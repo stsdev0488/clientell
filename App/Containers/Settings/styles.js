@@ -65,6 +65,10 @@ export default StyleSheet.create({
     padding: 6
   },
 
+  sup: {
+    color: Colors.fire
+  },
+
   editIcon: {
     fontSize: 30,
     color: Colors.snow
