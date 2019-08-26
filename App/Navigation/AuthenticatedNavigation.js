@@ -13,7 +13,7 @@ import AddClient from 'Containers/AddClient'
 import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
 import Unreviewed from 'Containers/Clients/unreviewed'
-
+import Contractors from 'Containers/Contractors'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -74,6 +74,13 @@ import EditSkills from 'Containers/Settings/Screens/skillsTrades'
 
 /**
  * ---------------------------------------------------------------------------------------
+ * CONTRACTORS SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+import ContractorSearchResults from 'Containers/Search/Screens/searchResults'
+
+/**
+ * ---------------------------------------------------------------------------------------
  * MODALS
  * ---------------------------------------------------------------------------------------
  */
@@ -117,6 +124,20 @@ const SettingsStack = StackNavigator({
   // Default config for all screens
   headerMode: 'none',
   initialRouteName: 'Settings'
+});
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * SETTINGS STACK NAVIGATOR
+ * ---------------------------------------------------------------------------------------
+ */
+const ContractorsStack = StackNavigator({
+  Contractors: { screen: Contractors },
+  ContractorSearchResults: { screen: ContractorSearchResults }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  initialRouteName: 'Contractors'
 });
 
 /**
@@ -165,7 +186,8 @@ const StackedApp = StackNavigator({
   EditProfile: { screen: EditProfile },
   EditMyContactInfo: { screen: EditContactInfo },
   ChangePassword: { screen: ChangePassword },
-  PostSignUp: { screen: PostSignUp }
+  PostSignUp: { screen: PostSignUp },
+  Contractors: { screen: ContractorsStack }
 }, {
   // Default config for all screens
   headerMode: 'none',
