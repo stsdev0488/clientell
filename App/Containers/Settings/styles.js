@@ -91,4 +91,13 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
+  galleryImg: {
+    width: 45,
+    height: 45,
+    borderWidth: 1,
+    borderColor: '#eee',
+    marginRight: 7,
+    marginBottom: 7
+  }
 })

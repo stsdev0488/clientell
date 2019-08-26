@@ -1,13 +1,22 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Image } from 'react-native'
 import { Text } from 'native-base'
+import { Images } from 'Themes/'
 
 import styles from '../styles'
 
 export default ({ user }) => {
   return (
     <View style={styles.section}>
-      <Text style={styles.subTitleText}>Gallery here</Text>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Image source={Images.logoOnly} style={styles.galleryImg} />
+      </View>
     </View>
   )
 }
