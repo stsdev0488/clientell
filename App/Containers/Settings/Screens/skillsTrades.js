@@ -78,8 +78,6 @@ class Skills extends Component {
   render () {
     const { saving, error } = this.props
 
-    console.tron.log(this.state.selected)
-
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
