@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Text, CheckBox, Body as NBody, ListItem } from 'native-base'
+import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import { SKILLS } from '../../../Lib/Utils'
@@ -14,6 +14,23 @@ import DrawerActions from 'Redux/DrawerRedux'
 import styles from '../styles'
 import { Images } from 'Themes/'
 
+/**
+ * OTHER SKILLS
+ */
+const OtherSkills = ({onSearch}) => {
+  return (
+    <View style={styles.section}>
+      <Item>
+        <Input
+          placeholder='Search Skills'
+          onChangeText={onSearch}
+        />
+      </Item>
+    </View>
+  )
+}
+
+
 class Skills extends Component {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
@@ -21,7 +38,7 @@ class Skills extends Component {
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => (
         <Icon
-          name={'ios-home-outline'}
+          name={'ios-home'}
           size={20}
           style={{color: tintColor, fontSize: 25}}
         />
@@ -35,6 +52,7 @@ class Skills extends Component {
   })
 
   state = {
+    items: SKILLS,
     selected: []
   }
 
@@ -45,7 +63,7 @@ class Skills extends Component {
 
   componentDidMount () {
     this.props.navigation.setParams({
-      title: 'Change Password',
+      title: 'Skills / Trades',
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null),
       rightBtnText: 'Save',
@@ -75,6 +93,18 @@ class Skills extends Component {
     })
   }
 
+  _filterSkills = (keyword) => {
+    this.setState(state => {
+      if (!keyword.length) {
+        state.items = SKILLS
+      } else {
+        state.items = SKILLS.filter(a => a.toLowerCase().indexOf(keyword.toLowerCase()) > -1)
+      }
+
+      return state
+    })
+  }
+
   render () {
     const { saving, error } = this.props
 
@@ -85,7 +115,13 @@ class Skills extends Component {
             <ErrorRenderer error={error.errors} />
           </View>
 
-          {SKILLS.map((item, i) =>
+          <OtherSkills
+            onSearch={(keyword) => {
+              this._filterSkills(keyword)
+            }}
+          />
+
+          {this.state.items.map((item, i) =>
             <ListItem key={i} onPress={() => this._onCheck(item)}>
               <CheckBox checked={!!this.state.selected.find(a => a === item)} onPress={() => this._onCheck(item)} />
 
