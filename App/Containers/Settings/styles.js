@@ -99,5 +99,14 @@ export default StyleSheet.create({
     borderColor: '#eee',
     marginRight: 7,
     marginBottom: 7
+  },
+
+  galleryImgBig: {
+    width: 65,
+    height: 65,
+    borderWidth: 1,
+    borderColor: '#eee',
+    marginRight: 7,
+    marginBottom: 7
   }
 })

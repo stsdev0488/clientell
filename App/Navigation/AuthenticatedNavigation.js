@@ -71,6 +71,7 @@ import EditContactInfo from 'Containers/Settings/Screens/editContactInfo'
 import ChangePassword from 'Containers/Settings/Screens/changePassword'
 import PostSignUp from 'Containers/Settings/Screens/postSignup'
 import EditSkills from 'Containers/Settings/Screens/skillsTrades'
+import EditGallery from 'Containers/Settings/Screens/editGallery'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -119,7 +120,8 @@ const SettingsStack = StackNavigator({
   EditMyContactInfo: { screen: EditContactInfo },
   ChangePassword: { screen: ChangePassword },
   PostSignUp: { screen: PostSignUp },
-  EditSkills: { screen: EditSkills }
+  EditSkills: { screen: EditSkills },
+  EditGallery: { screen: EditGallery }
 }, {
   // Default config for all screens
   headerMode: 'none',

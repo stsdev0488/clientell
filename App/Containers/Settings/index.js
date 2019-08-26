@@ -156,11 +156,11 @@ class Settings extends Component {
           <View style={styles.section}>
             <Collapsible
               items={[
-                {title: 'Contact Info', content: <ContactCollapse user={user} />},
+                {title: 'Contact Info', content: <ContactCollapse user={user} navigation={this.props.navigation} />},
                 {title: 'Skills / Trades', content: <SkillsCollapse user={user} navigation={this.props.navigation} />},
-                {title: 'License / Certs', content: <LicenseCollapse user={user} />},
-                {title: 'Overview', content: <OverviewCollapse user={user} />},
-                {title: 'Gallery', content: <GalleryCollapse user={user} />}
+                {title: 'License / Certs', content: <LicenseCollapse user={user} navigation={this.props.navigation} />},
+                {title: 'Overview', content: <OverviewCollapse user={user} navigation={this.props.navigation} />},
+                {title: 'Gallery', content: <GalleryCollapse user={user} navigation={this.props.navigation} />}
               ]}
             />
           </View>
