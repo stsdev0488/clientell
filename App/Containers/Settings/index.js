@@ -19,10 +19,10 @@ class Settings extends Component {
     const params = navigation.state.params
     return {
       tabBarOnPress: t => formDiscardHandler(navigation, t),
-      tabBarLabel: 'Home',
+      tabBarLabel: 'Profile',
       tabBarIcon: ({ tintColor }) => (
         <Icon
-          name={'ios-home-outline'}
+          name={'ios-home'}
           size={20}
           style={{color: tintColor, fontSize: 25}}
         />
@@ -39,17 +39,18 @@ class Settings extends Component {
     menuActive: false,
     scrollOffsetY: 0
   }
-
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {}
-  // }
   
   componentDidMount () {
+    // this.props.navigation.setParams({
+    //   title: 'My Profile',
+    //   leftBtnIcon: 'ios-arrow-back',
+    //   leftBtnPress: () => this.props.navigation.goBack(null)
+    // })
+
     this.props.navigation.setParams({
-      title: 'My Profile',
-      leftBtnIcon: 'ios-arrow-back',
-      leftBtnPress: () => this.props.navigation.goBack(null)
+      title: 'Search',
+      leftBtnIcon: 'ios-menu',
+      leftBtnPress: () => this.props.openDrawer()
     })
   }
 

@@ -123,6 +123,7 @@ const SettingsStack = StackNavigator({
  * ---------------------------------------------------------------------------------------
  */
 const TabNav = TabNavigator({
+  Home: { screen: SettingsStack },
   Search: { screen: SearchStack },
   Clients: { screen: ClientStack },
   AddClient: { screen: AddClient },
