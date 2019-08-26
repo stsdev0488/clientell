@@ -56,7 +56,7 @@ class Settings extends Component {
     // })
 
     this.props.navigation.setParams({
-      title: 'Search',
+      title: 'My Profile',
       leftBtnIcon: 'ios-menu',
       leftBtnPress: () => this.props.openDrawer()
     })
