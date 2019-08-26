@@ -5,7 +5,7 @@ import Tags from 'Components/Tags'
 
 import styles from '../styles'
 
-export default ({ user }) => {
+export default ({ user , navigation}) => {
   const skills = [
     'Roofing',
     'Electrician',
@@ -20,7 +20,7 @@ export default ({ user }) => {
   return (
     <View style={styles.section}>
       <View style={{flex: 1, alignItems: 'flex-end'}}>
-        <Button small transparent style={{alignSelf: 'flex-end'}}>
+        <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditSkills')}>
           <Text>Edit</Text>
         </Button>
       </View>

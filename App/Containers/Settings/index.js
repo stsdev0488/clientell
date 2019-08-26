@@ -157,7 +157,7 @@ class Settings extends Component {
             <Collapsible
               items={[
                 {title: 'Contact Info', content: <ContactCollapse user={user} />},
-                {title: 'Skills / Trades', content: <SkillsCollapse user={user} />},
+                {title: 'Skills / Trades', content: <SkillsCollapse user={user} navigation={this.props.navigation} />},
                 {title: 'License / Certs', content: <LicenseCollapse user={user} />},
                 {title: 'Overview', content: <OverviewCollapse user={user} />},
                 {title: 'Gallery', content: <GalleryCollapse user={user} />}
