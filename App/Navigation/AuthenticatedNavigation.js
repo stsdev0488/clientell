@@ -13,7 +13,7 @@ import AddClient from 'Containers/AddClient'
 import Search from 'Containers/Search'
 import Settings from 'Containers/Settings'
 import Unreviewed from 'Containers/Clients/unreviewed'
-
+import Contractors from 'Containers/Contractors'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -162,7 +162,8 @@ const StackedApp = StackNavigator({
   EditProfile: { screen: EditProfile },
   EditMyContactInfo: { screen: EditContactInfo },
   ChangePassword: { screen: ChangePassword },
-  PostSignUp: { screen: PostSignUp }
+  PostSignUp: { screen: PostSignUp },
+  Contractors: { screen: Contractors }
 }, {
   // Default config for all screens
   headerMode: 'none',
