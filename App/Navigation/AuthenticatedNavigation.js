@@ -72,6 +72,7 @@ import ChangePassword from 'Containers/Settings/Screens/changePassword'
 import PostSignUp from 'Containers/Settings/Screens/postSignup'
 import EditSkills from 'Containers/Settings/Screens/skillsTrades'
 import EditGallery from 'Containers/Settings/Screens/editGallery'
+import EditOverview from 'Containers/Settings/Screens/editOverview'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -121,7 +122,8 @@ const SettingsStack = StackNavigator({
   ChangePassword: { screen: ChangePassword },
   PostSignUp: { screen: PostSignUp },
   EditSkills: { screen: EditSkills },
-  EditGallery: { screen: EditGallery }
+  EditGallery: { screen: EditGallery },
+  EditOverview: { screen: EditOverview }
 }, {
   // Default config for all screens
   headerMode: 'none',

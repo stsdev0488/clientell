@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Metrics, ApplicationStyles } from 'Themes/'
+import { Colors, Metrics, ApplicationStyles, Fonts } from 'Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -108,5 +108,27 @@ export default StyleSheet.create({
     borderColor: '#eee',
     marginRight: 7,
     marginBottom: 7
+  },
+
+  commentField: {
+    ...Fonts.style.normal,
+    borderWidth: 1,
+    borderColor: Colors.steel,
+    fontSize: 15,
+    color: Colors.coal,
+    padding: Metrics.baseMargin,
+    minHeight: 60,
+    marginTop: Metrics.smallMargin,
+    flex: 1,
+    width: '100%'
+  },
+
+  commentLabel: {
+    ...Fonts.style.normal,
+    fontWeight: 'bold',
+    fontSize: 13,
+    color: Colors.text,
+    textAlign: 'left',
+    alignSelf: 'flex-start'
   }
 })
