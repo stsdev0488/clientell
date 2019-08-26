@@ -5,6 +5,7 @@ import { Content, Icon, Button, Fab, ActionSheet } from 'native-base'
 import StarRating from 'react-native-star-rating'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
+import Collapsible from 'Components/Collapsible'
 import DrawerActions from 'Redux/DrawerRedux'
 import {formDiscardHandler} from 'Lib/Utils'
 
@@ -13,6 +14,13 @@ import styles from './styles'
 import { Images } from 'Themes/'
 import moment from 'moment'
 import {Call, Email, Text as SMSText, Web, Twitter, Facebook} from 'react-native-openanything'
+
+// Collapsible Contents
+import ContactCollapse from './CollapseContent/contactInfo'
+import SkillsCollapse from './CollapseContent/skillsInfo'
+import LicenseCollapse from './CollapseContent/licenseInfo'
+import OverviewCollapse from './CollapseContent/overview'
+import GalleryCollapse from './CollapseContent/gallery'
 
 class Settings extends Component {
   static navigationOptions = (({navigation}) => {
@@ -86,16 +94,6 @@ class Settings extends Component {
             </View>
           </View>
 
-          <View style={styles.section}>
-            {user.company_name && <Text style={styles.subTitleText}>{user.company_name}</Text>}
-
-            <Text style={styles.sectionText}>{`${user.city || ''}${user.state ? ', ' : ''}${user.state || ''} ${user.postal_code || ''}`}</Text>
-            <Text style={styles.sectionText}>{`${user.street_address || ''} ${user.street_address2 || ''}`}</Text>
-            {user.phone_number && <Text style={styles.sectionText}>{user.phone_number}</Text>}
-            {user.business_url && <Text style={styles.sectionText}>{user.business_url}</Text>}
-            <Text style={styles.sectionText}>{user.email || ''}</Text>
-          </View>
-
           {
             // <View style={[styles.section, styles.contactIcons, {justifyContent: 'center'}]}>
             //   {
@@ -154,6 +152,18 @@ class Settings extends Component {
               </Text>
             </View>
           }
+
+          <View style={styles.section}>
+            <Collapsible
+              items={[
+                {title: 'Contact Info', content: <ContactCollapse user={user} />},
+                {title: 'Skills / Trades', content: <SkillsCollapse user={user} />},
+                {title: 'License / Certs', content: <LicenseCollapse user={user} />},
+                {title: 'Overview', content: <OverviewCollapse user={user} />},
+                {title: 'Gallery', content: <GalleryCollapse user={user} />}
+              ]}
+            />
+          </View>
 
           <View style={styles.section}>
             <Text style={styles.sectionText}>
