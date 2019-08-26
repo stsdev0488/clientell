@@ -73,6 +73,7 @@ import PostSignUp from 'Containers/Settings/Screens/postSignup'
 import EditSkills from 'Containers/Settings/Screens/skillsTrades'
 import EditGallery from 'Containers/Settings/Screens/editGallery'
 import EditOverview from 'Containers/Settings/Screens/editOverview'
+import EditLicense from 'Containers/Settings/Screens/editLicense'
 
 /**
  * ---------------------------------------------------------------------------------------
@@ -123,7 +124,8 @@ const SettingsStack = StackNavigator({
   PostSignUp: { screen: PostSignUp },
   EditSkills: { screen: EditSkills },
   EditGallery: { screen: EditGallery },
-  EditOverview: { screen: EditOverview }
+  EditOverview: { screen: EditOverview },
+  EditLicense: { screen: EditLicense }
 }, {
   // Default config for all screens
   headerMode: 'none',
