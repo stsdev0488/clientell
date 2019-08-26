@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import { ScrollView, View, Image, TouchableWithoutFeedback } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet } from 'native-base'
-import {formDiscardHandler} from 'Lib/Utils'
+import {formDiscardHandler, SKILLS} from 'Lib/Utils'
 import { Images } from 'Themes/'
 
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 import DrawerActions from 'Redux/DrawerRedux'
-
-import services from '../../Fixtures/serviceType.json'
 
 // Styles
 import styles from './styles'
@@ -77,20 +75,20 @@ class Search extends Component {
             <Text style={[styles.upperContentText, {fontSize: 26, fontWeight: 'normal'}]}>Search Contractors</Text>
           </View>
 
-          <Form>
+          <Form style={styles.section}>
             <Item picker style={styles.catPicker}>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{ width: undefined }}
-                placeholder="Select type of service"
+                placeholder="Select Skills / Trades"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
                 selectedValue={this.state.serviceType}
                 onValueChange={this._onContractorCatChange}
               >
                 {
-                  services.map(item => (
+                  SKILLS.map(item => (
                     <Picker.Item label={item} value={item} />
                   ))
                 }
