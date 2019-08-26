@@ -37,8 +37,8 @@ class Search extends Component {
   })
 
   state = {
-    contractorCat: '',
-    otherSerice: false,
+    serviceType: '',
+    otherService: false,
     currentLoc: true,
     useDifferentLoc: false
   }
@@ -46,17 +46,26 @@ class Search extends Component {
   componentDidMount () {
     this.props.navigation.setParams({
       title: 'Contractors',
-      leftBtnIcon: 'ios-menu',
-      leftBtnPress: () => this.props.openDrawer()
+      leftBtnIcon: 'ios-arrow-back',
+      leftBtnPress: () => this.props.navigation.goBack(null)
     })
   }
 
-  _onContractorCatChange = contractorCat => {
-    this.setState({ contractorCat })
+  _onContractorCatChange = serviceType => {
+    this.setState({
+      serviceType,
+      otherService: false
+    })
   }
 
   _onSearchSubmit = () => {
-
+    this.props.navigation.navigate(
+      'ContractorSearchResults',
+      {
+        data: [],
+        searchKey: this.state.serviceType || 'Other'
+      }
+    )
   }
 
   render () {
@@ -77,7 +86,7 @@ class Search extends Component {
                 placeholder="Select type of service"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
-                selectedValue={this.state.contractorCat}
+                selectedValue={this.state.serviceType}
                 onValueChange={this._onContractorCatChange}
               >
                 {
@@ -90,11 +99,11 @@ class Search extends Component {
 
             <View style={[styles.checkboxField, {marginBottom: 30}]}>
               <CheckBox
-                checked={this.state.otherSerice}
-                onPress={() => this.setState({ otherSerice: !this.state.otherSerice })}
+                checked={this.state.otherService}
+                onPress={() => this.setState({ otherService: !this.state.otherService, serviceType: null })}
               />
               <Text
-                onPress={() => this.setState({ otherSerice: !this.state.otherSerice })}
+                onPress={() => this.setState({ otherService: !this.state.otherService, serviceType: null })}
                 style={styles.checkboxLabel}
               >other</Text>
             </View>
@@ -121,7 +130,12 @@ class Search extends Component {
             </View>
 
             <View style={[styles.section, {marginTop: 40}]}>
-              <Button primary block onPress={this._onSearchSubmit}>
+              <Button
+                primary
+                block
+                onPress={this._onSearchSubmit}
+                disabled={!this.state.serviceType && !this.state.otherService}
+              >
                 <Text>SEARCH</Text>
               </Button>
             </View>

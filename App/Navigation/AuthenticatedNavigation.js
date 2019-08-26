@@ -73,6 +73,13 @@ import PostSignUp from 'Containers/Settings/Screens/postSignup'
 
 /**
  * ---------------------------------------------------------------------------------------
+ * CONTRACTORS SUB-SCREENS
+ * ---------------------------------------------------------------------------------------
+ */
+import ContractorSearchResults from 'Containers/Search/Screens/searchResults'
+
+/**
+ * ---------------------------------------------------------------------------------------
  * MODALS
  * ---------------------------------------------------------------------------------------
  */
@@ -115,6 +122,20 @@ const SettingsStack = StackNavigator({
   // Default config for all screens
   headerMode: 'none',
   initialRouteName: 'Settings'
+});
+
+/**
+ * ---------------------------------------------------------------------------------------
+ * SETTINGS STACK NAVIGATOR
+ * ---------------------------------------------------------------------------------------
+ */
+const ContractorsStack = StackNavigator({
+  Contractors: { screen: Contractors },
+  ContractorSearchResults: { screen: ContractorSearchResults }
+}, {
+  // Default config for all screens
+  headerMode: 'none',
+  initialRouteName: 'Contractors'
 });
 
 /**
@@ -163,7 +184,7 @@ const StackedApp = StackNavigator({
   EditMyContactInfo: { screen: EditContactInfo },
   ChangePassword: { screen: ChangePassword },
   PostSignUp: { screen: PostSignUp },
-  Contractors: { screen: Contractors }
+  Contractors: { screen: ContractorsStack }
 }, {
   // Default config for all screens
   headerMode: 'none',
