@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import { SKILLS } from '../../../Lib/Utils'
+import AlertMessage from '../../../Components/AlertMessage'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
@@ -30,21 +31,6 @@ const OtherSkills = ({onSearch}) => {
     </View>
   )
 }
-
-//Add Other Skills
-const AddOtherSkill = ({addSkills}) => (
-    <View style={styles.section}>
-      <Item>
-        <Input
-            placeholder='Add New Skill'
-           onChangeText={addSkills}
-        />
-        <IconElement name='ios-add' style={{fontSize: 22}}/>
-      </Item>
-    </View>
-)
-
-
 
 class Skills extends Component {
   static navigationOptions = (({navigation}) => {
@@ -125,12 +111,37 @@ class Skills extends Component {
   _renderAddOtherSkills = () => {
     if(this.state.showAddSkillInput){
       return(
-          <AddOtherSkill addSkills={(inputSkill) => {
-            this.setState({newSkill: inputSkill}, () => console.tron.log(this.state.newSkill))
-          }}/>
+          <View style={styles.section}>
+            <Item>
+              <Input
+                  placeholder='Add New Skill'
+                  onChangeText={(newSkill) => this.setState({newSkill: newSkill})}
+              />
+              <TouchableOpacity onPress={this.addNewSkill}>
+                <IconElement name='ios-add' style={{fontSize: 22}}/>
+              </TouchableOpacity>
+            </Item>
+          </View>
       )
     }
     return null
+  }
+
+  addNewSkill = () => {
+    const { newSkill } = this.state
+    if(!newSkill){
+      Alert.alert('Input New Skill')
+      return
+    }else{
+      const newAddSkill = this.state.items.find(item => item === newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+      if(newAddSkill){
+        Alert.alert(newAddSkill + ' already exist in the Skills Items')
+      }else {
+        SKILLS.push(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+        this.setState({ showAddSkillInput: false})
+        Alert.alert(newSkill.charAt(0).toUpperCase() + newSkill.slice(1) + ' Successfully Added new skills')
+      }
+    }
   }
 
   toggleCollapsibleSkills = () => {
