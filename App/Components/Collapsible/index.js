@@ -2,21 +2,29 @@ import React, {useState} from 'react'
 import { View } from 'react-native'
 import { Accordion, Text, Icon } from 'native-base'
 
+import styles from './styles'
+
 const _renderAccordionHeader = (item, expanded) => {
+  const activeStyle = expanded ? styles.active : styles.inactive
+  const activeText = expanded ? styles.activeText : styles.inactiveText
+
   return (
-    <View style={{
-      flexDirection: "row",
-      padding: 10,
-      justifyContent: "space-between",
-      alignItems: "center"
-      }}
+    <View
+      style={
+        [{
+          flexDirection: "row",
+          padding: 10,
+          justifyContent: "space-between",
+          alignItems: "center"
+        }, activeStyle]
+      }
     >
-      <Text style={{ fontWeight: "600" }}>
+      <Text style={[{ fontWeight: "600" }, activeText]}>
         {" "}{item.title}
       </Text>
       {expanded
-        ? <Icon style={{ fontSize: 18 }} name="remove-circle" />
-        : <Icon style={{ fontSize: 18 }} name="add-circle" />}
+        ? <Icon style={[{ fontSize: 22 }, activeText]} name="remove-circle" />
+        : <Icon style={[{ fontSize: 22 }, activeText]} name="add-circle" />}
     </View>
   )
 }
