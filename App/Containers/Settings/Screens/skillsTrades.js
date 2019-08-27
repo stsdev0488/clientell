@@ -137,10 +137,6 @@ class Skills extends Component {
     this.setState(prevState => ({showAddSkillInput: !prevState.showAddSkillInput}))
   }
 
-  AddSkillSubmit = () => {
-    console.tron.log('submit')
-  }
-
   render () {
     const { saving, error } = this.props
 
