@@ -91,7 +91,8 @@ import {
   UserProfileModal,
   AlertModal,
   SearchModal,
-  CallDirectoryModal
+  CallDirectoryModal,
+  PreviewPhotoModal
 } from 'Modals/'
 
 /**
@@ -221,6 +222,9 @@ export default StackNavigator(
     },
     CallDirectoryModal: {
       screen: CallDirectoryModal
+    },
+    PreviewPhotoModal: {
+      screen: PreviewPhotoModal
     },
   },
   {

@@ -15,13 +15,24 @@ export default ({ navigation }) => {
       </View>
 
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
       </View>
     </View>
   )
