@@ -1,0 +1,46 @@
+[
+  {
+    "skillName": "Appliance installation",
+    "name": "test user"
+  },
+  {
+    "skillName": "Architect/engineer",
+    "name": "test user Enginner"
+  },
+  {
+    "skillName": "Drywall/Plaster",
+    "name": "test user Drywall"
+  },
+  {
+    "skillName": "Framing",
+    "name": "test user framing"
+  },
+  {
+    "skillName": "Masonry",
+    "name": "test users Masonry"
+  },
+  {
+    "skillName": "Painting",
+    "name": "test users Painting"
+  },
+  {
+    "skillName": "Siding",
+    "name": "test user siding"
+  },
+  {
+    "skillName": "Roofing",
+    "name": "test user Roofing"
+  },
+  {
+    "skillName":  "Electrician",
+    "name":  "Electrician"
+  },
+  {
+    "skillName": "Plumber",
+    "name": "test User Plumber"
+  },
+  {
+    "skillName": "HVAC",
+    "name": "test user HVAC"
+  }
+]

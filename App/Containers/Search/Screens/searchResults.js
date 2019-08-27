@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Icon, Button, Item, Input, Text, Fab } from 'native-base'
+import { Content, Icon, Button, Item, Input, Text, Fab, Card, CardItem } from 'native-base'
 import Feedback from 'Components/Feedback'
 import AlertMessage from 'Components/AlertMessage'
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import {formDiscardHandler} from 'Lib/Utils'
-
+import SearchUser from '../../../Fixtures/skilledUsers'
 import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
@@ -38,7 +38,8 @@ class Search extends Component {
 
   state = {
     reviews: this.navParams.data.results || [],
-    noReviews: this.navParams.data.resultsNoReview || []
+    noReviews: this.navParams.data.resultsNoReview || [],
+    searchResult: this.navParams.searchKey
   }
 
   // constructor (props) {
@@ -55,6 +56,17 @@ class Search extends Component {
     })
   }
 
+  _showResults = () => {
+    const results = SearchUser.find(user => user.skillName === this.state.searchResult)
+    if(results){
+      return(
+          <Text>{results.name}</Text>
+      )
+    }else{
+      return
+    }
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -66,6 +78,8 @@ class Search extends Component {
             />
           }
 
+          {/*just a sample results to be rendered*/}
+          {this._showResults()}
           {
             this.state.reviews.map((item, i) => {
               return (
