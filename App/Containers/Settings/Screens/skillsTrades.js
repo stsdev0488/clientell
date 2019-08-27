@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image } from 'react-native'
+import { ScrollView, View, Image, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
@@ -13,6 +13,7 @@ import DrawerActions from 'Redux/DrawerRedux'
 // Styles
 import styles from '../styles'
 import { Images } from 'Themes/'
+import IconElement from 'react-native-vector-icons/dist/Ionicons'
 
 /**
  * OTHER SKILLS
@@ -29,6 +30,20 @@ const OtherSkills = ({onSearch}) => {
     </View>
   )
 }
+
+//Add Other Skills
+const AddOtherSkill = ({addSkills}) => (
+    <View style={styles.section}>
+      <Item>
+        <Input
+            placeholder='Add New Skill'
+           onChangeText={addSkills}
+        />
+        <IconElement name='ios-add' style={{fontSize: 22}}/>
+      </Item>
+    </View>
+)
+
 
 
 class Skills extends Component {
@@ -53,7 +68,9 @@ class Skills extends Component {
 
   state = {
     items: SKILLS,
-    selected: []
+    selected: [],
+    showAddSkillInput: false,
+    newSkill: ''
   }
 
   // constructor (props) {
@@ -105,6 +122,25 @@ class Skills extends Component {
     })
   }
 
+  _renderAddOtherSkills = () => {
+    if(this.state.showAddSkillInput){
+      return(
+          <AddOtherSkill addSkills={(inputSkill) => {
+            this.setState({newSkill: inputSkill}, () => console.tron.log(this.state.newSkill))
+          }}/>
+      )
+    }
+    return null
+  }
+
+  toggleCollapsibleSkills = () => {
+    this.setState(prevState => ({showAddSkillInput: !prevState.showAddSkillInput}))
+  }
+
+  AddSkillSubmit = () => {
+    console.tron.log('submit')
+  }
+
   render () {
     const { saving, error } = this.props
 
@@ -120,6 +156,15 @@ class Skills extends Component {
               this._filterSkills(keyword)
             }}
           />
+
+          {this._renderAddOtherSkills()}
+
+          <Button
+              primary
+              onPress={() => this.toggleCollapsibleSkills()}
+          style={{flex: 1, width: '100%'}}>
+            <Text>{!this.state.showAddSkillInput ? 'Add Other Skills' : 'HIDE'}</Text>
+          </Button>
 
           {this.state.items.map((item, i) =>
             <ListItem key={i} onPress={() => this._onCheck(item)}>
