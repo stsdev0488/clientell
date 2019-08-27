@@ -93,12 +93,18 @@ export default StyleSheet.create({
   },
 
   galleryImg: {
+    width: 44,
+    height: 44
+  },
+
+  galleryImgWrap: {
     width: 45,
     height: 45,
     borderWidth: 1,
     borderColor: '#eee',
     marginRight: 7,
-    marginBottom: 7
+    marginBottom: 7,
+    overflow: 'hidden'
   },
 
   galleryImgBig: {

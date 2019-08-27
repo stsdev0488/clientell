@@ -19,7 +19,7 @@ export default ({ user, navigation }) => {
 
       <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+        <Button style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
           <Image source={Images.logoOnly} style={styles.galleryImg} />
         </Button>
       </View>
