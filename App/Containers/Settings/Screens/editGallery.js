@@ -110,10 +110,12 @@ class Gallery extends Component {
           <View style={styles.section}>
             <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
               {this.state.photos.map((img, i) =>
-                <Image key={i} source={img} style={styles.galleryImgBig} />
+                <Button style={styles.galleryImgButton} transparent onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}>
+                  <Image key={i} source={img} style={styles.galleryImgBig} />
+                </Button>
               )}
 
-              <Button transparent style={[styles.galleryImgBig, {alignItems: 'center', justifyContent: 'center'}]} onPress={this._onAddImage}>
+              <Button transparent style={[styles.galleryImgButton, {alignItems: 'center', justifyContent: 'center'}]} onPress={this._onAddImage}>
                 <Icon style={{fontSize: 30}} name={'add'} />
               </Button>
             </View>

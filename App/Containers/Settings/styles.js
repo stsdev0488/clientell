@@ -103,9 +103,15 @@ export default StyleSheet.create({
 
   galleryImgBig: {
     width: 65,
+    height: 65
+  },
+
+  galleryImgButton: {
+    width: 65,
     height: 65,
     borderWidth: 1,
     borderColor: '#eee',
+    borderRadius: 5,
     marginRight: 7,
     marginBottom: 7
   },
