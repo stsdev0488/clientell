@@ -108,8 +108,8 @@ export default StyleSheet.create({
   },
 
   galleryImgBig: {
-    width: 65,
-    height: 65
+    width: 64,
+    height: 64
   },
 
   galleryImgButton: {
@@ -119,7 +119,8 @@ export default StyleSheet.create({
     borderColor: '#eee',
     borderRadius: 5,
     marginRight: 7,
-    marginBottom: 7
+    marginBottom: 7,
+    overflow: 'hidden'
   },
 
   commentField: {
