@@ -15,14 +15,16 @@ export default ({ user, navigation }) => {
         </Button>
       </View>
 
-      <Text style={{fontWeight: 'bold'}}>License #: AB2325-82732837232-8723826565</Text>
+      <Text style={styles.sectionFormText}>License #: AB2325-82732837232-8723826565</Text>
 
-      <Text style={{marginTop: 7, fontWeight: 'bold'}} bold>Attachments: </Text>
+      <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        <Image source={Images.logoOnly} style={styles.galleryImg} />
+        <Button transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+          <Image source={Images.logoOnly} style={styles.galleryImg} />
+        </Button>
       </View>
 
-      <Text style={{fontWeight: 'bold'}}>Insured: Yes</Text>
+      <Text style={styles.sectionFormText}>Insured: Yes</Text>
     </View>
   )
 }
