@@ -138,7 +138,10 @@ class Skills extends Component {
         Alert.alert(newAddSkill + ' already exist in the Skills Items')
       }else {
         SKILLS.push(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
-        this.setState({ showAddSkillInput: false})
+        this.setState({
+          showAddSkillInput: false,
+          newSkill: ''
+        })
         Alert.alert(newSkill.charAt(0).toUpperCase() + newSkill.slice(1) + ' Successfully Added new skills')
       }
     }
