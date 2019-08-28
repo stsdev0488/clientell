@@ -59,6 +59,8 @@ class Search extends Component {
             <Input
                 onChangeText={(input) => this.setState({textInput: input})}
                 placeholder='Search'
+                returnKeyType='search'
+                onSubmitEditing={this._onSearchSubmit.bind(this)}
             />
             <Icon name='search' style={{fontSize: 22}}/>
           </Item>
@@ -81,9 +83,13 @@ class Search extends Component {
       'ContractorSearchResults',
       {
         data: [],
-        searchKey: this.state.serviceType || 'Other'
+        searchKey: this.state.serviceType || this.state.textInput
       }
     )
+    this.setState({
+      textInput: '',
+      showTextInput: false
+    })
   }
 
   render () {

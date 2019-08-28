@@ -40,7 +40,7 @@ class Search extends Component {
   state = {
     reviews: this.navParams.data.results || [],
     noReviews: this.navParams.data.resultsNoReview || [],
-    searchResult: this.navParams.searchKey,
+    searchResult: this.navParams.searchKey || this.navParams.textInput.charAt(0).toUpperCase() + this.navParams.textInput.slice(1),
     displayResult: []
   }
 
@@ -90,11 +90,13 @@ class Search extends Component {
 
           {/*just a sample results to be rendered*/}
           {
-            this.state.displayResult.people.map((item, i) => {
-                return(
-                    <SearchSkilledContractors person={item} key={i}/>
-                )
-            })
+            !this.state.displayResult.people ?
+                null :
+                this.state.displayResult.people.map((item, i) => {
+                    return(
+                        <SearchSkilledContractors person={item} key={i}/>
+                    )
+                })
           }
 
 
