@@ -1,46 +1,92 @@
 [
   {
     "skillName": "Appliance installation",
-    "name": "test user"
+    "people": [
+      { "name": "test1" },
+      { "name": "test2" },
+      { "name": "test3" },
+      { "name": "test3" }
+    ]
   },
   {
-    "skillName": "Architect/engineer",
-    "name": "test user Enginner"
+  "skillName": "Architect/engineer",
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Drywall/Plaster",
-    "name": "test user Drywall"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Framing",
-    "name": "test user framing"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Masonry",
-    "name": "test users Masonry"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Painting",
-    "name": "test users Painting"
-  },
-  {
-    "skillName": "Siding",
-    "name": "test user siding"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Roofing",
-    "name": "test user Roofing"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName":  "Electrician",
-    "name":  "Electrician"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "Plumber",
-    "name": "test User Plumber"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   },
   {
     "skillName": "HVAC",
-    "name": "test user HVAC"
+    "people": [
+      { "name": "Keith Cusumano" },
+      { "name": "Mose Schwartzberg" },
+      { "name": "Efrain Albanese" },
+      { "name": "Adan Jacquez" }
+    ]
   }
 ]

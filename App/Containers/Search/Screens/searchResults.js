@@ -9,6 +9,7 @@ import SubHeaderBar from 'Components/SubHeaderBar'
 import {formDiscardHandler} from 'Lib/Utils'
 import SearchUser from '../../../Fixtures/skilledUsers'
 import DrawerActions from 'Redux/DrawerRedux'
+import SearchSkilledContractors from '../../../Components/SearchSkilledContrators'
 
 // Styles
 import styles from '../styles'
@@ -39,7 +40,8 @@ class Search extends Component {
   state = {
     reviews: this.navParams.data.results || [],
     noReviews: this.navParams.data.resultsNoReview || [],
-    searchResult: this.navParams.searchKey
+    searchResult: this.navParams.searchKey,
+    displayResult: []
   }
 
   // constructor (props) {
@@ -56,14 +58,22 @@ class Search extends Component {
     })
   }
 
+  componentWillMount(){
+    this._showResults()
+  }
+
+  componentWillUnmount(){
+    this._showResults()
+  }
+
+
+
   _showResults = () => {
-    const results = SearchUser.find(user => user.skillName === this.state.searchResult)
-    if(results){
-      return(
-          <Text>{results.name}</Text>
-      )
-    }else{
+    const result = SearchUser.find(search => search.skillName === this.state.searchResult)
+    if(!result){
       return
+    }else{
+      this.setState({displayResult: result})
     }
   }
 
@@ -79,7 +89,15 @@ class Search extends Component {
           }
 
           {/*just a sample results to be rendered*/}
-          {this._showResults()}
+          {
+            this.state.displayResult.people.map((item, i) => {
+                return(
+                    <SearchSkilledContractors person={item} key={i}/>
+                )
+            })
+          }
+
+
           {
             this.state.reviews.map((item, i) => {
               return (
