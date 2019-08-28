@@ -40,7 +40,7 @@ class Search extends Component {
   state = {
     reviews: this.navParams.data.results || [],
     noReviews: this.navParams.data.resultsNoReview || [],
-    searchResult: this.navParams.searchKey || this.navParams.textInput.charAt(0).toUpperCase() + this.navParams.textInput.slice(1),
+    searchResult: this.navParams.searchKey || this.navParams.textInput,
     displayResult: []
   }
 

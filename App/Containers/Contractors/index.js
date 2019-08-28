@@ -57,7 +57,7 @@ class Search extends Component {
       return(
           <Item style={{marginTop: 10}}>
             <Input
-                onChangeText={(input) => this.setState({textInput: input})}
+                onChangeText={(input) => this.setState({textInput: input.charAt(0).toUpperCase() + input.slice(1)})}
                 placeholder='Search'
                 returnKeyType='search'
                 onSubmitEditing={this._onSearchSubmit.bind(this)}
@@ -83,7 +83,7 @@ class Search extends Component {
       'ContractorSearchResults',
       {
         data: [],
-        searchKey: this.state.serviceType || this.state.textInput
+        searchKey: this.state.serviceType || this.state.textInput,
       }
     )
     this.setState({
@@ -93,6 +93,7 @@ class Search extends Component {
   }
 
   render () {
+    console.tron.log(this.state.textInput)
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
