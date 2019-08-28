@@ -8,6 +8,7 @@ import { UserTypes } from '../Redux/UserRedux'
 import { ClientTypes } from '../Redux/ClientRedux'
 import { SearchTypes } from '../Redux/SearchRedux'
 import { ReviewTypes } from '../Redux/ReviewRedux'
+import { ContractorSearchTypes } from '../Redux/ContractorSearchRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -24,6 +25,7 @@ import {
   deleteClientReview
 } from './ClientSagas'
 import { getSearchResults, getSearchResults2, getFilteredClients } from './SearchSagas'
+import { searchContractors } from './ContractorSearchSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -54,6 +56,9 @@ export default function * root () {
     // SEARCH SAGAS
     takeLatest(SearchTypes.SEARCH_REQUEST, getSearchResults),
     takeLatest(SearchTypes.SEARCH2_REQUEST, getSearchResults2),
-    takeLatest(SearchTypes.FILTER_CLIENTS, getFilteredClients)
+    takeLatest(SearchTypes.FILTER_CLIENTS, getFilteredClients),
+
+    // CONTRACTOR SEARCH SAGAS
+    takeLatest(ContractorSearchTypes.CONTRACTOR_SEARCH_REQUEST, searchContractors)
   ])
 }
