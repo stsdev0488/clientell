@@ -97,6 +97,7 @@ class Skills extends Component {
     })
   }
 
+
   _filterSkills = (keyword) => {
     this.setState(state => {
       if (!keyword.length) {
@@ -144,6 +145,7 @@ class Skills extends Component {
           newSkill: ''
         })
         Alert.alert(newSkill.charAt(0).toUpperCase() + newSkill.slice(1) + ' Successfully Added new skills')
+        this._onCheck(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
       }
     }
   }
