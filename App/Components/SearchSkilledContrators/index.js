@@ -1,19 +1,18 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { TouchableOpacity, View, Animated } from 'react-native'
 import {Button, Text as NBText, Icon} from 'native-base'
 import StarRating from 'react-native-star-rating'
-import moment from 'moment'
+import { animatedButton } from '../../Lib/Utils'
 import { NavigationActions } from 'react-navigation'
 import RoundedButton from '../RoundedButton'
 import { Images } from 'Themes/'
-
+import AnimatableButton from '../AnimatableButton'
 
 //Styles
 import styles from './styles'
 
 const SearchSkilledContractors = ({person}) => {
+
   return(
       <View style={styles.container}>
         <View style={styles.header}>
@@ -30,10 +29,10 @@ const SearchSkilledContractors = ({person}) => {
               containerStyle={{width: 100}}
           />
         </View>
-        <Button rounded iconLeft bordered small>
-          <Icon name='search' style={{fontSize: 20}}/>
-          <NBText style={styles.rateLabel}>View Profile</NBText>
-        </Button>
+        <AnimatableButton
+            titleBtn={'View Profile'}
+            iconName={'search'}
+        />
       </View>
   )
 }
