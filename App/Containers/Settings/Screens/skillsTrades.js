@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image } from 'react-native'
+import { ScrollView, View, Image, TouchableOpacity, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import { SKILLS } from '../../../Lib/Utils'
+import RoundedButton from '../../../Components/RoundedButton'
+import AlertMessage from '../../../Components/AlertMessage'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
@@ -13,6 +15,7 @@ import DrawerActions from 'Redux/DrawerRedux'
 // Styles
 import styles from '../styles'
 import { Images } from 'Themes/'
+import IconElement from 'react-native-vector-icons/dist/Ionicons'
 
 /**
  * OTHER SKILLS
@@ -29,7 +32,6 @@ const OtherSkills = ({onSearch}) => {
     </View>
   )
 }
-
 
 class Skills extends Component {
   static navigationOptions = (({navigation}) => {
@@ -53,7 +55,9 @@ class Skills extends Component {
 
   state = {
     items: SKILLS,
-    selected: []
+    selected: [],
+    showAddSkillInput: false,
+    newSkill: ''
   }
 
   // constructor (props) {
@@ -93,6 +97,7 @@ class Skills extends Component {
     })
   }
 
+
   _filterSkills = (keyword) => {
     this.setState(state => {
       if (!keyword.length) {
@@ -103,6 +108,50 @@ class Skills extends Component {
 
       return state
     })
+  }
+
+  _renderAddOtherSkills = () => {
+    if(this.state.showAddSkillInput){
+      return(
+          <View style={styles.section}>
+            <Item>
+              <Input
+                  placeholder='Add New Skill'
+                  onChangeText={(newSkill) => this.setState({newSkill: newSkill})}
+              />
+              <TouchableOpacity onPress={this.addNewSkill}>
+                <IconElement name='ios-add' style={{fontSize: 22}}/>
+              </TouchableOpacity>
+            </Item>
+          </View>
+      )
+    }
+    return null
+  }
+
+  addNewSkill = () => {
+    const { newSkill } = this.state
+    if(!newSkill){
+      Alert.alert('Input New Skill')
+      return
+    }else{
+      const newAddSkill = this.state.items.find(item => item === newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+      if(newAddSkill){
+        Alert.alert(newAddSkill + ' already exist in the Skills Items')
+      }else {
+        SKILLS.push(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+        this.setState({
+          showAddSkillInput: false,
+          newSkill: ''
+        })
+        Alert.alert(newSkill.charAt(0).toUpperCase() + newSkill.slice(1) + ' Successfully Added new skills')
+        this._onCheck(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+      }
+    }
+  }
+
+  toggleCollapsibleSkills = () => {
+    this.setState(prevState => ({showAddSkillInput: !prevState.showAddSkillInput}))
   }
 
   render () {
@@ -120,6 +169,13 @@ class Skills extends Component {
               this._filterSkills(keyword)
             }}
           />
+
+          {this._renderAddOtherSkills()}
+          <RoundedButton
+              onPress={() => this.toggleCollapsibleSkills()}
+              text={!this.state.showAddSkillInput ? 'Add Other Skills' : 'HIDE'}
+          />
+
 
           {this.state.items.map((item, i) =>
             <ListItem key={i} onPress={() => this._onCheck(item)}>

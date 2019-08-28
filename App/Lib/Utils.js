@@ -530,3 +530,5 @@ export const SKILLS = [
   'Trash removal',
   'Flooring'
 ]
+
+

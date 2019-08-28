@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Image, TouchableWithoutFeedback } from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet } from 'native-base'
+import { Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet, Input } from 'native-base'
 import {formDiscardHandler, SKILLS} from 'Lib/Utils'
 import { Images } from 'Themes/'
 
@@ -38,7 +38,9 @@ class Search extends Component {
     serviceType: '',
     otherService: false,
     currentLoc: true,
-    useDifferentLoc: false
+    useDifferentLoc: false,
+    showTextInput: false,
+    textInput: ''
   }
 
   componentDidMount () {
@@ -47,6 +49,26 @@ class Search extends Component {
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null)
     })
+  }
+
+  _searchBox = () => {
+    const { showTextInput } = this.state
+    if(showTextInput){
+      return(
+          <Item style={{marginTop: 10}}>
+            <Input
+                onChangeText={(input) => this.setState({textInput: input.charAt(0).toUpperCase() + input.slice(1)})}
+                placeholder='Search'
+                returnKeyType='search'
+                onSubmitEditing={this._onSearchSubmit.bind(this)}
+            />
+            <Icon name='search' style={{fontSize: 22}}/>
+          </Item>
+      )
+    }
+    return(
+        <View style={{marginTop: 30}} />
+    )
   }
 
   _onContractorCatChange = serviceType => {
@@ -61,12 +83,17 @@ class Search extends Component {
       'ContractorSearchResults',
       {
         data: [],
-        searchKey: this.state.serviceType || 'Other'
+        searchKey: this.state.serviceType || this.state.textInput,
       }
     )
+    this.setState({
+      textInput: '',
+      showTextInput: false
+    })
   }
 
   render () {
+    console.tron.log(this.state.textInput)
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
@@ -95,16 +122,17 @@ class Search extends Component {
               </Picker>
             </Item>
 
-            <View style={[styles.checkboxField, {marginBottom: 30}]}>
+            <View style={styles.checkboxField}>
               <CheckBox
-                checked={this.state.otherService}
-                onPress={() => this.setState({ otherService: !this.state.otherService, serviceType: null })}
+                checked={this.state.showTextInput}
+                onPress={() => this.setState( state => ({ showTextInput: !state.showTextInput, serviceType: null}))}
               />
               <Text
-                onPress={() => this.setState({ otherService: !this.state.otherService, serviceType: null })}
+                onPress={() => this.setState( state => ({ showTextInput: !state.showTextInput, serviceType: null}))}
                 style={styles.checkboxLabel}
               >other</Text>
             </View>
+            { this._searchBox() }
 
             <View style={[styles.checkboxField]}>
               <CheckBox
@@ -132,7 +160,7 @@ class Search extends Component {
                 primary
                 block
                 onPress={this._onSearchSubmit}
-                disabled={!this.state.serviceType && !this.state.otherService}
+                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput}
               >
                 <Text>SEARCH</Text>
               </Button>
