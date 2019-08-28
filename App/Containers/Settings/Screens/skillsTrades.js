@@ -172,7 +172,6 @@ class Skills extends Component {
 
           {this._renderAddOtherSkills()}
           <RoundedButton
-              style={{backgroundColor: 'blue'}}
               onPress={() => this.toggleCollapsibleSkills()}
               text={!this.state.showAddSkillInput ? 'Add Other Skills' : 'HIDE'}
           />
