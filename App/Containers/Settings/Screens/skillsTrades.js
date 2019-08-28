@@ -5,6 +5,7 @@ import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, I
 import SubHeaderBar from 'Components/SubHeaderBar'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import { SKILLS } from '../../../Lib/Utils'
+import RoundedButton from '../../../Components/RoundedButton'
 import AlertMessage from '../../../Components/AlertMessage'
 
 // Redux actions
@@ -168,13 +169,12 @@ class Skills extends Component {
           />
 
           {this._renderAddOtherSkills()}
-
-          <Button
-              primary
+          <RoundedButton
+              style={{backgroundColor: 'blue'}}
               onPress={() => this.toggleCollapsibleSkills()}
-          style={{flex: 1, width: '100%'}}>
-            <Text>{!this.state.showAddSkillInput ? 'Add Other Skills' : 'HIDE'}</Text>
-          </Button>
+              text={!this.state.showAddSkillInput ? 'Add Other Skills' : 'HIDE'}
+          />
+
 
           {this.state.items.map((item, i) =>
             <ListItem key={i} onPress={() => this._onCheck(item)}>
