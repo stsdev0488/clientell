@@ -6,14 +6,16 @@ import { Images } from 'Themes/'
 
 import styles from '../styles'
 
-export default ({ user, navigation }) => {
+export default ({ user, navigation, editable }) => {
   return (
     <View style={styles.section}>
-      <View style={{flex: 1, alignItems: 'flex-end'}}>
-        <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditLicense')}>
-          <Text>Edit</Text>
-        </Button>
-      </View>
+      {editable &&
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditLicense')}>
+            <Text>Edit</Text>
+          </Button>
+        </View>
+      }
 
       <Text style={styles.sectionFormText}>License #: AB2325-82732837232-8723826565</Text>
 
