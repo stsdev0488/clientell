@@ -119,7 +119,7 @@ class Search extends Component {
   }
 
   _onStateCatChange = (selectState) => {
-    this.setState({state: selectState}, () => console.tron.log(this.state.state))
+    this.setState({state: selectState})
   }
 
   _onContractorCatChange = serviceType => {
@@ -144,7 +144,6 @@ class Search extends Component {
   }
 
   render () {
-    console.tron.log(this.state.city)
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
