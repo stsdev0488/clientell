@@ -1,5 +1,6 @@
 import React from 'react'
 import {ActionSheet} from 'native-base'
+import { Animated } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 
 export const formDiscardHandler = (navigation, {previousScene, scene, jumpToIndex}) => {
@@ -190,6 +191,17 @@ export const getPhoneExtension = (phone_number) => {
   } else {
     return ''
   }
+}
+
+export const AnimatedSpring = (animation) => {
+  Animated.spring(
+      animation,
+      {
+        toValue: 1.02,
+        friction: 4,
+        useNativeDriver: true
+      }
+  ).start()
 }
 
 

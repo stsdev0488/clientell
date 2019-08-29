@@ -46,5 +46,12 @@ export default StyleSheet.create({
 
   checkboxLabel: {
     paddingLeft: 20
+  },
+
+  textarea: {
+    minHeight: 40,
+    paddingTop: 13,
+    paddingBottom: 13
   }
+
 })

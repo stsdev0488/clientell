@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image, TouchableWithoutFeedback } from 'react-native'
+import {ScrollView, View, Image, TouchableWithoutFeedback, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet, Input } from 'native-base'
+import {Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet, Input} from 'native-base'
 import {formDiscardHandler, SKILLS} from 'Lib/Utils'
+import { US_STATES } from '../../Lib/Utils'
 import { Images } from 'Themes/'
-
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
@@ -40,7 +40,9 @@ class Search extends Component {
     currentLoc: true,
     useDifferentLoc: false,
     showTextInput: false,
-    textInput: ''
+    textInput: '',
+    city: '',
+    state: ''
   }
 
   componentDidMount () {
@@ -69,6 +71,45 @@ class Search extends Component {
     return(
         <View style={{marginTop: 30}} />
     )
+  }
+
+  _searchCityAndState = () => {
+    if(this.state.useDifferentLoc){
+      return(
+          <View>
+            <View style={styles.section}>
+              <Item fixedLabel >
+                <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
+                <Input
+                    ref={ref => {this.cityInput = ref}}
+                    style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                    returnKeyType='next'
+                />
+              </Item>
+            </View>
+
+            <View style={styles.section}>
+              <Item fixedLabel>
+                <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
+                <TouchableOpacity
+                    style={{flex: 1, justifyContent: 'center', height: 50}}
+                    onPress={() => this.statePicker.show()}
+                >
+                  <Text style={styles.disabledInput}>sample</Text>
+                </TouchableOpacity>
+                <Picker
+                    ref={ref => {
+                      this.statePicker = ref;
+                    }}
+                    options={US_STATES}
+                />
+              </Item>
+            </View>
+          </View>
+
+      )
+    }
+    return null
   }
 
   _onContractorCatChange = serviceType => {
@@ -155,6 +196,8 @@ class Search extends Component {
               >use different location</Text>
             </View>
 
+            { this._searchCityAndState() }
+
             <View style={[styles.section, {marginTop: 40}]}>
               <Button
                 primary
@@ -165,8 +208,12 @@ class Search extends Component {
                 <Text>SEARCH</Text>
               </Button>
             </View>
+
           </Form>
         </Content>
+
+
+
       </View>
     )
   }
