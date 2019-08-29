@@ -9,5 +9,5 @@ export {
   AlertModal,
   SearchModal,
   CallDirectoryModal,
-  PreviewPhotoModal
+  PreviewPhotoModal,
 }

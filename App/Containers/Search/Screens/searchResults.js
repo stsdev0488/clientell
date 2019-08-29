@@ -94,7 +94,7 @@ class Search extends Component {
                 null :
                 this.state.displayResult.people.map((item, i) => {
                     return(
-                        <SearchSkilledContractors person={item} key={i}/>
+                        <SearchSkilledContractors goTo={(name) => this.props.navigation.navigate('ProfileModal', {person: name}) } person={item} key={i}/>
                     )
                 })
           }

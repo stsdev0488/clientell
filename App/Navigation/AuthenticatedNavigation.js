@@ -225,7 +225,7 @@ export default StackNavigator(
     },
     PreviewPhotoModal: {
       screen: PreviewPhotoModal
-    },
+    }
   },
   {
     mode: 'modal',

@@ -11,12 +11,16 @@ import AnimatableButton from '../AnimatableButton'
 //Styles
 import styles from './styles'
 
-const SearchSkilledContractors = ({person}) => {
+const SearchSkilledContractors = (props) => {
+
+  const viewProfile = () => {
+    props.goTo(props.person.name)
+  }
 
   return(
       <View style={styles.container}>
         <View style={styles.header}>
-          <NBText>{person.name}</NBText>
+          <NBText>{props.person.name}</NBText>
           <StarRating
               disabled
               starSize={20}
@@ -32,6 +36,7 @@ const SearchSkilledContractors = ({person}) => {
         <AnimatableButton
             titleBtn={'View Profile'}
             iconName={'search'}
+            trigger={viewProfile}
         />
       </View>
   )
