@@ -5,14 +5,16 @@ import { Images } from 'Themes/'
 
 import styles from '../styles'
 
-export default ({ navigation }) => {
+export default ({ navigation, editable = true }) => {
   return (
     <View style={styles.section}>
-      <View style={{flex: 1, alignItems: 'flex-end'}}>
-        <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditGallery')}>
-          <Text>Edit</Text>
-        </Button>
-      </View>
+      {editable &&
+        <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditGallery')}>
+            <Text>Edit</Text>
+          </Button>
+        </View>
+      }
 
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         <Button style={styles.galleryImgWrap} onPress={() => navigation.navigate('PreviewPhotoModal')}>
