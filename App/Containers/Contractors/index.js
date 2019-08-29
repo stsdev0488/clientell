@@ -84,6 +84,7 @@ class Search extends Component {
                     ref={ref => {this.cityInput = ref}}
                     style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
                     returnKeyType='next'
+                    onChangeText={(input) => this.setState({city: input.charAt(0).toUpperCase() + input.slice(1)})}
                 />
               </Item>
             </View>
@@ -91,25 +92,34 @@ class Search extends Component {
             <View style={styles.section}>
               <Item fixedLabel>
                 <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
-                <TouchableOpacity
-                    style={{flex: 1, justifyContent: 'center', height: 50}}
-                    onPress={() => this.statePicker.show()}
-                >
-                  <Text style={styles.disabledInput}>sample</Text>
-                </TouchableOpacity>
                 <Picker
-                    ref={ref => {
-                      this.statePicker = ref;
-                    }}
-                    options={US_STATES}
-                />
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="Select Skills / Trades"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.state}
+                    onValueChange={this._onStateCatChange}
+                >
+                  {
+                    US_STATES.map(item => (
+                        <Picker.Item label={item.name} value={item.name} />
+                    ))
+                  }
+                </Picker>
               </Item>
+
             </View>
           </View>
 
       )
     }
     return null
+  }
+
+  _onStateCatChange = (selectState) => {
+    this.setState({state: selectState}, () => console.tron.log(this.state.state))
   }
 
   _onContractorCatChange = serviceType => {
@@ -134,7 +144,7 @@ class Search extends Component {
   }
 
   render () {
-    console.tron.log(this.state.textInput)
+    console.tron.log(this.state.city)
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
@@ -203,7 +213,7 @@ class Search extends Component {
                 primary
                 block
                 onPress={this._onSearchSubmit}
-                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput}
+                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput && !this.state.city && !this.state.state}
               >
                 <Text>SEARCH</Text>
               </Button>

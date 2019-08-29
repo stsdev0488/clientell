@@ -11,7 +11,9 @@ const AnimatableButton = (props) => {
   const trigger = () => {
     animation.setValue(1)
     AnimatedSpring(animation)
-    props.trigger()
+    setTimeout(() => {
+      props.trigger()
+    }, 250)
   }
     return(
         <AnimatedBtn onPress={trigger.bind(this)} rounded bordered small iconLeft style={{transform: [{scale: animation}] }}>
