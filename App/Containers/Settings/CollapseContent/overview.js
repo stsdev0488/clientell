@@ -15,7 +15,7 @@ export default ({ user, navigation, editable = true }) => {
         </View>
       }
 
-      <Text>A sample very very very long overview here.....</Text>
+      <Text>{user.overview || 'No User Overview'}</Text>
     </View>
   )
 }
