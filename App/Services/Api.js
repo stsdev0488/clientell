@@ -136,6 +136,22 @@ const create = (baseURL) => {
     return getToken().then((a) => api.delete(`review/${id}`, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  /**
+   * Gallery API
+   */
+
+  const fetchGallery = (params) => {
+    return getToken().then((a) => api.get('auth/user/gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+  const uploadGallery = (params) => {
+    return getToken().then((a) => apiFile.post('auth/user/gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+  const deleteGalleryItem = (id) => {
+    return getToken().then((a) => apiFile.delete('auth/user/gallery/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   return {
     login,
     loginSocial,
@@ -155,7 +171,10 @@ const create = (baseURL) => {
     addClientReview,
     editClientReview,
     deleteClientReview,
-    fetchAllClients
+    fetchAllClients,
+    uploadGallery,
+    fetchGallery,
+    deleteGalleryItem
   }
 }
 

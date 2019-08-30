@@ -6,7 +6,7 @@ import { Images } from 'Themes/'
 
 import styles from '../styles'
 
-export default ({ user, navigation, editable }) => {
+export default ({ user, navigation, editable = true }) => {
   return (
     <View style={styles.section}>
       {editable &&

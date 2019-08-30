@@ -39,7 +39,8 @@ class Gallery extends Component {
 
   state = {
     photos: [],
-    licenseNum: ''
+    licenseNum: '',
+    licenseExpiration: ''
   }
 
   // constructor (props) {
@@ -117,6 +118,21 @@ class Gallery extends Component {
                   onChangeText={licenseNum => this.setState({licenseNum})}
                   required
                   style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                />
+              </Item>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <View style={styles.sectionForm}>
+              <Item fixedLabel onPress={() => this.license._root.focus()}>
+                <Label style={styles.sectionFormText}>License Expiration</Label>
+                <Input
+                  ref={ref => this.licenseExpiration = ref}
+                  onChangeText={licenseExpiration => this.setState({licenseExpiration})}
+                  required
+                  style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
+                  placeholder={'MM/DD/YYYY'}
                 />
               </Item>
             </View>

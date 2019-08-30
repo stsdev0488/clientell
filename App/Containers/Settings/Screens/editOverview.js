@@ -49,16 +49,32 @@ class Gallery extends Component {
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null),
       rightBtnText: 'Save',
-      rightBtnPress: () => this.props.navigation.goBack(null),
+      rightBtnPress: () => this._submitChanges(),
     })
+  }
+
+  componentDidUpdate (oldProps) {
+    if (oldProps.saving && !this.props.saving) {
+      this.props.navigation.setParams({rightBtnLoading: false})
+    }
   }
 
   handleCommentField = (overview) => {
     this.setState({overview})
   }
 
+  _submitChanges = () => {
+    const { user } = this.props
+    const formData = new FormData()
+
+    this.props.navigation.setParams({rightBtnLoading: true})
+    formData.append('overview', this.state.overview)
+
+    this.props.update(formData)
+  }
+
   render () {
-    const { saving, error } = this.props
+    const { saving, error, user } = this.props
 
     return (
       <View style={styles.container}>
@@ -78,7 +94,7 @@ class Gallery extends Component {
                 multiline
                 style={styles.commentField}
                 onChangeText={this.handleCommentField.bind(this)}
-                value={this.state.overview}
+                value={this.state.overview || (user.overview || '')}
               />
             </View>
           </View>
@@ -91,7 +107,8 @@ class Gallery extends Component {
 const mapStateToProps = (state) => {
   return {
     saving: state.user.updating,
-    error: state.user.updateError || {}
+    error: state.user.updateError || {},
+    user: state.user.data
   }
 }
 

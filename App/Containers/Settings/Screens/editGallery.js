@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import {ScrollView, View, Image, Platform} from 'react-native'
+import { View, Image, Platform, AsyncStorage, NativeModules} from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
+import {Content, Icon, Button, ActionSheet} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
-import ErrorRenderer from 'Components/ErrorRenderer'
-import { SKILLS } from '../../../Lib/Utils'
 import ImagePicker from 'react-native-image-picker'
 
 // Redux actions
 import UserActions from 'Redux/UserRedux'
+import GalleryActions from 'Redux/GalleryRedux'
 import DrawerActions from 'Redux/DrawerRedux'
 
 // Styles
@@ -16,6 +15,17 @@ import styles from '../styles'
 import { Images } from 'Themes/'
 import mimes from "react-native-mime-types";
 
+function generateGalleryUUID () {
+  var d = new Date().getTime()
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    d += performance.now()
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = (d + Math.random() * 16) % 16 | 0
+    d = Math.floor(d / 16)
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16)
+  })
+}
 
 class Gallery extends Component {
   static navigationOptions = (({navigation}) => {
@@ -52,8 +62,35 @@ class Gallery extends Component {
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null),
       rightBtnText: 'Save',
-      rightBtnPress: () => this.props.navigation.goBack(null),
+      rightBtnPress: () => this._save(),
     })
+  }
+
+  componentDidUpdate (oldProps) {
+    if (!this.props.uploading && oldProps.uploading) {
+      this.props.navigation.setParams({rightBtnLoading: false})
+      if (this.props.error) {
+        this.props.navigation.navigate('AlertModal', {title: `Upload failed`, message: `Please check your internet connection or try again later.`})
+      } else {
+        this.props.navigation.goBack(null)
+      }
+    }
+  }
+
+  _save = () => {
+    if (!this.state.photos.length) {
+      return
+    }
+
+    let formData = new FormData()
+
+    this.state.photos.forEach(photo => {
+      formData.append('photos[]', photo)
+    })
+
+    this.props.navigation.setParams({rightBtnLoading: true})
+
+    this.props.uploadImages(formData)
   }
 
   _onAddImage = () => {
@@ -84,8 +121,8 @@ class Gallery extends Component {
         } else {
           const dd = {
             uri: response.uri,
-            name: response.fileName || randomstring() + '.' + (mimes.extension(mimes.lookup(response.uri))),
-            type: response.fileName ? mimes.lookup(response.fileName) : mimes.lookup(response.uri)
+            name: generateGalleryUUID() + '.' + (mimes.extension(mimes.lookup(response.uri))),
+            type: mimes.lookup(response.uri)
           }
 
           this.setState(state => {
@@ -97,20 +134,50 @@ class Gallery extends Component {
     })
   }
 
-  render () {
-    const { saving, error } = this.props
+  _deleteViaApi = (id) => {
+    ActionSheet.show(
+      {
+        options: ['Delete', 'Cancel'],
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: 'Are you sure you want to delete this image?'
+      },
+      async buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.deleteImage(id)
+        }
+      }
+    )
+  }
 
+  _deleteUpload = () => {
+
+  }
+
+  render () {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
           <View style={styles.section}>
-            <ErrorRenderer error={error.errors} />
-          </View>
-
-          <View style={styles.section}>
             <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+              {this.props.images.map((img, i) =>
+                <Button
+                  style={styles.galleryImgButton}
+                  transparent
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onLongPress={() => this._deleteViaApi(img.id)}
+                >
+                  <Image key={i} source={{uri: img.url}} style={styles.galleryImgBig} />
+                </Button>
+              )}
+
               {this.state.photos.map((img, i) =>
-                <Button style={styles.galleryImgButton} transparent onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}>
+                <Button
+                  style={styles.galleryImgButton}
+                  transparent
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onLongPress={() => this._deleteUpload(img)}
+                >
                   <Image key={i} source={img} style={styles.galleryImgBig} />
                 </Button>
               )}
@@ -128,15 +195,18 @@ class Gallery extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    saving: state.user.updating,
-    error: state.user.updateError || {}
+    uploading: state.gallery.uploading,
+    error: state.gallery.uploadError,
+    images: state.gallery.data || []
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
-    update: (data) => dispatch(UserActions.userUpdateRequest(data))
+    update: (data) => dispatch(UserActions.userUpdateRequest(data)),
+    uploadImages: (data) => dispatch(GalleryActions.galleryUploadRequest(data)),
+    deleteImage: (data) => dispatch(GalleryActions.galleryDeleteRequest(data))
   }
 }
 
