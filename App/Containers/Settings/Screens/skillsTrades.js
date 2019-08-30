@@ -53,17 +53,21 @@ class Skills extends Component {
     }
   })
 
-  state = {
-    items: SKILLS,
-    selected: [],
-    showAddSkillInput: false,
-    newSkill: ''
-  }
+  constructor (props) {
+    super(props)
 
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {}
-  // }
+    const userSkills = this.props.navigation.getParam('skills', [])
+    const allSkills = [...SKILLS].concat(userSkills)
+
+    console.tron.log(allSkills)
+
+    this.state = {
+      items: SKILLS,
+      selected: this.props.navigation.getParam('skills', []),
+      showAddSkillInput: false,
+      newSkill: ''
+    }
+  }
 
   componentDidMount () {
     this.props.navigation.setParams({
@@ -71,14 +75,26 @@ class Skills extends Component {
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null),
       rightBtnText: 'Save',
-      rightBtnPress: () => this.props.navigation.goBack(null),
+      rightBtnPress: () => this._submit(),
     })
   }
 
+
+  componentDidUpdate (oldProps) {
+    if (oldProps.saving && !this.props.saving) {
+      this.props.navigation.setParams({rightBtnLoading: false})
+    }
+  }
+
   _submit = () => {
-    // const formData = new FormData()
-    //
-    // this.props.update(formData)
+    if (!this.state.selected.length) return
+
+    const formData = new FormData()
+    this.props.navigation.setParams({rightBtnLoading: true})
+
+    const skills = this.state.selected.join(',')
+    formData.append('skills', skills)
+    this.props.update(formData)
   }
 
   _onCheck = (item) => {
@@ -194,6 +210,7 @@ class Skills extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user.data,
     saving: state.user.updating,
     error: state.user.updateError || {}
   }
