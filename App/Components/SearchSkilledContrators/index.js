@@ -14,7 +14,7 @@ import styles from './styles'
 const SearchSkilledContractors = (props) => {
 
   const viewProfile = () => {
-    props.goTo(props.person.name)
+    props.goTo(props.person)
   }
 
   return(
@@ -33,6 +33,7 @@ const SearchSkilledContractors = (props) => {
               containerStyle={{width: 100}}
           />
         </View>
+
         <AnimatableButton
             titleBtn={'View Profile'}
             iconName={'search'}

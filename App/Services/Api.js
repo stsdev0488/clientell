@@ -152,6 +152,15 @@ const create = (baseURL) => {
     return getToken().then((a) => apiFile.delete('auth/user/gallery/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  /**
+   * Contractor API
+   */
+
+  const fetchContractors = (params) => {
+    return getToken().then((a) => api.get('contractor', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+
   return {
     login,
     loginSocial,
@@ -174,7 +183,8 @@ const create = (baseURL) => {
     fetchAllClients,
     uploadGallery,
     fetchGallery,
-    deleteGalleryItem
+    deleteGalleryItem,
+    fetchContractors
   }
 }
 
