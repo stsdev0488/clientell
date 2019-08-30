@@ -59,8 +59,6 @@ class Skills extends Component {
     const userSkills = this.props.navigation.getParam('skills', [])
     const allSkills = [...SKILLS].concat(userSkills)
 
-    console.tron.log(allSkills)
-
     this.state = {
       items: SKILLS,
       selected: this.props.navigation.getParam('skills', []),
