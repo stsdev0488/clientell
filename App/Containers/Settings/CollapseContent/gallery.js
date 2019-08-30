@@ -10,7 +10,13 @@ import styles from '../styles'
 
 class GalleryCollapsible extends Component {
   componentDidMount () {
-    this.props.fetchImages()
+    if (this.props.modal) {
+      this.props.fetchImages({
+        user_id: this.props.user.id
+      })
+    } else {
+      this.props.fetchImages()
+    }
   }
 
   render () {
@@ -53,7 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchImages: () => dispatch(GalleryActions.galleryRequest())
+    fetchImages: (data = {}) => dispatch(GalleryActions.galleryRequest(data))
   }
 }
 

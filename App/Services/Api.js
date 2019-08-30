@@ -141,15 +141,15 @@ const create = (baseURL) => {
    */
 
   const fetchGallery = (params) => {
-    return getToken().then((a) => api.get('auth/user/gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => api.get('gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const uploadGallery = (params) => {
-    return getToken().then((a) => apiFile.post('auth/user/gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => apiFile.post('gallery', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const deleteGalleryItem = (id) => {
-    return getToken().then((a) => apiFile.delete('auth/user/gallery/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => apiFile.delete('gallery/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   /**

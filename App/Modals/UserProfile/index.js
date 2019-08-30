@@ -44,7 +44,7 @@ class UserProfileModal extends Component {
                     {title: 'Skills / Trades', content: <SkillsCollapse user={user} editable={false} />},
                     {title: 'License / Certs', content: <LicenseCollapse user={user} editable={false} />},
                     {title: 'Overview', content: <OverviewCollapse user={user} editable={false} />},
-                    {title: 'Gallery', content: <GalleryCollapse user={user} editable={false} />}
+                    {title: 'Gallery', content: <GalleryCollapse user={user} editable={false} modal />}
                   ]}
               />
             </View>
