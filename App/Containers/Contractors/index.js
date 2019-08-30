@@ -9,6 +9,7 @@ import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 import DrawerActions from 'Redux/DrawerRedux'
+import SearchContractorsActions from 'Redux/ContractorSearchRedux'
 
 // Styles
 import styles from './styles'
@@ -46,6 +47,7 @@ class Search extends Component {
   }
 
   componentDidMount () {
+    this.props.searchRequest()
     this.props.navigation.setParams({
       title: 'Contractors',
       leftBtnIcon: 'ios-arrow-back',
@@ -235,7 +237,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openDrawer: () => dispatch(DrawerActions.drawerOpen())
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
+    searchRequest: () => dispatch(SearchContractorsActions.contractorSearchRequest())
   }
 }
 
