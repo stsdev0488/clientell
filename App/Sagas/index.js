@@ -9,6 +9,7 @@ import { ClientTypes } from '../Redux/ClientRedux'
 import { SearchTypes } from '../Redux/SearchRedux'
 import { ReviewTypes } from '../Redux/ReviewRedux'
 import { ContractorSearchTypes } from '../Redux/ContractorSearchRedux'
+import { GalleryTypes } from '../Redux/GalleryRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -26,6 +27,7 @@ import {
 } from './ClientSagas'
 import { getSearchResults, getSearchResults2, getFilteredClients } from './SearchSagas'
 import { searchContractors } from './ContractorSearchSagas'
+import { getUserGallery, uploadUserGallery } from './GallerySagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -41,6 +43,8 @@ export default function * root () {
     takeLatest(UserTypes.USER_REQUEST, getUser),
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
     takeLatest(UserTypes.AVATAR_UPDATE_REQUEST, updateUserAvatar),
+    takeLatest(GalleryTypes.GALLERY_REQUEST, getUserGallery),
+    takeLatest(GalleryTypes.GALLERY_UPLOAD_REQUEST, uploadUserGallery),
 
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),

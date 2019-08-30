@@ -10,7 +10,9 @@ export const reducers = combineReducers({
   client: require('./ClientRedux').reducer,
   search: require('./SearchRedux').reducer,
   review: require('./ReviewRedux').reducer,
-  drawer: require('./DrawerRedux').reducer
+  drawer: require('./DrawerRedux').reducer,
+  contractorSearch: require('./ContractorSearchRedux').reducer,
+  gallery: require('./GalleryRedux').reducer
 })
 
 export default () => {
