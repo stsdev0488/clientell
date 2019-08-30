@@ -49,3 +49,27 @@ export function * uploadUserGallery (action, fixtureAPI) {
     yield put(GalleryActions.galleryUploadFailure())
   }
 }
+
+export function * deleteGalleryItem (action, fixtureAPI) {
+  let api
+  if (!fixtureAPI) {
+    api = yield call(apiGet)
+  } else {
+    api = fixtureAPI
+  }
+
+  try {
+    const { id } = action
+    const response = yield call(api.deleteGalleryItem, id)
+
+    // success?
+    if (response.ok) {
+      yield put(GalleryActions.galleryDeleteSuccess())
+      yield put(GalleryActions.galleryRequest())
+    } else {
+      yield put(GalleryActions.galleryDeleteFailure())
+    }
+  } catch (err) {
+    yield put(GalleryActions.galleryDeleteFailure())
+  }
+}

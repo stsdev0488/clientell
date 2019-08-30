@@ -9,7 +9,10 @@ const { Types, Creators } = createActions({
   galleryFailure: null,
   galleryUploadRequest: ['data'],
   galleryUploadSuccess: ['payload'],
-  galleryUploadFailure: null
+  galleryUploadFailure: null,
+  galleryDeleteRequest: ['id'],
+  galleryDeleteSuccess: ['payload'],
+  galleryDeleteFailure: null
 })
 
 export const GalleryTypes = Types
@@ -23,7 +26,9 @@ export const INITIAL_STATE = Immutable({
   payload: null,
   error: null,
   uploading: false,
-  uploadError: null
+  uploadError: null,
+  deleting: false,
+  deleteSuccess
 })
 
 /* ------------- Selectors ------------- */
@@ -66,6 +71,25 @@ export const uploadSuccess = (state, action) => {
 export const uploadFailure = state =>
   state.merge({ uploading: false, uploadError: true })
 
+
+/**
+ * Delete
+ */
+
+// request the data from an api
+export const deleteRequest = (state, { data }) =>
+  state.merge({ deleting: true, deleteError: null})
+
+// successful api lookup
+export const deleteSuccess = (state, action) => {
+  const { payload } = action
+  return state.merge({ deleting: false, deleteError: null })
+}
+
+// Something went wrong somewhere.
+export const deleteFailure = state =>
+  state.merge({ deleting: false, deleteError: true })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -74,5 +98,8 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.GALLERY_FAILURE]: failure,
   [Types.GALLERY_UPLOAD_REQUEST]: uploadRequest,
   [Types.GALLERY_UPLOAD_SUCCESS]: uploadSuccess,
-  [Types.GALLERY_UPLOAD_FAILURE]: uploadFailure
+  [Types.GALLERY_UPLOAD_FAILURE]: uploadFailure,
+  [Types.GALLERY_DELETE_REQUEST]: deleteRequest,
+  [Types.GALLERY_DELETE_SUCCESS]: deleteSuccess,
+  [Types.GALLERY_DELETE_FAILURE]: deleteFailure
 })

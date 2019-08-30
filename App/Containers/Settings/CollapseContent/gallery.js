@@ -19,16 +19,16 @@ class GalleryCollapsible extends Component {
     return (
       <View style={styles.section}>
         {editable &&
-        <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditGallery', {images: galleryItems})}>
-            <Text>Edit</Text>
-          </Button>
-        </View>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditGallery', {images: galleryItems})}>
+              <Text>Edit</Text>
+            </Button>
+          </View>
         }
 
-        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-          {galleryFetching && <Spinner />}
+        {galleryFetching && <Spinner />}
 
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {galleryItems.map(img =>
             <Button style={styles.galleryImgWrap} onPress={() => navigation.navigate('PreviewPhotoModal')}>
               <Image source={{uri: img.url}} style={styles.galleryImg} />

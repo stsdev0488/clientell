@@ -149,7 +149,7 @@ const create = (baseURL) => {
   }
 
   const deleteGalleryItem = (id) => {
-    return getToken().then((a) => apiFile.post('auth/user/gallery' + id, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => apiFile.delete('auth/user/gallery/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   return {

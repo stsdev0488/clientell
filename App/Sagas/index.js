@@ -27,7 +27,7 @@ import {
 } from './ClientSagas'
 import { getSearchResults, getSearchResults2, getFilteredClients } from './SearchSagas'
 import { searchContractors } from './ContractorSearchSagas'
-import { getUserGallery, uploadUserGallery } from './GallerySagas'
+import { getUserGallery, uploadUserGallery, deleteGalleryItem } from './GallerySagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -44,7 +44,8 @@ export default function * root () {
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
     takeLatest(UserTypes.AVATAR_UPDATE_REQUEST, updateUserAvatar),
     takeLatest(GalleryTypes.GALLERY_REQUEST, getUserGallery),
-    takeLatest(GalleryTypes.GALLERY_UPLOAD_REQUEST, uploadUserGallery),
+    takeLatest(GalleryTypes.GALLERY_UPLOAD_REQUEST, uploadUserGallery),,
+    takeLatest(GalleryTypes.GALLERY_DELETE_REQUEST, deleteGalleryItem),
 
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import {ScrollView, View, Image, Platform} from 'react-native'
+import { View, Image, Platform, AsyncStorage, NativeModules} from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Item, Icon, Button, Text, CheckBox, Body as NBody, ListItem, Input} from 'native-base'
+import {Content, Icon, Button, ActionSheet} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
-import ErrorRenderer from 'Components/ErrorRenderer'
-import { SKILLS } from '../../../Lib/Utils'
 import ImagePicker from 'react-native-image-picker'
 
 // Redux actions
@@ -50,8 +48,7 @@ class Gallery extends Component {
   })
 
   state = {
-    photos: [],
-    uploadedPhotos: []
+    photos: []
   }
 
   // constructor (props) {
@@ -67,11 +64,6 @@ class Gallery extends Component {
       rightBtnText: 'Save',
       rightBtnPress: () => this._save(),
     })
-
-    const images = this.props.navigation.getParam('images')
-    if (images.length) {
-      this.setState({uploadedPhotos: images})
-    }
   }
 
   componentDidUpdate (oldProps) {
@@ -142,22 +134,50 @@ class Gallery extends Component {
     })
   }
 
-  render () {
-    const { saving, error } = this.props
+  _deleteViaApi = (id) => {
+    ActionSheet.show(
+      {
+        options: ['Delete', 'Cancel'],
+        cancelButtonIndex: 1,
+        destructiveButtonIndex: 0,
+        title: 'Are you sure you want to delete this image?'
+      },
+      async buttonIndex => {
+        if (buttonIndex === 0) {
+          this.props.deleteImage(id)
+        }
+      }
+    )
+  }
 
+  _deleteUpload = () => {
+
+  }
+
+  render () {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
           <View style={styles.section}>
             <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-              {this.state.uploadedPhotos.map((img, i) =>
-                <Button style={styles.galleryImgButton} transparent onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}>
+              {this.props.images.map((img, i) =>
+                <Button
+                  style={styles.galleryImgButton}
+                  transparent
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onLongPress={() => this._deleteViaApi(img.id)}
+                >
                   <Image key={i} source={{uri: img.url}} style={styles.galleryImgBig} />
                 </Button>
               )}
 
               {this.state.photos.map((img, i) =>
-                <Button style={styles.galleryImgButton} transparent onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}>
+                <Button
+                  style={styles.galleryImgButton}
+                  transparent
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onLongPress={() => this._deleteUpload(img)}
+                >
                   <Image key={i} source={img} style={styles.galleryImgBig} />
                 </Button>
               )}
@@ -176,7 +196,8 @@ class Gallery extends Component {
 const mapStateToProps = (state) => {
   return {
     uploading: state.gallery.uploading,
-    error: state.gallery.uploadError
+    error: state.gallery.uploadError,
+    images: state.gallery.data || []
   }
 }
 
@@ -184,7 +205,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
-    uploadImages: (data) => dispatch(GalleryActions.galleryUploadRequest(data))
+    uploadImages: (data) => dispatch(GalleryActions.galleryUploadRequest(data)),
+    deleteImage: (data) => dispatch(GalleryActions.galleryDeleteRequest(data))
   }
 }
 
