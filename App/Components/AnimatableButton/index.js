@@ -1,32 +1,26 @@
 import React, { useState } from 'react'
 import { View, Animated } from 'react-native'
 import {Button, Text as NBText, Icon} from 'native-base'
-import {animatedButton} from "../../Lib/Utils";
+import { AnimatedSpring } from '../../Lib/Utils'
 import * as Animatable from 'react-native-animatable'
-
 
 const AnimatedBtn = Animatable.createAnimatableComponent(Button)
 
-const AnimatableButton = ({titleBtn, iconName}) => {
+const AnimatableButton = (props) => {
   const [ animation, setAnimation ] = useState(new Animated.Value(0))
   const trigger = () => {
     animation.setValue(1)
-    Animated.spring(
-        animation,
-        {
-          toValue: 1.02,
-          friction: 2,
-          useNativeDriver: true
-        }
-    ).start()
+    AnimatedSpring(animation)
+    setTimeout(() => {
+      props.trigger()
+    }, 250)
   }
-
     return(
-        <AnimatedBtn rounded bordered small iconLeft style={{transform: [{scale: animation}] }} onPress={trigger.bind(this)}>
-            <Icon name={iconName} style={{fontSize: 20}}/>
-            <NBText>{titleBtn}</NBText>
+        <AnimatedBtn onPress={trigger.bind(this)} rounded bordered small iconLeft style={{transform: [{scale: animation}] }}>
+            <Icon name={props.iconName} style={{fontSize: 20}}/>
+            <NBText>{props.titleBtn}</NBText>
         </AnimatedBtn>
     )
 }
 
-export default  AnimatableButton
+export default AnimatableButton

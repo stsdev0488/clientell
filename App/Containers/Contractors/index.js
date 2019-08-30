@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Image, TouchableWithoutFeedback } from 'react-native'
+import {ScrollView, View, Image, TouchableWithoutFeedback, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux'
-import { Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet, Input } from 'native-base'
+import {Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, ActionSheet, Input} from 'native-base'
 import {formDiscardHandler, SKILLS} from 'Lib/Utils'
+import { US_STATES } from '../../Lib/Utils'
 import { Images } from 'Themes/'
-
 import HeaderBar from 'Components/HeaderBar'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 import DrawerActions from 'Redux/DrawerRedux'
+import SearchContractorsActions from 'Redux/ContractorSearchRedux'
 
 // Styles
 import styles from './styles'
@@ -40,10 +41,13 @@ class Search extends Component {
     currentLoc: true,
     useDifferentLoc: false,
     showTextInput: false,
-    textInput: ''
+    textInput: '',
+    city: '',
+    state: ''
   }
 
   componentDidMount () {
+    this.props.searchRequest()
     this.props.navigation.setParams({
       title: 'Contractors',
       leftBtnIcon: 'ios-arrow-back',
@@ -71,6 +75,55 @@ class Search extends Component {
     )
   }
 
+  _searchCityAndState = () => {
+    if(this.state.useDifferentLoc){
+      return(
+          <View>
+            <View style={styles.section}>
+              <Item fixedLabel >
+                <Label style={styles.sectionText}>City <Text style={styles.sup}>*</Text></Label>
+                <Input
+                    ref={ref => {this.cityInput = ref}}
+                    style={[styles.textarea, {textAlign: 'right', marginBottom: 8, paddingRight: 10}]}
+                    returnKeyType='next'
+                    onChangeText={(input) => this.setState({city: input.charAt(0).toUpperCase() + input.slice(1)})}
+                />
+              </Item>
+            </View>
+
+            <View style={styles.section}>
+              <Item fixedLabel>
+                <Label style={styles.sectionText}>State <Text style={styles.sup}>*</Text></Label>
+                <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="Select Skills / Trades"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="#007aff"
+                    selectedValue={this.state.state}
+                    onValueChange={this._onStateCatChange}
+                >
+                  {
+                    US_STATES.map(item => (
+                        <Picker.Item label={item.name} value={item.name} />
+                    ))
+                  }
+                </Picker>
+              </Item>
+
+            </View>
+          </View>
+
+      )
+    }
+    return null
+  }
+
+  _onStateCatChange = (selectState) => {
+    this.setState({state: selectState})
+  }
+
   _onContractorCatChange = serviceType => {
     this.setState({
       serviceType,
@@ -93,7 +146,6 @@ class Search extends Component {
   }
 
   render () {
-    console.tron.log(this.state.textInput)
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
@@ -155,18 +207,24 @@ class Search extends Component {
               >use different location</Text>
             </View>
 
+            { this._searchCityAndState() }
+
             <View style={[styles.section, {marginTop: 40}]}>
               <Button
                 primary
                 block
                 onPress={this._onSearchSubmit}
-                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput}
+                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput && !this.state.city && !this.state.state}
               >
                 <Text>SEARCH</Text>
               </Button>
             </View>
+
           </Form>
         </Content>
+
+
+
       </View>
     )
   }
@@ -179,7 +237,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    openDrawer: () => dispatch(DrawerActions.drawerOpen())
+    openDrawer: () => dispatch(DrawerActions.drawerOpen()),
+    searchRequest: () => dispatch(SearchContractorsActions.contractorSearchRequest())
   }
 }
 
