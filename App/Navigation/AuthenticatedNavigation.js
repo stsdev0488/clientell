@@ -80,7 +80,8 @@ import EditLicense from 'Containers/Settings/Screens/editLicense'
  * CONTRACTORS SUB-SCREENS
  * ---------------------------------------------------------------------------------------
  */
-import ContractorSearchResults from 'Containers/Search/Screens/searchResults'
+
+import ContractorSearchResults from 'Containers/Contractors/Screens/searchResults'
 
 /**
  * ---------------------------------------------------------------------------------------
