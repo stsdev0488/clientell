@@ -267,6 +267,10 @@ class Gallery extends Component {
       formData.append('expiration', moment(found.expiration).format('YYYY-MM-DD'))
       formData.append('is_insured', found.insured ? 1 : 0)
 
+      if (this.eLicense.id) {
+        formData.append('_method', 'put')
+      }
+
       this.props.navigation.setParams({rightBtnLoading: true})
       this.props.submitLicense(formData, this.eLicense.id)
     } else {

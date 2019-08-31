@@ -173,7 +173,7 @@ const create = (baseURL) => {
   }
 
   const updateLicense = (params, id) => {
-    return getToken().then((a) => apiFile.put('license/' + id, params, {headers: {'Authorization': 'Bearer ' + a}}))
+    return getToken().then((a) => apiFile.post('license/' + id, params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
   const deleteLicenseItem = (id) => {
