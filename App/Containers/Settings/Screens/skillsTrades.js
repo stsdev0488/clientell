@@ -160,6 +160,7 @@ class Skills extends Component {
         })
         Alert.alert(newSkill.charAt(0).toUpperCase() + newSkill.slice(1) + ' Successfully Added new skills')
         this._onCheck(newSkill.charAt(0).toUpperCase() + newSkill.slice(1))
+        this.component._root.scrollToEnd()
       }
     }
   }
@@ -173,7 +174,7 @@ class Skills extends Component {
 
     return (
       <View style={styles.container}>
-        <Content style={styles.mContainer}>
+        <Content style={styles.mContainer} ref={c => (this.component = c)}>
           <View style={styles.section}>
             <ErrorRenderer error={error.errors} />
           </View>
