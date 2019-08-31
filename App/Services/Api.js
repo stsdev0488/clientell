@@ -172,6 +172,10 @@ const create = (baseURL) => {
     return getToken().then((a) => apiFile.post('license', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  const updateLicense = (params, id) => {
+    return getToken().then((a) => apiFile.put('license/' + id, params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
   const deleteLicenseItem = (id) => {
     return getToken().then((a) => apiFile.delete('license/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
   }
@@ -201,6 +205,7 @@ const create = (baseURL) => {
     deleteGalleryItem,
     fetchContractors,
     uploadLicense,
+    updateLicense,
     fetchLicense,
     deleteLicenseItem
   }

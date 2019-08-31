@@ -7,7 +7,7 @@ const { Types, Creators } = createActions({
   licenseRequest: ['data'],
   licenseSuccess: ['payload'],
   licenseFailure: null,
-  licenseUploadRequest: ['data'],
+  licenseUploadRequest: ['data', 'id'],
   licenseUploadSuccess: ['payload'],
   licenseUploadFailure: null,
   licenseDeleteRequest: ['id'],

@@ -47,7 +47,7 @@ const checkLicenseFormValid = (data) => {
   return formData
 }
 
-const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, save }) => {
+const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving }) => {
   const licenseNameRef = useRef(null)
   const licenseNumRef = useRef(null)
   const licenseExpireRef = useRef(null)
@@ -106,21 +106,18 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, save })
 
   return (
     <View style={styles.licenseItem}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Button style={{marginTop: 10, marginLeft: 10, marginBottom: 10}} small rounded danger onPress={onRemove}>
+      {!!license.id &&
+        <Button style={{alignSelf: 'flex-end', marginTop: 10, marginRight: 10, marginBottom: 10}} small rounded danger onPress={onRemove} disabled={saving}>
           <Text>Remove</Text>
         </Button>
-
-        <Button style={{marginTop: 10, marginRight: 10, marginBottom: 10}} small rounded onPress={save}>
-          <Text>Save</Text>
-        </Button>
-      </View>
+      }
 
       <View style={styles.section}>
         <View style={styles.sectionForm}>
           <Item fixedLabel onPress={() => licenseNameRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License Name</Label>
             <Input
+              value={name}
               ref={licenseNameRef}
               onChangeText={licenseName => setName(licenseName)}
               required
@@ -135,6 +132,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, save })
           <Item fixedLabel onPress={() => licenseNumRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License #</Label>
             <Input
+              value={number}
               ref={licenseNumRef}
               onChangeText={licenseNum => setNumber(licenseNum)}
               required
@@ -149,6 +147,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, save })
           <Item fixedLabel onPress={() => licenseExpireRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License Expiration</Label>
             <Input
+              value={expiration}
               ref={licenseExpireRef}
               onChangeText={licenseExpiration => setExpiration(licenseExpiration)}
               required
@@ -210,22 +209,30 @@ class Gallery extends Component {
     }
   })
 
-  state = {
-    licenses: []
-  }
 
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {}
-  // }
+
+  constructor (props) {
+    super(props)
+    this.eLicense = this.props.navigation.getParam('license', {})
+
+    this.state = {
+      license: {
+        id: this.eLicense.id,
+        name: this.eLicense.name || '',
+        number: this.eLicense.number || '',
+        expiration: this.eLicense.expiration ? moment(this.eLicense.expiration).format('MM/DD/YYYY') : moment().format('MM/DD/YYYY'),
+        insured: !!this.eLicense.is_insured
+      }
+    }
+  }
 
   componentDidMount () {
     this.props.navigation.setParams({
       title: 'License and Certificates',
       leftBtnIcon: 'ios-arrow-back',
       leftBtnPress: () => this.props.navigation.goBack(null),
-      rightBtnText: 'New',
-      rightBtnPress: () => this._onNewLicense(),
+      rightBtnText: 'Save',
+      rightBtnPress: () => this._save(),
     })
   }
 
@@ -240,80 +247,51 @@ class Gallery extends Component {
     }
   }
 
-  _save = (id) => {
-    const found = this.state.licenses.find(a => a.id === id)
+  _save = () => {
+    const found = this.state.license
 
     if (found && found.valid) {
       let formData = new FormData()
 
       formData.append('name', found.name)
       formData.append('number', found.number)
-      formData.append('expiration', found.expiration)
-      formData.append('insured', found.insured)
+      formData.append('expiration', moment(found.expiration).format('YYYY-MM-DD'))
+      formData.append('insured', found.insured ? 1 : 0)
 
-      this.props.submitLicense(formData)
+      this.props.navigation.setParams({rightBtnLoading: true})
+      this.props.submitLicense(formData, this.eLicense.id)
     } else {
       this.props.navigation.navigate('AlertModal', {title: `Invalid License`, message: `Please verify that you entered the correct details.`})
     }
   }
 
-  _onNewLicense = () => {
-    this.setState(state => {
-      state.licenses = [...state.licenses, { id: generateLicenseUUID(), name: '', number: '', expiration: '', insured: false }]
-
-      return state
-    })
-  }
-
-  _onRemoveLicense = (id) => {
-    this.setState(state => {
-      state.licenses = state.licenses.filter((a) => a.id !== id)
-
-      return state
-    })
+  _onRemoveLicense = () => {
+    if (this.state.license && this.state.license.id) {
+      // TODO: license delete here
+    }
   }
 
   _onSetFormValue = (license) => {
     this.setState(state => {
-      let licenses = [...state.licenses]
-
-      licenses.forEach((l, i) => {
-        if (l.id === license.id) {
-          licenses[i] = license
-        }
-      })
-
-      state.licenses = licenses
+      state.license = license
       return state
     })
   }
 
   render () {
     const { saving, error } = this.props
+    const { license } = this.state
 
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
-          <View style={styles.section}>
-            <ErrorRenderer error={error.errors} />
-          </View>
-
-          {!this.state.licenses.length &&
-            <View style={styles.section}>
-              <Text style={{textAlign: 'center'}}>No Existing Licenses / Certificates added, click the <Text style={{fontWeight: 'bold'}}>New</Text> button on header to start adding new licenses / certificates</Text>
-            </View>
-          }
-
-          {this.state.licenses.map((license) =>
-            <LicenseForm
-              key={license.id}
-              setFormValue={(data) => this._onSetFormValue(data)}
-              navigation={this.props.navigation}
-              onRemove={() => this._onRemoveLicense(license.id)}
-              license={license}
-              save={() => this._save(license.id)}
-            />
-          )}
+          <LicenseForm
+            setFormValue={(data) => this._onSetFormValue(data)}
+            navigation={this.props.navigation}
+            onRemove={() => this._onRemoveLicense()}
+            license={license}
+            saving={this.props.uploading}
+          />
         </Content>
       </View>
     )
@@ -322,8 +300,8 @@ class Gallery extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    saving: state.user.updating,
-    error: state.user.updateError || {}
+    uploading: state.license.uploading,
+    error: state.license.uploadError
   }
 }
 
@@ -331,7 +309,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
-    submitLicense: (data) => dispatch(LicenseActions.licenseUploadRequest(data))
+    submitLicense: (data, id) => dispatch(LicenseActions.licenseUploadRequest(data, id))
   }
 }
 

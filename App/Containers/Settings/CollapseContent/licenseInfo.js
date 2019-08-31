@@ -1,32 +1,86 @@
-import React from 'react'
+import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import { View, Image } from 'react-native'
-import {Button, Text} from 'native-base'
-
+import {Button, Spinner, Text} from 'native-base'
 import { Images } from 'Themes/'
+
+import LicenseActions from 'Redux/LicenseRedux'
 
 import styles from '../styles'
 
-export default ({ user, navigation, editable = true }) => {
-  return (
-    <View style={styles.section}>
-      {editable &&
-        <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditLicense')}>
-            <Text>Edit</Text>
-          </Button>
-        </View>
-      }
+class LicenseCollapsible extends Component {
+  componentDidMount () {
+    if (this.props.modal) {
+      this.props.fetchLicenses({
+        user_id: this.props.user.id
+      })
+    } else {
+      this.props.fetchLicenses()
+    }
+  }
 
-      <Text style={styles.sectionFormText}>License #: AB2325-82732837232-8723826565</Text>
+  render () {
+    const {navigation, editable, fetching, items} = this.props
 
-      <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-        <Button style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
-          <Image source={Images.logoOnly} style={styles.galleryImg} />
-        </Button>
+    return (
+      <View style={styles.section}>
+        {editable &&
+          <View style={{flex: 1, alignItems: 'flex-end'}}>
+            <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditLicense')}>
+              <Text>{items.length ? 'New License' : 'Edit'}</Text>
+            </Button>
+          </View>
+        }
+
+        {fetching && <Spinner />}
+
+        {items.map(license =>
+          <View style={styles.licenseItemShort}>
+            {editable &&
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Button small transparent style={{alignSelf: 'flex-end'}} onPress={() => navigation.navigate('EditLicense', {license})}>
+                  <Text>Edit</Text>
+                </Button>
+              </View>
+            }
+            <Text style={styles.sectionFormText}>Name: {license.name}</Text>
+            <Text style={styles.sectionFormText}>License #: {license.number}</Text>
+            <Text style={styles.sectionFormText}>Expiration: {license.expiration}</Text>
+
+            {license.photos.length &&
+              <React.Fragment>
+                <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  <Button style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+                    <Image source={Images.logoOnly} style={styles.galleryImg} />
+                  </Button>
+                </View>
+              </React.Fragment>
+            }
+
+            <Text style={styles.sectionFormText}>Insured: {license.is_insured ? 'True' : 'False'}</Text>
+          </View>
+        )}
       </View>
-
-      <Text style={styles.sectionFormText}>Insured: Yes</Text>
-    </View>
-  )
+    )
+  }
 }
+
+LicenseCollapsible.defaultProps = {
+  editable: true
+}
+
+const mapStateToProps = (state) => {
+  return {
+    fetching: state.license.fetching,
+    items: state.license.data || []
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchLicenses: (data = {}) => dispatch(LicenseActions.licenseRequest(data))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LicenseCollapsible)

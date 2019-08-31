@@ -151,5 +151,15 @@ export default StyleSheet.create({
     borderColor: '#eee',
     borderRadius: 7,
     margin: 7
+  },
+
+  licenseItemShort: {
+    paddingTop: 10,
+    paddingBottom: 5,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 7,
+    marginBottom: 8
   }
 })

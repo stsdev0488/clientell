@@ -36,20 +36,25 @@ export function * uploadUserLicense (action, fixtureAPI) {
 
   console.tron.log(action)
 
-  // try {
-  //   const { data } = action
-  //   const response = yield call(api.uploadLicense, data)
-  //
-  //   // success?
-  //   if (response.ok) {
-  //     yield put(LicenseActions.licenseUploadSuccess(response.data))
-  //     yield put(LicenseActions.licenseRequest())
-  //   } else {
-  //     yield put(LicenseActions.licenseUploadFailure())
-  //   }
-  // } catch (err) {
-  //   yield put(LicenseActions.licenseUploadFailure())
-  // }
+  try {
+    const { data, id } = action
+    let response
+    if (id) {
+      response = yield call(api.updateLicense, data, id)
+    } else {
+      response = yield call(api.uploadLicense, data)
+    }
+
+    // success?
+    if (response.ok) {
+      yield put(LicenseActions.licenseUploadSuccess(response.data))
+      yield put(LicenseActions.licenseRequest())
+    } else {
+      yield put(LicenseActions.licenseUploadFailure())
+    }
+  } catch (err) {
+    yield put(LicenseActions.licenseUploadFailure())
+  }
 }
 
 export function * deleteLicenseItem (action, fixtureAPI) {
