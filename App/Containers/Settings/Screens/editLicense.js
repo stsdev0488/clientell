@@ -1,7 +1,7 @@
 import React, { Component, useState, useRef, useEffect } from 'react'
 import { View, Image, Platform, Switch } from 'react-native'
 import { connect } from 'react-redux'
-import {Content, Item, Icon, Button, Text, Input, Label} from 'native-base'
+import {Content, Item, Icon, Button, Text, Input, Label, ActionSheet} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
 import ErrorRenderer from 'Components/ErrorRenderer'
 import ImagePicker from 'react-native-image-picker'
@@ -245,6 +245,15 @@ class Gallery extends Component {
         this.props.navigation.goBack(null)
       }
     }
+
+    if (!this.props.deleting && oldProps.deleting) {
+      this.props.navigation.setParams({rightBtnLoading: false})
+      if (this.props.deleteError) {
+        this.props.navigation.navigate('AlertModal', {title: `Delete failed`, message: `Please check your internet connection or try again later.`})
+      } else {
+        this.props.navigation.goBack(null)
+      }
+    }
   }
 
   _save = () => {
@@ -256,7 +265,7 @@ class Gallery extends Component {
       formData.append('name', found.name)
       formData.append('number', found.number)
       formData.append('expiration', moment(found.expiration).format('YYYY-MM-DD'))
-      formData.append('insured', found.insured ? 1 : 0)
+      formData.append('is_insured', found.insured ? 1 : 0)
 
       this.props.navigation.setParams({rightBtnLoading: true})
       this.props.submitLicense(formData, this.eLicense.id)
@@ -267,7 +276,20 @@ class Gallery extends Component {
 
   _onRemoveLicense = () => {
     if (this.state.license && this.state.license.id) {
-      // TODO: license delete here
+      ActionSheet.show(
+        {
+          options: ['Delete', 'Cancel'],
+          cancelButtonIndex: 1,
+          destructiveButtonIndex: 0,
+          title: 'Are you sure you want to '
+        },
+        async buttonIndex => {
+          if (buttonIndex === 0) {
+            this.props.navigation.setParams({rightBtnLoading: false})
+            this.props.deleteLicense(this.state.license.id)
+          }
+        }
+      )
     }
   }
 
@@ -301,7 +323,9 @@ class Gallery extends Component {
 const mapStateToProps = (state) => {
   return {
     uploading: state.license.uploading,
-    error: state.license.uploadError
+    error: state.license.uploadError,
+    deleting: state.license.deleting,
+    deleteError: state.license.deleteError
   }
 }
 
@@ -309,7 +333,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
-    submitLicense: (data, id) => dispatch(LicenseActions.licenseUploadRequest(data, id))
+    submitLicense: (data, id) => dispatch(LicenseActions.licenseUploadRequest(data, id)),
+    deleteLicense: (id) => dispatch(LicenseActions.licenseDeleteRequest(id))
   }
 }
 
