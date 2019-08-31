@@ -160,6 +160,21 @@ const create = (baseURL) => {
     return getToken().then((a) => api.get('contractor', params, {headers: {'Authorization': 'Bearer ' + a}}))
   }
 
+  /**
+   * License API
+   */
+
+  const fetchLicense = (params) => {
+    return getToken().then((a) => api.get('license', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+  const uploadLicense = (params) => {
+    return getToken().then((a) => apiFile.post('license', params, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
+
+  const deleteLicenseItem = (id) => {
+    return getToken().then((a) => apiFile.delete('license/' + id, {}, {headers: {'Authorization': 'Bearer ' + a}}))
+  }
 
   return {
     login,
@@ -184,7 +199,10 @@ const create = (baseURL) => {
     uploadGallery,
     fetchGallery,
     deleteGalleryItem,
-    fetchContractors
+    fetchContractors,
+    uploadLicense,
+    fetchLicense,
+    deleteLicenseItem
   }
 }
 

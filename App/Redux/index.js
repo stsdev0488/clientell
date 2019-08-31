@@ -12,7 +12,8 @@ export const reducers = combineReducers({
   review: require('./ReviewRedux').reducer,
   drawer: require('./DrawerRedux').reducer,
   contractorSearch: require('./ContractorSearchRedux').reducer,
-  gallery: require('./GalleryRedux').reducer
+  gallery: require('./GalleryRedux').reducer,
+  license: require('./LicenseRedux').reducer
 })
 
 export default () => {

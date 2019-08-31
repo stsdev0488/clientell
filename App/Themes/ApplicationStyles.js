@@ -125,6 +125,10 @@ const ApplicationStyles = {
     screenTopContent: {
       alignItems: 'center',
       paddingHorizontal: 20
+    },
+
+    dangerText: {
+      color: Colors.fire
     }
   },
   darkLabelContainer: {

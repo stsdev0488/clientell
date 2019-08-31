@@ -143,5 +143,13 @@ export default StyleSheet.create({
     color: Colors.text,
     textAlign: 'left',
     alignSelf: 'flex-start'
+  },
+
+  licenseItem: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 7,
+    margin: 7
   }
 })

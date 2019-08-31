@@ -10,6 +10,7 @@ import { SearchTypes } from '../Redux/SearchRedux'
 import { ReviewTypes } from '../Redux/ReviewRedux'
 import { ContractorSearchTypes } from '../Redux/ContractorSearchRedux'
 import { GalleryTypes } from '../Redux/GalleryRedux'
+import { LicenseTypes } from '../Redux/LicenseRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -28,6 +29,7 @@ import {
 import { getSearchResults, getSearchResults2, getFilteredClients } from './SearchSagas'
 import { searchContractors } from './ContractorSearchSagas'
 import { getUserGallery, uploadUserGallery, deleteGalleryItem } from './GallerySagas'
+import { getUserLicense, uploadUserLicense, deleteLicenseItem } from './LicenseSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -43,9 +45,16 @@ export default function * root () {
     takeLatest(UserTypes.USER_REQUEST, getUser),
     takeLatest(UserTypes.USER_UPDATE_REQUEST, updateUser),
     takeLatest(UserTypes.AVATAR_UPDATE_REQUEST, updateUserAvatar),
+    
+    // GALLERY SAGAS
     takeLatest(GalleryTypes.GALLERY_REQUEST, getUserGallery),
-    takeLatest(GalleryTypes.GALLERY_UPLOAD_REQUEST, uploadUserGallery),,
+    takeLatest(GalleryTypes.GALLERY_UPLOAD_REQUEST, uploadUserGallery),
     takeLatest(GalleryTypes.GALLERY_DELETE_REQUEST, deleteGalleryItem),
+    
+    // LICENSE SAGAS
+    takeLatest(LicenseTypes.LICENSE_REQUEST, getUserLicense),
+    takeLatest(LicenseTypes.LICENSE_UPLOAD_REQUEST, uploadUserLicense),
+    takeLatest(LicenseTypes.LICENSE_DELETE_REQUEST, deleteLicenseItem),
 
     // CLIENT SAGAS
     takeLatest(ClientTypes.CLIENT_REQUEST, getClients),

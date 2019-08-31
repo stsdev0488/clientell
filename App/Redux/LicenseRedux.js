@@ -4,18 +4,18 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  galleryRequest: ['data'],
-  gallerySuccess: ['payload'],
-  galleryFailure: null,
-  galleryUploadRequest: ['data'],
-  galleryUploadSuccess: ['payload'],
-  galleryUploadFailure: null,
-  galleryDeleteRequest: ['id'],
-  galleryDeleteSuccess: ['payload'],
-  galleryDeleteFailure: null
+  licenseRequest: ['data'],
+  licenseSuccess: ['payload'],
+  licenseFailure: null,
+  licenseUploadRequest: ['data'],
+  licenseUploadSuccess: ['payload'],
+  licenseUploadFailure: null,
+  licenseDeleteRequest: ['id'],
+  licenseDeleteSuccess: ['payload'],
+  licenseDeleteFailure: null
 })
 
-export const GalleryTypes = Types
+export const LicenseTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -32,7 +32,7 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Selectors ------------- */
 
-export const GallerySelectors = {
+export const LicenseSelectors = {
   getData: state => state.data
 }
 
@@ -70,7 +70,6 @@ export const uploadSuccess = (state, action) => {
 export const uploadFailure = state =>
   state.merge({ uploading: false, uploadError: true })
 
-
 /**
  * Delete
  */
@@ -92,13 +91,13 @@ export const deleteFailure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.GALLERY_REQUEST]: request,
-  [Types.GALLERY_SUCCESS]: success,
-  [Types.GALLERY_FAILURE]: failure,
-  [Types.GALLERY_UPLOAD_REQUEST]: uploadRequest,
-  [Types.GALLERY_UPLOAD_SUCCESS]: uploadSuccess,
-  [Types.GALLERY_UPLOAD_FAILURE]: uploadFailure,
-  [Types.GALLERY_DELETE_REQUEST]: deleteRequest,
-  [Types.GALLERY_DELETE_SUCCESS]: deleteSuccess,
-  [Types.GALLERY_DELETE_FAILURE]: deleteFailure
+  [Types.LICENSE_REQUEST]: request,
+  [Types.LICENSE_SUCCESS]: success,
+  [Types.LICENSE_FAILURE]: failure,
+  [Types.LICENSE_UPLOAD_REQUEST]: uploadRequest,
+  [Types.LICENSE_UPLOAD_SUCCESS]: uploadSuccess,
+  [Types.LICENSE_UPLOAD_FAILURE]: uploadFailure,
+  [Types.LICENSE_DELETE_REQUEST]: deleteRequest,
+  [Types.LICENSE_DELETE_SUCCESS]: deleteSuccess,
+  [Types.LICENSE_DELETE_FAILURE]: deleteFailure
 })
