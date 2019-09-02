@@ -3,7 +3,6 @@ import { View, Image, Platform, Switch } from 'react-native'
 import { connect } from 'react-redux'
 import {Content, Item, Icon, Button, Text, Input, Label, ActionSheet} from 'native-base'
 import SubHeaderBar from 'Components/SubHeaderBar'
-import ErrorRenderer from 'Components/ErrorRenderer'
 import ImagePicker from 'react-native-image-picker'
 
 // Redux actions
@@ -56,7 +55,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
   const [number, setNumber] = useState(license.number)
   const [expiration, setExpiration] = useState(license.expiration)
   const [insured, setInsured] = useState(license.insured)
-  const [photos, setPhotos] = useState([])
+  const [photos, setPhotos] = useState(license.photos)
 
   useEffect(() => {
     const formValue = checkLicenseFormValid({
@@ -64,11 +63,12 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
       name,
       number,
       expiration,
+      photos,
       insured
     })
 
     setFormValue(formValue)
-  }, [name, number, expiration, insured])
+  }, [name, number, expiration, insured, photos])
 
   const _onAddImage = () => {
     var options = {
@@ -89,10 +89,11 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
         // error handler
       } else {
         if (Platform.OS === 'android') {
-          const dd = {uri: response.uri, name: response.fileName, type: mimes.lookup(response.fileName)}
+          const dd = {id: generateLicenseUUID(), uri: response.uri, name: response.fileName, type: mimes.lookup(response.fileName)}
           setPhotos([...photos, dd])
         } else {
           const dd = {
+            id: generateLicenseUUID(),
             uri: response.uri,
             name: generateLicenseUUID() + '.' + (mimes.extension(mimes.lookup(response.uri))),
             type: mimes.lookup(response.uri)
@@ -166,8 +167,29 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
         <Text style={styles.sectionFormText}>Certificates</Text>
         <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 7}}>
           {photos.map((img, i) =>
-            <Button style={styles.galleryImgButton} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
-              <Image key={i} source={img} style={styles.galleryImgBig} />
+            <Button
+              key={img.id}
+              style={styles.galleryImgButton}
+              transparent
+              onPress={() => navigation.navigate('PreviewPhotoModal', {image: {uri: img.url || img.uri}})}
+              onLongPress={() => {
+                ActionSheet.show(
+                  {
+                    options: ['Delete', 'Cancel'],
+                    cancelButtonIndex: 1,
+                    destructiveButtonIndex: 0,
+                    title: 'Are you sure you want to delete this image?'
+                  },
+                  async buttonIndex => {
+                    if (buttonIndex === 0) {
+                      const filteredPhotos = photos.filter(p => p.id !== img.id)
+                      setPhotos(filteredPhotos)
+                    }
+                  }
+                )
+              }}
+            >
+              <Image source={{uri: img.url || img.uri}} style={styles.galleryImgBig} />
             </Button>
           )}
 
@@ -209,8 +231,6 @@ class Gallery extends Component {
     }
   })
 
-
-
   constructor (props) {
     super(props)
     this.eLicense = this.props.navigation.getParam('license', {})
@@ -221,7 +241,8 @@ class Gallery extends Component {
         name: this.eLicense.name || '',
         number: this.eLicense.number || '',
         expiration: this.eLicense.expiration ? moment(this.eLicense.expiration).format('MM/DD/YYYY') : moment().format('MM/DD/YYYY'),
-        insured: !!this.eLicense.is_insured
+        insured: !!this.eLicense.is_insured,
+        photos: this.eLicense.photos ? this.eLicense.photos.data : []
       }
     }
   }
@@ -269,6 +290,22 @@ class Gallery extends Component {
 
       if (this.eLicense.id) {
         formData.append('_method', 'put')
+
+        if (found.photos && found.photos.length) {
+          found.photos.forEach((photo, i) => {
+            if (photo.url) {
+              formData.append(`photos[${i}][id]`, photo.id)
+            } else {
+              formData.append(`photos[${i}][photo]`, photo)
+            }
+          })
+        }
+      } else {
+        if (found.photos && found.photos.length) {
+          found.photos.forEach((photo, i) => {
+            formData.append(`photos[${i}][photo]`, photo)
+          })
+        }
       }
 
       this.props.navigation.setParams({rightBtnLoading: true})

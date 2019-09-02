@@ -47,13 +47,15 @@ class LicenseCollapsible extends Component {
             <Text style={styles.sectionFormText}>License #: {license.number}</Text>
             <Text style={styles.sectionFormText}>Expiration: {license.expiration}</Text>
 
-            {license.photos.length &&
+            {!!license.photos.data.length &&
               <React.Fragment>
                 <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                  <Button style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
-                    <Image source={Images.logoOnly} style={styles.galleryImg} />
-                  </Button>
+                  {license.photos.data.map(photo =>
+                    <Button key={photo.id} style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal', {image: {uri: photo.url}})}>
+                      <Image source={{uri: photo.url}} style={styles.galleryImg} />
+                    </Button>
+                  )}
                 </View>
               </React.Fragment>
             }

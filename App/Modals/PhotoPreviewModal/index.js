@@ -12,12 +12,14 @@ class PhotoPreviewModal extends Component {
     header: null
   }
 
+  image = this.props.navigation.getParam('image', {})
+
   render () {
     return (
       <View style={styles.container}>
         <View style={styles.modalContent}>
           <View style={styles.imgWrap}>
-            <Image style={styles.img} source={{uri: 'https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'}} />
+            <Image style={styles.img} source={this.image} />
           </View>
 
           <View style={styles.section}>
