@@ -36,7 +36,7 @@ class GalleryCollapsible extends Component {
 
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {galleryItems.map(img =>
-            <Button style={styles.galleryImgWrap} onPress={() => navigation.navigate('PreviewPhotoModal')}>
+            <Button style={styles.galleryImgWrap} onPress={() => navigation.navigate('PreviewPhotoModal', {image: {uri: img.url}})}>
               <Image source={{uri: img.url}} style={styles.galleryImg} />
             </Button>
           )}

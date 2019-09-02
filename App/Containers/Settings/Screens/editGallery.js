@@ -164,7 +164,7 @@ class Gallery extends Component {
                 <Button
                   style={styles.galleryImgButton}
                   transparent
-                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal', {image: {uri: img.url}})}
                   onLongPress={() => this._deleteViaApi(img.id)}
                 >
                   <Image key={i} source={{uri: img.url}} style={styles.galleryImgBig} />
@@ -175,7 +175,7 @@ class Gallery extends Component {
                 <Button
                   style={styles.galleryImgButton}
                   transparent
-                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal')}
+                  onPress={() => this.props.navigation.navigate('PreviewPhotoModal', {image: {uri: img.uri}})}
                   onLongPress={() => this._deleteUpload(img)}
                 >
                   <Image key={i} source={img} style={styles.galleryImgBig} />

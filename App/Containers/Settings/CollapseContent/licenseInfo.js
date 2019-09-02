@@ -52,7 +52,7 @@ class LicenseCollapsible extends Component {
                 <Text style={[styles.sectionFormText, {fontWeight: 'bold'}]} bold>Attachments: </Text>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                   {license.photos.data.map(photo =>
-                    <Button key={photo.id} style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal')}>
+                    <Button key={photo.id} style={styles.galleryImgWrap} transparent onPress={() => navigation.navigate('PreviewPhotoModal', {image: {uri: photo.url}})}>
                       <Image source={{uri: photo.url}} style={styles.galleryImg} />
                     </Button>
                   )}

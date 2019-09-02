@@ -171,7 +171,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
               key={img.id}
               style={styles.galleryImgButton}
               transparent
-              onPress={() => navigation.navigate('PreviewPhotoModal')}
+              onPress={() => navigation.navigate('PreviewPhotoModal', {image: {uri: img.url || img.uri}})}
               onLongPress={() => {
                 ActionSheet.show(
                   {
