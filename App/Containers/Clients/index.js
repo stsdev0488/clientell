@@ -20,6 +20,7 @@ import styles from './styles'
 class Clients extends React.PureComponent {
   static navigationOptions = (({navigation}) => {
     const params = navigation.state.params
+
     return {
       tabBarOnPress: t => formDiscardHandler(navigation, t),
       tabBarLabel: 'My Clients',
@@ -61,7 +62,7 @@ class Clients extends React.PureComponent {
       if (newProps.clientsData && !newProps.error) {
         if (newProps.pagination && newProps.pagination.current_page === 1) {
           this.setState(state => {
-            state.dataObjects = newProps.clientsData.data
+            state.dataObjects = newProps.clientsData && newProps.clientsData.data ? newProps.clientsData.data : []
             state.searchKey = ''
             this.props.clearFilter()
 
@@ -73,7 +74,12 @@ class Clients extends React.PureComponent {
           })
         } else {
           this.setState(state => {
-            state.dataObjects = [...state.dataObjects, ...newProps.clientsData.data]
+            const cd = newProps.clientsData && newProps.clientsData.data ? newProps.clientsData.data : []
+
+            if (state.dataObjects && cd) {
+              state.dataObjects = [...state.dataObjects, ...cd]
+            }
+
             this.dataBeforeFilter = state.dataObjects
             // update header client count
             this.props.navigation.setParams({subTitle: this._clientCountDisplay(newProps)})

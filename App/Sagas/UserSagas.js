@@ -3,6 +3,7 @@ import {delay} from 'redux-saga'
 import UserActions from '../Redux/UserRedux'
 import { apiGet, retryCall } from './StartupSagas'
 import { NavigationActions } from 'react-navigation'
+import AuthActions from '../Redux/AuthRedux'
 
 export function * getUser (action, fixtureAPI) {
   const { data } = action
@@ -27,6 +28,11 @@ export function * getUser (action, fixtureAPI) {
     }
     yield put(UserActions.userSuccess(response.data))
   } else {
+    if (response.data && response.data.message) {
+      if (response.data.message === 'Unauthenticated.') {
+        yield put(AuthActions.logout())
+      }
+    }
     yield put(UserActions.userFailure())
   }
 }

@@ -1,6 +1,9 @@
 import { call, put, fork, take } from 'redux-saga/effects'
 import AuthActions, {AuthTypes} from '../Redux/AuthRedux'
 import UserActions from '../Redux/UserRedux'
+import SearchActions from '../Redux/SearchRedux'
+import ReviewActions from '../Redux/ReviewRedux'
+import ClientActions from '../Redux/ClientRedux'
 import {AsyncStorage, NativeModules, Platform} from 'react-native'
 import {delay} from 'redux-saga'
 import { apiGet } from './StartupSagas'
@@ -175,14 +178,18 @@ export function * loginFB (action) {
 // Logout
 function * logoutTask () {
   // logout task here
-  // const api = yield call(apiGet)
+  AsyncStorage.clear()
 
-  try {
-    yield call([
-      UserActions.clearUser()
-    ])
-  } catch (error) {
-    console.tron.log(error)
+  yield put(UserActions.clearUser())
+  yield put(SearchActions.searchReset())
+  yield put(ReviewActions.reviewsReset())
+  yield put(ClientActions.clientReset())
+  yield put(NavigationActions.navigate({ routeName: 'Auth' }))
+
+  if (Platform.OS === 'ios') {
+    NativeModules.CallDetection.addContacts([], [])
+  } else {
+    NativeModules.CallDetection.addContacts([])
   }
 }
 

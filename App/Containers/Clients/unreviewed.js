@@ -64,7 +64,8 @@ class Clients extends React.PureComponent {
       if (newProps.clientsData && !newProps.error) {
         if (newProps.pagination && newProps.pagination.current_page === 1) {
           this.setState(state => {
-            const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
+            const cdata = newProps.clientsData && newProps.clientsData.data ? newProps.clientsData.data : []
+            const filteredReviews = cdata.filter(a => !a.reviews.data.length)
             state.dataObjects = filteredReviews
             state.searchKey = ''
             this.props.clearFilter()
@@ -77,7 +78,8 @@ class Clients extends React.PureComponent {
           })
         } else {
           this.setState(state => {
-            const filteredReviews = newProps.clientsData.data.filter(a => !a.reviews.data.length)
+            const cdata = newProps.clientsData && newProps.clientsData.data ? newProps.clientsData.data : []
+            const filteredReviews = cdata.filter(a => !a.reviews.data.length)
 
             state.dataObjects = [...state.dataObjects, ...filteredReviews]
             this.dataBeforeFilter = filteredReviews
