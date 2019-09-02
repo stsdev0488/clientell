@@ -175,9 +175,9 @@ class Skills extends Component {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer} ref={c => (this.component = c)}>
-          <View style={styles.section}>
-            <ErrorRenderer error={error.errors} />
-          </View>
+          {/*<View style={styles.section}>*/}
+          {/*  <ErrorRenderer error={error.errors} />*/}
+          {/*</View>*/}
 
           <OtherSkills
             onSearch={(keyword) => {
