@@ -43,11 +43,11 @@ class SignUpScreen extends Component {
     const {
       email, password, confirm_password, first_name, last_name, state, city, postal_code, phone_number
     } = this.state
-    
+
     if (email && password && confirm_password && first_name && last_name && state && city && postal_code && phone_number) {
       return true
     }
-    
+
     return false
   }
 
@@ -135,7 +135,7 @@ class SignUpScreen extends Component {
                     ref={ref => {this.emailInput = ref}}
                     defaultValue={this.state.email}
                     onChangeText={email => this._onTextChange({ email })}
-                    onSubmitEditing={() => {this.phone.focus()}}
+                    onSubmitEditing={() => {this.password._root.focus()}}
                     returnKeyType='next'
                     autoCapitalize='none'
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -150,7 +150,7 @@ class SignUpScreen extends Component {
                     ref={ref => {this.password = ref}}
                     defaultValue={this.state.password}
                     onChangeText={password => this._onTextChange({ password })}
-                    onSubmitEditing={() => {this.confirmPassword.focus()}}
+                    onSubmitEditing={() => {this.confirmPassword._root.focus()}}
                     returnKeyType='next'
                     autoCapitalize='none'
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
@@ -223,7 +223,7 @@ class SignUpScreen extends Component {
                     ref={ref => {this.lnameInput = ref}}
                     defaultValue={this.state.last_name}
                     onChangeText={last_name => this._onTextChange({ last_name })}
-                    onSubmitEditing={() => {this.emailInput._root.focus()}}
+                    onSubmitEditing={() => {this.address1._root.focus()}}
                     returnKeyType='next'
                     style={{textAlign: 'right', marginBottom: 8, paddingRight: 10}}
                   />
