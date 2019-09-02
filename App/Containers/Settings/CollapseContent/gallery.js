@@ -32,7 +32,7 @@ class GalleryCollapsible extends Component {
           </View>
         }
 
-        {galleryFetching && <Spinner />}
+        {galleryFetching && <Spinner /> || !Object.keys(galleryItems).length && <Text>No Image</Text>}
 
         <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
           {galleryItems.map(img =>

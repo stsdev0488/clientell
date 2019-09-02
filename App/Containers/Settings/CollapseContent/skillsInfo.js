@@ -19,7 +19,7 @@ export default ({ user , navigation, editable = true}) => {
       }
 
       {
-        !items ? <Text>No Skills</Text> : <Tags items={skills} />
+        !skills ? <Text>No Skills</Text> : <Tags items={skills} />
       }
     </View>
   )

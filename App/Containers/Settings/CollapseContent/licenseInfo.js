@@ -32,9 +32,7 @@ class LicenseCollapsible extends Component {
           </View>
         }
 
-        {fetching && <Spinner />}
-
-        { !Object.keys(items).length && <Text>No License Available</Text> }
+        {fetching && <Spinner /> || !Object.keys(items).length && <Text>No License Available</Text>}
 
         {items.map(license =>
           <View style={styles.licenseItemShort}>
