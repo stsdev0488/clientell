@@ -299,6 +299,8 @@ class Gallery extends Component {
               formData.append(`photos[${i}][photo]`, photo)
             }
           })
+        } else {
+          formData.append('clear_photos', 1)
         }
       } else {
         if (found.photos && found.photos.length) {
