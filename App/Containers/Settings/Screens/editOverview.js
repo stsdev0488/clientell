@@ -79,9 +79,9 @@ class Gallery extends Component {
     return (
       <View style={styles.container}>
         <Content style={styles.mContainer}>
-          <View style={styles.section}>
-            <ErrorRenderer error={error.errors} />
-          </View>
+          {/*<View style={styles.section}>*/}
+          {/*  <ErrorRenderer error={error.errors} />*/}
+          {/*</View>*/}
 
           <View style={styles.section}>
             <View style={[styles.sectionCol, {flexDirection: 'column'}]}>
