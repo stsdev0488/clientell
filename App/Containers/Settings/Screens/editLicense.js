@@ -118,7 +118,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
           <Item fixedLabel onPress={() => licenseNameRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License Name</Label>
             <Input
-              value={name}
+              defaultValue={name}
               ref={licenseNameRef}
               onChangeText={licenseName => setName(licenseName)}
               required
@@ -133,7 +133,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
           <Item fixedLabel onPress={() => licenseNumRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License #</Label>
             <Input
-              value={number}
+              defaultValue={number}
               ref={licenseNumRef}
               onChangeText={licenseNum => setNumber(licenseNum)}
               required
@@ -148,7 +148,7 @@ const LicenseForm = ({ license = {}, setFormValue, navigation, onRemove, saving 
           <Item fixedLabel onPress={() => licenseExpireRef.current._root.focus()}>
             <Label style={styles.sectionFormText}>License Expiration</Label>
             <Input
-              value={expiration}
+              defaultValue={expiration}
               ref={licenseExpireRef}
               onChangeText={licenseExpiration => setExpiration(licenseExpiration)}
               required
