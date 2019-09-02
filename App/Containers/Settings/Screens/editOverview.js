@@ -59,6 +59,7 @@ class Gallery extends Component {
     }
   }
 
+
   handleCommentField = (overview) => {
     this.setState({overview})
   }
@@ -94,7 +95,8 @@ class Gallery extends Component {
                 multiline
                 style={styles.commentField}
                 onChangeText={this.handleCommentField.bind(this)}
-                value={this.state.overview || (user.overview || '')}
+                placeholder={user.overview}
+                value={this.state.overview}
               />
             </View>
           </View>
