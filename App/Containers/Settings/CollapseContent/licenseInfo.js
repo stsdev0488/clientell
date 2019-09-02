@@ -34,7 +34,7 @@ class LicenseCollapsible extends Component {
 
         {fetching && <Spinner />}
 
-        { !Object.keys(items).length && <Text>No Skills</Text> }
+        { !Object.keys(items).length && <Text>No License Available</Text> }
 
         {items.map(license =>
           <View style={styles.licenseItemShort}>
