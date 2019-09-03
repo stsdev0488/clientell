@@ -53,8 +53,6 @@ class Search extends Component {
     })
   }
 
-
-
   componentWillReceiveProps (newProps) {
     if (this.props.fetching && !newProps.fetching && this.props.navigation.isFocused()) {
       if (!newProps.error) {
@@ -160,16 +158,41 @@ class Search extends Component {
   _onContractorCatChange = serviceType => {
     this.setState({
       serviceType,
-      otherService: false
+      showTextInput: false,
+      textInput: ''
     })
   }
 
   _onSearchSubmit = () => {
+    const { useDifferentLoc, city, state } = this.state
+
+    if (useDifferentLoc) {
+      if (!city || !state) {
+        return
+      }
+    }
+
     this.props.searchRequest({
       skills: this.state.serviceType,
       city: this.state.city,
       state: this.state.state
     })
+  }
+
+  _checkSearchDisabled = () => {
+    if (this.state.useDifferentLoc && (!this.state.state || !this.state.city)) {
+      return true
+    }
+
+    if (this.state.serviceType) {
+      return false
+    }
+
+    if (this.state.showTextInput && this.state.textInput) {
+      return false
+    }
+
+    return true
   }
 
   render () {
@@ -211,15 +234,16 @@ class Search extends Component {
                 style={styles.checkboxLabel}
               >other</Text>
             </View>
+
             { this._searchBox() }
 
             <View style={[styles.checkboxField]}>
               <CheckBox
                 checked={this.state.currentLoc}
-                onPress={() => this.setState({ currentLoc: !this.state.currentLoc, useDifferentLoc: !this.state.useDifferentLoc })}
+                onPress={() => this.setState({ currentLoc: !this.state.currentLoc, useDifferentLoc: !this.state.useDifferentLoc, state: '', city: '' })}
               />
               <Text
-                onPress={() => this.setState({ currentLoc: !this.state.currentLoc, useDifferentLoc: !this.state.useDifferentLoc })}
+                onPress={() => this.setState({ currentLoc: !this.state.currentLoc, useDifferentLoc: !this.state.useDifferentLoc, state: '', city: '' })}
                 style={styles.checkboxLabel}
               >use current location</Text>
             </View>
@@ -241,7 +265,7 @@ class Search extends Component {
                 primary
                 block
                 onPress={this._onSearchSubmit}
-                disabled={!this.state.serviceType && !this.state.otherService && !this.state.textInput && !this.state.city && !this.state.state}
+                disabled={this._checkSearchDisabled()}
               >
                 <Text>SEARCH</Text>
               </Button>
