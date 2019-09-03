@@ -57,6 +57,7 @@ class Search extends Component {
   // }
 
   componentDidMount () {
+    this.props.clearErrors()
     this.props.navigation.setParams({
       title: 'Edit Profile',
       leftBtnIcon: 'ios-arrow-back',
@@ -263,7 +264,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
-    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data))
+    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data)),
+    clearErrors: () => dispatch(UserActions.clearErrorUser())
   }
 }
 
