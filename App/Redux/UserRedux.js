@@ -11,6 +11,7 @@ const { Types, Creators } = createActions({
   userUpdateSuccess: ['payload'],
   userUpdateFailure: ['payload'],
   avatarUpdateRequest: ['data'],
+  clearErrorUser: null,
   clearUser: null
 })
 
@@ -61,6 +62,9 @@ export const clearUser = (state) => {
 export const avatarUpdateRequest = (state) =>
   state.merge({ updatingAvatar: true })
 
+export const clearErrors = (state) =>
+  state.merge({ updateError: null })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -71,5 +75,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.USER_UPDATE_SUCCESS]: updateSuccess,
   [Types.USER_UPDATE_FAILURE]: updateFailure,
   [Types.AVATAR_UPDATE_REQUEST]: avatarUpdateRequest,
+  [Types.CLEAR_ERROR_USER]: clearErrors,
   [Types.CLEAR_USER]: clearUser
 })
