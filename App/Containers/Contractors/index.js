@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {View, Image} from 'react-native'
 import { connect } from 'react-redux'
-import {Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, Input} from 'native-base'
+import {Content, Form, Item, Picker, Label, CheckBox, Icon, Button, Text, Input, Spinner} from 'native-base'
 import {formDiscardHandler, SKILLS} from 'Lib/Utils'
 import { US_STATES } from '../../Lib/Utils'
-import { Images } from 'Themes/'
+import { Images, Colors } from 'Themes/'
 import SubHeaderBar from 'Components/SubHeaderBar'
 
 import DrawerActions from 'Redux/DrawerRedux'
@@ -180,6 +180,10 @@ class Search extends Component {
   }
 
   _checkSearchDisabled = () => {
+    if (this.props.fetching) {
+      return true
+    }
+
     if (this.state.useDifferentLoc && (!this.state.state || !this.state.city)) {
       return true
     }
@@ -267,6 +271,7 @@ class Search extends Component {
                 onPress={this._onSearchSubmit}
                 disabled={this._checkSearchDisabled()}
               >
+                {this.props.fetching && <Spinner style={{width: 35, height: 35}} color={Colors.scheme2} />}
                 <Text>SEARCH</Text>
               </Button>
             </View>
