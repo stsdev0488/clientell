@@ -57,6 +57,7 @@ class Search extends Component {
   // }
 
   componentDidMount () {
+    this.props.clearErrors()
     this.props.navigation.setParams({
       title: 'Edit Profile',
       leftBtnIcon: 'ios-arrow-back',
@@ -88,8 +89,8 @@ class Search extends Component {
     formData.append('phone_number', this.user.phone_number)
     formData.append('city', this.user.city)
     formData.append('state', this.user.state)
-
     this.props.update(formData)
+
   }
 
   _updateProfilePicture = () => {
@@ -114,6 +115,10 @@ class Search extends Component {
           const dd = {uri: response.uri, name: response.fileName, type: mimes.lookup(response.fileName)}
 
           this.setState({image: dd})
+
+          const formData = new FormData()
+          formData.append('avatar', dd)
+          this.props.updateAvatar(formData)
         } else {
           const dd = {
             uri: response.uri,
@@ -259,7 +264,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
     update: (data) => dispatch(UserActions.userUpdateRequest(data)),
-    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data))
+    updateAvatar: data => dispatch(UserActions.avatarUpdateRequest(data)),
+    clearErrors: () => dispatch(UserActions.clearErrorUser())
   }
 }
 

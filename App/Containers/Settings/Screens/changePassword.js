@@ -48,6 +48,7 @@ class Search extends Component {
   // }
 
   componentDidMount () {
+    this.props.clearErrors()
     this.props.navigation.setParams({
       title: 'Change Password',
       leftBtnIcon: 'ios-arrow-back',
@@ -125,7 +126,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     openDrawer: () => dispatch(DrawerActions.drawerOpen()),
-    update: (data) => dispatch(UserActions.userUpdateRequest(data))
+    update: (data) => dispatch(UserActions.userUpdateRequest(data)),
+    clearErrors: () => dispatch(UserActions.clearErrorUser())
   }
 }
 
