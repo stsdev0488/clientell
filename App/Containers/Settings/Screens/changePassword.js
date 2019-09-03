@@ -99,9 +99,9 @@ class Search extends Component {
               </Item>
             </View>
 
-            <View style={styles.section}>
-              <ErrorRenderer error={error.errors} />
-            </View>
+            {/*<View style={styles.section}>*/}
+            {/*  <ErrorRenderer error={error.errors} />*/}
+            {/*</View>*/}
 
             <View style={styles.section}>
               <Button primary block onPress={() => this._submit()} disabled={saving}>

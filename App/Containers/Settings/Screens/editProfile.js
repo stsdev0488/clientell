@@ -88,8 +88,11 @@ class Search extends Component {
     formData.append('phone_number', this.user.phone_number)
     formData.append('city', this.user.city)
     formData.append('state', this.user.state)
-
+    formData.append('avatar', this.state.image)
     this.props.update(formData)
+    //update profile photo
+    this.props.updateAvatar(formData)
+
   }
 
   _updateProfilePicture = () => {
