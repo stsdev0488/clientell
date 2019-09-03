@@ -88,10 +88,7 @@ class Search extends Component {
     formData.append('phone_number', this.user.phone_number)
     formData.append('city', this.user.city)
     formData.append('state', this.user.state)
-    formData.append('avatar', this.state.image)
     this.props.update(formData)
-    //update profile photo
-    this.props.updateAvatar(formData)
 
   }
 
@@ -117,6 +114,10 @@ class Search extends Component {
           const dd = {uri: response.uri, name: response.fileName, type: mimes.lookup(response.fileName)}
 
           this.setState({image: dd})
+
+          const formData = new FormData()
+          formData.append('avatar', dd)
+          this.props.updateAvatar(formData)
         } else {
           const dd = {
             uri: response.uri,
