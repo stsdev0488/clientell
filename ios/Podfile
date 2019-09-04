@@ -37,6 +37,8 @@ target 'Clientell' do
 
       # Firebase Related pods
       pod 'Firebase/Analytics'
+      pod 'Fabric', '~> 1.10.2'
+      pod 'Crashlytics', '~> 3.13.4'
 
       # React Native third party dependencies podspecs
       pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
