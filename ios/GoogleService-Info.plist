@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>7816631698-jc06fn1ueid8tu9106cb3u61475p831q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.7816631698-jc06fn1ueid8tu9106cb3u61475p831q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDJH9hfQ6fvlqRPEqln88HUVpdo3Sw_0zw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>7816631698</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.clientell</string>
+	<key>PROJECT_ID</key>
+	<string>clientell-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>clientell-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:7816631698:ios:51d247e0ffea721d</string>
+	<key>DATABASE_URL</key>
+	<string>https://clientell-dev.firebaseio.com</string>
+</dict>
+</plist>

@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+@import Firebase;
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -40,7 +41,8 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
+  
+  [FIRApp configure];
   [RNSplashScreen show];  // here
   return handled;
 }
