@@ -110,7 +110,7 @@ android {
         versionCode 33
         versionName "1.1"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
     signingConfigs {
